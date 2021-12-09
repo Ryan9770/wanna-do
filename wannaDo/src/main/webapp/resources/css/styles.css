@@ -76,6 +76,24 @@
   }
 }
 
+@font-face {
+    font-family: 'ROKABold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.1/ROKABold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ROKAMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.1/ROKAMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+*, body{
+    font-family: 'ROKABold';
+}
+
 body {
   margin: 0;
   font-family: var(--bs-body-font-family);
