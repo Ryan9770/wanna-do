@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="courseManage">
+	
+	<sql id="where-list">
+		<choose>
+			<when test="condition=='userId'">
+				INSTR(userId, #{keyword}) &gt;= 1
+			</when>
+			<otherwise>
+				INSTR(${condition}, #{keyword}) &gt;= 1
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*) 
+		FROM course c
+		JOIN member1 m1 ON c.userId = m1.userId
+		LEFT OUTER JOIN chapter chp ON c.num = chp.courseNum
+		LEFT OUTER JOIN video v ON chp.chapNum = v.chapNum
+		<where>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+			<if test="enabled!=''">
+				AND enabled = #{enabled, jdbcType=INTEGER}
+			</if>
+		</where> 
+	</select>
+	
+	<select id="listCourse" parameterType="map" resultType="com.bs.wd.admin.courseManage.Course">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT c.userId, userName, c.num, courseName, content,
+                price, TO_CHAR(c.reg_date, 'YYYY-MM-DD') creg_date, c.enabled, category, 
+                chapterNum, chapterName, saveFilename, lessonName, lessonNum, TO_CHAR(v.reg_date, 'YYYY-MM-DD') vreg_date, state 
+				FROM course c
+				JOIN member1 m1 ON c.userId=m1.userId
+				JOIN courseCategory cc ON c.categoryNum=cc.categoryNum
+				LEFT OUTER JOIN chapter chp ON c.num=chp.courseNum
+				LEFT OUTER JOIN video v ON chp.chapNum=v.chapNum
+				<where>
+					<if test="keyword!=null and keyword!='' ">
+						<include refid="where-list"/>
+					</if>
+					<if test="enabled!=''">
+						AND enabled = #{enabled, jdbcType=INTEGER}
+					</if>
+				</where> 
+				ORDER BY c.num
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<select id="readCourse" parameterType="Integer" resultType="com.bs.wd.admin.courseManage.Course">
+		SELECT c.userId, userName, c.num, courseName, content,
+                price, TO_CHAR(c.reg_date, 'YYYY-MM-DD') creg_date, c.enabled, category, 
+                chapterNum, chapterName, saveFilename, lessonName, lessonNum, TO_CHAR(v.reg_date, 'YYYY-MM-DD') vreg_date, state 
+				FROM course c
+				JOIN member1 m1 ON c.userId=m1.userId
+				JOIN courseCategory cc ON c.categoryNum=cc.categoryNum
+				LEFT OUTER JOIN chapter chp ON c.num=chp.courseNum
+				LEFT OUTER JOIN video v ON chp.chapNum=v.chapNum
+				WHERE num = #{num}
+	</select>
+	
+	<update id="updateCourseEnabled" parameterType="map">
+		UPDATE course SET enabled=#{enabled} WHERE num=#{num}
+    </update>
+    
+	<insert id="insertCourseState" parameterType="com.bs.wd.admin.courseManage.Course">
+		INSERT INTO courseState(stateNum  , courseNum, stateCode, memo, registerId, sReg_date)
+		VALUES (courseState_seq.NEXTVAL, #{num}, #{stateCode}, #{memo, jdbcType=VARCHAR}, #{registerId}, SYSDATE)
+	</insert>
+	
+	<select id="listCourseState" parameterType="Integer" resultType="com.bs.wd.admin.courseManage.Course">
+		SELECT stateNum  , courseNum, stateCode, memo, registerId, sReg_date
+		FROM courseState
+		WHERE courseNum = #{num}
+		ORDER BY stateNum   DESC
+	</select>
+
+	<select id="readCourseState" parameterType="Integer" resultType="com.bs.wd.admin.courseManage.Course">
+		SELECT * FROM (
+			SELECT stateNum  , courseNum, stateCode, memo, registerId, sReg_date
+			FROM courseState
+			WHERE courseNum = #{num}
+			ORDER BY stateNum   DESC
+		) WHERE ROWNUM = 1
+	</select>
+	
+</mapper>
