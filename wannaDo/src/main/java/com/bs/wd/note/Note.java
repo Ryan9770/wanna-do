@@ -19,6 +19,8 @@ public class Note {
 	private String userId;
 	private String userName;
 	
+	private int newNoteCount;
+	
 	public int getNoteNum() {
 		return noteNum;
 	}
@@ -102,5 +104,11 @@ public class Note {
 	}
 	public void setReceiveDelete(String receiveDelete) {
 		this.receiveDelete = receiveDelete;
+	}
+	public int getNewNoteCount() {
+		return newNoteCount;
+	}
+	public void setNewNoteCount(int newNoteCount) {
+		this.newNoteCount = newNoteCount;
 	}
 }

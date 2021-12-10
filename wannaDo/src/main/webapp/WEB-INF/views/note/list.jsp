@@ -48,14 +48,14 @@ function searchList() {
 $(function() {
     $("#chkAll").click(function() {
 	   if($(this).is(":checked")) {
-		   $("input[name=noteNumList]").prop("checked", true);
+		   $("input[name=nums]").prop("checked", true);
         } else {
-		   $("input[name=noteNumList]").prop("checked", false);
+		   $("input[name=nums]").prop("checked", false);
         }
     });
  
     $(".btnDelete").click(function(){
-		var cnt = $("input[name=noteNumList]:checked").length;
+		var cnt = $("input[name=nums]:checked").length;
 
 		if (cnt == 0) {
 			alert("삭제 할 쪽지를 먼저 선택하세요.");
@@ -117,7 +117,7 @@ $(function() {
 							<tbody>
 								<c:forEach var="dto" items="${list}">
 									<tr>
-										<td><input type="checkbox" name="noteNumList" value="${dto.noteNum}" class="form-check-input"></td>
+										<td><input type="checkbox" name="nums" value="${dto.noteNum}" class="form-check-input"></td>
 										<td class="left ellipsis" style="text-align:center;">
 											<span>
 												<a href="${articleUrl}&noteNum=${dto.noteNum}" class="text-reset" style="text-decoration-line:none;">${dto.subject}</a>

@@ -26,7 +26,9 @@
 									<a href="${pageContext.request.contextPath}/member/logout" title="로그아웃"><i class="bi bi-unlock"></i></a>
 								</div>					
 								<div class="p-2">
-									<a href="${pageContext.request.contextPath}/note/recieve/list" title="쪽지"><i class="bi bi-envelope"></i></a>
+									<a href="${pageContext.request.contextPath}/note/receive/list" title="쪽지">
+										<i class="bi bi-envelope position-relative" id="note"></i>
+									</a>
 								</div>
 								<c:if test="${sessionScope.member.membership>50}">
 									<div class="p-2">
@@ -99,4 +101,29 @@
          </div>
      </nav>
 
+<script type="text/javascript">
+	$(function(){
+		var isLogin = "${not empty sessionScope.member ? 'true':'false'}";
+		if(isLogin === "true") {
+			newNoteCount();
+		}
 
+		function newNoteCount() {
+			var url = "${pageContext.request.contextPath}/note/newNoteCount";
+			$.ajax({
+				type:"POST",
+				url:url,
+				data:null,
+				dataType:"json",
+				success:function(data) {
+					var newNoteCount = data.newNoteCount;
+					
+					if(newNoteCount > 0) {
+						$("#note").html("<span class='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger' style='display:inline-block; height:15px; width:15px; text-align:center; font-size:1px; valign:bottom;'>"+newNoteCount+"<span class='visually-hidden'>읽지 않은 새 쪽지</span></span>");
+					}
+					
+				}
+			});
+		}
+	});
+</script>

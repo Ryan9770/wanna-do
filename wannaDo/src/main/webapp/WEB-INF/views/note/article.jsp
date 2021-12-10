@@ -146,7 +146,7 @@ function accuseNote() {
 						
 						<tr>
 							<td colspan="2" valign="top">
-								${dto.subject}
+								제목 : ${dto.subject}
 							</td>
 						</tr>
 						

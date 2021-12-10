@@ -12,11 +12,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -186,7 +186,7 @@ public class NoteController {
 	
 	@RequestMapping(value="{menuItem}/delete")
 	public String delete(@PathVariable String menuItem,
-			@RequestParam List<Integer> noteNumList,
+			@RequestParam List<Integer> nums,
 			@RequestParam String page,
 			@RequestParam(defaultValue="all") String condition,
 			@RequestParam(defaultValue="") String keyword,
@@ -204,7 +204,7 @@ public class NoteController {
 			map.put("field1", "sendDelete");
 			map.put("field2", "receiveDelete");
 		}
-		map.put("noteNumList", noteNumList);
+		map.put("noteNumList", nums);
 		
 		try {
 			service.deleteNote(map);
@@ -212,5 +212,24 @@ public class NoteController {
 		}
 		
 		return "redirect:/note/"+menuItem+"/list?"+query;
+	}
+	
+	@RequestMapping(value = "newNoteCount", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> newNoteCount(HttpSession session) throws Exception {
+		String state = "true";
+		int count = 0;
+		try {
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			String userId = info.getUserId();
+			count = service.newNoteCount(userId);
+		} catch (Exception e) {
+			state = "true";
+		}
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("state", state);
+		model.put("newNoteCount", count);
+		return model;
 	}
 }

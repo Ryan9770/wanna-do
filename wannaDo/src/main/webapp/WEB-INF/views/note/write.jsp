@@ -224,14 +224,14 @@ $(function(){
 											<div class="forms-receiver-name"></div>
 										</div>
 									</div>
-									<small class="form-control-plaintext">한번에 보낼수 있는 최대 인원은 5명입니다.</small>
+									<small class="form-control-plaintext">한 번에 보낼 수 있는 최대 인원은 5명입니다.</small>
 								</td>
 							</tr>
 							
 							<tr>
-								<td>제 목</td>
+								<td class="table-light col-sm-2" scope="row">제 목</td>
 								<td>
-									<textarea name="subject" id="subject" class="form-control">${dto.subject}</textarea>
+									<input type="text" name="subject" class="form-control" value="${dto.subject}">
 								</td>
 							</tr>
 		        

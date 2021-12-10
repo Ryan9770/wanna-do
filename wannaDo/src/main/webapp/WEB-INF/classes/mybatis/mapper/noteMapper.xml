@@ -130,14 +130,14 @@
 		) where rownum = 1
 	</select>
 	<select id="readSend" parameterType="Integer" resultType="com.bs.wd.note.Note">
-		select noteNum, subject, content, sendId, userName sendName, sendDay, readDay, sendDelete, receiveDelete
+		select noteNum, subject, content, receiveId, userName receiveName, sendDay, readDay, sendDelete, receiveDelete
 		from note
 		join member1 on receiveId=userId
 		where noteNum=#{noteNum}
 	</select>
 	<select id="preReadSend" parameterType="map" resultType="com.bs.wd.note.Note">
 		select * from(
-			select noteNum, subject, content, sendId, userName sendName, sendDay, readDay, sendDelete, receiveDelete
+			select noteNum, subject, content, receivedId, userName receiveName, sendDay, readDay, sendDelete, receiveDelete
 			from note
 			join member1 on receiveId=userId
 			<where>
@@ -153,7 +153,7 @@
 	</select>
 	<select id="nextReadSend" parameterType="map" resultType="com.bs.wd.note.Note">
 		select * from(
-			select noteNum, subject, content, sendId, userName sendName, sendDay, readDay, sendDelete, receiveDelete
+			select noteNum, subject, content, receiveId, userName receiveName, sendDay, readDay, sendDelete, receiveDelete
 			from note
 			join member1 on receiveId=userId
 			<where>
