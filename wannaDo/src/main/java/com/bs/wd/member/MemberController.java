@@ -1,5 +1,6 @@
 package com.bs.wd.member;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -240,6 +241,36 @@ public class MemberController {
 		return model;
 	}
 	
+	@RequestMapping(value = "nickNameCheck", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> nameCheck(@RequestParam String userName) throws Exception {
+
+		String p = "true";
+		Member dto = service.readMemberByName(userName);
+		if (dto != null) {
+			p = "false";
+		}
+
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("passed", p);
+		return model;
+	}
+	
+	@RequestMapping(value = "creatorNameCheck", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> creatorNameCheck(@RequestParam String creatorName) throws Exception {
+
+		String p = "true";
+		Member dto = service.readMemberByCreatorName(creatorName);
+		if (dto != null) {
+			p = "false";
+		}
+
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("passed", p);
+		return model;
+	}
+	
 	// 패스워드 찾기
 	@RequestMapping(value="pwdFind", method=RequestMethod.GET)
 	public String pwdFindForm(HttpSession session) throws Exception {
@@ -284,7 +315,7 @@ public class MemberController {
 		return ".member.noAuthorized";
 	}
 	
-	@RequestMapping(value="change")
+	@RequestMapping(value="change", method=RequestMethod.GET)
 	public String change(Model model, final RedirectAttributes reAttr,
 			HttpSession session) {
 		
@@ -300,5 +331,29 @@ public class MemberController {
 		model.addAttribute("dto", dto);
 		model.addAttribute("mode", "change");
 		return ".member.change";
+	}
+	
+	@RequestMapping(value="change", method=RequestMethod.POST)
+	public String changeSubmit(Model model, Member dto, HttpSession session,final RedirectAttributes reAttr) throws Exception {
+		String root = session.getServletContext().getRealPath("/");
+		String path = root + "uploads"+File.separator +"creatorInfo";
+		
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+		
+		try {
+			dto.setUserId(info.getUserId());
+			service.insertCreator(dto, path);
+		} catch (Exception e) {
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(dto.getCreatorName() + "님의 크리에이터 전환이 정상적으로 처리되었습니다.<br>");
+
+		// 리다이렉트된 페이지에 값 넘기기
+		reAttr.addFlashAttribute("message", sb.toString());
+		reAttr.addFlashAttribute("title", "크리에이터 전환");
+
+		return "redirect:/member/complete";
 	}
 }

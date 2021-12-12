@@ -18,6 +18,16 @@
        SELECT member_seq.NEXTVAL FROM dual 
     </select>
 
+    <select id="creatorSeq" resultType="Long">
+       SELECT creatorInfo_seq.NEXTVAL FROM dual 
+    </select>
+	
+	<select id="memberIdx" resultType="Long" parameterType="String" >
+		SELECT memberIdx
+		FROM member1
+		WHERE userId=#{userId}
+	</select>
+	
     <insert id="insertMember" parameterType="Long">
 		INSERT INTO member(memberIdx, membership) VALUES (#{memberIdx}, 1) 
     </insert>
@@ -42,6 +52,15 @@
 		SELECT * FROM dual     
     </update>
 	
+	<insert id="insertCreator" parameterType="com.bs.wd.member.Member">
+		INSERT INTO creatorInfo(creatorIdx, userId , intro, creatorName ,imageFilename ,creatorEmail ,creatorTel ,creator_reg_date )
+		VALUES (#{creatorIdx},#{userId},#{intro},#{creatorName},#{imageFilename},#{creatorEmail},#{creatorTel},SYSDATE)
+	</insert>
+	<update id="changeCreator" parameterType="com.bs.wd.member.Member">
+		UPDATE member1 SET membership = 22
+		WHERE userId=#{userId}
+	</update>
+	
 	<select id="readMember" parameterType="String" resultType="com.bs.wd.member.Member">
 		SELECT m.memberIdx, membership, m1.userId, userName, userPwd, enabled,
 			register_date, modify_date, last_login,
@@ -51,7 +70,19 @@
 		LEFT OUTER JOIN member2 m2 ON m1.userId = m2.userId
 		WHERE m1.userId = #{userId}
 	</select>
-
+	
+	<select id="readMemberByName" parameterType="String" resultType="com.bs.wd.member.Member">
+		SELECT userName
+		FROM member1 m 
+		WHERE m.userName = #{userName}
+	</select>
+	
+	<select id="readMemberByCreatorName" parameterType="String" resultType="com.bs.wd.member.Member">
+		SELECT creatorName
+		FROM creatorInfo c 
+		WHERE c.creatorName = #{creatorName}
+	</select>
+	
 	<select id="readMember2" parameterType="Long" resultType="com.bs.wd.member.Member">
 		SELECT m.memberIdx, membership, enabled, 
 			NVL(m1.userId, 'guest') userId, NVL(userName, '손님') userName, userPwd, 
@@ -74,7 +105,7 @@
     </update>
     
     <update id="updateMember1" parameterType="com.bs.wd.member.Member">
-		UPDATE member1 SET userPwd=#{userPwd}, modify_date=SYSDATE
+		UPDATE member1 SET userPwd=#{userPwd}, userName=#{userName}, modify_date=SYSDATE
 		WHERE userId=#{userId}
     </update>
 	

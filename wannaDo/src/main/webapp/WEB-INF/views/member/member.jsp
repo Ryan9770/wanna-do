@@ -16,22 +16,30 @@ function memberOk() {
 
 	str = f.userId.value;
 	if( !/^[a-z][a-z0-9_]{4,9}$/i.test(str) ) { 
-		alert("아이디를 다시 입력 하세요. ");
+		alert("아이디를 다시 입력 하세요.\n아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다.👻");
 		f.userId.focus();
 		return;
 	}
 
 	var mode = "${mode}";
 	if(mode === "member" && f.userIdValid.value === "false") {
-		str = "아이디 중복 검사가 실행되지 않았습니다.";
-		$("#userId").parent().find(".help-block").html(str);
+		str = "<span style='color:red; font-weight: bold;'>아이디 중복 검사가 실행되지 않았습니다.</span>";
+		$(".userId-box").find(".help-block").html(str);
 		f.userId.focus();
+		return;
+	}
+	
+	if(f.userNameValid.value === "false") {
+		
+		str = "<span style='color:red; font-weight: bold;'>닉네임 중복 검사가 실행되지 않았습니다.</span>";
+		$(".userName-box").find(".help-block").html(str);
+		f.userName.focus();
 		return;
 	}
 	
 	str = f.userPwd.value;
 	if( !/^(?=.*[a-z])(?=.*[!@#$%^*+=-]|.*[0-9]).{5,10}$/i.test(str) ) { 
-		alert("패스워드를 다시 입력 하세요. ");
+		alert("패스워드를 다시 입력 하세요. \n패스워드는 5~10자이며 하나 이상의 숫자나 특수문자가 포함되어야 합니다.👻");
 		f.userPwd.focus();
 		return;
 	}
@@ -41,13 +49,6 @@ function memberOk() {
         f.userPwd.focus();
         return;
 	}
-	
-    str = f.userName.value;
-    if( !/^[가-힣]{2,5}$/.test(str) ) {
-        alert("이름을 다시 입력하세요. ");
-        f.userName.focus();
-        return;
-    }
 
     str = f.birth.value;
     if( !str ) {
@@ -114,11 +115,10 @@ function changeEmail() {
 function userIdCheck() {
 	// 아이디 중복 검사
 	var userId=$("#userId").val();
-
-	if(!/^[a-z][a-z0-9_]{4,9}$/i.test(userId)) { 
-		var str = "아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다.";
-		$("#userId").focus();
-		$("#userId").parent().find(".help-block").html(str);
+	
+	if( !/^[a-z][a-z0-9_]{4,9}$/i.test(userId) ) { 
+		alert("아이디를 다시 입력 하세요.\n 아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다.👻");
+		f.userId.focus();
 		return;
 	}
 	
@@ -145,6 +145,49 @@ function userIdCheck() {
 			}
 		}
 	});
+}
+
+
+function nickNameCheck() {
+	// 이름 중복 검사
+	var userId=$("#userId").val();
+	var sesssionId = $("#sessionId").val();
+	
+	if(userId===sesssionId) {
+		$(".userName-box").find(".help-block").html("기존 닉네임과 동일합니다.");
+		$("#userNameValid").val("true");
+		return true;
+	} 
+		var userName=$("#userName").val();
+		
+		var url = "${pageContext.request.contextPath}/member/nickNameCheck";
+		var query = "userName=" + encodeURIComponent(userName);
+		
+		$.ajax({
+			type:"POST"
+			,url:url
+			,data:query
+			,dataType:"json"
+			,success:function(data) {
+				var passed = data.passed;
+
+				if(passed === "true") {
+					var str = "<span style='color:blue; font-weight: bold;'>" + userName + "</span> 은 사용가능 합니다.";
+					$(".userName-box").find(".help-block").html(str);
+					$("#userNameValid").val("true");
+				} else {
+					var str = "<span style='color:red; font-weight: bold;'>" + userName + "</span> 은 사용할 수 없습니다.";
+					$(".userName-box").find(".help-block").html(str);
+					$("#userName").val("");
+					$("#userNameValid").val("false");
+					$("#userName").focus();
+
+				}
+			}
+		});
+
+	
+	
 }
 </script>
 
@@ -181,7 +224,20 @@ function userIdCheck() {
 						</c:if>
 					</div>
 				</div>
-			 
+ 				<div class="row mb-3">
+					<label class="col-sm-2 col-form-label" for="userName">닉네임</label>
+					<div class="col-sm-10 userName-box">
+						<div class="row">
+							<div class="col-5 pe-1">
+								<input type="text" name="userName" id="userName" class="form-control" value="${dto.userName}" placeholder="이름">
+							</div>
+							<div class="col-3 ps-1">
+									<button type="button" class="btn btn-light" onclick="nickNameCheck();">닉네임 중복검사</button>
+							</div>
+							<small class="form-control-plaintext help-block"></small>
+						</div>
+					</div>
+				</div>
 				<div class="row mb-3">
 					<label class="col-sm-2 col-form-label" for="userPwd">패스워드</label>
 					<div class="col-sm-10">
@@ -196,17 +252,7 @@ function userIdCheck() {
 			            <input type="password" name="userPwd2" id="userPwd2" class="form-control" autocomplete="off" placeholder="패스워드 확인">
 			            <small class="form-control-plaintext">패스워드를 한번 더 입력해주세요.</small>
 			        </div>
-			    </div>
-			 
-			    <div class="row mb-3">
-			        <label class="col-sm-2 col-form-label" for="userName">이름</label>
-			        <div class="col-sm-10">
-			            <input type="text" name="userName" id="userName" class="form-control" value="${dto.userName}" 
-			            		${mode=="update" ? "readonly='readonly' ":""}
-			            		placeholder="이름">
-			        </div>
-			    </div>
-			 
+			    </div>			 
 			    <div class="row mb-3">
 			        <label class="col-sm-2 col-form-label" for="birth">생년월일</label>
 			        <div class="col-sm-10">
@@ -279,6 +325,8 @@ function userIdCheck() {
 			            <button type="button" name="sendButton" class="btn btn-primary" onclick="memberOk();"> ${mode=="member"?"회원가입":"정보수정"} <i class="bi bi-check2"></i></button>
 			            <button type="button" class="btn btn-danger" onclick="location.href='${pageContext.request.contextPath}/';"> ${mode=="member"?"가입취소":"수정취소"} <i class="bi bi-x"></i></button>
 						<input type="hidden" name="userIdValid" id="userIdValid" value="false">
+						<input type="hidden" name="userNameValid" id="userNameValid" value="false">
+						<input type="hidden" name="sessionId" id="sessionId" value="${sessionScope.member.userId}">
 			        </div>
 			    </div>
 			

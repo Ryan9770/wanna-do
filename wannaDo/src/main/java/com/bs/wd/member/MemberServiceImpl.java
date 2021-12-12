@@ -1,16 +1,21 @@
 package com.bs.wd.member;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bs.wd.common.FileManager;
 import com.bs.wd.common.dao.CommonDAO;
 
 @Service("member.memberService")
 public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private CommonDAO dao;
+	@Autowired
+	private FileManager fileManager;
 	
 	@Override
 	public Member loginMember(String userId) {
@@ -72,6 +77,34 @@ public class MemberServiceImpl implements MemberService {
 					dto.setTel3(s[2]);
 				}
 			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return dto;
+	}
+
+	@Override
+	public Member readMemberByName(String userName) {
+		Member dto = null;
+
+		try {
+			dto = dao.selectOne("member.readMemberByName", userName);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return dto;
+	}
+	
+	@Override
+	public Member readMemberByCreatorName(String creatorName) {
+		Member dto = null;
+
+		try {
+			dto = dao.selectOne("member.readMemberByCreatorName", creatorName);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -164,6 +197,45 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void generatePwd(Member dto) throws Exception {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insertCreator(Member dto, String pathname) throws Exception {
+		try {
+			String saveFilename = fileManager.doFileUpload(dto.getSelectFile(), pathname);
+			if(saveFilename != null) {
+				dto.setImageFilename(saveFilename);
+			}
+			
+			if (dto.getCreatorEmail1().length() != 0 && dto.getCreatorEmail2().length() != 0) {
+				dto.setCreatorEmail(dto.getCreatorEmail1() + "@" + dto.getCreatorEmail2());
+			}
+
+			if (dto.getCreatorTel1().length() != 0 && dto.getCreatorTel2().length() != 0 && dto.getCreatorTel3().length() != 0) {
+				dto.setCreatorTel(dto.getCreatorTel1() + "-" + dto.getCreatorTel2() + "-" + dto.getCreatorTel3());
+			}
+
+			long creatorSeq = dao.selectOne("member.creatorSeq");
+			dto.setCreatorIdx(creatorSeq);
+
+			// 정보 저장
+			dao.insertData("member.insertCreator", dto);
+			
+			long memberIdx = dao.selectOne("member.memberIdx",dto.getUserId());
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("membership", 22);			
+			map.put("memberIdx", memberIdx);
+			
+			updateMembership(map);
+			
+			// 정보 수정
+			//dao.updateData("member.changeCreator", creatorSeq);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 		
 	}
 }

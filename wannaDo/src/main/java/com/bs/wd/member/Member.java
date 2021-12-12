@@ -1,5 +1,7 @@
 package com.bs.wd.member;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Member {
 	private long memberIdx;
 	private int membership;
@@ -19,6 +21,18 @@ public class Member {
 	private String birth;
 	private int enabled;
 	
+	private String creatorName;
+	private long creatorIdx;
+	private String intro;
+	private String imageFilename;
+	private MultipartFile selectFile;
+	private String creatorEmail;
+	private String creatorEmail1;
+	private String creatorEmail2;
+	private String creatorTel;
+	private String creatorTel1;
+	private String creatorTel2;
+	private String creatorTel3;
 	public long getMemberIdx() {
 		return memberIdx;
 	}
@@ -115,11 +129,84 @@ public class Member {
 	public void setBirth(String birth) {
 		this.birth = birth;
 	}
-
 	public int getEnabled() {
 		return enabled;
 	}
 	public void setEnabled(int enabled) {
 		this.enabled = enabled;
 	}
+	public String getCreatorName() {
+		return creatorName;
+	}
+	public void setCreatorName(String creatorName) {
+		this.creatorName = creatorName;
+	}
+	public long getCreatorIdx() {
+		return creatorIdx;
+	}
+	public void setCreatorIdx(long creatorIdx) {
+		this.creatorIdx = creatorIdx;
+	}
+	public String getIntro() {
+		return intro;
+	}
+	public void setIntro(String intro) {
+		this.intro = intro;
+	}
+	public String getImageFilename() {
+		return imageFilename;
+	}
+	public void setImageFilename(String imageFilename) {
+		this.imageFilename = imageFilename;
+	}
+	public MultipartFile getSelectFile() {
+		return selectFile;
+	}
+	public void setSelectFile(MultipartFile selectFile) {
+		this.selectFile = selectFile;
+	}
+	public String getCreatorEmail() {
+		return creatorEmail;
+	}
+	public void setCreatorEmail(String creatorEmail) {
+		this.creatorEmail = creatorEmail;
+	}
+	public String getCreatorEmail1() {
+		return creatorEmail1;
+	}
+	public void setCreatorEmail1(String creatorEmail1) {
+		this.creatorEmail1 = creatorEmail1;
+	}
+	public String getCreatorEmail2() {
+		return creatorEmail2;
+	}
+	public void setCreatorEmail2(String creatorEmail2) {
+		this.creatorEmail2 = creatorEmail2;
+	}
+	public String getCreatorTel() {
+		return creatorTel;
+	}
+	public void setCreatorTel(String creatorTel) {
+		this.creatorTel = creatorTel;
+	}
+	public String getCreatorTel1() {
+		return creatorTel1;
+	}
+	public void setCreatorTel1(String creatorTel1) {
+		this.creatorTel1 = creatorTel1;
+	}
+	public String getCreatorTel2() {
+		return creatorTel2;
+	}
+	public void setCreatorTel2(String creatorTel2) {
+		this.creatorTel2 = creatorTel2;
+	}
+	public String getCreatorTel3() {
+		return creatorTel3;
+	}
+	public void setCreatorTel3(String creatorTel3) {
+		this.creatorTel3 = creatorTel3;
+	}
+	
+
 }
