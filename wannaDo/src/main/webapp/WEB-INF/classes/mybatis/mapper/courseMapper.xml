@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="course">
+	
+	<insert id="insertCourse" parameterType="com.bs.wd.course.Course">
+		INSERT INTO course(num, courseLevel, categoryNum, courseName, content, price, reg_date, tag, recommended, userId, imageFilename, hitCount)
+		VALUES (course_seq.NEXTVAL, #{courseLevel}, #{categoryNum}, #{courseName}, #{content}, #{price}, SYSDATE, #{tag}, #{recommended}, #{userId}, #{imageFilename}, 0)
+	</insert>
+	
+	
+	
+	
+	<select id="listCategory" parameterType="map" resultType="com.bs.wd.course.Course">
+		SELECT categoryNum, category
+		FROM courseCategory
+	</select>
+	
+	<insert id="insertCategory" parameterType="map">
+		INSERT INTO courseCategory(categoryNum, category) 
+			VALUES (courseCategory_seq.NEXTVAL, #{category})
+	</insert>
+	
+	<update id="updateCategory" parameterType="map">
+		UPDATE courseCategory SET category=#{category}
+		WHERE categoryNum = #{categoryNum}
+	</update>
+	
+	<delete id="deleteCategory" parameterType="Integer">
+		DELETE FROM courseCategory
+		WHERE categoryNum = #{categoryNum}
+	</delete>
+	
+	
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM course b
+		JOIN member1 m ON b.userId=m.userId
+		JOIN courseCategory c ON b.categoryNum = c.categoryNum
+		<where>
+			<if test="categoryNum!=0">
+				( c.categoryNum = #{categoryNum} )
+			</if>
+
+		</where>
+	</select>
+	
+	<update id="updateHitCount" parameterType="Integer">
+		UPDATE course SET hitCount=hitCount+1 WHERE num = #{num}
+	</update>
+	
+	
+	<select id="listCourse" parameterType="map" resultType="com.bs.wd.course.Course">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT b.num, b.userId, userName, courseName, imageFilename, courseLevel,
+					TO_CHAR(b.reg_date, 'YYYY-MM-DD') reg_date,
+					c.categoryNum, category
+				FROM course b
+				JOIN member1 m ON b.userId=m.userId
+				JOIN courseCategory c ON b.categoryNum = c.categoryNum
+				<where>
+					<if test="categoryNum!=0">
+						( c.categoryNum = #{categoryNum} )
+					</if>
+
+				</where>
+				ORDER BY num DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<select id="readCourse" parameterType="Integer" resultType="com.bs.wd.course.Course">
+		SELECT b.num, b.userId, courseName, content, price, 
+			b.reg_date, tag, recommended, imageFilename, courseLevel,
+			f.categoryNum, c.category
+			NVL(courseLikeCount, 0) courseLikeCount
+		FROM course b
+		JOIN member1 m ON b.userId=m.userId
+		JOIN courseCategory c ON b.categoryNum = c.categoryNum
+		LEFT OUTER JOIN (
+			SELECT num, COUNT(*) courseLikeCount FROM courseLike
+			GROUP BY num
+		) bc ON b.num = bc.num
+		WHERE b.num = #{num}
+	</select>
+	
+	<update id="updateCourse" parameterType="com.bs.wd.course.Course">
+		UPDATE course SET courseName=#{courseName},
+			imageFilename=#{imageFilename}, content=#{content}, price=#{price}, tag=#{tag}, recommended=#{recommended}
+		WHERE num = #{num} AND userId = #{userId}
+	</update>
+	
+	<delete id="deleteCourse" parameterType="map">
+		DELETE FROM course WHERE num = #{num}
+		<if test="membership &lt; 51 ">
+			AND userId = #{userId}
+		</if>
+	</delete>
+	
+		<!-- 게시 글 좋아요 추가 -->
+	<insert id="insertCourseLike" parameterType="map">
+		INSERT INTO courseLike(num, userId) VALUES (#{num}, #{userId})
+	</insert>
+
+	<!-- 게시 글 좋아요 삭제 -->
+	<delete id="deleteCourseLike" parameterType="map">
+		DELETE FROM courseLike WHERE num = #{num} AND userId = #{userId}
+	</delete>
+      
+	<!-- 게시글 좋아요 개수 -->
+	<select id="courseLikeCount" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM courseLike WHERE num=#{num}
+	</select>
+
+	<!-- 게시글 좋아요 여부 -->
+	<select id="userCourseLiked" parameterType="map" resultType="com.bs.wd.course.Course">
+		SELECT num, userId FROM courseLike WHERE num = #{num} AND userId = #{userId}
+	</select>
+	
+	
+</mapper>
