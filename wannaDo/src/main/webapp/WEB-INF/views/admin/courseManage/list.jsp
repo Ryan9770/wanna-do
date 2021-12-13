@@ -168,13 +168,13 @@ function selectStateChange() {
 				<table class="table table-border table-list">
 					<thead>
 						<tr> 
-							<th class="w-60">번호</th>
-							<th class="w-100">카테고리</th>
-							<th class="w-100">아이디</th>
-							<th class="w-100">이름</th>
-							<th class="w-200">강의명</th>
-							<th class="w-auto">강의등록날짜</th>
-							<th class="w-60">승인상태</th>
+							<th class="col-1 ">번호</th>
+							<th class="col-1 ">카테고리</th>
+							<th class="col-1 ">아이디</th>
+							<th class="col-1 ">이름</th>
+							<th class="col-4 ">강의명</th>
+							<th class="col-3 ">강의등록날짜</th>
+							<th class="col-1 ">승인상태</th>
 						</tr>
 					</thead>
 					

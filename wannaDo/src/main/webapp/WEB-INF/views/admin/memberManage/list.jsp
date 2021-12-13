@@ -200,13 +200,13 @@ function selectStateChange() {
 				<table class="table table-border table-list">
 					<thead>
 						<tr> 
-							<th class="w-60">번호</th>
-							<th class="w-100">아이디</th>
-							<th class="w-100">이름</th>
-							<th class="w-100">생년월일</th>
-							<th class="w-120">전화번호</th>
-							<th class="w-60">상태</th>
-							<th class="w-auto">이메일</th>
+							<th class="col-1">번호</th>
+							<th class="col-1">아이디</th>
+							<th class="col-1">이름</th>
+							<th class="col-2">생년월일</th>
+							<th class="col-2">전화번호</th>
+							<th class="col-1">상태</th>
+							<th class="col-2">이메일</th>
 						</tr>
 					</thead>
 					

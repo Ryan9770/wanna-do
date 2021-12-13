@@ -26,10 +26,10 @@ $(function() {
 		<li><span>Navigation</span></li>
 		<li><a href="${pageContext.request.contextPath}/admin">Home</a></li>
 		<li><a href="${pageContext.request.contextPath}/admin/memberManage/list">회원관리</a></li>
-		<li><a href="${pageContext.request.contextPath}/admin/lectureManage/list">강의관리</a></li>
-		<li><a>커뮤니티관리</a></li>
-		<li><a>공지사항관리</a></li>
-		<li><a>일정관리</a></li>
+		<li><a href="${pageContext.request.contextPath}/admin/courseManage/list">강의관리</a></li>
+		<li><a href="${pageContext.request.contextPath}/admin/studyManage/list">스터디게시판관리</a></li>
+		<li><a href="${pageContext.request.contextPath}/admin/noticeManage/main">공지사항관리</a></li>
+		<li><a href="${pageContext.request.contextPath}/admin/scheduleManage/main">일정관리</a></li>
 		<li><a>매출관리</a></li>
 		<li><a>고객센터관리</a></li>
 		<li><span>Other</span></li>

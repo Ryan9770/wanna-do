@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="studyManage">
+	
+	<sql id="where-list">
+		<choose>
+			<when test="condition == 'all' ">
+			   ( INSTR(subject, #{keyword}) &gt; 0
+		          OR DBMS_LOB.INSTR(content, #{keyword}) &gt; 0 )
+			</when>
+			<when test="condition == 'reg_date' ">
+			   ( TO_CHAR(reg_date, 'YYYYMMDD') = #{keyword}
+		          OR TO_CHAR(reg_date, 'YYYY-MM-DD') = #{keyword} )
+			</when>
+			<when test="condition == 'content'">
+			    DBMS_LOB.INSTR(content, #{keyword}) &gt; 0
+			</when>
+			<otherwise>
+			    INSTR(${condition}, #{keyword}) &gt; 0
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) FROM study s
+		JOIN member1 m1 ON s.userId=m1.userId
+		<where>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+		</where>  
+	</select>
+	
+	<select id="listStudy" parameterType="map" resultType="com.bs.wd.admin.studyManage.Study">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+			    SELECT s.num, s.userId, userName, subject, 
+			           TO_CHAR(s.reg_date, 'YYYY-MM-DD') reg_date,
+			           hitCount,
+			           NVL(replyCount, 0) replyCount
+			    FROM study s
+			    JOIN member1 m1 ON s.userId=m1.userId
+				LEFT OUTER JOIN (
+					SELECT num, COUNT(*) replyCount FROM studyReply
+					WHERE answer = 0
+					GROUP BY num
+				) r ON s.num = r.num
+				<where>
+					<if test="keyword != null and keyword != ''">
+						<include refid="where-list"/>
+					</if>
+				</where>
+				ORDER BY num DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}	
+	</select>
+	
+	<select id="readStudy" parameterType="Integer" resultType="com.bs.wd.admin.studyManage.Study">
+		SELECT s.num, s.userId, userName, subject, content,
+			   hitCount, s.reg_date, state
+		FROM study s
+		JOIN member1 m1 ON s.userId=m1.userId
+		WHERE s.num = #{num}
+	</select>
+	
+	<delete id="deleteStudy" parameterType="Integer">
+		DELETE FROM study WHERE num = #{num}
+	</delete>
+	
+	<select id="replyCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) FROM studyReply
+		WHERE num=#{num} AND answer=0
+	</select>
+	
+	<select id="listReply" parameterType="map" resultType="com.bs.wd.admin.studyManage.Reply">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT r.replyNum, r.userId, userName, num, content, r.reg_date, 
+				       NVL(answerCount, 0) answerCount
+				FROM studyReply r
+				JOIN member1 m ON r.userId = m.userId
+				LEFT OUTER JOIN (
+					SELECT answer, COUNT(*) answerCount
+					FROM studyReply WHERE answer!=0 GROUP BY answer
+				) a ON r.replyNum = a.answer
+				WHERE num=#{num}  AND r.answer=0
+				ORDER BY r.replyNum DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<select id="replyAnswerCount" parameterType="Integer" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM studyReply WHERE answer = #{answer}
+	</select>
+	
+	<delete id="deleteReply" parameterType="map">
+		DELETE FROM studyReply
+		WHERE replyNum=#{replyNum}
+		<if test="mode=='reply'">
+			OR answer=#{replyNum}
+		</if>
+	</delete>
+	
+	<select id="listReplyAnswer" parameterType="Integer" resultType="com.bs.wd.admin.studyManage.Reply">
+		SELECT replyNum, num, r.userId, userName, content, reg_date, answer
+		FROM studyReply r
+		JOIN member1 m ON r.userId = m.userId
+		WHERE answer = #{answer}
+		ORDER BY replyNum DESC
+	</select>
+	
+	
+</mapper>
