@@ -47,6 +47,13 @@
 
 <!-- Login Modal -->
 <script type="text/javascript">
+
+	$(document).keydown(function(e) {
+         if (e.keyCode == 27) { 
+ 			$("#loginModal").modal("hide");	
+         }
+     });
+	
 	function dialogLogin() {
 	    $("form[name=modelLoginForm] input[name=userId]").val("");
 	    $("form[name=modelLoginForm] input[name=userPwd]").val("");

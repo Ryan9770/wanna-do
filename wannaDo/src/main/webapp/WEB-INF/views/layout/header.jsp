@@ -60,7 +60,7 @@
                      <li class="nav-item dropdown">
                          <a class="nav-link dropdown-toggle text-danger" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">강좌</a>
                          <ul class="dropdown-menu dropdown-menu-end text-danger" aria-labelledby="navbarDropdownBlog">
-                             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/course/list">강좌목록</a></li>
+                             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/course/main">강좌목록</a></li>
                              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/calendar/list">시험일정</a></li>
                          </ul>
                      </li>
@@ -91,8 +91,10 @@
 									<li><a class="dropdown-item" href="${pageContext.request.contextPath}/credit/buy">쿠키샵</a></li>
 									<hr>
 									<li><a class="dropdown-item" href="${pageContext.request.contextPath}/member/pwd">내정보 수정</a></li>
-									<li><a class="dropdown-item" href="${pageContext.request.contextPath}/member/change">크리에이터 전환</a></li>
-	   							 </c:if>
+			 					 </c:if>									
+								 <c:if test="${sessionScope.member.membership<22}">
+									<li><a class="dropdown-item" href="${pageContext.request.contextPath}/member/change">크리에이터 전환</a></li>								 
+								 </c:if>
 	                         </ul>
 	                     </li>	
 					</c:if>             
