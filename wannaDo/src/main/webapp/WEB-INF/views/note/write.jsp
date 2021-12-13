@@ -192,10 +192,10 @@ $(function(){
 </script>
 
 
-<div class="container">
+<div class="container px-5 mt-5">
 	<div class="body-container">	
-		<div class="body-title">
-			<h3><i class="bi bi-envelope-open"></i> 쪽지함 </h3>
+		<div class="body-title mb-3">
+			<h3>쪽지함</h3>
 		</div>
 		
 		<div class="body-main">
@@ -244,7 +244,7 @@ $(function(){
 							
 						</table>
 						
-						<table class="table table-borderless">
+						<table class="table table-borderless mb-5">
 		 					<tr>
 								<td class="text-center">
 									<button type="button" class="btn btn-dark" onclick="sendOk();">보내기&nbsp;<i class="bi bi-check2"></i></button>

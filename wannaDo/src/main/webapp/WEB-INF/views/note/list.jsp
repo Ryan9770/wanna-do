@@ -71,10 +71,10 @@ $(function() {
 });
 </script>
 
-<div class="container">
+<div class="container px-5 mt-5">
 	<div class="body-container">	
-		<div class="body-title">
-			<h3><i class="bi bi-envelope-open"></i> 쪽지함 </h3>
+		<div class="body-title mb-3">
+			<h3>쪽지함</h3>
 		</div>
 		
 		<div class="body-main">
@@ -135,12 +135,21 @@ $(function() {
 						<input type="hidden" name="condition" value="${page}">
 						<input type="hidden" name="keyword" value="${page}">						
 					</form>
-					
-					<div class="page-box">
-						${dataCount == 0 ? "쪽지함이 비어있습니다." : paging}
-					</div>				
 				
-					<div class="row board-list-footer">
+					<c:choose>
+						<c:when test="${dataCount==0}">
+							<div class="page-box" style="height:130px">
+							쪽지함이 비어있습니다.
+							</div>
+						</c:when>
+						<c:otherwise>
+							<div class="page-box">
+								${paging}
+							</div>
+						</c:otherwise>
+					</c:choose>
+				
+					<div class="row board-list-footer mb-5">
 						<div class="col">
 							<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/note/${menuItem}/list';"><i class="bi bi-arrow-counterclockwise"></i></button>
 						</div>

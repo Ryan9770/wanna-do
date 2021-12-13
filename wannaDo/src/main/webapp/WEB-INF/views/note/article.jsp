@@ -81,10 +81,10 @@ function accuseNote() {
 }
 </script>
 
-<div class="container">
+<div class="container px-5 mt-5">
 	<div class="body-container">	
-		<div class="body-title">
-			<h3><i class="bi bi-envelope-open"></i> 쪽지함 </h3>
+		<div class="body-title mb-3">
+			<h3>쪽지함</h3>
 		</div>
 		
 		<div class="body-main">
@@ -97,7 +97,7 @@ function accuseNote() {
 				</li>
 			</ul>
 			
-			<div class="tab-content pt-2" id="nav-tabContent">
+			<div class="tab-content pt-2 mb-5" id="nav-tabContent">
 				<div class="tab-pane fade show active mt-3" id="nav-content" role="tabpanel" aria-labelledby="nav-tab-content">
 				
 					<table class="table table-borderless mb-0">
