@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.bs.wd.common.FileManager;
 import com.bs.wd.common.dao.CommonDAO;
 
-@Service("notice.noticeService")
+@Service("notice.noticeManageService")
 public class NoticeManageServiceImpl implements NoticeManageService {
 	@Autowired
 	private CommonDAO dao;
