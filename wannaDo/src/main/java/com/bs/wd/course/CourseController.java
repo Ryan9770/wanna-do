@@ -30,6 +30,7 @@ import com.bs.wd.member.SessionInfo;
 
 
 
+
 @Controller("course.courseController")
 @RequestMapping("/course/*")
 public class CourseController {
@@ -55,8 +56,7 @@ public class CourseController {
 	
 	@RequestMapping(value = "list")
 	public String list(@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
-			@RequestParam(defaultValue = "all") String condition,
-			@RequestParam(defaultValue = "") String keyword,
+			@RequestParam(defaultValue = "") String level,
 			@RequestParam(defaultValue = "0") int categoryNum,
 			HttpServletRequest req,
 			Model model) throws Exception {
@@ -68,12 +68,11 @@ public class CourseController {
 		int dataCount = 0;
 
 		if (req.getMethod().equalsIgnoreCase("GET")) {
-			keyword = URLDecoder.decode(keyword, "utf-8");
+			level = URLDecoder.decode(level, "utf-8");
 		}
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("condition", condition);
-		map.put("keyword", keyword);
+		map.put("level", level);
 		map.put("categoryNum", categoryNum);
 
 		dataCount = service.dataCount(map);
@@ -100,18 +99,16 @@ public class CourseController {
 		}
 		
 		String query = "";
-		String listUrl = cp + "/course/list";
-		String articleUrl = cp + "/course/article?page=" + current_page;
-		if (keyword.length() != 0) {
-			query = "condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "utf-8");
+		String articleUrl = cp + "/course/article?pageNo=" + current_page;
+		if (level.length() != 0) {
+			query = "level=" + URLEncoder.encode(level, "utf-8");
 		}
 
 		if (query.length() != 0) {
-			listUrl = cp + "/course/list?" + query;
-			articleUrl = cp + "/course/article?page=" + current_page + "&" + query;
+			articleUrl = cp + "/course/article?pageNo=" + current_page + "&" + query;
 		}
 
-		String paging = myUtil.pagingMethod(current_page, total_page, listUrl);
+		String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
 
 		model.addAttribute("list", list);
 		model.addAttribute("articleUrl", articleUrl);
@@ -120,25 +117,21 @@ public class CourseController {
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("paging", paging);
 
-		model.addAttribute("condition", condition);
-		model.addAttribute("keyword", keyword);
-		model.addAttribute("categoryNum", categoryNum);
-
 		return "course/list";
 	}
 	
 	@RequestMapping(value = "article")
 	public String article(@RequestParam int num,
-			@RequestParam String page,
+			@RequestParam String pageNo,
 			@RequestParam(defaultValue = "all") String condition,
 			@RequestParam(defaultValue = "") String keyword,
 			HttpSession session,
 			Model model) throws Exception {
-		
+	
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		keyword = URLDecoder.decode(keyword, "utf-8");
 
-		String query = "page=" + page;
+		String query = "num=" + num;
 		if (keyword.length() != 0) {
 			query += "&condition=" + condition + 
 					"&keyword=" + URLEncoder.encode(keyword, "UTF-8");
@@ -149,10 +142,10 @@ public class CourseController {
 		// 해당 레코드 가져 오기
 		Course dto = service.readCourse(num);
 		if (dto == null) {
-			return "redirect:/course/main?" + query;
+			return "redirect:/course/main";
 		}
 		
-		dto.setContent(myUtil.htmlSymbols(dto.getContent()));
+		dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 
 		// 이전 글, 다음 글
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -164,17 +157,17 @@ public class CourseController {
 
 		// 게시글 좋아요 여부
 		map.put("userId", info.getUserId());
-		boolean userBoardLiked = service.userCourseLiked(map);
+		boolean userCourseLiked = service.userCourseLiked(map);
 
 		model.addAttribute("dto", dto);
 
 
-		model.addAttribute("userBoardLiked", userBoardLiked);
+		model.addAttribute("userCourseLiked", userCourseLiked);
 		
-		model.addAttribute("page", page);
+		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("query", query);
 
-		return "course/article";
+		return ".course.article";
 	}
 
 	
@@ -214,39 +207,38 @@ public class CourseController {
 	
 	@RequestMapping(value = "update", method = RequestMethod.GET)
 	public String updateForm(@RequestParam int num,
-			@RequestParam int group,
-			@RequestParam String page,
+			@RequestParam String pageNo,
 			HttpSession session,
 			Model model) throws Exception {
-
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
 		Course dto = service.readCourse(num);
 		if (dto == null) {
-			return "redirect:/course/list?group=" + group + "&page=" + page;
+			return "redirect:/faq/main?pageNo=" + 1;
 		}
 
-		if (!info.getUserId().equals(dto.getUserId())) {
-			return "redirect:/course/list?group=" + group + "&page=" + page;
+		if (! info.getUserId().equals(dto.getUserId())) {
+			return "redirect:/faq/main?pageNo=" + 1;
 		}
 
-		Map<String, Object> map = new HashMap<String, Object>();
-
+		Map<String, Object> map = new HashMap<>();
+		map.put("mode", "enabled");
 		List<Course> listCategory = service.listCategory(map);
 
-		model.addAttribute("dto", dto);
-		model.addAttribute("group", group);
-		model.addAttribute("page", page);
-		model.addAttribute("mode", "update");
+		// map.put("mode", "all");
+		// List<Faq> listAllCategory=service.listCategory(map);
 
+		model.addAttribute("mode", "update");
+		model.addAttribute("pageNo", pageNo);
+		model.addAttribute("dto", dto);
 		model.addAttribute("listCategory", listCategory);
+		// model.addAttribute("listAllCategory", listAllCategory);
 
 		return ".course.write";
 	}
 
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	public String updateSubmit(Course dto,
-			@RequestParam String pageNo,
 			HttpSession session) throws Exception {
 		String root = session.getServletContext().getRealPath("/");
 		String pathname = root + "uploads" + File.separator + "course";
@@ -261,23 +253,21 @@ public class CourseController {
 
 		}
 
-		return "redirect:/course/list?group=" + pageNo;
+		return "redirect:/course/main";
 	}
 
 	@RequestMapping(value = "delete")
 	public String delete(@RequestParam int num,
-			@RequestParam int group,
-			@RequestParam String page,
+			@RequestParam String pageNo,
 			@RequestParam(defaultValue = "all") String condition,
 			@RequestParam(defaultValue = "") String keyword,
 			HttpSession session) throws Exception {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
 		keyword = URLDecoder.decode(keyword, "utf-8");
-		String query = "group=" + group + "&page=" + page;
-		if (keyword.length() != 0) {
-			query += "&condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
-		}
+		
+
+
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("num", num);
@@ -286,7 +276,7 @@ public class CourseController {
 
 		service.deleteCourse(map);
 
-		return "redirect:/course/list?" + query;
+		return "redirect:/course/main";
 	}
 	
 	@RequestMapping(value = "insertCourseLike", method = RequestMethod.POST)
@@ -395,6 +385,8 @@ public class CourseController {
 		model.put("state", state);
 		return model;
 	}
+	
+	
 
 	
 }

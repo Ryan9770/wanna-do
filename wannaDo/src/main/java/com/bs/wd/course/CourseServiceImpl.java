@@ -11,6 +11,7 @@ import com.bs.wd.common.dao.CommonDAO;
 
 
 
+
 @Service("course.courseService")
 public class CourseServiceImpl  implements CourseService {
 	@Autowired
@@ -23,7 +24,7 @@ public class CourseServiceImpl  implements CourseService {
 		try {
 			String saveFilename = fileManager.doFileUpload(dto.getSelectFile(), pathname);
 			if (saveFilename != null) {
-				dto.setImageFilename(saveFilename);
+				dto.setImageFile(saveFilename);
 			
 				dao.insertData("course.insertCourse", dto);
 			}
@@ -81,11 +82,11 @@ public class CourseServiceImpl  implements CourseService {
 
 			if (saveFilename != null) {
 			
-				if (dto.getImageFilename().length() != 0) {
-					fileManager.doFileDelete(dto.getImageFilename(), pathname);
+				if (dto.getImageFile().length() != 0) {
+					fileManager.doFileDelete(dto.getImageFile(), pathname);
 				}
 
-				dto.setImageFilename(saveFilename);
+				dto.setImageFile(saveFilename);
 			}
 			dao.updateData("course.updateCourse", dto);
 		} catch (Exception e) {

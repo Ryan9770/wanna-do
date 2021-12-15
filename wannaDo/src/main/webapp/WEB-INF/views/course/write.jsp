@@ -69,7 +69,7 @@ function sendOk() {
 	}
 
 	if(! f.categoryNum.value) {
-		alert("과목 명을 선택하세요. ");
+		alert("과목을 선택하세요. ");
 		f.categoryNum.focus();
 		return;
 	}
@@ -173,7 +173,7 @@ $(function(){
 	
 	// 모달이 hide 될 때
 	myModalEl.addEventListener('hide.bs.modal', function (event) {
-		  $("form[name=faqForm] select[name=categoryNum]").find('option').remove();
+		  $("form[name=courseForm] select[name=categoryNum]").find('option').remove();
 
 		  var url="${pageContext.request.contextPath}/course/listCategory";
 		  var query="mode=enabled";
@@ -305,7 +305,7 @@ $(function(){
 
 
 $(function() {
-	var img = "${dto.imageFilename}";
+	var img = "${dto.imageFile}";
 	if( img ) { // 수정인 경우
 		img = "${pageContext.request.contextPath}/uploads/course/" + img;
 		$(".write-form .img-viewer").empty();
@@ -391,6 +391,7 @@ $(function() {
 							<div class="row">
 								<div class="col-sm-4 pe-1">
 									<select name="categoryNum" class="form-select">
+											<option value="">:: 난이도 선택 ::</option>
 										<c:forEach var="vo" items="${listCategory}">
 											<option value="${vo.categoryNum}"
 												${dto.categoryNum==vo.categoryNum?"selected='selected'":""}>${vo.category}</option>
@@ -449,12 +450,12 @@ $(function() {
 							</button>
 							<button type="reset" class="btn btn-light">다시입력</button>
 							<button type="button" class="btn btn-light"
-								onclick="location.href='${pageContext.request.contextPath}/course/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i
+								onclick="location.href='${pageContext.request.contextPath}/course/main';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i
 									class="bi bi-x"></i>
 							</button> <c:if test="${mode=='update'}">
 								<input type="hidden" name="num" value="${dto.num}">
-								<input type="hidden" name="imageFilename"
-									value="${dto.imageFilename}">
+								<input type="hidden" name="imageFile"
+									value="${dto.imageFile}">
 								<input type="hidden" name="page" value="${page}">
 								<input type="hidden" name="group" value="${group}">
 							</c:if>

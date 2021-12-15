@@ -24,4 +24,6 @@ public interface CourseService {
 	public void deleteCourseLike(Map<String, Object> map) throws Exception;
 	public int courseLikeCount(int num);
 	public boolean userCourseLiked(Map<String, Object> map);
+	
+
 }

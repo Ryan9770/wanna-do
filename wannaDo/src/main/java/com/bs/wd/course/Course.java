@@ -8,6 +8,7 @@ public class Course {
 	private String courseName;
 	private String userId;
 	private String courseLevel;
+	private String creatorName;
 	private String tag;
 	private String recommended;
 	private String content;
@@ -22,10 +23,31 @@ public class Course {
     private int parent;
     
     private String imageFilename;
-    private MultipartFile selectFile;
+    private String imageFile;
+	private MultipartFile selectFile;
     
     private int courseLikeCount;
+    
+    
 
+ 
+
+	public String getImageFile() {
+    	return imageFile;
+    }
+    
+    
+    public void setImageFile(String imageFile) {
+    	this.imageFile = imageFile;
+    }
+    public String getCreatorName() {
+    	return creatorName;
+    }
+    
+    
+    public void setCreatorName(String creatorName) {
+    	this.creatorName = creatorName;
+    }
 
 	public int getCourseLikeCount() {
 		return courseLikeCount;
