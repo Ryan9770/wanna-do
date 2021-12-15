@@ -28,21 +28,20 @@ $(function() {
 		<li><a href="${pageContext.request.contextPath}/admin/memberManage/list">회원관리</a></li>
 		<li><a href="${pageContext.request.contextPath}/admin/courseManage/list">강의관리</a></li>
 		<li><a href="${pageContext.request.contextPath}/admin/studyManage/list">스터디게시판관리</a></li>
+		<li><a href="${pageContext.request.contextPath}/admin/tradeManage/list">중고거래게시판관리</a></li>
 		<li><a href="${pageContext.request.contextPath}/admin/noticeManage/main">공지사항관리</a></li>
 		<li><a href="${pageContext.request.contextPath}/admin/scheduleManage/main">일정관리</a></li>
 		<li><a>매출관리</a></li>
 		<li><a>고객센터관리</a></li>
 		<li><span>Other</span></li>
 		<c:choose>
-			<c:when test="${sessionScope.member.membership >= 90 }">
-				<li><a>사원관리</a></li>
+			<c:when test="${sessionScope.member.membership >= 99 }">
+				<li><a href="${pageContext.request.contextPath}/admin/employeeManage/list">사원관리</a></li>
 			</c:when>
 			<c:otherwise>
 				<li style="display: none;">사원관리</li>
 			</c:otherwise>
 		</c:choose>		
-		<li><a>Search</a></li>
-		<li><a>Settings</a></li>
 		<li><a href="${pageContext.request.contextPath}/member/logout">Logout</a></li>
 	</ul>
 </nav>

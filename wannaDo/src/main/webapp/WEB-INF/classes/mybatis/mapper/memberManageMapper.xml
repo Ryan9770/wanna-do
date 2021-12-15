@@ -26,7 +26,7 @@
 			<if test="enabled!=''">
 				AND enabled = #{enabled}
 			</if>
-			AND m.membership &lt; 10
+			AND m.membership &lt; 50
 		</where> 
     </select>
     
@@ -47,7 +47,7 @@
 					<if test="enabled!=''">
 						AND enabled = #{enabled}
 					</if>
-					AND m.membership &lt; 10
+					AND m.membership &lt; 50
 				</where> 
 				ORDER BY register_date DESC
 			) tb WHERE ROWNUM &lt;= #{end}
