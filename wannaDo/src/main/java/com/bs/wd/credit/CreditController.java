@@ -79,4 +79,9 @@ public class CreditController {
 	public String buy() throws Exception {
 		return "credit/buy";
 	}
+	
+	@RequestMapping(value = "noLoginBuy")
+	public String noLoginBuy() throws Exception {
+		return ".credit.buy";
+	}
 }
