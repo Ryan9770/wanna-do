@@ -29,7 +29,7 @@
 		LEFT OUTER JOIN (
 			SELECT num, COUNT(*) fileCount FROM noticeFile
 			GROUP BY num
-		) f IN n.num=f.num
+		) f ON n.num=f.num
 		WHERE notice=1
 		ORDER BY num DESC
 	</select>

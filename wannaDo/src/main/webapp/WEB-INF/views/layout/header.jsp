@@ -88,7 +88,7 @@
 	                             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/myAccount/list">내 정보</a></li>
 	                             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/myCourse/list">나의 학습</a></li>
 	   							 <c:if test="${sessionScope.member.membership>0 && sessionScope.member.membership<51 }">
-									<li><a class="dropdown-item" href="${pageContext.request.contextPath}/credit/buy">쿠키샵</a></li>
+									<li><a class="dropdown-item" href="${pageContext.request.contextPath}/credit/main">내쿠키</a></li>
 									<hr>
 									<li><a class="dropdown-item" href="${pageContext.request.contextPath}/member/pwd">내정보 수정</a></li>
 			 					 </c:if>									
@@ -121,9 +121,11 @@
 					var newNoteCount = data.newNoteCount;
 					
 					if(newNoteCount > 0) {
-						$("#note").html("<span class='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger' style='display:inline-block; height:15px; width:15px; text-align:center; font-size:1px; valign:bottom;'>"+newNoteCount+"<span class='visually-hidden'>읽지 않은 새 쪽지</span></span>");
+						$("#note").html("<span class='position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger' style='width:15px; height:15px; font-size:5px;'>"+newNoteCount+"</span>");
 					}
-					
+					if(newNoteCount > 9) {
+						$("#note").html("<span class='position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger' style='height:15px; font-size:5px;'>"+"9+"+"</span>");
+					}
 				}
 			});
 		}

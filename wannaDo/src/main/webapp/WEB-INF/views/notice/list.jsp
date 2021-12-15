@@ -27,7 +27,7 @@
 			<tr>
 				<td><span class="badge bg-primary">공지</span></td>
 				<td class="left">
-					<a href="javascript:articleBoard('${dto.num}', '${pageNo}');" class="text-reset">${dto.subject}</a>
+					<a href="javascript:articleBoard('${dto.num}', '${pageNo}');" class="text-reset" style="text-decoration: none;">${dto.subject}</a>
 				</td>
 				<td>관리자</td>
 				<td>${dto.reg_date}</td>
@@ -44,7 +44,7 @@
 			<tr>
 				<td>${dto.listNum}</td>
 				<td class="left">
-					<a href="javascript:articleBoard('${dto.num}', '${pageNo}');" class="text-reset">${dto.subject}</a>
+					<a href="javascript:articleBoard('${dto.num}', '${pageNo}');" class="text-reset" style="text-decoration: none;">${dto.subject}</a>
 				</td>
 				<td>관리자</td>
 				<td>${dto.reg_date}</td>
@@ -59,7 +59,7 @@
 	</tbody>
 </table>
 
-<div class="page-box">
+<div class="page-box" style="text-align: center">
 	${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
 </div>
 
@@ -86,4 +86,7 @@
 			</div>
 		</div>
 	</div>
+</div>
+<div class="col text-end">
+	&nbsp;
 </div>

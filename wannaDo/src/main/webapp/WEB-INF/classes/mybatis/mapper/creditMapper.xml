@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="credit">
+	<select id="seq" resultType="Integer">
+		SELECT wallet_seq.NEXTVAL FROM dual
+	</select>
+	<select id="insertCredit" parameterType="com.bs.wd.credit.Credit">
+		INSERT INTO mywallet(num, userId, amount, price, buy_date) VALUES(#{num}, #{userId}, #{amount}, #{price}, SYSDATE)
+	</select>
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM mywallet w
+		JOIN member1 m ON w.userId=m.userId
+		WHERE w.userId=#{userId}
+	</select>
+	<select id="listCredit" parameterType="map" resultType="com.bs.wd.credit.Credit">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT w.num, w.userId, amount, price, TO_CHAR(buy_date, 'YYYY-MM-DD') buy_date
+				FROM mywallet w
+				JOIN member1 m ON w.userId=m.userId
+				WHERE w.userId=#{userId}
+				ORDER BY num DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+</mapper>

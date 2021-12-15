@@ -71,7 +71,7 @@ $(function() {
 });
 </script>
 
-<div class="container px-5 mt-5">
+<div class="container px-5 py-5">
 	<div class="body-container">	
 		<div class="body-title mb-3">
 			<h3>쪽지함</h3>
@@ -138,7 +138,7 @@ $(function() {
 				
 					<c:choose>
 						<c:when test="${dataCount==0}">
-							<div class="page-box" style="height:130px">
+							<div class="page-box" style="height:130px; text-align: center">
 							쪽지함이 비어있습니다.
 							</div>
 						</c:when>

@@ -10,10 +10,10 @@
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
-<div class="container">
+<div class="container px-5 py-5">
 	<div class="body-container">	
 		<div class="body-title">
-			<h3><i class="bi bi-clipboard"></i> 공지사항 </h3>
+			<h3>공지사항 </h3>
 		</div>
 		
 		<div class="body-main content-frame">
