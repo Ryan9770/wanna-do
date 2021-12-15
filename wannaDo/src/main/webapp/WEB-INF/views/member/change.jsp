@@ -16,7 +16,8 @@
 	border-radius : 45px;
 	position:relative;
 	z-index : 9999;
-	background-color: black;
+	background-image : url("${pageContext.request.contextPath}/resources/images/add_photo.png");
+	background-repeat: no-repeat;
 	background-size : cover;
 }
 </style>
@@ -75,7 +76,11 @@ function changeOk() {
 function creatorNameCheck() {
 	// 크리에이터 명 중복 검사
 	var creatorName=$("#creatorName").val();
-
+	if( ! creatorName){
+		alert("크리에이터 명을 입력하세요");
+		document.memberForm.creatorName.focus();
+		return;
+	}
 	var url = "${pageContext.request.contextPath}/member/creatorNameCheck";
 	var query = "creatorName=" + encodeURIComponent(creatorName);
 	$.ajax({
@@ -283,6 +288,7 @@ $(function(){
 			            <button type="button" name="sendButton" class="btn btn-primary" onclick="changeOk();">전환신청<i class="bi bi-check2"></i></button>
 			            <button type="button" class="btn btn-danger" onclick="changeCancle();">전환취소<i class="bi bi-x"></i></button>
 						<input type="hidden" name="creatorNameValid" id="creatorNameValid" value="false">
+						<input type="hidden" name="originalCreatorName" id="originalCreatorName" value="${dto.creatorName}">
 						<input type="hidden" name="sessionId" id="sessionId" value="${sessionScope.member.userId}">
 						<c:if test="${mode=='changeUpdate'}">
 							<input type="hidden" name="imageFilename" value="${dto.imageFilename}">

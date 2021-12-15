@@ -2,8 +2,8 @@ package com.bs.wd.member;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,7 +62,16 @@ public class MemberServiceImpl implements MemberService {
 
 		try {
 			dto = dao.selectOne("member.readMember", userId);
+			
+			int membership = dao.selectOne("member.membershipNo",dto.getUserId());
 
+			if(membership >= 22 && membership <51) {
+				dto = null;
+				dto = dao.selectOne("member.readCreatorMember", userId);
+			} else {
+				membership =0 ;
+			}
+			
 			if (dto != null) {
 				if (dto.getEmail() != null) {
 					String[] s = dto.getEmail().split("@");
@@ -75,6 +84,24 @@ public class MemberServiceImpl implements MemberService {
 					dto.setTel1(s[0]);
 					dto.setTel2(s[1]);
 					dto.setTel3(s[2]);
+				}
+				
+				if(dto.getCreatorEmail() != null) {
+					String[] s = dto.getCreatorEmail().split("@");
+					dto.setCreatorEmail1(s[0]);
+					dto.setCreatorEmail2(s[1]);
+				}
+				
+				if(dto.getCreatorTel()!=null) {
+					String[] s = dto.getCreatorTel().split("-");
+					dto.setCreatorTel1(s[0]);
+					dto.setCreatorTel2(s[1]);
+					dto.setCreatorTel3(s[2]);
+				}
+				
+				if(dto.getCreator_reg_date()!=null) {
+					String[] s = dto.getCreator_reg_date().split("-");
+					dto.setCreator_reg_date(s[0]+"년 "+s[1]+"월 "+s[2]+"일");
 				}
 			}
 
@@ -162,7 +189,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void updateMember(Member dto) throws Exception {
+	public void updateMember(Member dto, String pathname) throws Exception {
 		try {
 			if (dto.getEmail1().length() != 0 && dto.getEmail2().length() != 0) {
 				dto.setEmail(dto.getEmail1() + "@" + dto.getEmail2());
@@ -171,15 +198,48 @@ public class MemberServiceImpl implements MemberService {
 			if (dto.getTel1().length() != 0 && dto.getTel2().length() != 0 && dto.getTel3().length() != 0) {
 				dto.setTel(dto.getTel1() + "-" + dto.getTel2() + "-" + dto.getTel3());
 			}
-
+			
 			dao.updateData("member.updateMember1", dto);
 			dao.updateData("member.updateMember2", dto);
+			
+			String saveFilename = fileManager.doFileUpload(dto.getSelectFile(), pathname);
+			if(saveFilename != null) {
+				dto.setImageFilename(saveFilename);
+			}
+			
+			int membership = dao.selectOne("member.membershipNo",dto.getUserId());
+
+			if(membership >= 22 && membership <51) {
+				if (dto.getCreatorTel1().length()!=0 && dto.getCreatorTel2().length()!=0 && dto.getCreatorTel3().length()!=0) {
+					dto.setCreatorTel(dto.getCreatorTel1()+"-"+dto.getCreatorTel2()+"-"+dto.getCreatorTel3());
+				}
+				
+				if(dto.getCreatorEmail1().length()!=0 && dto.getCreatorEmail2().length()!=0) {
+					dto.setCreatorEmail(dto.getCreatorEmail1()+"@"+dto.getCreatorEmail2());
+				}
+
+				dao.updateData("member.updateCreatorInfo", dto);
+			} 
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
 	}
 
+	@Override
+	public void updateMember(Member dto) throws Exception {
+		try {
+			// 비밀번호 수정
+			dao.updateData("member.updateMember3", dto);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	
 	@Override
 	public void deleteMember(Map<String, Object> map) throws Exception {
 		try {
@@ -196,8 +256,40 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void generatePwd(Member dto) throws Exception {
-		// TODO Auto-generated method stub
+		StringBuilder sb = new StringBuilder();
+		Random rd = new Random();
+		String s = "~!@#$%^&*+-ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
 		
+		for(int i = 0 ; i<10 ; i++) {
+			int n = rd.nextInt(s.length());
+			sb.append(s.substring(n, n+1));
+		}
+		
+		/* 메일 전송
+		String result ;
+		result = dto.getUserId() +"님의 새로 발급된 임시 패스워드는"+"<b>" +sb.toString() +"</b> 입니다.<br>"
+				+ "로그인 후 반드시 패스워드를 변경하시기 바랍니다.";
+		
+ 		Mail mail = new Mail();
+		mail.setReceiverEmail(dto.getEmail());
+		
+		mail.setSenderEmail("보내는사람이메일@도메인"); // 환경설정 된 이메일
+		mail.setSenderName("관리자");
+		mail.setSubject("임시 패스워드 발급");
+		mail.setContent(result);
+		
+		boolean b = mailSender.mailSend(mail);
+		
+		if(b) {
+			dto.setUserPwd(sb.toString());
+			updateMember(dto); // 회원 정보 수정 (바뀐 랜덤 비밀번호로 정보 수정)
+		} else {
+			throw new Exception("이메일 전송 중 오류가 발생했습니다.");
+		}
+		*/
+		
+		dto.setUserPwd(sb.toString());
+		updateMember(dto);
 	}
 
 	@Override
@@ -230,12 +322,9 @@ public class MemberServiceImpl implements MemberService {
 			
 			updateMembership(map);
 			
-			// 정보 수정
-			//dao.updateData("member.changeCreator", creatorSeq);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
-		
 	}
 }

@@ -207,11 +207,14 @@ public class MemberController {
 
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	public String updateSubmit(Member dto,
+			HttpSession session,
 			final RedirectAttributes reAttr,
 			Model model) {
-
+		String root = session.getServletContext().getRealPath("/");
+		String path = root + "uploads"+File.separator +"creatorInfo";
+		
 		try {
-			service.updateMember(dto);
+			service.updateMember(dto,path);
 		} catch (Exception e) {
 		}
 
@@ -301,8 +304,14 @@ public class MemberController {
 		}
 		
 		StringBuilder sb=new StringBuilder();
-		sb.append("회원님의 이메일로 임시패스워드를 전송했습니다.<br>");
+		/*
+		sb.append("회원님의 이메일로 임시 패스워드를 전송했습니다.<br>");
 		sb.append("로그인 후 패스워드를 변경하시기 바랍니다.<br>");
+		*/
+		
+		sb.append(dto.getUserId() +"님의 새로 발급된 임시 패스워드는 "+"<span style='color:blue;'>" +dto.getUserPwd() +"</span> 입니다.<br>"
+				+ "로그인 후 반드시 패스워드를 변경하시기 바랍니다.");
+
 		
 		reAttr.addFlashAttribute("title", "패스워드 찾기");
 		reAttr.addFlashAttribute("message", sb.toString());
@@ -340,7 +349,6 @@ public class MemberController {
 		
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
-		
 		try {
 			dto.setUserId(info.getUserId());
 			service.insertCreator(dto, path);
@@ -350,6 +358,7 @@ public class MemberController {
 		StringBuilder sb = new StringBuilder();
 		sb.append(dto.getCreatorName() + "님의 크리에이터 전환이 정상적으로 처리되었습니다.<br>");
 
+		
 		// 리다이렉트된 페이지에 값 넘기기
 		reAttr.addFlashAttribute("message", sb.toString());
 		reAttr.addFlashAttribute("title", "크리에이터 전환");

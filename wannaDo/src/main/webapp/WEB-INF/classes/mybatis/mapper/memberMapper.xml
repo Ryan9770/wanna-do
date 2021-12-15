@@ -14,6 +14,13 @@
 		WHERE userId=#{userId}
 	</update>
 	
+	<select id="membershipNo" resultType="Integer">
+		SELECT membership
+		  FROM member m
+		  JOIN member1 m1 ON m1.memberIdx = m.memberIdx
+		 WHERE userId = #{userId}
+	</select>
+    
     <select id="memberSeq" resultType="Long">
        SELECT member_seq.NEXTVAL FROM dual 
     </select>
@@ -56,11 +63,7 @@
 		INSERT INTO creatorInfo(creatorIdx, userId , intro, creatorName ,imageFilename ,creatorEmail ,creatorTel ,creator_reg_date )
 		VALUES (#{creatorIdx},#{userId},#{intro},#{creatorName},#{imageFilename},#{creatorEmail},#{creatorTel},SYSDATE)
 	</insert>
-	<update id="changeCreator" parameterType="com.bs.wd.member.Member">
-		UPDATE member1 SET membership = 22
-		WHERE userId=#{userId}
-	</update>
-	
+
 	<select id="readMember" parameterType="String" resultType="com.bs.wd.member.Member">
 		SELECT m.memberIdx, membership, m1.userId, userName, userPwd, enabled,
 			register_date, modify_date, last_login,
@@ -69,6 +72,15 @@
 		JOIN member1 m1 ON m.memberIdx = m1.memberIdx 
 		LEFT OUTER JOIN member2 m2 ON m1.userId = m2.userId
 		WHERE m1.userId = #{userId}
+	</select>
+	
+	<select id="readCreatorMember" parameterType="String" resultType="com.bs.wd.member.Member">
+		SELECT m.userId, userName, userPwd, enabled, TO_CHAR(birth, 'YYYY-MM-DD') birth, email, tel, 
+			   intro, creatorName ,imageFilename ,creatorEmail ,creatorTel ,TO_CHAR(creator_reg_date, 'YYYY-MM-DD') creator_reg_date 
+		  FROM member1 m
+		  JOIN creatorInfo c ON c.userId = m.userId
+LEFT OUTER JOIN member2 m2 ON m.userId = m2.userId
+		 WHERE m.userId = #{userId}
 	</select>
 	
 	<select id="readMemberByName" parameterType="String" resultType="com.bs.wd.member.Member">
@@ -113,6 +125,17 @@
 		UPDATE member2 SET email=#{email, jdbcType=VARCHAR}, 
 			tel=#{tel, jdbcType=VARCHAR}, birth=#{birth, jdbcType=VARCHAR}
 		WHERE userId=#{userId}
+    </update>
+
+    <update id="updateMember3" parameterType="com.bs.wd.member.Member">
+		UPDATE member1 SET userPwd=#{userPwd}, modify_date=SYSDATE
+		WHERE userId=#{userId}
+    </update>
+    
+    <update id="updateCreatorInfo"  parameterType="com.bs.wd.member.Member">
+    	UPDATE creatorInfo SET creatorName=#{creatorName}, creatorEmail=#{creatorEmail}, 
+    	creatorTel=#{creatorTel}, intro=#{intro, jdbcType=VARCHAR}, imageFilename=#{imageFilename}
+    	WHERE userId=#{userId}
     </update>
 
     <!-- member 테이블 정보 삭제  -->    

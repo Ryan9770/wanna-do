@@ -33,6 +33,10 @@ public class Member {
 	private String creatorTel1;
 	private String creatorTel2;
 	private String creatorTel3;
+	
+	private String creator_reg_date;
+	
+	
 	public long getMemberIdx() {
 		return memberIdx;
 	}
@@ -206,6 +210,12 @@ public class Member {
 	}
 	public void setCreatorTel3(String creatorTel3) {
 		this.creatorTel3 = creatorTel3;
+	}
+	public String getCreator_reg_date() {
+		return creator_reg_date;
+	}
+	public void setCreator_reg_date(String creator_reg_date) {
+		this.creator_reg_date = creator_reg_date;
 	}
 	
 

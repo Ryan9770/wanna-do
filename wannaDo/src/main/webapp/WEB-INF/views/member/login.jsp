@@ -32,12 +32,12 @@ function sendLogin() {
 
 </script>
 
-<div class="container">
-	<div class="body-container">	
+<div class="container px-5 py-5">
+	<div class="row justify-content-center">	
 
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                <div class="border mt-5 p-4">
+                <div class="border mt-3 p-4">
                     <form name="loginForm" action="" method="post" class="row g-3">
                         <h3 class="text-center"><i class="bi bi-lock"></i> 회원 로그인</h3>
                         <div class="col-12">
@@ -55,23 +55,22 @@ function sendLogin() {
                             </div>
                         </div>
                         <div class="col-12">
-                            <button type="button" class="btn btn-primary float-end" onclick="sendLogin();">&nbsp;Login&nbsp;<i class="bi bi-check2"></i></button>
+                            <button type="button" class="btn btn-danger float-end" onclick="sendLogin();">&nbsp;Login&nbsp;<i class="bi bi-check2"></i></button>
                         </div>
                     </form>
-                    <hr class="mt-4">
+                    <hr class="mt-3">
                     <div class="col-12">
                         <p class="text-center mb-0">
-                        	<a href="#" class="text-decoration-none me-2">아이디 찾기</a>
-                        	<a href="#" class="text-decoration-none me-2">패스워드 찾기</a>
-                        	<a href="${pageContext.request.contextPath}/member/member" class="text-decoration-none">회원가입</a>
+                        	<a href="#" class="text-decoration-none me-2 text-danger">아이디 찾기</a>
+                        	<a href="#" class="text-decoration-none me-2 text-danger">패스워드 찾기</a>
+                        	<a href="${pageContext.request.contextPath}/member/member" class="text-decoration-none text-danger">회원가입</a>
                         </p>
                     </div>
                 </div>
 
                 <div class="d-grid">
-						<p class="form-control-plaintext text-center text-primary">${message}</p>
+						<p class="form-control-plaintext text-center">${message}</p>
                 </div>
-
             </div>
         </div>
 

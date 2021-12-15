@@ -25,12 +25,12 @@ function sendOk() {
 }
 </script>
 
-<div class="container">
-	<div class="body-container">	
+<div class="container px-5 py-5 ">
+	<div class="row justify-content-center">	
 
         <div class="row justify-content-md-center">
             <div class="col-md-7">
-                <div class="border mt-5 p-4">
+                <div class="border mt-5 p-4 mb-3">
                     <form name="pwdForm" method="post" class="row g-3">
                         <h3 class="text-center fw-bold">패스워드 재확인</h3>
                         
@@ -47,7 +47,7 @@ function sendOk() {
                             <input type="password" name="userPwd" class="form-control form-control-lg" placeholder="패스워드">
                         </div>
                         <div class="d-grid">
-                            <button type="button" class="btn btn-lg btn-primary" onclick="sendOk();">확인 <i class="bi bi-check2"></i> </button>
+                            <button type="button" class="btn btn-lg btn-danger" onclick="sendOk();">확인 <i class="bi bi-check2"></i> </button>
                             <input type="hidden" name="mode" value="${mode}">
                         </div>
                     </form>
