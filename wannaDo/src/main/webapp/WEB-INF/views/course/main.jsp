@@ -7,9 +7,6 @@
 
 
 <script type="text/javascript">
-function login() {
-	location.href="${pageContext.request.contextPath}/member/login";
-}
 
 function ajaxFun(url, method, query, dataType, fn) {
 	$.ajax({
@@ -52,10 +49,19 @@ function listPage(page) {
 	var $tab = $("button[role='tab'].active");
 	var categoryNum = $tab.attr("data-categoryNum");
 	
+	var level = "";
+	$(".course-level").find(".btn-level").each(function(){
+		if($(this).hasClass("btn-primary")) {
+			level = $(this).text();
+			return false;
+		}
+	});
+	if(level == "모두") level = "";
+	
 	var url="${pageContext.request.contextPath}/course/list";
 	var query="pageNo="+page+"&categoryNum="+categoryNum;
-	var search=$('form[name=courseSearchForm]').serialize();
-	query=query+"&"+search;
+	
+	query=query+"&level="+encodeURIComponent(level);
 	
 	var selector = "#nav-content";
 	
@@ -83,33 +89,38 @@ function reloadCourse() {
 	listPage(1);
 }
 
-// 글 삭제
-function deleteCourse(num, page) {
-	var url="${pageContext.request.contextPath}/course/delete";
-	
-	var query="num="+num;
-	
-	if(! confirm("위 게시물을 삭제 하시 겠습니까 ? ")) {
-		  return;
-	}
-	
-	var fn = function(data){
-		listPage(page);
-	};
-	
-	ajaxFun(url, "post", query, "json", fn);
-}
+$(function(){
+	$(".btn-level").click(function(){
+		$(".course-level").find(".btn-level").removeClass("btn-primary");
+		$(".course-level").find(".btn-level").addClass("btn-danger");
+		$(this).removeClass("btn-danger").addClass("btn-primary");
+		
+		listPage(1);
+	});
+});
+
 </script>
 
 <div class="container">
 	<div class="body-container">	
-		<div class="body-title">
-			<h3><i class="bi bi-question-octagon"></i> 강좌 목록 </h3>
+		<div class="body-title" style="text-align: center;">
+			<h1>강좌 목록 </h1>
 		</div>
 	    		
 		<div class="body-main">
-			
+	<div class="container">
+		<div class="col course-level" style="width: 50%">
+			<h5 style="text-align: center;">난이도 필터</h5>
+			<button type="button" class="btn btn-primary btn-level">모두</button>
+			<button type="button" class="btn btn-danger btn-level">초급</button>
+			<button type="button" class="btn btn-danger btn-level">중급</button>
+			<button type="button" class="btn btn-danger btn-level">고급</button>
+		</div>
+		
+		<div class="col" style="width: 50%">
+			<h5 style="text-align: center;">과목별 필터</h5>
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
+				
 				<li class="nav-item" role="presentation">
 					<button class="nav-link active" id="tab-0" data-bs-toggle="tab" data-bs-target="#nav-content" type="button" role="tab" aria-controls="0" aria-selected="true" data-categoryNum="0">모두</button>
 				</li>
@@ -119,17 +130,28 @@ function deleteCourse(num, page) {
 					</li>
 				</c:forEach>
 			</ul>
+		</div>
+	</div>
 			
-			<div class="tab-content pt-2" id="nav-tabContent">
+			<div class="tab-content pt-2" id="nav-tabContent" >
 				<div class="tab-pane fade show active" id="nav-content" role="tabpanel" aria-labelledby="nav-tab-content">
 				</div>
 			</div>
 			
 		</div>
+				<div class="col text-end">
+					<button type="button" class="btn btn-light"
+						onclick="location.href='${pageContext.request.contextPath}/course/write';">강좌
+						등록</button>
+				</div>
 	</div>
 </div>
 
-<form name="faqSearchForm" method="post">
-	<input type="hidden" name="condition" value="all">
-    <input type="hidden" name="keyword" value="">
-</form>
+<section class="py-1 bg-light">
+	<div class="container px-3 my-3">
+		<h2 class="display-3 fw-bolder mb-3">쿠키가 부족하면?</h2>
+		<a class="btn btn-lg btn-primary"
+			href="${pageContext.request.contextPath}/credit/buy">여기눌러</a>
+	</div>
+</section>
+

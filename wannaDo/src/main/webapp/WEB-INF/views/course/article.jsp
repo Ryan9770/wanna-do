@@ -39,9 +39,9 @@
 
 <script type="text/javascript">
 <c:if test="${sessionScope.member.userId==dto.userId||sessionScope.member.membership>50}">
-	function deleteBoard() {
+	function deleteCourse() {
 	    if(confirm("게시글을 삭제 하시 겠습니까 ? ")) {
-		    var query = "num=${dto.num}&${query}";
+		    var query = "pageNo=1&num=${dto.num}";
 		    var url = "${pageContext.request.contextPath}/course/delete?" + query;
 	    	location.href = url;
 	    }
@@ -118,6 +118,8 @@ $(function(){
 });
 
 
+
+
 </script>
 
 
@@ -127,20 +129,24 @@ $(function(){
 			<div class="row gx-5">
 				<div class="col-lg-3">
 					<figure class="mb-4">
-						<img class="img-fluid rounded"
-							src="${pageContext.request.contextPath}/uploads/course/${dto.imageFilename}"
+						<img class="img-fluid rounded" style="width: 270px; height: 170px;"
+							src="${pageContext.request.contextPath}/uploads/course/${dto.imageFile}"
 							alt="..." />
 					</figure>
 					<div class="d-flex align-items-center mt-lg-5 mb-4">
-						<img class="img-fluid rounded"
-							src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
+						<img class="img-fluid rounded" style="width: 48px; height: 48px;"
+							src="${pageContext.request.contextPath}/uploads/creatorInfo/${dto.imageFilename}" alt="..." />
 						<div class="ms-3">
-							<div class="fw-bold">${dto.userId}</div>
+							<div class="fw-bold">${dto.creatorName}</div>
 							<div class="text-muted">${dto.courseName}</div>
 
 						</div>
-
 					</div>
+						<figure class="mb-4">
+							<div>
+							<button type="button" class="btn btn-outline-secondary btnSendCourseLike" title="좋아요"><i class="bi ${userCourseLiked ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up' }"></i>&nbsp;&nbsp;<span id="courseLikeCount">${dto.courseLikeCount}</span></button>
+							</div>
+						</figure>
 				</div>
 				<div class="col-lg-9">
 					<!-- Post content-->
@@ -160,15 +166,15 @@ $(function(){
 								<tbody>
 									<tr>
 										<td style="width: 200px;">난이도</td>
-										<td style="width: 1000px;">${dto.groupCategory}</td>
+										<td style="width: 1000px;">${dto.courseLevel}</td>
 									</tr>
 									<tr>
 										<td>강사명</td>
-										<td>${dto.userId}</td>
+										<td>${dto.creatorName}</td>
 									</tr>
 									<tr>
 										<td>태그</td>
-										<td  class="badge bg-secondary text-decoration-none link-light">${dto.tag}</td>
+										<td>${dto.tag}</td>
 
 									</tr>
 									<tr>
@@ -180,84 +186,18 @@ $(function(){
 						</figure>
 
 						<!-- Preview image figure-->
-						<figure class="mb-4">
-							<div>
-							<button type="button" class="btn btn-outline-secondary btnSendCourseLike" title="좋아요"><i class="bi ${userCourseLiked ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up' }"></i>&nbsp;&nbsp;<span id="courseLikeCount">${dto.courseLikeCount}</span></button>
-							</div>
-						</figure>
+
 						<!-- Post content-->
 						<section class="mb-5">
 							<div class="editor">${dto.content}</div>
 						</section>
 					</article>
-					<div class="accordion accordion-flush" id="accordionFlushExample">
-						<div class="accordion-item">
-							<h2 class="accordion-header" id="flush-headingOne">
-								<button class="accordion-button collapsed" type="button"
-									data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
-									aria-expanded="false" aria-controls="flush-collapseOne">
-									챕터 1</button>
-							</h2>
-							<div id="flush-collapseOne" class="accordion-collapse collapse"
-								aria-labelledby="flush-headingOne"
-								data-bs-parent="#accordionFlushExample">
-								<div class="accordion-body">1-1 abcdefg</div>
-							</div>
-						</div>
-						<div class="accordion-item">
-							<h2 class="accordion-header" id="flush-headingTwo">
-								<button class="accordion-button collapsed" type="button"
-									data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo"
-									aria-expanded="false" aria-controls="flush-collapseTwo">
-									챕터 2</button>
-							</h2>
-							<div id="flush-collapseTwo" class="accordion-collapse collapse"
-								aria-labelledby="flush-headingTwo"
-								data-bs-parent="#accordionFlushExample">
-								<div class="accordion-body">2-1 hijk</div>
-							</div>
-						</div>
-						<div class="accordion-item">
-							<h2 class="accordion-header" id="flush-headingThree">
-								<button class="accordion-button collapsed" type="button"
-									data-bs-toggle="collapse" data-bs-target="#flush-collapseThree"
-									aria-expanded="false" aria-controls="flush-collapseThree">
-									챕터 3</button>
-							</h2>
-							<div id="flush-collapseThree" class="accordion-collapse collapse"
-								aria-labelledby="flush-headingThree"
-								data-bs-parent="#accordionFlushExample">
-								<div class="accordion-body">
-									<a href="#">3-1 lmnop</a>
-								</div>
-							</div>
-							<div id="flush-collapseThree" class="accordion-collapse collapse"
-								aria-labelledby="flush-headingThree"
-								data-bs-parent="#accordionFlushExample">
-								<div class="accordion-body">
-									<a href="#">3-2 qrstuv</a>
-								</div>
-							</div>
-						</div>
-					</div>
+
 
 
 
 					<!-- Comments section-->
-					<div
-						class="height-100 container d-flex justify-content-center align-items-center">
-						<div class="card p-3">
-							<div class="d-flex justify-content-between align-items-center">
-								<div class="ratings">
-									<i class="fa fa-star rating-color"></i> <i
-										class="fa fa-star rating-color"></i> <i
-										class="fa fa-star rating-color"></i> <i
-										class="fa fa-star rating-color"></i> <i class="fa fa-star"></i>
-								</div>
-								<h5 class="review-count">12 Reviews</h5>
-							</div>
-						</div>
-					</div>
+
 
 
 
@@ -310,7 +250,7 @@ $(function(){
 							<td width="50%"><c:choose>
 									<c:when test="${sessionScope.member.userId==dto.userId}">
 										<button type="button" class="btn btn-light"
-											onclick="location.href='${pageContext.request.contextPath}/course/update?num=${dto.num}&group=${group}&page=${page}';">수정</button>
+											onclick="location.href='${pageContext.request.contextPath}/course/update?pageNo=1&num=${dto.num}';">수정</button>
 									</c:when>
 									<c:otherwise>
 										<button type="button" class="btn btn-light"
@@ -320,7 +260,7 @@ $(function(){
 									<c:when
 										test="${sessionScope.member.userId==dto.userId || sessionScope.member.membership>50}">
 										<button type="button" class="btn btn-light"
-											onclick="deleteBoard();">삭제</button>
+											onclick="deleteCourse();">삭제</button>
 									</c:when>
 									<c:otherwise>
 										<button type="button" class="btn btn-light"
@@ -329,7 +269,7 @@ $(function(){
 								</c:choose></td>
 							<td class="text-end">
 								<button type="button" class="btn btn-light"
-									onclick="location.href='${pageContext.request.contextPath}/course/list?${query}';">리스트</button>
+									onclick="location.href='${pageContext.request.contextPath}/course/main';">리스트</button>
 							</td>
 						</tr>
 					</table>
@@ -337,6 +277,8 @@ $(function(){
 			</div>
 		</div>
 	</section>
+	
+
 </body>
 <script type="text/javascript">
 ClassicEditor

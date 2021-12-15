@@ -4,8 +4,8 @@
 <mapper namespace="course">
 	
 	<insert id="insertCourse" parameterType="com.bs.wd.course.Course">
-		INSERT INTO course(num, courseLevel, categoryNum, courseName, content, price, reg_date, tag, recommended, userId, imageFilename, hitCount)
-		VALUES (course_seq.NEXTVAL, #{courseLevel}, #{categoryNum}, #{courseName}, #{content}, #{price}, SYSDATE, #{tag}, #{recommended}, #{userId}, #{imageFilename}, 0)
+		INSERT INTO course(num, courseLevel, categoryNum, courseName, content, price, reg_date, tag, recommended, userId, imageFile, hitCount)
+		VALUES (course_seq.NEXTVAL, #{courseLevel}, #{categoryNum}, #{courseName}, #{content}, #{price}, SYSDATE, #{tag}, #{recommended}, #{userId}, #{imageFile}, 0)
 	</insert>
 	
 	
@@ -42,6 +42,10 @@
 			<if test="categoryNum!=0">
 				( c.categoryNum = #{categoryNum} )
 			</if>
+			
+			<if test="level != ''">
+			AND ( courseLevel = #{level} )
+			</if>
 
 		</where>
 	</select>
@@ -54,17 +58,21 @@
 	<select id="listCourse" parameterType="map" resultType="com.bs.wd.course.Course">
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
-				SELECT b.num, b.userId, userName, courseName, imageFilename, courseLevel,
-					TO_CHAR(b.reg_date, 'YYYY-MM-DD') reg_date,
+				SELECT b.num, b.userId, userName, courseName, imageFile, courseLevel,
+					TO_CHAR(b.reg_date, 'YYYY-MM-DD') reg_date, creatorName,
 					c.categoryNum, category
 				FROM course b
 				JOIN member1 m ON b.userId=m.userId
 				JOIN courseCategory c ON b.categoryNum = c.categoryNum
+				JOIN creatorInfo i ON b.userId=i.userId
 				<where>
 					<if test="categoryNum!=0">
 						( c.categoryNum = #{categoryNum} )
 					</if>
 
+					<if test="level != ''">
+					AND ( courseLevel = #{level} )
+					</if>
 				</where>
 				ORDER BY num DESC
 			) tb WHERE ROWNUM &lt;= #{end}
@@ -72,13 +80,15 @@
 	</select>
 	
 	<select id="readCourse" parameterType="Integer" resultType="com.bs.wd.course.Course">
-		SELECT b.num, b.userId, courseName, content, price, 
-			b.reg_date, tag, recommended, imageFilename, courseLevel,
-			f.categoryNum, c.category
+		SELECT b.num, b.userId, courseName, content, price, creatorName, imageFilename,
+			b.reg_date, tag, recommended, b.imageFile, courseLevel, 
+			b.categoryNum, c.category,
 			NVL(courseLikeCount, 0) courseLikeCount
 		FROM course b
 		JOIN member1 m ON b.userId=m.userId
 		JOIN courseCategory c ON b.categoryNum = c.categoryNum
+		JOIN creatorInfo i ON b.userId=i.userId
+
 		LEFT OUTER JOIN (
 			SELECT num, COUNT(*) courseLikeCount FROM courseLike
 			GROUP BY num
@@ -87,8 +97,8 @@
 	</select>
 	
 	<update id="updateCourse" parameterType="com.bs.wd.course.Course">
-		UPDATE course SET courseName=#{courseName},
-			imageFilename=#{imageFilename}, content=#{content}, price=#{price}, tag=#{tag}, recommended=#{recommended}
+		UPDATE course SET courseName=#{courseName}, categoryNum=#{categoryNum},
+			imageFile=#{imageFile}, content=#{content}, price=#{price}, tag=#{tag}, recommended=#{recommended}
 		WHERE num = #{num} AND userId = #{userId}
 	</update>
 	
@@ -119,5 +129,8 @@
 		SELECT num, userId FROM courseLike WHERE num = #{num} AND userId = #{userId}
 	</select>
 	
+	
+	
+
 	
 </mapper>

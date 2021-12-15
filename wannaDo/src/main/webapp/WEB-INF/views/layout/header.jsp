@@ -72,7 +72,7 @@
                          </ul>
                      </li>
 					 <c:if test="${empty sessionScope.member}">
-	                     <li class="nav-item"><a class="nav-link text-danger" href="${pageContext.request.contextPath}/credit/buy">쿠키샵</a></li>
+	                     <li class="nav-item"><a class="nav-link text-danger" href="${pageContext.request.contextPath}/credit/main">쿠키샵</a></li>
 					 </c:if>
                      <li class="nav-item dropdown">
                          <a class="nav-link dropdown-toggle text-danger" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">고객센터</a>
