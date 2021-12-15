@@ -5,11 +5,10 @@
 
 <style type="text/css">
 .body-main {
-	max-width: 800px;
+	max-width: 1200px;
 }
 </style>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/tabs.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css" type="text/css">
 
 <style type="text/css">
@@ -20,22 +19,6 @@
 </style>
 
 <script type="text/javascript">
-$(function(){
-	$("#tab-0").addClass("active");
-
-	$("ul.tabs li").click(function() {
-		tab = $(this).attr("data-tab");
-		
-		$("ul.tabs li").each(function(){
-			$(this).removeClass("active");
-		});
-		
-		$("#tab-"+tab).addClass("active");
-		
-		var url="${pageContext.request.contextPath}/admin/memberManage/analysis";	
-		location.href=url;
-	});
-});
 
 function ajaxFun(url, method, query, dataType, fn) {
 	$.ajax({
@@ -174,14 +157,6 @@ function selectStateChange() {
 	    </div>
 	    
 	    <div class="body-main ms-30">
-			<div>
-				<ul class="tabs">
-					<li id="tab-0" data-tab="0"><i class="icofont-waiter-alt"></i> 회원 리스트</li>
-					<li id="tab-1" data-tab="1"><i class="icofont-spreadsheet"></i> 회원분석</li>
-				</ul>
-			</div>
-			<div id="tab-content" style="clear:both; padding: 20px 10px 0;">
-			
 				<table class="table">
 					<tr>
 						<td align="left" width="50%">

@@ -3,15 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css" type="text/css">
 
 <h3 style="font-size: 15px; padding-top: 10px;"><i class="icofont-double-right"></i> 요청 정보</h3>
 <table class="table border mx-auto my-10">
 	<tr>
-		<td class="wp-15 text-right pe-7 bg">글 번호</td>
+		<td class="wp-15 text-right pe-7 bg">글번호</td>
 		<td class="wp-35 text-start">${dto.num}</td>
-		<td class="wp-15 text-right pe-7 bg">말머리</td>
-		<td class="wp-35 text-start">${dto.state}</td>
+		<td class="wp-15 text-right pe-7 bg">글상태</td>
+		<td class="wp-35 text-start">${dto.type}</td>
 	</tr>
 	<tr>
 		<td class="text-right pe-7 bg">아이디</td>
@@ -35,11 +34,11 @@
 	</table>
 	<table class="table border mx-auto my-10 text-center" style="margin-top: 50px;">
 			<tr>
-				<th class="col-1">댓글번호</th>
-				<th class="col-2">작성자</th>
-				<th class="col-4">내용</th>
-				<th class="col-2">작성일</th>
-				<th class="col-1">답글수</th>
+				<td class="col-1">댓글번호</td>
+				<td class="col-2">작성자</td>
+				<td class="col-4">내용</td>
+				<td class="col-2">작성일</td>
+				<td class="col-1">답글수</td>
 			</tr>
 		<c:forEach var="vo" items="${listReply}">
 			<tr>

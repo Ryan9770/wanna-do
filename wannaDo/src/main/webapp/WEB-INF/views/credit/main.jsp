@@ -27,8 +27,8 @@
 }
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
-
 <script type="text/javascript">
+<c:if test="${not empty sessionScope.member}">
 $(function(){
 	$("#tab-list").addClass("active");
 	
@@ -42,14 +42,23 @@ $(function(){
 		}
     });
 });
+</c:if>
 </script>
 
 <div class="container px-5 py-5">
 	<div class="body-container">	
 		<div class="body-title mb-3">
-			<h3>내쿠키</h3>
+			<c:choose>
+				<c:when test="${not empty sessionScope.member}">
+					<h3>내쿠키</h3>
+				</c:when>
+				<c:otherwise>
+					<h3>쿠키샵</h3>
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<div class="body-main">
+		<c:if test="${not empty sessionScope.member}">
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 				<li class="nav-item" role="presentation">
 					<button class="nav-link" id="tab-list" data-bs-toggle="tab" data-bs-target="#nav-content" type="button" role="tab" aria-controls="list" aria-selected="true" data-tab="list">구매내역</button>
@@ -58,6 +67,7 @@ $(function(){
 					<button class="nav-link" id="tab-buy" data-bs-toggle="tab" data-bs-target="#nav-content" type="button" role="tab" aria-controls="buy" aria-selected="true" data-tab="buy">쿠키샵</button>
 				</li>
 			</ul>
+		</c:if>
 			<div class="body-main content-frame">
 			</div>
 		</div>

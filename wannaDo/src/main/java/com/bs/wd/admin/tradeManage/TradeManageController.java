@@ -1,4 +1,4 @@
-package com.bs.wd.admin.studyManage;
+package com.bs.wd.admin.tradeManage;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -22,13 +22,12 @@ import com.bs.wd.member.SessionInfo;
 
 
 
-
-@Controller("admin.studyManage.studyManageController")
-@RequestMapping("/admin/studyManage/*")
-public class StudyManageController {
+@Controller("admin.tradeManage.tradeManageController")
+@RequestMapping("/admin/tradeManage/*")
+public class TradeManageController {
 
 	@Autowired
-	private StudyManageService service;
+	private TradeManageService service;
 	
 	@Autowired
 	private MyUtil myUtil;
@@ -73,24 +72,23 @@ public class StudyManageController {
 		map.put("start", start);
 		map.put("end", end);
 
-		List<Study> list = service.listStudy(map);
+		List<Trade> list = service.listTrade(map);
 		
 		int listNum, n = 0;
-		for (Study dto : list) {
+		for (Trade dto : list) {
 			listNum = dataCount - (start + n - 1);
 			dto.setListNum(listNum);
 			n++;
 		}
 		
 		String query = "";
-		String listUrl = cp + "/admin/studyManage/list";
+		String listUrl = cp + "/admin/tradeManage/list";
 		if (keyword.length() != 0) {
 			query = "condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "utf-8");
 		}
 
 		if (query.length() != 0) {
-			listUrl = cp + "/admin/studyManage/list?" + query;
-
+			listUrl = cp + "/bbs/list?" + query;
 		}
 
 		String paging = myUtil.paging(current_page, total_page, listUrl);
@@ -105,48 +103,20 @@ public class StudyManageController {
 		model.addAttribute("keyword", keyword);
 
 		
-		return ".admin.studyManage.list";
+		return ".admin.tradeManage.list";
 	}
 	
 	@RequestMapping(value = "detail")
 	public String detail(
 			@RequestParam int num,
-			
 			Model model
 			) throws Exception{
 		
-		Study dto = service.readStudy(num);
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("num", num);
-		int rows = 5;
-		int current_page = 1;
-		int replyCount = service.replyCount(map);
-		int total_page = myUtil.pageCount(rows, replyCount);
-		if(current_page > total_page) {
-			current_page = total_page;
-		}
-		
-		int start = (current_page - 1) * rows + 1;
-		int end = current_page * rows;
-		map.put("start", start);
-		map.put("end", end);
-		
-		List<Reply> listReply = service.listReply(map);
-		
-		for (Reply rdto : listReply) {
-			dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
-		}
-		
-		String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
-		
-		model.addAttribute("dto",dto);
-		model.addAttribute("listReply", listReply);
-		model.addAttribute("replyCount", replyCount);
-		model.addAttribute("total_page", total_page);
-		model.addAttribute("paging", paging);
+		Trade dto = service.readTrade(num);
 
-		return "admin/studyManage/detail";
+		model.addAttribute("dto",dto);
+		
+		return "admin/tradeManage/detail";
 	}
 	
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
@@ -174,7 +144,7 @@ public class StudyManageController {
 			state = "false";
 		}
 		
-		return "redirect:/admin/studyManage/list?"+query;
+		return "redirect:/admin/tradeManage/list?"+query;
 	}
 	
 }

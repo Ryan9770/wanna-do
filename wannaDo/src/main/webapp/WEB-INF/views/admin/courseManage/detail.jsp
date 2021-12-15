@@ -4,52 +4,64 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
-<h3 style="font-size: 15px; padding-top: 10px;"><i class="icofont-double-right"></i> 요청 정보</h3>
+<h3 style="font-size: 15px; padding-top: 10px;"><i class="icofont-double-right"></i>강좌 정보</h3>
 <table class="table border mx-auto my-10">
 	<tr>
 		<td class="wp-15 text-right pe-7 bg">강의 번호</td>
-		<td class="wp-35 ps-5">${dto.num}</td>
+		<td class="wp-35 text-start">${dto.num}</td>
 		<td class="wp-15 text-right pe-7 bg">카테고리</td>
-		<td class="wp-35 ps-5">${dto.category}</td>
+		<td class="wp-35 text-start">${dto.category}</td>
 	</tr>
 	<tr>
 		<td class="text-right pe-7 bg">아이디</td>
-		<td class="ps-5">${dto.userId}</td>
+		<td class="text-start">${dto.userId}</td>
 		<td class="text-right pe-7 bg">이름</td>
-		<td class="ps-5">${dto.userName}</td>
+		<td class="text-start">${dto.userName}</td>
 	</tr>
 	<tr>
 		<td class="text-right pe-7 bg">강좌등록일</td>
-		<td class="ps-5">${dto.creg_date}</td>
-		<td class="text-right pe-7 bg">비고</td>
-		<td class="ps-5">&nbsp;</td>
+		<td class="text-start">${dto.creg_date}</td>
+		<td class="text-right pe-7 bg">크리에이터 전환일</td>
+		<td class="text-start">${dto.creator_reg_date}</td>
 	</tr>
 	
 	<tr>
-		<td class="text-right pe-7 bg">강의승인여부</td>
-		<td colspan="3" class="ps-5">
+		<td class="text-right pe-3 bg align-middle">강의승인여부</td>
+		<td colspan="3" class="text-start">
 			${dto.enabled==1?"승인":"비공개전환"}
 			<c:if test="${dto.enabled==0 && not empty courseState}">, ${courseState.memo}</c:if>
 			&nbsp;<span class="btn" onclick="courseStateDetailView();" style="cursor: pointer;">자세히</span>
 		</td>
 	</tr>
 	<tr>
-		<td class="text-right pe-7 bg">강의소개</td>
-		<td class="ps-5" colspan="3">
-			<div class="videoFrame">${dto.content}</div>
+		<td class="text-right pe-7 bg align-middle">강의소개</td>
+		<td class="text-start align-middle" colspan="3">
+			<c:if test="${ not empty dto.imageFile}">
+			<img src="${pageContext.request.contextPath}/uploads/image/${dto.imageFile}">
+			</c:if>
+			${dto.content}
 		</td>
 	</tr>
 </table>
 
-
+<h3 style="font-size: 15px; padding-top: 10px;"><i class="icofont-double-right"></i>영상 정보</h3>
+<table class="table border mx-auto my-10">
+	<tr>
+		<td>챕터</td>
+		<td>1</td>
+	</tr>
+	<tr>
+		<td>영상</td>
+		<td><div class="videoFrame"></div></td>
+	</tr>
+</table>
 
 <form id="detailCourseForm" name="detailCourseForm" method="post">
-	<h3 style="font-size: 15px; padding-top: 10px;"><i class="icofont-double-right"></i> 강의 상태 변경</h3>
-	
-	<table class="table border mx-auto my-5">
+<h3 style="font-size: 15px; padding-top: 10px;"><i class="icofont-double-right"></i> 강좌 상태 변경</h3>
+	<table class="table border mx-auto my-2">
 		<tr>
-			<td class="wp-15 text-right pe-7 bg">강의상태</td>
-			<td class="ps-5">
+			<td class="wp-15 text-right pe-7 bg align-middle">강의상태</td>
+			<td class="text-start align-middle">
 				<select class="selectField" name="stateCode" id="stateCode" onchange="selectStateChange()">
 					<option value="">::상태코드::</option>
 					<c:if test="${dto.enabled==0}">
@@ -64,8 +76,8 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="text-right pe-7 bg">메모</td>
-			<td class="ps-5">
+			<td class="text-right pe-7 bg align-middle">메모</td>
+			<td class="text-start align-middle">
 				<input type="text" name="memo" id="memo" class="boxTF" style="width: 90%;">
 			</td>
 		</tr>
@@ -87,7 +99,7 @@
 		
 		<c:forEach var="vo" items="${listState}">
 			<tr align="center">
-				<td class="ps-5">${vo.memo} (${vo.stateCode})</td>
+				<td class="text-start">${vo.memo} (${vo.stateCode})</td>
 				<td>${vo.registerId}</td>
 				<td>${vo.sReg_date}</td>
 			</tr>

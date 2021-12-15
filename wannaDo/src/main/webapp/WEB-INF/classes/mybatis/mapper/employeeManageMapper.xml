@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="employeeManage">
+	<sql id="where-list">
+		<choose>
+			<when test="condition=='userId'">
+				INSTR(m1.userId, #{keyword}) &gt;= 1
+			</when>
+			<otherwise>
+				INSTR(${condition}, #{keyword}) &gt;= 1
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*)
+		FROM member m
+		JOIN member1 m1 ON m.memberIdx = m1.memberIdx
+		LEFT OUTER JOIN member2 m2 ON m1.userId = m2.userId
+		<where>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+			<if test="enabled!=''">
+				AND enabled = #{enabled}
+			</if>
+			AND (m.membership &gt; 50 AND m.membership &lt; 99)
+		</where> 
+	</select>
+	
+	<select id="listEmployee" parameterType="map" resultType="com.bs.wd.admin.employeeManage.Employee">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT m1.memberIdx, m1.userId, userName,
+				m1.register_date, m1.modify_date, last_login,
+				enabled, TO_CHAR(birth, 'YYYY-MM-DD') birth
+			FROM member m
+			JOIN member1 m1 ON m.memberIdx = m1.memberIdx
+			LEFT OUTER JOIN member2 m2 ON m1.userId = m2.userId
+			<where>
+				<if test="keyword!=null and keyword!='' ">
+					<include refid="where-list"/>
+				</if>
+				<if test="enabled!=''">
+					AND enabled = #{enabled}
+				</if>
+				AND (m.membership &gt; 50 AND m.membership &lt; 99)
+			</where>
+			ORDER BY register_date DESC 
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<select id="readEmployee" parameterType="String" resultType="com.bs.wd.admin.employeeManage.Employee">
+		SELECT membership, m1.memberIdx, m1.userId, userName, userPwd, enabled,
+			TO_CHAR(register_date, 'YYYY-MM-DD') register_date, modify_date, last_login,
+			TO_CHAR(birth, 'YYYY-MM-DD') birth, email, tel
+		FROM member m
+		JOIN member1 m1 ON m.memberIdx = m1.memberIdx
+		LEFT OUTER JOIN member2 m2 ON m1.userId = m2.userId
+		WHERE m1.userId = #{userId}
+	</select>
+	
+	<update id="updateEmployeeEnabled" parameterType="map">
+		UPDATE member1 SET enabled=#{enabled} WHERE userId=#{userId}
+    </update>
+	
+	<insert id="insertEmployeeState" parameterType="com.bs.wd.admin.employeeManage.Employee">
+		INSERT INTO memberState(stateNum  , userId, stateCode, memo, registerId, reg_date)
+		VALUES (memberState_seq.NEXTVAL, #{userId}, #{stateCode}, #{memo}, #{registerId}, SYSDATE)
+	</insert>
+	
+	<select id="listEmployeeState" parameterType="String" resultType="com.bs.wd.admin.employeeManage.Employee">
+		SELECT stateNum  , userId, stateCode, memo, registerId, reg_date
+		FROM memberState
+		WHERE userId = #{userId}
+		ORDER BY stateNum   DESC
+	</select>
+
+	<select id="readEmployeeState" parameterType="String" resultType="com.bs.wd.admin.employeeManage.Employee">
+		SELECT * FROM (
+			SELECT stateNum  , userId, stateCode, memo, registerId, reg_date
+			FROM memberState
+			WHERE userId = #{userId}
+			ORDER BY stateNum   DESC
+		) WHERE ROWNUM = 1
+	</select>
+	
+</mapper>
