@@ -115,7 +115,7 @@
                         </div>
                         <div>
                     		 <p class="form-control-plaintext text-center">
-                    		 	<a href="#" class="text-decoration-none me-2">패스워드를 잊으셨나요 ?</a>
+                    		 	<a href="${pageContext.request.contextPath}/member/pwdFind" class="text-decoration-none me-2">패스워드를 잊으셨나요 ?</a>
                     		 </p>
                     	</div>
                     </form>
