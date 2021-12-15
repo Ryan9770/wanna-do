@@ -73,6 +73,7 @@
             <exclude-mapping path="/member/idFind"/>
             <exclude-mapping path="/about"/>
             <exclude-mapping path="/course/main"/>
+            <exclude-mapping path="/course/list"/>
             <exclude-mapping path="/calendar/list"/>
             <exclude-mapping path="/notice/list"/>
             <exclude-mapping path="/faq"/>
