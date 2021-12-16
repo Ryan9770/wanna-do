@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="trade">
+
+	<insert id="insertTrade" parameterType="com.bs.wd.trade.Trade">
+		INSERT INTO trade(num, userId, subject, content, reg_date, hitCount, type)
+		VALUES (trade_seq.NEXTVAL, #{userId}, #{subject}, #{content}, SYSDATE, 0, #{type} )
+	</insert>
+		<sql id="where-list">
+	<choose>
+		<when test="condition=='all'">
+			(
+				INSTR(subject, #{keyword}) &gt; 0 OR DBMS_LOB.INSTR(content, #{keyword}) &gt; 0
+			)
+		</when>
+		<when test="condition=='content'">
+			(
+				DBMS_LOB.INSTR(content, #{keyword}) &gt; 0
+			)
+		</when>
+		<when test="condition=='reg_date'">
+			(
+				TO_CHAR(reg_date, 'YYYY-MM-DD') = #{keyword} OR
+					TO_CHAR(reg_date, 'YYYY-MM-DD') = #{keyword}
+			)
+		</when>
+		<when test="condition=='type'">
+			(
+				INSTR(type, #{keyword}) &gt; 0
+			)
+		</when>
+		<otherwise>
+			INSTR(${condition}, #{keyword}) &gt; 0
+		</otherwise>
+	</choose>
+	</sql>
+	
+	<select id="listTrade" parameterType="map" resultType="com.bs.wd.trade.Trade">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT num, subject, content, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, userName, type, hitCount
+			FROM trade s
+			JOIN member1 m ON s.userId=m.userId
+			<where>
+				<if test="keyword!=null and keyword!=''">
+					<include refid="where-list"/>
+				</if>
+			</where>
+			ORDER BY num DESC
+			) tb WHERE ROWNUM &lt;=#{end}
+		) WHERE rnum &gt;=#{start}
+	</select>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM trade s
+		JOIN member1 m ON s.userId=m.userId
+		<where>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+		</where>   
+	</select>	
+	
+	<select id="readTrade" parameterType="Integer" resultType="com.bs.wd.trade.Trade">
+		SELECT num, userName, subject, content, hitCount, reg_date, type
+		FROM trade s
+		JOIN member1 m ON s.userId=m.userId
+		WHERE num = #{num}
+	</select>
+	
+	<update id="updateHitCount" parameterType="Integer">
+		UPDATE trade SET hitCount=hitCount+1 WHERE num=#{num}
+	</update>
+	
+	<select id="preReadTrade" parameterType="map" resultType="com.bs.wd.trade.Trade">
+		SELECT * FROM (
+		SELECT num, subject
+		FROM trade
+		<where>
+			<if test="keyword!=null and keyword!=''">
+				<include refid="where-list"/>
+			</if>
+			AND ( num &gt; #{num} )
+		</where>
+			ORDER BY num ASC
+		) WHERE ROWNUM = 1
+	</select>
+	
+	<select id="nextReadTrade" parameterType="map" resultType="com.bs.wd.trade.Trade">
+		SELECT * FROM (
+		SELECT num, subject
+		FROM trade
+		<where>
+			<if test="keyword!=null and keyword!=''">
+				<include refid="where-list"/>
+			</if>
+			AND ( num &lt; #{num} )
+		</where>
+			ORDER BY num DESC
+		) WHERE ROWNUM = 1
+	</select>
+	
+	<update id="updateTrade" parameterType="com.bs.wd.trade.Trade">
+		UPDATE trade SET subject=#{subject}, content=#{content}, type=#{type}
+		WHERE num=#{num}
+	</update>
+	<delete id="deleteTrade" parameterType="com.bs.wd.trade.Trade">
+		DELETE FROM trade WHERE num=#{num}
+	</delete>
+	
+	<insert id="insertReply" parameterType="com.bs.wd.trade.Reply">
+		INSERT INTO tradeReply(replyNum, num, userId, content, answer, reg_date)
+		VALUES(tradeReply_seq.NEXTVAL, #{num}, #{userId}, #{content}, #{answer}, SYSDATE)
+	</insert>
+	
+	<select id="replyCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) FROM tradeReply
+		WHERE num=#{num} AND answer=0
+	</select>
+	
+	<select id="listReply" parameterType="map" resultType="com.bs.wd.trade.Reply">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT r.replyNum, r.userId, userName, num, content, r.reg_date,
+					NVL(answerCount, 0) answerCount
+				FROM tradeReply r
+				JOIN member1 m ON r.userId = m.userId
+				LEFT OUTER JOIN(
+					SELECT answer, COUNT(*) answerCount
+					FROM tradeReply WHERE answer!=0 GROUP BY answer
+				) a ON r.replyNum = a.answer
+				WHERE num=#{num} AND r.answer=0
+				ORDER BY r.replyNum DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;=#{start}
+	</select>
+	
+	<delete id="deleteReply" parameterType="map">
+		DELETE FROM tradeReply
+		WHERE replyNum=#{replyNum}
+		<if test="mode=='reply'">
+			OR answer=#{replyNum}
+		</if>
+	</delete>
+	
+	<!-- 댓글의 답글 리스트 -->
+	<select id="listReplyAnswer" parameterType="Integer" resultType="com.bs.wd.trade.Reply">
+		SELECT replyNum, num, r.userId, userName, content, reg_date, answer
+		FROM tradeReply r
+		JOIN member1 m ON r.userId = m.userId
+		WHERE answer = #{answer}
+		ORDER BY replyNum DESC
+	</select>
+	
+	<!-- 댓글의 답글 개수 -->
+	<select id="replyAnswerCount" parameterType="Integer" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM tradeReply WHERE answer = #{answer}
+	</select>
+	
+	
+</mapper>
