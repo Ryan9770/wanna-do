@@ -100,8 +100,9 @@
 	                                   <div class="small">
 	                                       <div class="fw-bold">500쿠키</div>
 	                                       <div class="text-muted">구매하기</div>
-	                                   </div>	                                </div>
-                            </div>
+	                                   </div>	                                
+									</div>
+                            	</div>
 	                       </div>
 	                   </div>
 	               </div>

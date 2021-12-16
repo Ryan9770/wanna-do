@@ -29,7 +29,7 @@ function pay() {
 						<h1 class="fw-bolder mb-3">결제 확인</h1>
 						<p class="lead fw-normal text-muted mb-4" style="font-size: 16px;">쿠키 갯수 : ${amount}</p>
 						<p class="lead fw-normal text-muted mb-4" style="font-size: 16px;">가격 : ${amount}00원</p>
-						<p class="lead fw-normal text-muted mb-4" style="font-size: 16px;">위 내용대로 결제하시겠습니까?</p>
+						<p class="lead fw-normal text-muted mb-4" style="font-size: 16px;">상기 내용대로 결제하시겠습니까?</p>
 						<button onclick="pay();"class="btn btn-lg btn-primary">결제하기</button>
 						<input type="hidden" name="amount" value="${amount}"/>
 	                    <input type="hidden" name="userId" value="${sessionScope.member.userId}"/>
