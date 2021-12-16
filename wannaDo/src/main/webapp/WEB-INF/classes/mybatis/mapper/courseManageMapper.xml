@@ -35,7 +35,7 @@
 			SELECT ROWNUM rnum, tb.* FROM (
 				SELECT c.userId, userName, c.num, courseName, content,
                 price, TO_CHAR(c.reg_date, 'YYYY-MM-DD') creg_date, c.enabled, category, 
-                chapterNum, chapterName, saveFilename, lessonName, lessonNum, TO_CHAR(v.reg_date, 'YYYY-MM-DD') vreg_date, state 
+                chapterNo, chapterName, saveFilename, lessonName, lessonNum, TO_CHAR(v.reg_date, 'YYYY-MM-DD') vreg_date, state 
 				FROM course c
 				JOIN member1 m1 ON c.userId=m1.userId
 				JOIN courseCategory cc ON c.categoryNum=cc.categoryNum
@@ -57,7 +57,7 @@
 	<select id="readCourse" parameterType="Integer" resultType="com.bs.wd.admin.courseManage.Course">
 		SELECT c.userId, userName, c.num, courseName, content, TO_CHAR(creator_reg_date, 'YYYY-MM-DD') creator_reg_date,
                 price, TO_CHAR(c.reg_date, 'YYYY-MM-DD') creg_date, c.enabled, category, imageFile, 
-                chapterNum, chapterName, lessonName, lessonNum, TO_CHAR(v.reg_date, 'YYYY-MM-DD') vreg_date, state 
+                chapterNo, chapterName, lessonName, lessonNum, TO_CHAR(v.reg_date, 'YYYY-MM-DD') vreg_date, state 
 				FROM course c
 				JOIN member1 m1 ON c.userId=m1.userId
 				JOIN courseCategory cc ON c.categoryNum=cc.categoryNum
