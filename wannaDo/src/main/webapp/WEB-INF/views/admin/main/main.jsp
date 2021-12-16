@@ -22,7 +22,7 @@ background-color : #fff;
 			        <div class="col-lg-3">
 			            <div class="population_analysis">
 			                <h4>누적 총 접속자</h4>
-			                <h3><span class="counter">0</span> </h3>
+			                <h3><span class="counter">${totalCount}</span> </h3>
 			                <div class="d-flex">
 			                    <span>Total</span>
 			                </div>
@@ -30,10 +30,10 @@ background-color : #fff;
 			        </div>
 			        <div class="col-lg-3">
 			            <div class="population_analysis">
-			                <h4>오늘 접속자</h4>
-			                <h3><span class="counter">0</span></h3>
+			                <h4>현재 접속자</h4>
+			                <h3><span class="counter">${currentCount}</span></h3>
 			                <div class="d-flex">
-			                    <span>Today</span>
+			                    <span>Current</span>
 			                </div>
 			            </div>
 			        </div>
