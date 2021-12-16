@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bs.wd.common.MyUtil;
@@ -80,8 +81,21 @@ public class CreditController {
 		return "credit/buy";
 	}
 	
-	@RequestMapping(value = "noLoginBuy")
-	public String noLoginBuy() throws Exception {
-		return ".credit.buy";
+	@RequestMapping(value="pay", method=RequestMethod.GET)
+	public String payForm(@RequestParam int amount, Model model) throws Exception {
+		model.addAttribute("amount", amount);
+		return ".credit.pay";
+	}
+	
+	@RequestMapping(value = "pay", method = RequestMethod.POST)
+	public String paySubmit(Credit dto, HttpSession session) throws Exception {
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		try {
+			dto.setUserId(info.getUserId());
+			service.insertCredit(dto);
+		} catch (Exception e) {
+		}
+		return "redirect:/credit/main";
 	}
 }
