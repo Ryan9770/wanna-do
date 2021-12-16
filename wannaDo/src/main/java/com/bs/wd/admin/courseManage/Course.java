@@ -3,7 +3,7 @@ package com.bs.wd.admin.courseManage;
 public class Course {
 	private int listNum;
 	private int chapNum;
-	private int chapterNum;
+	private int chapterNo;
 	private int videoNum;
 	private String chapterName;
 	private int categoryNum;
@@ -18,7 +18,7 @@ public class Course {
 	private String recommended;
 	private String userId;
 	private int enabled;
-	private String saveFilename;
+	private String imageFile;
 	private int lessonNum;
 	private String lessonName;
 	private String state;
@@ -29,9 +29,16 @@ public class Course {
 	private String memo;
 	private String registerId;
 	private String sReg_date;
+	private String creator_reg_date;
 	
 	
 	
+	public String getCreator_reg_date() {
+		return creator_reg_date;
+	}
+	public void setCreator_reg_date(String creator_reg_date) {
+		this.creator_reg_date = creator_reg_date;
+	}
 	public int getCourseNum() {
 		return courseNum;
 	}
@@ -50,11 +57,11 @@ public class Course {
 	public void setChapNum(int chapNum) {
 		this.chapNum = chapNum;
 	}
-	public int getChapterNum() {
-		return chapterNum;
+	public int getChapterNo() {
+		return chapterNo;
 	}
-	public void setChapterNum(int chapterNum) {
-		this.chapterNum = chapterNum;
+	public void setChapterNo(int chapterNo) {
+		this.chapterNo = chapterNo;
 	}
 	public int getVideoNum() {
 		return videoNum;
@@ -140,11 +147,12 @@ public class Course {
 	public void setEnabled(int enabled) {
 		this.enabled = enabled;
 	}
-	public String getSaveFilename() {
-		return saveFilename;
+	
+	public String getImageFile() {
+		return imageFile;
 	}
-	public void setSaveFilename(String saveFilename) {
-		this.saveFilename = saveFilename;
+	public void setImageFile(String imageFile) {
+		this.imageFile = imageFile;
 	}
 	public int getLessonNum() {
 		return lessonNum;

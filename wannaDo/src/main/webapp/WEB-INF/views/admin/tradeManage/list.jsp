@@ -22,7 +22,7 @@
 
 	<div class="body-container">	
 		<div class="body-title">
-			<h3>스터디 게시판 관리</h3>
+			<h3>중고거래 게시판 관리</h3>
 		</div>
 		
 	  <div class="body-main">
@@ -47,7 +47,7 @@
 				
 				<tbody>
 					<c:forEach var="dto" items="${list}">
-						<tr class="hover-tr" onclick="detailStudy('${dto.num}')">
+						<tr class="hover-tr" onclick="detailtrade('${dto.num}')">
 							<td>${dto.listNum}</td>
 							<td>
 							${dto.subject}&nbsp;
@@ -68,10 +68,10 @@
 				<table class="table">
 					<tr>
 						<td align="left" width="100">
-							<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/admin/studyManage/list';">새로고침</button>
+							<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/admin/tradeManage/list';">새로고침</button>
 						</td>
 						<td align="center">
-							<form name="searchForm" action="${pageContext.request.contextPath}/admin/studyManage/list" method="post">
+							<form name="searchForm" action="${pageContext.request.contextPath}/admin/tradeManage/list" method="post">
 								<select name="condition" class="selectField">
 									<option value="userId"     ${condition=="userId" ? "selected='selected'":""}>아이디</option>
 									<option value="userName"   ${condition=="userName" ? "selected='selected'":""}>이름</option>
@@ -91,7 +91,7 @@
 			
 	    </div>
 
-	<div id="study-dialog" style="display: none;"></div>
+	<div id="trade-dialog" style="display: none;"></div>
 </main>
 
 <script type="text/javascript">
@@ -124,8 +124,8 @@ function ajaxFun(url, method, query, dataType, fn) {
 	});
 }
 
-function detailStudy(num){
-	var dlg = $("#study-dialog").dialog({
+function detailtrade(num){
+	var dlg = $("#trade-dialog").dialog({
 		autoOpen: false,
 		modal: true,
 		buttons:{
@@ -143,11 +143,11 @@ function detailStudy(num){
 		}
 	});
 	
-	var url = "${pageContext.request.contextPath}/admin/studyManage/detail";
+	var url = "${pageContext.request.contextPath}/admin/tradeManage/detail";
 	var query = "num="+num;
 	
 	var fn = function(data) {
-		$("#study-dialog").html(data);
+		$("#trade-dialog").html(data);
 		dlg.dialog("open");
 	};
 	ajaxFun(url,"post", query, "html", fn);
@@ -157,7 +157,7 @@ function deleteOk(num) {
 	if(! confirm("선택한 게시글을 삭제하시겠습니까 ? ")){
 		return false;
 	}
-	var url = "${pageContext.request.contextPath}/admin/studyManage/delete";
+	var url = "${pageContext.request.contextPath}/admin/tradeManage/delete";
 	var query = "page="+${page}+"&num="+num;
 	
 	var fn = function(data){
@@ -170,13 +170,13 @@ function deleteOk(num) {
 	};
 
 	ajaxFun(url, "post", query,"json",fn);
-	$("#study-dialog").dialog("close");
+	$("#trade-dialog").dialog("close");
 	location.reload();
 }
 
 
 function listPage(page) {
-	var url = "${pageContext.request.contextPath}/admin/studyManage/list";
+	var url = "${pageContext.request.contextPath}/admin/tradeManage/list";
 	var query = "page="+page;
 	
 	var fn = function() {

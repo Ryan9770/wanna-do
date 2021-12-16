@@ -16,14 +16,10 @@
 	cursor: pointer;
 	background: #fffdfd;
 }
-
-.videoFrame{
-	max-width:800px;
-	max-height:640px;
-}
 </style>
 
 <script type="text/javascript">
+
 function ajaxFun(url, method, query, dataType, fn) {
 	$.ajax({
 		type:method,
@@ -50,42 +46,43 @@ function ajaxFun(url, method, query, dataType, fn) {
 }
 
 function searchList() {
-	var url = "${pageContext.request.contextPath}/admin/courseManage/list";
-	location.href=url;
-}	
-
-function detailCourse(num) {
-	var dlg = $("#course-dialog").dialog({
+	var f=document.searchForm;
+	f.enabled.value=$("#selectEnabled").val();
+	f.action="${pageContext.request.contextPath}/admin/employeeManage/list";
+	f.submit();
+}
+	
+function detailedEmployee(userId) {
+	var dlg = $("#employee-dialog").dialog({
 		  autoOpen: false,
 		  modal: true,
 		  buttons: {
 		       " 수정 " : function() {
-		    	   
 		    	   updateOk(); 
 		       },
 		       " 닫기 " : function() {
 		    	   $(this).dialog("close");
 		       }
 		  },
-		  height: 640,
-		  width: 1080,
-		  title: "강의상세정보",
+		  height: 520,
+		  width: 800,
+		  title: "회원상세정보",
 		  close: function(event, ui) {
 		  }
 	});
 
-	var url = "${pageContext.request.contextPath}/admin/courseManage/detail";
-	var query = "num="+num;
+	var url = "${pageContext.request.contextPath}/admin/employeeManage/detaile";
+	var query = "userId="+userId;
 	
 	var fn = function(data){
-		$('#course-dialog').html(data);
+		$('#employee-dialog').html(data);
 		dlg.dialog("open");
 	};
 	ajaxFun(url, "post", query, "html", fn);
 }
 	
 function updateOk() {
-	var f = document.detailCourseForm;
+	var f = document.deteailedEmployeeForm;
 	
 	if(! f.stateCode.value) {
 		f.stateCode.focus();
@@ -96,8 +93,8 @@ function updateOk() {
 		return;
 	}
 	
-	var url = "${pageContext.request.contextPath}/admin/courseManage/updateCourseState";
-	var query=$("#detailCourseForm").serialize();
+	var url = "${pageContext.request.contextPath}/admin/employeeManage/updateEmployeeState";
+	var query=$("#deteailedEmployeeForm").serialize();
 
 	var fn = function(data){
 		$("form input[name=page]").val("${page}");
@@ -105,16 +102,16 @@ function updateOk() {
 	};
 	ajaxFun(url, "post", query, "json", fn);
 		
-	$('#course-dialog').dialog("close");
+	$('#employee-dialog').dialog("close");
 }
 
-function courseStateDetailView() {
-	$('#CourseStateDetail').dialog({
+function employeeStateDetaileView() {
+	$('#employeeStateDetaile').dialog({
 		  modal: true,
 		  minHeight: 100,
 		  maxHeight: 450,
 		  width: 750,
-		  title: '강의 상세',
+		  title: '계정상태 상세',
 		  close: function(event, ui) {
 			   $(this).dialog("destroy"); // 이전 대화상자가 남아 있으므로 필요
 		  }
@@ -122,7 +119,7 @@ function courseStateDetailView() {
 }
 
 function selectStateChange() {
-	var f = document.detailCourseForm;
+	var f = document.deteailedEmployeeForm;
 	
 	var s = f.stateCode.value;
 	var txt = f.stateCode.options[f.stateCode.selectedIndex].text;
@@ -141,24 +138,24 @@ function selectStateChange() {
 </script>
 
 <main>
+	<h1>Admin Page</h1>
+	
 	<div class="body-container">
 	    <div class="body-title">
-			<h2><i class="icofont-users"></i> 강의 관리 </h2>
+			<h2><i class="icofont-users"></i> 회원 관리 </h2>
 	    </div>
 	    
 	    <div class="body-main ms-30">
-			<div id="tab-content" style="clear:both; padding: 20px 10px 0;">
-			
 				<table class="table">
 					<tr>
 						<td align="left" width="50%">
 							${dataCount}개(${page}/${total_page} 페이지)
 						</td>
 						<td align="right">
-							<select id="selectEnabled" name="searchForm" class="selectField" onchange="searchList();">
-								<option value="" ${enabled=="" ? "selected='selected'":""}>::강좌상태::</option>
-								<option value="0" ${enabled=="0" ? "selected='selected'":""}>잠금</option>
-								<option value="1" ${enabled=="1" ? "selected='selected'":""}>활성</option>
+							<select id="selectEnabled" class="selectField" onchange="searchList();">
+								<option value="" ${enabled=="" ? "selected='selected'":""}>::계정상태::</option>
+								<option value="0" ${enabled=="0" ? "selected='selected'":""}>잠금 계정</option>
+								<option value="1" ${enabled=="1" ? "selected='selected'":""}>활성 계정</option>
 							</select>
 						</td>
 					</tr>
@@ -167,26 +164,22 @@ function selectStateChange() {
 				<table class="table table-border table-list">
 					<thead>
 						<tr> 
-							<th class="col-1 ">번호</th>
-							<th class="col-1 ">카테고리</th>
-							<th class="col-1 ">아이디</th>
-							<th class="col-1 ">이름</th>
-							<th class="col-4 ">강의명</th>
-							<th class="col-3 ">강의등록날짜</th>
-							<th class="col-1 ">승인상태</th>
+							<th class="col-1">사원번호</th>
+							<th class="col-2">사용중인아이디</th>
+							<th class="col-1">사원명</th>
+							<th class="col-2">생년월일</th>
+							<th class="col-1">상태</th>
 						</tr>
 					</thead>
 					
 					<tbody>
 						<c:forEach var="dto" items="${list}">
-						<tr class="hover-tr" onclick="detailCourse('${dto.num}');"> 
-							<td>${dto.listNum}</td>
-							<td>${dto.category}</td>
+						<tr class="hover-tr" onclick="detailedEmployee('${dto.userId}');"> 
+							<td>${dto.memberIdx}</td>
 							<td>${dto.userId}</td>
 							<td>${dto.userName}</td>
-							<td>${dto.courseName}</td>
-							<td>${dto.creg_date}</td>
-							<td>${dto.enabled==1?"승인":"미승인"}</td>
+							<td>${dto.birth}</td>
+							<td>${dto.enabled==1?"활성":"잠금"}</td>
 						</tr>
 						</c:forEach>
 					</tbody>
@@ -199,14 +192,27 @@ function selectStateChange() {
 				<table class="table">
 					<tr>
 						<td align="left" width="100">
-							<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/admin/courseManage/list';">새로고침</button>
+							<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/admin/employeeManage/list';">새로고침</button>
 						</td>
+						<td align="center">
+							<form name="searchForm" action="${pageContext.request.contextPath}/admin/employeeManage/list" method="post">
+								<select name="condition" class="selectField">
+									<option value="userId"     ${condition=="userId" ? "selected='selected'":""}>아이디</option>
+									<option value="userName"   ${condition=="userName" ? "selected='selected'":""}>사원명</option>
+								</select>
+								<input type="text" name="keyword" class="boxTF" value="${keyword}">
+								<input type="hidden" name="enabled" value="${enabled}">
+								<input type="hidden" name="page" value="1">
+								<button type="button" class="btn" onclick="searchList()">검색</button>
+							</form>
+						</td>
+						<td align="right" width="100">&nbsp;</td>
 					</tr>
 				</table>
 			
 			</div>
 			
 	    </div>
-	</div>
-	<div id="course-dialog" style="display: none;"></div>
+
+	<div id="employee-dialog" style="display: none;"></div>
 </main>

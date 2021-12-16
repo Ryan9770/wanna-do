@@ -18,7 +18,7 @@
 		SELECT COUNT(*) 
 		FROM course c
 		JOIN member1 m1 ON c.userId = m1.userId
-		LEFT OUTER JOIN chapter chp ON c.num = chp.courseNum
+		LEFT OUTER JOIN chapter chp ON c.num = chp.num
 		LEFT OUTER JOIN video v ON chp.chapNum = v.chapNum
 		<where>
 			<if test="keyword!=null and keyword!='' ">
@@ -35,11 +35,11 @@
 			SELECT ROWNUM rnum, tb.* FROM (
 				SELECT c.userId, userName, c.num, courseName, content,
                 price, TO_CHAR(c.reg_date, 'YYYY-MM-DD') creg_date, c.enabled, category, 
-                chapterNum, chapterName, saveFilename, lessonName, lessonNum, TO_CHAR(v.reg_date, 'YYYY-MM-DD') vreg_date, state 
+                chapterNo, chapterName, saveFilename, lessonName, lessonNum, TO_CHAR(v.reg_date, 'YYYY-MM-DD') vreg_date, state 
 				FROM course c
 				JOIN member1 m1 ON c.userId=m1.userId
 				JOIN courseCategory cc ON c.categoryNum=cc.categoryNum
-				LEFT OUTER JOIN chapter chp ON c.num=chp.courseNum
+				LEFT OUTER JOIN chapter chp ON c.num=chp.num
 				LEFT OUTER JOIN video v ON chp.chapNum=v.chapNum
 				<where>
 					<if test="keyword!=null and keyword!='' ">
@@ -55,15 +55,16 @@
 	</select>
 	
 	<select id="readCourse" parameterType="Integer" resultType="com.bs.wd.admin.courseManage.Course">
-		SELECT c.userId, userName, c.num, courseName, content,
-                price, TO_CHAR(c.reg_date, 'YYYY-MM-DD') creg_date, c.enabled, category, 
-                chapterNum, chapterName, saveFilename, lessonName, lessonNum, TO_CHAR(v.reg_date, 'YYYY-MM-DD') vreg_date, state 
+		SELECT c.userId, userName, c.num, courseName, content, TO_CHAR(creator_reg_date, 'YYYY-MM-DD') creator_reg_date,
+                price, TO_CHAR(c.reg_date, 'YYYY-MM-DD') creg_date, c.enabled, category, imageFile, 
+                chapterNo, chapterName, lessonName, lessonNum, TO_CHAR(v.reg_date, 'YYYY-MM-DD') vreg_date, state 
 				FROM course c
 				JOIN member1 m1 ON c.userId=m1.userId
 				JOIN courseCategory cc ON c.categoryNum=cc.categoryNum
-				LEFT OUTER JOIN chapter chp ON c.num=chp.courseNum
+				LEFT OUTER JOIN chapter chp ON c.num=chp.num
 				LEFT OUTER JOIN video v ON chp.chapNum=v.chapNum
-				WHERE num = #{num}
+				LEFT OUTER JOIN creatorinfo ci ON m1.userId = ci.userId 
+				WHERE c.num = #{num}
 	</select>
 	
 	<update id="updateCourseEnabled" parameterType="map">

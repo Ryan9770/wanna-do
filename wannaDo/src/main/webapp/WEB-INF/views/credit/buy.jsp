@@ -37,7 +37,7 @@
 	                        <div class="card-footer p-2 pt-0 bg-transparent border-top-0">
 	                            <div class="d-flex align-items-end justify-content-between">
 	                                <div class="d-flex align-items-center">
-	                                    <img class="rounded-circle me-3" src="https://user-images.githubusercontent.com/93500782/145944393-e33135d9-16c1-495c-9d34-5f5fd1d79f32.png" width="50" height="50"/>
+	                                    <img class="rounded-circle me-3" onclick="" src="https://user-images.githubusercontent.com/93500782/145944393-e33135d9-16c1-495c-9d34-5f5fd1d79f32.png" width="50" height="50"/>
 	                                    <div class="small">
 	                                        <div class="fw-bold">10쿠키</div>
 	                                        <div class="text-muted">구매하기</div>
