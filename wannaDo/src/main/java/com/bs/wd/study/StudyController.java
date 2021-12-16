@@ -60,10 +60,6 @@ public class StudyController {
 			current_page = total_page;
 		}
 		
-		int n = 0;
-		
-		
-		
 		// 한 페이지에 대한 게시글 몇개 가져올지. 시작부터 끝 
 		int start = (current_page - 1) * rows + 1;
 		int end = current_page * rows;
