@@ -105,9 +105,18 @@ function ajaxFun(url, method, query, dataType, fn) {
 		}
 	});
 }
+<c:if test="${not empty sessionScope.member}">
 $(function(){
 	listPage(1);
 });
+</c:if>
+
+<c:if test="${empty sessionScope.member}">
+$(function(){
+	buyPage();
+});
+</c:if>
+
 function listPage(page) {
 	var url = "${pageContext.request.contextPath}/credit/list";
 	var query = "pageNo="+page;
