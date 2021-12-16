@@ -15,7 +15,7 @@
 	                    </div>
 	                </div>
 	            </div>
-	            <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5" src="https://dummyimage.com/600x400/343a40/6c757d" alt="..." /></div>
+	            <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5" src="${pageContext.request.contextPath}/resources/images/about1.png" /></div>
 	        </div>
 	    </div>
 	</header>
@@ -28,24 +28,23 @@
                    <div class="row gx-5 row-cols-1 row-cols-md-2">
                        <div class="col mb-5 h-100">
                            <div class="feature bg-danger bg-gradient text-white rounded-3 mb-3"><i class="bi bi-collection"></i></div>
-                           <h2 class="h5">Featured title</h2>
-                           <p class="mb-0">Paragraph of text beneath the heading to explain the heading. Here is just a bit more text.</p>
-                       </div>
+                           <h2 class="h5">간단한 가입</h2>
+                           <p class="mb-0">필수 정보만 입력하면 가입 완료 ! <br>자유로운 크리에이터 전환도 가능 😎</div>
                        <div class="col mb-5 h-100">
                            <div class="feature bg-danger bg-gradient text-white rounded-3 mb-3"><i class="bi bi-building"></i></div>
-                           <h2 class="h5">Featured title</h2>
-                           <p class="mb-0">Paragraph of text beneath the heading to explain the heading. Here is just a bit more text.</p>
+                           <h2 class="h5">꼼꼼한 영상 품질 관리</h2>
+                           <p class="mb-0">간단한 절차 속에 꼼꼼한 검수를 통해 <br>보장된 퀄리티의 강의 영상을 제공합니다👋</p>
                        </div>
                        <div class="col mb-5 mb-md-0 h-100">
                            <div class="feature bg-danger bg-gradient text-white rounded-3 mb-3"><i class="bi bi-toggles2"></i></div>
-                           <h2 class="h5">Featured title</h2>
-                           <p class="mb-0">Paragraph of text beneath the heading to explain the heading. Here is just a bit more text.</p>
+                           <h2 class="h5">쿠키 결제</h2>
+                           <p class="mb-0">결제한 쿠키는 강의 구매 뿐 아니라 <br>추후 굿즈 구매에도 사용할 수 있습니다.🍪</p>
                        </div>
                        <div class="col h-100">
                            <div class="feature bg-danger bg-gradient text-white rounded-3 mb-3"><i class="bi bi-toggles2"></i></div>
-                           <h2 class="h5">Featured title</h2>
-                           <p class="mb-0">Paragraph of text beneath the heading to explain the heading. Here is just a bit more text.</p>
-                       </div>
+                           <h2 class="h5">와나두 챌린지</h2>
+                           <p class="mb-0">와나두는 회원들의 실제 실력 향상을 바랍니다.<br>함께, 하지만 스스로 공부할 수 있는 다양한 방법을 제시할 것 입니다.👨‍🏫</p>
+	                  </div>
                    </div>
                </div>
            </div>
@@ -58,13 +57,13 @@
             <div class="row gx-5 justify-content-center">
                 <div class="col-lg-10 col-xl-7">
                     <div class="text-center">
-                        <div class="fs-4 mb-4 fst-italic">"Working with Start Bootstrap templates has saved me tons of development time when building new projects! Starting with a Bootstrap template just makes things easier!"</div>
+                        <div class="fs-4 mb-4 fst-italic">"영어가 기본이 된 사회이지만,<br>그래서 더 어려운 것이 영어 공부입니다.<br>본인만의 노하우가 담긴 공부법을 체계적으로 공유하고,<br>수강생은 나의 스타일에 맞는 강의를 마음 껏 고르는 것.<br>흥미롭지 않나요?"</div>
                         <div class="d-flex align-items-center justify-content-center">
-                            <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." />
+                            <img class="rounded-circle me-3" style="width:45px; heigth:45px" src="${pageContext.request.contextPath}/resources/images/jun.png"/>
                             <div class="fw-bold">
-                                Tom Ato
+                                Han Saem
                                 <span class="fw-bold text-danger mx-1">/</span>
-                                CEO, Pomodoro
+                                CEO, Wanna-do
                             </div>
                         </div>
                     </div>
