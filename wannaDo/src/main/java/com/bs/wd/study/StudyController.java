@@ -23,7 +23,6 @@ import com.bs.wd.member.SessionInfo;
 @Controller("study.studyController") //객체생성&클라이언트 요청 받음 
 @RequestMapping("/study/*")
 public class StudyController {
-	int n = 0;
 	
 	@Autowired
 	private StudyService service;
