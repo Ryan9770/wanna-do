@@ -12,6 +12,8 @@ import com.bs.wd.common.dao.CommonDAO;
 
 
 
+
+
 @Service("course.courseService")
 public class CourseServiceImpl  implements CourseService {
 	@Autowired
@@ -215,6 +217,48 @@ public class CourseServiceImpl  implements CourseService {
 		
 	}
 
+	@Override
+	public void insertChapter(Chapter dto) throws Exception {
+		try {
+			dao.insertData("course.insertChapter", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
 
+	@Override
+	public void updateChapter(Chapter dto) throws Exception {
+		try {
+			dao.updateData("course.updateChapter", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
 
+	@Override
+	public List<Chapter> listChapter(Map<String, Object> map) {
+		List<Chapter> list = null;
+		
+		try {
+			list = dao.selectList("course.listChapter", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+	@Override
+	public void deleteChapter(int chapNum) throws Exception {
+		try {
+			dao.deleteData("course.deleteChapter", chapNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}		
 }

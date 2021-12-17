@@ -16,6 +16,7 @@ public class Course {
 	private String price;
 	private String reg_date;
 	
+	
     private int groupCategoryNum;
     private int categoryNum;
     private String groupCategory;
@@ -29,9 +30,8 @@ public class Course {
     private int courseLikeCount;
     
     
-
- 
-
+	
+	
 	public String getImageFile() {
     	return imageFile;
     }

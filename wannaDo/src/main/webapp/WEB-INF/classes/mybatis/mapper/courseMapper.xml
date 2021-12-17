@@ -131,6 +131,23 @@
 	
 	
 	
+	<insert id="insertChapter" parameterType="com.bs.wd.course.Chapter">
+		INSERT INTO chapter(chapNum, num, chapterName, chapterNo)
+		VALUES (chapter_seq.NEXTVAL, #{num}, #{chapterName}, #{chapterNo})
+	</insert>
+	
+	<!-- 댓글리스트 -->
+	<select id="listChapter" parameterType="map" resultType="com.bs.wd.course.Chapter">
+
+				SELECT chapNum, num, chapterName, chapterNo
+
+				FROM chapter 
+
+				
+				
+				ORDER BY chapterNo
+
+	</select>
 
 	
 </mapper>

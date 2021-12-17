@@ -24,13 +24,6 @@ import com.bs.wd.member.SessionInfo;
 
 
 
-
-
-
-
-
-
-
 @Controller("course.courseController")
 @RequestMapping("/course/*")
 public class CourseController {
@@ -38,13 +31,12 @@ public class CourseController {
 	private CourseService service;
 	@Autowired
 	private MyUtil myUtil;
-	
+
 	@RequestMapping(value = "main")
-	public String main(@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
-			Model model) throws Exception {
+	public String main(@RequestParam(value = "pageNo", defaultValue = "1") int current_page, Model model)
+			throws Exception {
 		Map<String, Object> map = new HashMap<>();
-		
-		
+
 		List<Course> listCategory = service.listCategory(map);
 
 		model.addAttribute("listCategory", listCategory);
@@ -53,16 +45,14 @@ public class CourseController {
 
 		return ".course.main";
 	}
-	
+
 	@RequestMapping(value = "list")
 	public String list(@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
-			@RequestParam(defaultValue = "") String level,
-			@RequestParam(defaultValue = "0") int categoryNum,
-			HttpServletRequest req,
-			Model model) throws Exception {
+			@RequestParam(defaultValue = "") String level, @RequestParam(defaultValue = "0") int categoryNum,
+			HttpServletRequest req, Model model) throws Exception {
 
 		String cp = req.getContextPath();
-		
+
 		int rows = 9999999;
 		int total_page = 0;
 		int dataCount = 0;
@@ -97,7 +87,7 @@ public class CourseController {
 			n++;
 
 		}
-		
+
 		String query = "";
 		String articleUrl = cp + "/course/article?pageNo=" + current_page;
 		if (level.length() != 0) {
@@ -119,22 +109,18 @@ public class CourseController {
 
 		return "course/list";
 	}
-	
+
 	@RequestMapping(value = "article")
-	public String article(@RequestParam int num,
-			@RequestParam String pageNo,
-			@RequestParam(defaultValue = "all") String condition,
-			@RequestParam(defaultValue = "") String keyword,
-			HttpSession session,
-			Model model) throws Exception {
-	
+	public String article(@RequestParam int num, @RequestParam String pageNo,
+			@RequestParam(defaultValue = "all") String condition, @RequestParam(defaultValue = "") String keyword,
+			HttpSession session, Model model) throws Exception {
+
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		keyword = URLDecoder.decode(keyword, "utf-8");
 
 		String query = "num=" + num;
 		if (keyword.length() != 0) {
-			query += "&condition=" + condition + 
-					"&keyword=" + URLEncoder.encode(keyword, "UTF-8");
+			query += "&condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
 		}
 
 		service.updateHitCount(num);
@@ -144,7 +130,7 @@ public class CourseController {
 		if (dto == null) {
 			return "redirect:/course/main";
 		}
-		
+
 		dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 
 		// 이전 글, 다음 글
@@ -153,30 +139,24 @@ public class CourseController {
 		map.put("keyword", keyword);
 		map.put("num", num);
 
-
-
 		// 게시글 좋아요 여부
 		map.put("userId", info.getUserId());
 		boolean userCourseLiked = service.userCourseLiked(map);
 
 		model.addAttribute("dto", dto);
 
-
 		model.addAttribute("userCourseLiked", userCourseLiked);
-		
+
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("query", query);
 
 		return ".course.article";
 	}
 
-	
-
 	@RequestMapping(value = "write", method = RequestMethod.GET)
 	public String writeForm(Model model) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-
 
 		List<Course> listCategory = service.listCategory(map);
 
@@ -186,12 +166,12 @@ public class CourseController {
 
 		return ".course.write";
 	}
-	
+
 	@RequestMapping(value = "write", method = RequestMethod.POST)
 	public String writeSubmit(Course dto, HttpSession session) throws Exception {
 		String root = session.getServletContext().getRealPath("/");
 		String path = root + "uploads" + File.separator + "course";
-		
+
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
 		try {
@@ -203,13 +183,10 @@ public class CourseController {
 
 		return "redirect:/course/main?pageNo=1";
 	}
-	
-	
+
 	@RequestMapping(value = "update", method = RequestMethod.GET)
-	public String updateForm(@RequestParam int num,
-			@RequestParam String pageNo,
-			HttpSession session,
-			Model model) throws Exception {
+	public String updateForm(@RequestParam int num, @RequestParam String pageNo, HttpSession session, Model model)
+			throws Exception {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
 		Course dto = service.readCourse(num);
@@ -217,7 +194,7 @@ public class CourseController {
 			return "redirect:/faq/main?pageNo=" + 1;
 		}
 
-		if (! info.getUserId().equals(dto.getUserId())) {
+		if (!info.getUserId().equals(dto.getUserId())) {
 			return "redirect:/faq/main?pageNo=" + 1;
 		}
 
@@ -238,12 +215,10 @@ public class CourseController {
 	}
 
 	@RequestMapping(value = "update", method = RequestMethod.POST)
-	public String updateSubmit(Course dto,
-			HttpSession session) throws Exception {
+	public String updateSubmit(Course dto, HttpSession session) throws Exception {
 		String root = session.getServletContext().getRealPath("/");
 		String pathname = root + "uploads" + File.separator + "course";
-		
-		
+
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
 		try {
@@ -257,17 +232,12 @@ public class CourseController {
 	}
 
 	@RequestMapping(value = "delete")
-	public String delete(@RequestParam int num,
-			@RequestParam String pageNo,
-			@RequestParam(defaultValue = "all") String condition,
-			@RequestParam(defaultValue = "") String keyword,
+	public String delete(@RequestParam int num, @RequestParam String pageNo,
+			@RequestParam(defaultValue = "all") String condition, @RequestParam(defaultValue = "") String keyword,
 			HttpSession session) throws Exception {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
 		keyword = URLDecoder.decode(keyword, "utf-8");
-		
-
-
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("num", num);
@@ -278,11 +248,10 @@ public class CourseController {
 
 		return "redirect:/course/main";
 	}
-	
+
 	@RequestMapping(value = "insertCourseLike", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> insertCourseLike(@RequestParam int num, 
-			@RequestParam boolean userLiked,
+	public Map<String, Object> insertCourseLike(@RequestParam int num, @RequestParam boolean userLiked,
 			HttpSession session) {
 		String state = "true";
 		int courseLikeCount = 0;
@@ -293,7 +262,7 @@ public class CourseController {
 		paramMap.put("userId", info.getUserId());
 
 		try {
-			if(userLiked) {
+			if (userLiked) {
 				service.deleteCourseLike(paramMap);
 			} else {
 				service.insertCourseLike(paramMap);
@@ -312,81 +281,64 @@ public class CourseController {
 
 		return model;
 	}
+
+	// 댓글 및 댓글의 답글 등록 : AJAX-JSON
+	@RequestMapping(value = "insertChapter", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> insertChapter(Chapter dto, HttpSession session) {
+		String state = "true";
+
+		try {
+			service.insertChapter(dto);
+		} catch (Exception e) {
+			state = "false";
+		}
+
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		return model;
+	}
 	
-	@RequestMapping(value = "listAllCategory")
-	public String listAllCategory(Model model) throws Exception {
+	// 댓글 리스트 : AJAX-TEXT
+	@RequestMapping(value = "listChapter")
+	public String listChapter(@RequestParam int num, 
+			@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
+			Model model) throws Exception {
+
+		int rows = 5;
+		int total_page = 0;
+		int dataCount = 0;
+
 		Map<String, Object> map = new HashMap<>();
+		map.put("num", num);
+
+		total_page = myUtil.pageCount(rows, dataCount);
+		if (current_page > total_page) {
+			current_page = total_page;
+		}
+
+		int start = (current_page - 1) * rows + 1;
+		int end = current_page * rows;
+		map.put("start", start);
+		map.put("end", end);
 		
-		List<Course> listCategory = service.listCategory(map);
-		model.addAttribute("listAllCategory", listCategory);
-		return "course/listAllCategory";
-	}
-
-	// AJAX-JSON
-	@RequestMapping(value = "listCategory")
-	@ResponseBody
-	public Map<String, Object> listCategory(@RequestParam String mode) throws Exception {
-		Map<String, Object> map = new HashMap<>();
+		List<Chapter> listChapter = service.listChapter(map);
 		
-		List<Course> listCategory = service.listCategory(map);
-
-		Map<String, Object> model = new HashMap<>();
-		model.put("listCategory", listCategory);
-		return model;
-	}
-
-	// AJAX-JSON
-	@RequestMapping(value = "insertCategory", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> insertCategory(Course dto) throws Exception {
-
-		String state = "false";
-		try {
-			service.insertCategory(dto);
-			state = "true";
-		} catch (Exception e) {
+		for (Chapter dto : listChapter) {
+			dto.setChapterName(dto.getChapterName().replaceAll("\n", "<br>"));
 		}
 
-		Map<String, Object> model = new HashMap<>();
-		model.put("state", state);
-		return model;
+
+		// AJAX 용 페이징
+		String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
+
+		// 포워딩할 jsp로 넘길 데이터
+		model.addAttribute("listChapter", listChapter);
+		model.addAttribute("pageNo", current_page);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("paging", paging);
+
+		return "course/listChapter";
 	}
 
-	// AJAX-JSON
-	@RequestMapping(value = "updateCategory", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> updateCategory(Course dto) throws Exception {
-
-		String state = "false";
-		try {
-			service.updateCategory(dto);
-			state = "true";
-		} catch (Exception e) {
-		}
-
-		Map<String, Object> model = new HashMap<>();
-		model.put("state", state);
-		return model;
-	}
-
-	// AJAX-JSON
-	@RequestMapping(value = "deleteCategory", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> deleteCategory(@RequestParam int categoryNum) throws Exception {
-
-		String state = "false";
-		try {
-			service.deleteCategory(categoryNum);
-			state = "true";
-		} catch (Exception e) {
-		}
-
-		Map<String, Object> model = new HashMap<>();
-		model.put("state", state);
-		return model;
-	}
-	
-	
-
-	
 }

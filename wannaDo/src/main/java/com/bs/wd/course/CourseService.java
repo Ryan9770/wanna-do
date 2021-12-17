@@ -6,6 +6,8 @@ import java.util.Map;
 
 
 
+
+
 public interface CourseService {
 	public void insertCourse(Course dto, String pathname) throws Exception;
 	public int dataCount(Map<String, Object> map);
@@ -25,5 +27,8 @@ public interface CourseService {
 	public int courseLikeCount(int num);
 	public boolean userCourseLiked(Map<String, Object> map);
 	
-
+	public void insertChapter(Chapter dto) throws Exception;
+	public List<Chapter> listChapter(Map<String, Object> map);
+	public void updateChapter(Chapter dto) throws Exception;
+	public void deleteChapter(int chapNum) throws Exception;
 }

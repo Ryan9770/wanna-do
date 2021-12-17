@@ -7,10 +7,25 @@
 	max-width: 800px;
 }
 
-.ck.ck-editor__main>.ck-editor__editable:not (.ck-focused ) {
-	border: none;
-}
+.ck
+.ck-editor__main
+>
+.ck-editor__editable
+:not
+ 
+(
+.ck-focused
+ 
+)
+{
+border
+:
+ 
+none
+;
 
+
+}
 .table .ellipsis {
 	position: relative;
 	min-width: 200px;
@@ -117,10 +132,57 @@ $(function(){
 	});
 });
 
+$(function(){
+	listPage(1);
+});
 
+function listPage(page) {
+	var url = "${pageContext.request.contextPath}/course/listChapter";
+	var query = "num=${dto.num}&pageNo="+page;
+	var selector = "#listChapter";
+	
+	var fn = function(data){
+		$(selector).html(data);
+	};
+	ajaxFun(url, "get", query, "html", fn);
+}
+//챕터 등록
+$(function(){
+	$(".btnSendChapter").click(function(){
+		var num = "${dto.num}";
+		var $tb = $(this).closest("table");
+		var chapterNo = $tb.find("textarea[name=chapterNo]").val().trim();
+		var chapterName = $tb.find("textarea[name=chapterName]").val().trim();
+		if(! chapterNo) {
+			$tb.find("textarea[name=chapterNo]").focus();
+			return false;
+		}
+		if(! chapterName) {
+			$tb.find("textarea[name=chapterName]").focus();
+			return false;
+		}
+		chapterName = encodeURIComponent(chapterName);
+		
+		var url = "${pageContext.request.contextPath}/course/insertChapter";
+		var query = "num=" + num + "&chapterNo=" + chapterNo + "&chapterName=" + chapterName;
+		
+		var fn = function(data){
 
-
+			
+			var state = data.state;
+			if(state === "true") {
+				listPage(1);
+			} else if(state === "false") {
+				alert("댓글을 추가 하지 못했습니다.");
+			}
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
+	});
+});
 </script>
+
+
 
 
 <body>
@@ -129,24 +191,31 @@ $(function(){
 			<div class="row gx-5">
 				<div class="col-lg-3">
 					<figure class="mb-4">
-						<img class="img-fluid rounded" style="width: 270px; height: 170px;"
+						<img class="img-fluid rounded"
+							style="width: 270px; height: 170px;"
 							src="${pageContext.request.contextPath}/uploads/course/${dto.imageFile}"
 							alt="..." />
 					</figure>
 					<div class="d-flex align-items-center mt-lg-5 mb-4">
 						<img class="img-fluid rounded" style="width: 48px; height: 48px;"
-							src="${pageContext.request.contextPath}/uploads/creatorInfo/${dto.imageFilename}" alt="..." />
+							src="${pageContext.request.contextPath}/uploads/creatorInfo/${dto.imageFilename}"
+							alt="..." />
 						<div class="ms-3">
 							<div class="fw-bold">${dto.creatorName}</div>
 							<div class="text-muted">${dto.courseName}</div>
 
 						</div>
 					</div>
-						<figure class="mb-4">
-							<div>
-							<button type="button" class="btn btn-outline-secondary btnSendCourseLike" title="좋아요"><i class="bi ${userCourseLiked ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up' }"></i>&nbsp;&nbsp;<span id="courseLikeCount">${dto.courseLikeCount}</span></button>
-							</div>
-						</figure>
+					<figure class="mb-4">
+						<div>
+							<button type="button"
+								class="btn btn-outline-secondary btnSendCourseLike" title="좋아요">
+								<i
+									class="bi ${userCourseLiked ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up' }"></i>&nbsp;&nbsp;<span
+									id="courseLikeCount">${dto.courseLikeCount}</span>
+							</button>
+						</div>
+					</figure>
 				</div>
 				<div class="col-lg-9">
 					<!-- Post content-->
@@ -192,59 +261,34 @@ $(function(){
 							<div class="editor">${dto.content}</div>
 						</section>
 					</article>
+					<div class="Chapter">
+						<form name="chapterForm" method="post">
 
 
+							<table class="table table-borderless chapter-form">
+								<tr>
+									<td><textarea class='form-control' name="chapterNo"
+											placeholder="챕터번호"></textarea></td>
+									<td><textarea class='form-control' name="chapterName"
+											placeholder="챕터명"></textarea></td>
+								</tr>
+								<tr>
+									<td align='right'>
+										<button type='button' class='btn btn-light btnSendChapter'>챕터
+											등록</button>
+									</td>
+								</tr>
+							</table>
+						</form>
 
+						<div id="listChapter"></div>
+					</div>
 
 					<!-- Comments section-->
 
 
 
 
-					<section>
-						<div class="card bg-light">
-							<div class="card-body">
-								<!-- Comment form-->
-								<form class="mb-4">
-									<textarea class="form-control" rows="3"
-										placeholder="Join the discussion and leave a comment!"></textarea>
-								</form>
-								<!-- Comment with nested comments-->
-								<div class="d-flex mb-4">
-									<!-- Parent comment-->
-									<div class="flex-shrink-0">
-										<img class="rounded-circle"
-											src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
-											alt="..." />
-									</div>
-									<div class="ms-3">
-										<div class="row">
-											<div class="fw-bold col">Commenter Name</div>
-
-										</div>
-										If you're going to lead a space frontier, it has to be
-										government; it'll never be private enterprise. Because the
-										space frontier is dangerous, and it's expensive, and it has
-										unquantified risks.
-									</div>
-								</div>
-								<!-- Single comment-->
-								<div class="d-flex">
-									<div class="flex-shrink-0">
-										<img class="rounded-circle"
-											src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
-											alt="..." />
-									</div>
-									<div class="ms-3">
-										<div class="fw-bold">Commenter Name</div>
-										When I look at the universe and all the ways the universe
-										wants to kill us, I find it hard to reconcile that with
-										statements of beneficence.
-									</div>
-								</div>
-							</div>
-						</div>
-					</section>
 					<table class="table table-borderless mb-2">
 						<tr>
 							<td width="50%"><c:choose>
@@ -277,7 +321,7 @@ $(function(){
 			</div>
 		</div>
 	</section>
-	
+
 
 </body>
 <script type="text/javascript">
