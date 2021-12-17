@@ -50,7 +50,7 @@ $(function(){
 		<div class="body-title mb-3">
 			<c:choose>
 				<c:when test="${not empty sessionScope.member}">
-					<h3>내쿠키</h3>
+					<span><h3>내쿠키</h3></span><span>보유 중인 쿠키 : </span><span id="myCookie"></span><span> <img class="rounded-circle me-3" src="https://user-images.githubusercontent.com/93500782/145944393-e33135d9-16c1-495c-9d34-5f5fd1d79f32.png" width="15" height="15"/></span>
 				</c:when>
 				<c:otherwise>
 					<h3>쿠키샵</h3>
@@ -138,4 +138,26 @@ function buyPage() {
 	};
 	ajaxFun(url, "get", query, "html", fn);
 }
+</script>
+<script type="text/javascript">
+	$(function(){
+		var isLogin = "${not empty sessionScope.member ? 'true':'false'}";
+		if(isLogin === "true") {
+			myCookie();
+		}
+
+		function myCookie() {
+			var url = "${pageContext.request.contextPath}/credit/myCookie";
+			$.ajax({
+				type:"POST",
+				url:url,
+				data:null,
+				dataType:"json",
+				success:function(data) {
+					var myCookie = data.myCookie;
+					$("#myCookie").html(myCookie);
+				}
+			});
+		}
+	});
 </script>

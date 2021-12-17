@@ -25,4 +25,9 @@
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
 	</select>
+	<select id="myCookie" parameterType="String" resultType="Integer">
+		SELECT NVL(SUM(amount), 0)
+		FROM mywallet
+		WHERE userId=#{userId}
+	</select>
 </mapper>

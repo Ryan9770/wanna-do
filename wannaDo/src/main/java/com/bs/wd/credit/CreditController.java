@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bs.wd.common.MyUtil;
 import com.bs.wd.member.SessionInfo;
@@ -96,5 +97,24 @@ public class CreditController {
 		} catch (Exception e) {
 		}
 		return "redirect:/credit/main";
+	}
+	
+	@RequestMapping(value = "myCookie", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> myCookie(HttpSession session) throws Exception {
+		String state = "true";
+		int count = 0;
+		try {
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			String userId = info.getUserId();
+			count = service.myCookie(userId);
+		} catch (Exception e) {
+			state = "true";
+		}
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("state", state);
+		model.put("myCookie", count);
+		return model;
 	}
 }

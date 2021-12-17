@@ -46,5 +46,16 @@ public class CreditServiceImpl implements CreditService {
 		}
 		return list;
 	}
+
+	@Override
+	public int myCookie(String userId) {
+		int result = 0;
+		try {
+			result = dao.selectOne("credit.myCookie", userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
 }
