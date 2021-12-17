@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bs.wd.common.FileManager;
 import com.bs.wd.common.dao.CommonDAO;
 
 @Service("trade.tradeService")
@@ -14,9 +15,18 @@ public class TradeServiceImpl implements TradeService {
 	@Autowired
 	private CommonDAO dao;
 	
+	@Autowired
+	private FileManager fileManager;
+	
 	@Override
-	public void insertTrade(Trade dto) throws Exception {
+	public void insertTrade(Trade dto, String pathname) throws Exception {
 		try {
+			
+			String saveFilename = fileManager.doFileUpload(dto.getSelectFile(), pathname);
+			if (saveFilename != null) {
+				dto.setSaveFilename(saveFilename);
+				dto.setOriginalFilename(dto.getSelectFile().getOriginalFilename());
+			}
 			dao.insertData("trade.insertTrade", dto);
 		} catch (Exception e) {
 			throw e;
@@ -87,8 +97,17 @@ public class TradeServiceImpl implements TradeService {
 	}
 
 	@Override
-	public void updateTrade(Trade dto) throws Exception {	
+	public void updateTrade(Trade dto, String pathname) throws Exception {	
 		try {
+			String saveFilename = fileManager.doFileUpload(dto.getSelectFile(), pathname);
+			if (saveFilename != null) {
+				if(dto.getSaveFilename() != null && dto.getSaveFilename().length() != 0) {
+					fileManager.doFileDelete(dto.getSaveFilename(), pathname);
+				}
+				
+				dto.setSaveFilename(saveFilename);
+				dto.setOriginalFilename(dto.getSelectFile().getOriginalFilename());
+			}
 			dao.updateData("trade.updateTrade", dto);	
 		} catch (Exception e) {
 		}
@@ -96,12 +115,14 @@ public class TradeServiceImpl implements TradeService {
 	}
 
 	@Override
-	public void deleteTrade(int num) throws Exception {
+	public void deleteTrade(int num, String pathname) throws Exception {
 		try {
 			Trade dto = readTrade(num);
 			if(dto == null) {
 				return;
 			}
+			
+			fileManager.doFileDelete(dto.getSaveFilename(), pathname);
 			
 			dao.deleteData("trade.deleteTrade", num);
 		} catch (Exception e) {

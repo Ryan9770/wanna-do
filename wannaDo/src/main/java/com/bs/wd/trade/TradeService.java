@@ -4,15 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 public interface TradeService {
-	public void insertTrade(Trade dto) throws Exception;
+	public void insertTrade(Trade dto, String pathname) throws Exception;
 	public List<Trade> listTrade(Map<String, Object> map);
 	public int dataCount(Map<String, Object> map);
 	public void updateHitCount(int num) throws Exception;
 	public Trade readTrade(int num);
 	public Trade preReadTrade(Map<String, Object> map);
 	public Trade nextReadTrade(Map<String, Object> map);
-	public void updateTrade(Trade dto) throws Exception;
-	public void deleteTrade(int num) throws Exception;
+	public void updateTrade(Trade dto, String pathname) throws Exception;
+	public void deleteTrade(int num, String pathname) throws Exception;
 	
 	public void insertReply(Reply dto) throws Exception;
 	public List<Reply> listReply(Map<String, Object> map);

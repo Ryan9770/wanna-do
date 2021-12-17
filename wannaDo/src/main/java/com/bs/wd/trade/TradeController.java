@@ -1,5 +1,6 @@
 package com.bs.wd.trade;
 
+import java.io.File;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -123,9 +124,13 @@ public class TradeController {
 	@RequestMapping(value = "write", method = RequestMethod.POST)
 	public String writeSubmit(Trade dto, HttpSession session) throws Exception {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "trade";
+				
 		try {
 			dto.setUserId(info.getUserId());
-			service.insertTrade(dto);
+			service.insertTrade(dto, pathname);
 		} catch (Exception e) {
 		}
 		
@@ -198,8 +203,12 @@ public class TradeController {
 			@RequestParam String page,
 			HttpSession session
 			) throws Exception {
+		
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "trade";
+		
 		try {
-			service.updateTrade(dto);
+			service.updateTrade(dto, pathname);
 		} catch (Exception e) {
 		}
 		
@@ -222,10 +231,10 @@ public class TradeController {
 			query += "&condition="+condition+"&keyword="+URLEncoder.encode(keyword, "utf-8");
 		}
 		
-		try {
-			service.deleteTrade(num);
-		} catch (Exception e) {
-		}
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "trade";
+		
+		service.deleteTrade(num, pathname);
 		
 		return "redirect:/trade/list?"+query;
 	}

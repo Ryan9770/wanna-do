@@ -4,8 +4,9 @@
 <mapper namespace="trade">
 
 	<insert id="insertTrade" parameterType="com.bs.wd.trade.Trade">
-		INSERT INTO trade(num, userId, subject, content, reg_date, hitCount, type)
-		VALUES (trade_seq.NEXTVAL, #{userId}, #{subject}, #{content}, SYSDATE, 0, #{type} )
+		INSERT INTO trade(num, userId, subject, content, reg_date, hitCount, type, price, saveFilename, originalFilename)
+		VALUES (trade_seq.NEXTVAL, #{userId}, #{subject}, #{content}, SYSDATE, 0, #{type}, #{price}, #{saveFilename, jdbcType=VARCHAR}, 
+			#{originalFilename, jdbcType=VARCHAR} )
 	</insert>
 		<sql id="where-list">
 	<choose>
@@ -39,7 +40,7 @@
 	<select id="listTrade" parameterType="map" resultType="com.bs.wd.trade.Trade">
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
-				SELECT num, subject, content, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, userName, type, hitCount
+				SELECT num, subject, content, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, userName, price, type, hitCount
 			FROM trade s
 			JOIN member1 m ON s.userId=m.userId
 			<where>
@@ -64,7 +65,7 @@
 	</select>	
 	
 	<select id="readTrade" parameterType="Integer" resultType="com.bs.wd.trade.Trade">
-		SELECT num, userName, subject, content, hitCount, reg_date, type
+		SELECT num, userName, subject, content, hitCount, reg_date, type, price, saveFilename, originalFilename
 		FROM trade s
 		JOIN member1 m ON s.userId=m.userId
 		WHERE num = #{num}
@@ -103,7 +104,8 @@
 	</select>
 	
 	<update id="updateTrade" parameterType="com.bs.wd.trade.Trade">
-		UPDATE trade SET subject=#{subject}, content=#{content}, type=#{type}
+		UPDATE trade SET subject=#{subject}, content=#{content}, type=#{type}, price=#{price}, saveFilename=#{saveFilename, jdbcType=VARCHAR},
+				originalFilename=#{originalFilename, jdbcType=VARCHAR}
 		WHERE num=#{num}
 	</update>
 	<delete id="deleteTrade" parameterType="com.bs.wd.trade.Trade">

@@ -1,5 +1,7 @@
 package com.bs.wd.trade;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Trade {
 	private int num;
 	private int listNum;
@@ -11,10 +13,38 @@ public class Trade {
 	private int hitCount;
 	private String type;
 	
+	private String price;
+	private String saveFilename;
+	private String originalFilename;
+	private MultipartFile selectFile;
 	
 	private int replyCount;
 	
 	
+	public String getPrice() {
+		return price;
+	}
+	public void setPrice(String price) {
+		this.price = price;
+	}
+	public String getSaveFilename() {
+		return saveFilename;
+	}
+	public void setSaveFilename(String saveFilename) {
+		this.saveFilename = saveFilename;
+	}
+	public String getOriginalFilename() {
+		return originalFilename;
+	}
+	public void setOriginalFilename(String originalFilename) {
+		this.originalFilename = originalFilename;
+	}
+	public MultipartFile getSelectFile() {
+		return selectFile;
+	}
+	public void setSelectFile(MultipartFile selectFile) {
+		this.selectFile = selectFile;
+	}
 	public int getReplyCount() {
 		return replyCount;
 	}
