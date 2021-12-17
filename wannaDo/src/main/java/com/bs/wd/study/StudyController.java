@@ -30,6 +30,7 @@ public class StudyController {
 	@Autowired
 	private MyUtil myUtil;
 	
+	
 	@RequestMapping(value="list")
 	public String list(
 			@RequestParam(value = "page", defaultValue = "1") int current_page,
