@@ -6,10 +6,98 @@
 function submitOk(){
 	var f= document.contactForm;
 	
+	var str;
+	
+	str = f.fullName.value;
+	if(!str) {
+		f.fullName.focus();
+		$(".name").find(".invalid-feedback").show();
+		return;
+	} else{
+		$(".name").find(".invalid-feedback").hide();		
+	}
+
+	str = f.email.value;
+	if(!str) {
+		f.email.focus();
+		$(".email-required").show();
+		return;
+	} else{
+		$(".email-required").hide();		
+	}
+	if(! email_check(str)){
+		f.email.focus();
+		$(".email-valid").show();
+		return;		
+	} else{
+		$(".email-valid").hide();		
+	}
+	
+	str = f.tel.value;
+	if(!str) {
+		f.tel.focus();
+		$(".tel").find(".invalid-feedback").show();
+		return;
+	} else{
+		$(".tel").find(".invalid-feedback").hide();		
+	}
+	
+	str = f.message.value.trim();
+	if(!str) {
+		f.message.focus();
+		$(".msg").find(".invalid-feedback").show();
+		return;
+	} else{
+		$(".msg").find(".invalid-feedback").hide();
+	}
+
 	f.action= "${pageContext.request.contextPath}/contact/write";
 	f.submit();
 
 }
+
+function email_check( email ) {    
+    var regex=/([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    return (email != '' && email != 'undefined' && regex.test(email)); 
+}
+
+/*
+function inputEmail(tel){
+	if(!email_check(tel)){
+		$(".email-valid").show();
+	} else {
+		$(".email-valid").hide();
+	}
+}
+*/
+
+function inputPhoneNumber(obj) {
+
+    var number = obj.value.replace(/[^0-9]/g, "");
+    var phone = "";
+
+    if(number.length < 4) {
+        return number;
+    } else if(number.length < 7) {
+        phone += number.substr(0, 3);
+        phone += "-";
+        phone += number.substr(3);
+    } else if(number.length < 11) {
+        phone += number.substr(0, 3);
+        phone += "-";
+        phone += number.substr(3, 3);
+        phone += "-";
+        phone += number.substr(6);
+    } else {
+        phone += number.substr(0, 3);
+        phone += "-";
+        phone += number.substr(3, 4);
+        phone += "-";
+        phone += number.substr(7);
+    }
+    obj.value = phone;
+}
+
 </script>
 	<section class="py-5">
 	    <div class="container px-5">
@@ -24,27 +112,27 @@ function submitOk(){
 	                <div class="col-lg-8 col-xl-6">
 	                    <form name="contactForm" method="post">
 	                        <!-- Name input-->
-	                        <div class="form-floating mb-3">
+	                        <div class="form-floating mb-3 name">
 	                            <input class="form-control" name="fullName" id="fullName" type="text" placeholder="Enter your name..."/>
 	                            <label for="fullName">Full name</label>
-	                            <div class="invalid-feedback">A name is required.</div>
+	                            <div class="name invalid-feedback">A name is required.</div>
 	                        </div>
 	                        <!-- Email address input-->
-	                        <div class="form-floating mb-3">
+	                        <div class="form-floating mb-3 email">
 	                            <input class="form-control" name="email" id="email" type="email" placeholder="name@example.com"/>
 	                            <label for="email">Email address</label>
-	                            <div class="invalid-feedback">An email is required.</div>
-	                            <div class="invalid-feedback">Email is not valid.</div>
+	                            <div class="invalid-feedback email-required">An email is required.</div>
+	                            <div class="invalid-feedback email-valid">Email is not valid.</div>
 	                        </div>
 	                        <!-- Phone number input-->
-	                        <div class="form-floating mb-3">
-	                            <input class="form-control" name="tel" id="tel" type="tel" placeholder="(123)456-7890"/>
+	                        <div class="form-floating mb-3 tel">
+	                            <input class="form-control" name="tel" id="tel" type="tel" placeholder="(123)456-7890" onKeyup="inputPhoneNumber(this);" maxlength="13"/>
 	                            <label for="tel">Phone number</label>
 	                            <div class="invalid-feedback">A phone number is required.</div>
 	                        </div>
                             <!-- Message input-->
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" name="message" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem"></textarea>
+                            <div class="form-floating mb-3 msg">
+                                <textarea class="form-control" name="message" id="message" type="text" style="resize:none; height:200px" placeholder="Enter your message here..." style="height: 10rem"></textarea>
                                 <label for="message">Message</label>
                                 <div class="invalid-feedback">A message is required.</div>
                             </div>
