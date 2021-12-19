@@ -180,6 +180,51 @@ $(function(){
 		ajaxFun(url, "post", query, "json", fn);
 	});
 });
+
+function listVideo(chapNum) {
+	var url = "${pageContext.request.contextPath}/course/listVideo";
+	var query = "chapNum=" + chapNum;
+	var selector = "#listVideo" + chapNum;
+	
+	var fn = function(data){
+		$(selector).html(data);
+	};
+	ajaxFun(url, "get", query, "html", fn);
+}
+
+//댓글별 답글 등록
+$(function(){
+	$("body").on("click", ".btnSendVideo", function(){
+		var chapNum = $(this).attr("data-chapNum");
+		var $div = $(this).closest("div");
+		
+		var lessonNum = $div.find("textarea[name=lessonNum]").val();
+		var lessonName = $div.find("textarea[name=lessonName]").val();
+		var saveFilename = $div.find("textarea[name=saveFilename]").val();
+		var state = $div.find("textarea[name=state]").val();
+		if(! saveFilename) {
+			$div.find("textarea[name=saveFilename]").focus();
+			return false;
+		}
+		saveFilename = encodeURIComponent(saveFilename);
+		
+		var url = "${pageContext.request.contextPath}/course/insertVideo";
+		var query = "saveFilename=" + saveFilename + "&chapNum=" + chapNum+ "&lessonNum=" + lessonNum+ "&lessonName=" + lessonName+ "&state=" + state;
+		
+		var fn = function(data){
+			$div.find("textarea").val("");
+			
+			var state = data.state;
+			if(state === "true") {
+				listVideo(chapNum);
+				
+			}
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
+	});
+});
+
 </script>
 
 
@@ -188,35 +233,35 @@ $(function(){
 <body>
 	<section class="py-5">
 		<div class="container px-5 my-5">
-			<div class="row gx-5">
-				<div class="col-lg-3">
-					<figure class="mb-4">
-						<img class="img-fluid rounded"
-							style="width: 270px; height: 170px;"
-							src="${pageContext.request.contextPath}/uploads/course/${dto.imageFile}"
-							alt="..." />
-					</figure>
-					<div class="d-flex align-items-center mt-lg-5 mb-4">
-						<img class="img-fluid rounded" style="width: 48px; height: 48px;"
-							src="${pageContext.request.contextPath}/uploads/creatorInfo/${dto.imageFilename}"
-							alt="..." />
-						<div class="ms-3">
-							<div class="fw-bold">${dto.creatorName}</div>
-							<div class="text-muted">${dto.courseName}</div>
+			<div class="col-lg-3 sticky-top float-start" style="padding-top: 100px; padding-right: 50px;">
+				<figure class="mb-4">
+					<img class="img-fluid rounded"
+						style="width: 270px; height: 170px;"
+						src="${pageContext.request.contextPath}/uploads/course/${dto.imageFile}"
+						alt="..." />
+				</figure>
+				<div class="d-flex align-items-center mt-lg-5 mb-4">
+					<img class="img-fluid rounded" style="width: 48px; height: 48px;"
+						src="${pageContext.request.contextPath}/uploads/creatorInfo/${dto.imageFilename}"
+						alt="..." />
+					<div class="ms-3">
+						<div class="fw-bold">${dto.creatorName}</div>
+						<div class="text-muted">${dto.courseName}</div>
 
-						</div>
 					</div>
-					<figure class="mb-4">
-						<div>
-							<button type="button"
-								class="btn btn-outline-secondary btnSendCourseLike" title="좋아요">
-								<i
-									class="bi ${userCourseLiked ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up' }"></i>&nbsp;&nbsp;<span
-									id="courseLikeCount">${dto.courseLikeCount}</span>
-							</button>
-						</div>
-					</figure>
 				</div>
+				<figure class="mb-4">
+					<div>
+						<button type="button"
+							class="btn btn-outline-secondary btnSendCourseLike" title="좋아요">
+							<i
+								class="bi ${userCourseLiked ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up' }"></i>&nbsp;&nbsp;<span
+								id="courseLikeCount">${dto.courseLikeCount}</span>
+						</button>
+					</div>
+				</figure>
+			</div>
+			<div class="row gx-5">
 				<div class="col-lg-9">
 					<!-- Post content-->
 					<article>
@@ -263,7 +308,6 @@ $(function(){
 					</article>
 					<div class="Chapter">
 						<form name="chapterForm" method="post">
-
 
 							<table class="table table-borderless chapter-form">
 								<tr>

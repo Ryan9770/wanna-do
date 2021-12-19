@@ -143,10 +143,23 @@
 
 				FROM chapter 
 
-				
+				WHERE num=#{num}
 				
 				ORDER BY chapterNo
+				
 
+	</select>
+	
+	<insert id="insertVideo" parameterType="com.bs.wd.course.Chapter">
+		INSERT INTO video(videoNum, chapNum, lessonName, lessonNum, saveFilename, reg_date, state)
+		VALUES (video_seq.NEXTVAL, #{chapNum}, #{lessonName}, #{lessonNum}, #{saveFilename}, SYSDATE, #{state})
+	</insert>
+	
+	<select id="listVideo" parameterType="Integer" resultType="com.bs.wd.course.Chapter">
+		SELECT chapNum, saveFilename, lessonName, lessonNum, reg_date, state
+		FROM video 
+		WHERE chapNum = #{chapNum}
+		ORDER BY lessonNum
 	</select>
 
 	

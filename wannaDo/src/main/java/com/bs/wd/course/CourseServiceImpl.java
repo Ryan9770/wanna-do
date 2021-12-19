@@ -14,6 +14,7 @@ import com.bs.wd.common.dao.CommonDAO;
 
 
 
+
 @Service("course.courseService")
 public class CourseServiceImpl  implements CourseService {
 	@Autowired
@@ -261,4 +262,17 @@ public class CourseServiceImpl  implements CourseService {
 			throw e;
 		}
 	}		
+	
+	@Override
+	public List<Chapter> listVideo(int chapNum) {
+		List<Chapter> list = null;
+		
+		try {
+			list = dao.selectList("course.listVideo", chapNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
 }

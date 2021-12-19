@@ -31,4 +31,6 @@ public interface CourseService {
 	public List<Chapter> listChapter(Map<String, Object> map);
 	public void updateChapter(Chapter dto) throws Exception;
 	public void deleteChapter(int chapNum) throws Exception;
+	
+	public List<Chapter> listVideo(int chapNum);
 }

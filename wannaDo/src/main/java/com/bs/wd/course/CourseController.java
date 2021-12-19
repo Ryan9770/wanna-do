@@ -24,6 +24,7 @@ import com.bs.wd.member.SessionInfo;
 
 
 
+
 @Controller("course.courseController")
 @RequestMapping("/course/*")
 public class CourseController {
@@ -281,6 +282,79 @@ public class CourseController {
 
 		return model;
 	}
+	
+	@RequestMapping(value = "listAllCategory")
+	public String listAllCategory(Model model) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		
+		List<Course> listCategory = service.listCategory(map);
+		model.addAttribute("listAllCategory", listCategory);
+		return "course/listAllCategory";
+	}
+
+	// AJAX-JSON
+	@RequestMapping(value = "listCategory")
+	@ResponseBody
+	public Map<String, Object> listCategory(@RequestParam String mode) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		
+		List<Course> listCategory = service.listCategory(map);
+
+		Map<String, Object> model = new HashMap<>();
+		model.put("listCategory", listCategory);
+		return model;
+	}
+
+	// AJAX-JSON
+	@RequestMapping(value = "insertCategory", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> insertCategory(Course dto) throws Exception {
+
+		String state = "false";
+		try {
+			service.insertCategory(dto);
+			state = "true";
+		} catch (Exception e) {
+		}
+
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		return model;
+	}
+
+	// AJAX-JSON
+	@RequestMapping(value = "updateCategory", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> updateCategory(Course dto) throws Exception {
+
+		String state = "false";
+		try {
+			service.updateCategory(dto);
+			state = "true";
+		} catch (Exception e) {
+		}
+
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		return model;
+	}
+
+	// AJAX-JSON
+	@RequestMapping(value = "deleteCategory", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> deleteCategory(@RequestParam int categoryNum) throws Exception {
+
+		String state = "false";
+		try {
+			service.deleteCategory(categoryNum);
+			state = "true";
+		} catch (Exception e) {
+		}
+
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		return model;
+	}
 
 	// 댓글 및 댓글의 답글 등록 : AJAX-JSON
 	@RequestMapping(value = "insertChapter", method = RequestMethod.POST)
@@ -341,4 +415,16 @@ public class CourseController {
 		return "course/listChapter";
 	}
 
+	// 댓글의 답글 리스트 : AJAX-TEXT
+		@RequestMapping(value = "listVideo")
+		public String listVideo(@RequestParam int chapNum, Model model) throws Exception {
+			List<Chapter> listVideo = service.listVideo(chapNum);
+			
+			for (Chapter dto : listVideo) {
+				dto.setLessonName(dto.getLessonName().replaceAll("\n", "<br>"));
+			}
+
+			model.addAttribute("listVideo", listVideo);
+			return "course/listVideo";
+		}
 }
