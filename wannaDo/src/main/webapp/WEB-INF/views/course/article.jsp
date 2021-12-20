@@ -22,7 +22,8 @@ border
 :
  
 none
-;
+; 
+
 
 
 }
