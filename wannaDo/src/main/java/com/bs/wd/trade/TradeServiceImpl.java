@@ -24,8 +24,7 @@ public class TradeServiceImpl implements TradeService {
 			
 			String saveFilename = fileManager.doFileUpload(dto.getSelectFile(), pathname);
 			if (saveFilename != null) {
-				dto.setSaveFilename(saveFilename);
-				dto.setOriginalFilename(dto.getSelectFile().getOriginalFilename());
+				dto.setOriginalFilename(saveFilename);
 			}
 			dao.insertData("trade.insertTrade", dto);
 		} catch (Exception e) {
@@ -101,15 +100,16 @@ public class TradeServiceImpl implements TradeService {
 		try {
 			String saveFilename = fileManager.doFileUpload(dto.getSelectFile(), pathname);
 			if (saveFilename != null) {
-				if(dto.getSaveFilename() != null && dto.getSaveFilename().length() != 0) {
-					fileManager.doFileDelete(dto.getSaveFilename(), pathname);
+				if(dto.getOriginalFilename().length() != 0) {
+					fileManager.doFileDelete(dto.getOriginalFilename(), pathname);
 				}
 				
-				dto.setSaveFilename(saveFilename);
-				dto.setOriginalFilename(dto.getSelectFile().getOriginalFilename());
+				dto.setOriginalFilename(saveFilename);
 			}
 			dao.updateData("trade.updateTrade", dto);	
 		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
 		}
 	
 	}
@@ -117,15 +117,14 @@ public class TradeServiceImpl implements TradeService {
 	@Override
 	public void deleteTrade(int num, String pathname) throws Exception {
 		try {
-			Trade dto = readTrade(num);
-			if(dto == null) {
-				return;
+			if(pathname != null) {
+				fileManager.doFileDelete(pathname);
 			}
-			
-			fileManager.doFileDelete(dto.getSaveFilename(), pathname);
 			
 			dao.deleteData("trade.deleteTrade", num);
 		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
 		}
 	}
 

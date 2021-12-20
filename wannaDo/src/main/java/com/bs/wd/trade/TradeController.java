@@ -39,6 +39,7 @@ public class TradeController {
 			HttpServletRequest req,
 			Model model
 			) throws Exception {
+		
 		if(req.getMethod().equalsIgnoreCase("GET")) {
 			keyword = URLDecoder.decode(keyword, "utf-8");
 		}
@@ -216,28 +217,7 @@ public class TradeController {
 	}
 	
 	
-	@RequestMapping(value = "delete", method = RequestMethod.GET)
-	public String delete(
-			@RequestParam int num,
-			@RequestParam String page,
-			@RequestParam(defaultValue = "all") String condition,
-			@RequestParam(defaultValue = "") String keyword,
-			HttpSession session
-			) throws Exception {
-		keyword = URLDecoder.decode(keyword, "utf-8");
-		
-		String query = "page="+ page;
-		if(keyword.length() != 0) {
-			query += "&condition="+condition+"&keyword="+URLEncoder.encode(keyword, "utf-8");
-		}
-		
-		String root = session.getServletContext().getRealPath("/");
-		String pathname = root + "uploads" + File.separator + "trade";
-		
-		service.deleteTrade(num, pathname);
-		
-		return "redirect:/trade/list?"+query;
-	}
+
 	
 	@RequestMapping(value = "listReply")
 	public String listReply(@RequestParam int num, 
@@ -337,4 +317,55 @@ public class TradeController {
 	}
 	
 	
+	/*
+	@RequestMapping(value = "delete", method = RequestMethod.GET)
+	public String delete( 
+			@RequestParam int num, 
+			@RequestParam String page,
+			@RequestParam String originalFilename,
+			@RequestParam(defaultValue = "all") String condition,
+			@RequestParam(defaultValue = "") String keyword,
+			HttpSession session ) throws Exception {
+				
+		keyword = URLDecoder.decode(keyword, "utf-8");
+		String query = "page=" + page;
+		if(keyword.length() != 0) {
+			query += "&condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
+		}
+
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "trade" + File.separator + originalFilename;
+		
+		try {
+			service.deleteTrade(num, pathname);
+		} catch (Exception e) {
+		}
+		
+		return "redirect:/trade/list?" + query;
+		
+	}
+	*/
+	
+	@RequestMapping(value = "delete", method = RequestMethod.GET)
+	public String delete(
+			@RequestParam int num,
+			@RequestParam String page,
+			@RequestParam(defaultValue = "all") String condition,
+			@RequestParam(defaultValue = "") String keyword,
+			HttpSession session
+			) throws Exception {
+		keyword = URLDecoder.decode(keyword, "utf-8");
+		
+		String query = "page="+ page;
+		if(keyword.length() != 0) {
+			query += "&condition="+condition+"&keyword="+URLEncoder.encode(keyword, "utf-8");
+		}
+		
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "trade";
+		
+		service.deleteTrade(num, pathname);
+		
+		return "redirect:/trade/list?"+query;
+	}
 }

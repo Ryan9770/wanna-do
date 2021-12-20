@@ -34,24 +34,16 @@ function sendOk() {
 	</div>
 
 	<form name="boardForm" method="post">
-		<select name="state">
-				<option value="">말머리</option>
-				<option value="모집 중">모집 중</option>
-				<option value="모집 완료">모집 완료</option>
-		</select>
-	</form>
-		
-	<form name="boardForm" method="post">
 		<div class="form-check" >
-			<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+			<input class="form-check-input" type="radio" name="state" value="모집 중" id="flexRadioDefault1">
 			  <label class="form-check-label" for="flexRadioDefault1">
 			    모집 중
-			  </label>
+			  </label> 
 			</div>
 			<div class="form-check">
-			  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+			  <input class="form-check-input" type="radio" name="state" value="완료" id="flexRadioDefault2" checked>
 			  <label class="form-check-label" for="flexRadioDefault2">
-			    모집 완료
+			    완료
 			  </label>
 		</div>
 			

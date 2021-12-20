@@ -4,11 +4,11 @@
 <mapper namespace="trade">
 
 	<insert id="insertTrade" parameterType="com.bs.wd.trade.Trade">
-		INSERT INTO trade(num, userId, subject, content, reg_date, hitCount, type, price, saveFilename, originalFilename)
-		VALUES (trade_seq.NEXTVAL, #{userId}, #{subject}, #{content}, SYSDATE, 0, #{type}, #{price}, #{saveFilename, jdbcType=VARCHAR}, 
-			#{originalFilename, jdbcType=VARCHAR} )
+		INSERT INTO trade(num, userId, subject, content, reg_date, hitCount, type, price, originalFilename)
+		VALUES (trade_seq.NEXTVAL, #{userId}, #{subject}, #{content}, SYSDATE, 0, #{type}, #{price}, #{originalFilename} )
 	</insert>
-		<sql id="where-list">
+	
+	<sql id="where-list">
 	<choose>
 		<when test="condition=='all'">
 			(
@@ -65,7 +65,7 @@
 	</select>	
 	
 	<select id="readTrade" parameterType="Integer" resultType="com.bs.wd.trade.Trade">
-		SELECT num, userName, subject, content, hitCount, reg_date, type, price, saveFilename, originalFilename
+		SELECT num, userName, subject, content, hitCount, reg_date, type, price, originalFilename
 		FROM trade s
 		JOIN member1 m ON s.userId=m.userId
 		WHERE num = #{num}
@@ -104,11 +104,10 @@
 	</select>
 	
 	<update id="updateTrade" parameterType="com.bs.wd.trade.Trade">
-		UPDATE trade SET subject=#{subject}, content=#{content}, type=#{type}, price=#{price}, saveFilename=#{saveFilename, jdbcType=VARCHAR},
-				originalFilename=#{originalFilename, jdbcType=VARCHAR}
+		UPDATE trade SET subject=#{subject}, content=#{content}, type=#{type}, price=#{price}, originalFilename=#{originalFilename}
 		WHERE num=#{num}
 	</update>
-	<delete id="deleteTrade" parameterType="com.bs.wd.trade.Trade">
+	<delete id="deleteTrade" parameterType="Integer">
 		DELETE FROM trade WHERE num=#{num}
 	</delete>
 	

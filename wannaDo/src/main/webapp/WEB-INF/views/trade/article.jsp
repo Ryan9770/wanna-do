@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
 <script type="text/javascript">
-function deleteStudy() {
+function deleteTrade() {
 	if( confirm("게시글을 삭제하시겠습니까?" ) ) {
 		var url = "${pageContext.request.contextPath}/trade/delete?num=${dto.num}&${query}";
 		location.href= url;
@@ -220,65 +220,93 @@ $(function(){
 
 </script>
 
-<div class="board">
-	<div class="title">
-	    <h3><span>|</span> 장터거래 게시판  </h3>
-	</div>
-	
-	<table class="table table-border table-article">
-		<tr>
-			<td colspan="2" align="center">
-				${dto.subject}
-			</td>
-		</tr>
+
+<div class="container">
+	<div class="body-container">	
+		<div class="body-title">
+			<h3><i class="bi bi-image"></i> 중고거래 게시판 </h3>
+		</div>
 		
-		<tr>
-			<td width="50%">
-				${dto.userName}
-			</td>
-			<td align="right">
-				${dto.reg_date} | 조회 ${dto.hitCount}
-			</td>
-		</tr>
-		
-		<tr>
-			<td colspan="2" valign="top" height="200">
-				${dto.content} 
-			</td>
-		</tr>	
-		<tr>
-			<td colspan="2">
-				다음글 : 
-				<c:if test="${not empty preReadDto}">
-					<a href="${pageContext.request.contextPath}/trade/
-					article?num=${preReadDto.num}&${query}">${preReadDto.subject}</a>
-				</c:if>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				이전글 : 
-				<c:if test="${not empty nextReadDto}">
-					<a href="${pageContext.request.contextPath}/trade/
-					article?num=${nextReadDto.num}&${query}">${nextReadDto.subject}</a>
-				</c:if>			
-			</td>
-		</tr>
-	</table>
-	
-	<table class="table">
-		<tr>
-			<td width="50%">
-				<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/trade/update?num=${dto.num}&page=${page}';">수정</button>
-				<button type="button" class="btn" onclick="deleteStudy();">삭제</button>
-			</td>
-			<td align="right">
-				<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/trade/list?${query}';">리스트</button>
-			</td>
-		</tr>
-	</table>
-	
-	<div class="reply">
+		<div class="body-main">
+
+			<table class="table mb-0">
+				<thead>
+					<tr>
+						<td colspan="2" align="center">
+							${dto.subject}
+						</td>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr>
+						<td width="50%">
+							이름 : ${dto.userName}						
+						</td>
+						<td align="right">
+							${dto.reg_date}
+						</td>
+					</tr>
+
+					<tr>
+						<td colspan="2" style="border-bottom: none;">
+							<img src="${pageContext.request.contextPath}/uploads/trade/${dto.originalFilename}" 
+								class="img-fluid img-thumbnail w-100 h-auto">
+						</td>
+					</tr>
+											
+					<tr>
+						<td colspan="2">
+							${dto.content}
+						</td>
+					</tr>
+					
+					<tr>
+						<td colspan="2">
+							이전글 :
+							<c:if test="${not empty preReadDto}">
+								<a href="${pageContext.request.contextPath}/trade/article?${query}&num=${preReadDto.num}">${preReadDto.subject}</a>
+							</c:if>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							다음글 :
+							<c:if test="${not empty nextReadDto}">
+								<a href="${pageContext.request.contextPath}/trade/article?${query}&num=${nextReadDto.num}">${nextReadDto.subject}</a>
+							</c:if>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<table class="table table-borderless">
+				<tr>
+					<td width="50%">
+						<c:choose>
+							<c:when test="${sessionScope.member.userId==dto.userId}">
+								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/trade/update?num=${dto.num}&page=${page}';">수정</button>
+							</c:when>
+							<c:otherwise>
+								<button type="button" class="btn btn-light" disabled="disabled">수정</button>
+							</c:otherwise>
+						</c:choose>
+				    	
+						<c:choose>
+				    		<c:when test="${sessionScope.member.userId==dto.userId || sessionScope.member.membership>50}">
+				    			<button type="button" class="btn btn-light" onclick="deleteTrade();">삭제</button>
+				    		</c:when>
+				    		<c:otherwise>
+				    			<button type="button" class="btn btn-light" disabled="disabled">삭제</button>
+				    		</c:otherwise>
+				    	</c:choose>
+					</td>
+					<td class="text-end">
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/trade/list?${query}';">리스트</button>
+					</td>
+				</tr>
+			</table>
+			<div class="reply">
 				<form name="replyForm" method="post">
 					<div class='form-header'>
 						<span class="bold">댓글</span><span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가해 주세요.</span>
@@ -300,3 +328,6 @@ $(function(){
 				<div id="listReply"></div>				
 	</div>
 </div>
+</div>
+</div>
+

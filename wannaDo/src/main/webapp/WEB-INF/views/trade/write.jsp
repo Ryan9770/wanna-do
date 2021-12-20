@@ -20,26 +20,76 @@ function sendOk() {
         f.content.focus();
         return;
     }
+    
+    var mode = "${mode}";
+    if( (mode === "write") && (!f.selectFile.value) ) {
+        alert("이미지 파일을 추가 하세요. ");
+        f.selectFile.focus();
+        return;
+	}  
 	
     f.action = "${pageContext.request.contextPath}/trade/${mode}";
     f.submit();
 }
+
+<c:if test="${mode=='update'}">
+function deleteFile(num) {
+	if( ! confirm("파일을 삭제하시겠습니까 ?") ) {
+		return;
+	}
+	var url = "${pageContext.request.contextPath}/trade/deleteFile?num=" + num + "&page=${page}";
+	location.href = url;
+}
+</c:if>
+
+$(function() {
+	var img = "${dto.originalFilename}";
+	if( img ) { // 수정인 경우
+		img = "${pageContext.request.contextPath}/uploads/trade/" + img;
+		$(".write-form .img-viewer").empty();
+		$(".write-form .img-viewer").css("background-image", "url("+img+")");
+	}
+	
+	$(".write-form .img-viewer").click(function(){
+		$("form[name=photoForm] input[name=selectFile]").trigger("click"); 
+	});
+	
+	$("form[name=photoForm] input[name=selectFile]").change(function(){
+		var file=this.files[0];
+		if(! file) {
+			$(".write-form .img-viewer").empty();
+			if( img ) {
+				img = "${pageContext.request.contextPath}/uploads/trade/" + img;
+				$(".write-form .img-viewer").css("background-image", "url("+img+")");
+			} else {
+				img = "${pageContext.request.contextPath}/resources/images/add_photo.png";
+				$(".write-form .img-viewer").css("background-image", "url("+img+")");
+			}
+			return false;
+		}
+		
+		if(! file.type.match("image.*")) {
+			this.focus();
+			return false;
+		}
+		
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			$(".write-form .img-viewer").empty();
+			$(".write-form .img-viewer").css("background-image", "url("+e.target.result+")");
+		}
+		reader.readAsDataURL(file);
+	});
+});
+
 </script>
 
 <div class="board">
 	<div class="title">
 	    <h3><span>|</span> 글 올리기 </h3>
 	</div>
-<!-- 	<form name="boardForm" method="post">
-		<select name="type">
-				<option value="">말머리</option>
-				<option value="판매">판매</option>
-				<option value="구매">구매</option>
-		</select>
-	</form>
- -->
 
-	<form name="boardForm" method="post">
+	<form name="boardForm" method="post" enctype="multipart/form-data">
 		<div class="form-check" >
 			<input class="form-check-input" type="radio" name="type" value="판매" id="flexRadioDefault1">
 			  <label class="form-check-label" for="flexRadioDefault1">
@@ -67,7 +117,19 @@ function sendOk() {
 					<textarea name="content" class="boxTA">${dto.content}</textarea>
 				</td>
 			</tr>
-
+			<tr>
+				<td class="table-light col-sm-2" scope="row">이미지</td>
+				<td>
+					<input type="file" name="selectFile" accept="image/*" class="form-control">
+				</td>
+			</tr>
+	
+			<tr> 
+				<td>가 격</td>
+				<td> 
+					<input type="text" name="price" maxlength="70" class="boxTF" value="${dto.price}">
+				</td>
+			</tr>
 		</table>
 			
 		<table class="table">
@@ -78,6 +140,7 @@ function sendOk() {
 					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/trade/list';">${mode=="update"?"수정취소":"등록취소"}</button>
 					<c:if test="${mode=='update'}">
 						<input type="hidden" name="num" value="${dto.num}">
+						<input type="hidden" name="originalFilename" value="${dto.originalFilename}">
 						<input type="hidden" name="page" value="${page}">
 					</c:if>
 				</td>

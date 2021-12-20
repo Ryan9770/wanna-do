@@ -1,3 +1,4 @@
+
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -22,6 +23,10 @@
 .hitcount {
 	width: 80px;
 }
+
+.price {
+	width: 90px;
+}
 </style>
 
 
@@ -36,8 +41,8 @@ function searchList() {
 <div>
 <div style="margin-top: 50px; margin-left: 80px; width: 90%;">
 	<div>
-		<p style="text-align: left; font-size: 25px;"> 장터거래 게시판</p>
-	 	<p style="color: grey; font-size: 14px;"> 장터거래 게시판입니다. </p>
+		<p style="text-align: left; font-size: 25px;"> 중고거래 게시판</p>
+	 	<p style="color: grey; font-size: 14px;"> 중고거래 게시판입니다. </p>
 	<hr size="5" width="90%" align="center">
 	</div>
 </div>
@@ -53,6 +58,7 @@ function searchList() {
 			<th class="name">작성자</th>
 			<th class="regdate">작성일</th>
 			<th class="hitcount">조회수</th>
+			<th class="price"> 가격 </th>
 		</tr>
 		<c:forEach var="dto" items="${list}">
 			<tr>
@@ -62,6 +68,7 @@ function searchList() {
 				<td> ${dto.userName} </td>
 				<td> ${dto.reg_date} </td>
 				<td> ${dto.hitCount} </td>
+				<td> ${dto.price} </td>
 			</tr>
 		</c:forEach>
 	</table>
