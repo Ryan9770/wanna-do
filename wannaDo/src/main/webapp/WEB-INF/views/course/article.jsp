@@ -12,6 +12,8 @@
 
 
 
+
+
 .ck-editor__main
 >
 .ck-editor__editable
@@ -19,17 +21,23 @@
 
 
 
+
+
 :not
 
 
+
  
+
 
 
 (
 .ck-focused
 
 
+
  
+
 
 
 )
@@ -39,13 +47,19 @@ border
 
 
 
+
+
 :
+
 
 
  
 
 
+
 none
+
+
 
 
 
@@ -236,7 +250,7 @@ $(function(){
 		
 		var url = "${pageContext.request.contextPath}/course/insertVideo";
 		var query = "num=" + num + "&chapterName=" + chapterName + "&video=" + chapNum + "&chapterNo=" + chapterNo + "&videoLink=" + videoLink;
-		
+		alert(query);
 		var fn = function(data){
 			$td.find("textarea[name=chapterNo]").val("");
 			$td.find("textarea[name=chapterName]").val("");
@@ -287,7 +301,30 @@ $(function(){
 	
 });
 
+$(function(){
+	// 챕터 추가 대화상자
+	$("body").on("click", ".btnChapterAdd", function(){
+		$("form[name=categoryForm]").each(function(){
+			this.reset();
+		});
+		
+		$("#addChapterModal").modal("show");
+	});
+});
 
+$(function(){
+	// 영상 추가 대화상자
+	$("body").on("click", ".btnVideoAdd", function(){
+		$("form[name=videoForm]").each(function(){
+			this.reset();
+		});
+		
+		$(".btnSendVideo").attr("data-chapNum", $(this).attr("data-chapNum"));
+		
+		
+		$("#addVideoModal").modal("show");
+	});
+});
 </script>
 
 
@@ -370,23 +407,9 @@ $(function(){
 						</section>
 					</article>
 					<div class="Chapter">
-						<form name="chapterForm" method="post">
-
-							<table class="table table-borderless chapter-form">
-								<tr>
-									<td><textarea class='form-control' name="chapterNo"
-											placeholder="챕터번호"></textarea></td>
-									<td><textarea class='form-control' name="chapterName"
-											placeholder="챕터명"></textarea></td>
-								</tr>
-								<tr>
-									<td align='right'>
-										<button type='button' class='btn btn-light btnSendChapter'>챕터
-											등록</button>
-									</td>
-								</tr>
-							</table>
-						</form>
+						<div class="col ps-1">
+							<button class="btn btn-light btnChapterAdd" type="button">과목추가</button>
+						</div>
 
 						<div id="listChapter"></div>
 					</div>
@@ -428,9 +451,41 @@ $(function(){
 			</div>
 		</div>
 	</section>
-
-
 </body>
+<div class="modal fade" id="addChapterModal" tabindex="-1"
+	data-bs-backdrop="static" data-bs-keyboard="false"
+	aria-labelledby="myDialogModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="myDialogModalLabel">챕터 추가</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+
+				<form name="chapterForm" method="post">
+
+					<table class="table table-borderless chapter-form">
+						<tr>
+							<td><textarea class='form-control' name="chapterNo"
+									placeholder="챕터번호"></textarea></td>
+							<td><textarea class='form-control' name="chapterName"
+									placeholder="챕터명"></textarea></td>
+						</tr>
+						<tr>
+							<td align='right'>
+								<button type='button' class='btn btn-light btnSendChapter'>챕터
+									등록</button>
+							</td>
+						</tr>
+					</table>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
 <script type="text/javascript">
 ClassicEditor
 .create( document.querySelector( '.editor' ), {
