@@ -5,50 +5,25 @@ public class Chapter {
 	private int num;
 	private String chapterName;
 	private int chapterNo;
+	private int video;
+	private String videoLink;
+
 	
+
 	
-	private int videoNum;
-	private String saveFilename;
-	private String lessonName;
-	private int lessonNum;
-	private String reg_date;
-	private String state;
-	
-	public int getVideoNum() {
-		return videoNum;
+
+
+	public String getVideoLink() {
+		return videoLink;
 	}
-	public void setVideoNum(int videoNum) {
-		this.videoNum = videoNum;
+	public void setVideoLink(String videoLink) {
+		this.videoLink = videoLink;
 	}
-	public String getSaveFilename() {
-		return saveFilename;
+	public int getVideo() {
+		return video;
 	}
-	public void setSaveFilename(String saveFilename) {
-		this.saveFilename = saveFilename;
-	}
-	public String getLessonName() {
-		return lessonName;
-	}
-	public void setLessonName(String lessonName) {
-		this.lessonName = lessonName;
-	}
-	public int getLessonNum() {
-		return lessonNum;
-	}
-	public void setLessonNum(int lessonNum) {
-		this.lessonNum = lessonNum;
-	}
-	public String getReg_date() {
-		return reg_date;
-	}
-	public void setReg_date(String reg_date) {
-		this.reg_date = reg_date;
-	}
-	public String getState() {
-		return state;
-	}
-	public void setState(String state) {
-		this.state = state;
+	public void setVideo(int video) {
+		this.video = video;
 	}
 	public int getChapNum() {
 		return chapNum;

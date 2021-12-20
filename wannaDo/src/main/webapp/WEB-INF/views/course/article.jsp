@@ -8,24 +8,49 @@
 }
 
 .ck
+
+
+
+
 .ck-editor__main
 >
 .ck-editor__editable
+
+
+
+
 :not
+
+
  
+
+
 (
 .ck-focused
+
+
  
+
+
 )
 {
 border
+
+
+
+
 :
+
+
  
+
+
 none
-; 
 
 
 
+
+;
 }
 .table .ellipsis {
 	position: relative;
@@ -96,7 +121,7 @@ function ajaxFun(url, method, query, dataType, fn) {
 	});
 }
 
-//게시글 공감 여부
+//강좌 찜 여부
 $(function(){
 	$(".btnSendCourseLike").click(function(){
 		var $i = $(this).find("i");
@@ -137,6 +162,7 @@ $(function(){
 	listPage(1);
 });
 
+// 챕터 리스트
 function listPage(page) {
 	var url = "${pageContext.request.contextPath}/course/listChapter";
 	var query = "num=${dto.num}&pageNo="+page;
@@ -165,7 +191,7 @@ $(function(){
 		chapterName = encodeURIComponent(chapterName);
 		
 		var url = "${pageContext.request.contextPath}/course/insertChapter";
-		var query = "num=" + num + "&chapterNo=" + chapterNo + "&chapterName=" + chapterName;
+		var query = "num=" + num + "&chapterNo=" + chapterNo + "&chapterName=" + chapterName + "&video=0";
 		
 		var fn = function(data){
 
@@ -182,10 +208,55 @@ $(function(){
 	});
 });
 
-function listVideo(chapNum) {
+
+// 챕터 별  영상 등록
+$(function(){
+	$("body").on("click", ".btnSendVideo", function(){
+		var num = "${dto.num}";
+		var chapNum = $(this).attr("data-chapNum");
+		var $td = $(this).closest("td");
+		
+		var chapterNo = $td.find("textarea[name=chapterNo]").val().trim();
+		var chapterName = $td.find("textarea[name=chapterName]").val().trim();
+		var videoLink = $td.find("textarea[name=videoLink]").val().trim();
+		
+		if(! chapterNo) {
+			$td.find("textarea[name=chapterNo]").focus();
+			return false;
+		}
+		if(! chapterName) {
+			$td.find("textarea[name=chapterName]").focus();
+			return false;
+		}
+		if(! videoLink) {
+			$td.find("textarea[name=videoLink]").focus();
+			return false;
+		}
+		chapterName = encodeURIComponent(chapterName);
+		
+		var url = "${pageContext.request.contextPath}/course/insertVideo";
+		var query = "num=" + num + "&chapterName=" + chapterName + "&video=" + chapNum + "&chapterNo=" + chapterNo + "&videoLink=" + videoLink;
+		
+		var fn = function(data){
+			$td.find("textarea[name=chapterNo]").val("");
+			$td.find("textarea[name=chapterName]").val("");
+			$td.find("textarea[name=videoLink]").val("");
+			
+			var state = data.state;
+			if(state === "true") {
+				listVideo(chapNum);
+			}
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
+	});
+});
+
+// 영상 목록
+function listVideo(video) {
 	var url = "${pageContext.request.contextPath}/course/listVideo";
-	var query = "chapNum=" + chapNum;
-	var selector = "#listVideo" + chapNum;
+	var query = "video=" + video;
+	var selector = "#listVideo" + video;
 	
 	var fn = function(data){
 		$(selector).html(data);
@@ -193,38 +264,29 @@ function listVideo(chapNum) {
 	ajaxFun(url, "get", query, "html", fn);
 }
 
-//댓글별 답글 등록
+
+// 영상 목록 늘리기 버튼
 $(function(){
-	$("body").on("click", ".btnSendVideo", function(){
+	$("body").on("click", ".btnVideoListLayout", function(){
+		var $trVideoList = $(this).closest("tr").next();
+
+		
+		var isVisible = $trVideoList.is(':visible');
 		var chapNum = $(this).attr("data-chapNum");
-		var $div = $(this).closest("div");
-		
-		var lessonNum = $div.find("textarea[name=lessonNum]").val();
-		var lessonName = $div.find("textarea[name=lessonName]").val();
-		var saveFilename = $div.find("textarea[name=saveFilename]").val();
-		var state = $div.find("textarea[name=state]").val();
-		if(! saveFilename) {
-			$div.find("textarea[name=saveFilename]").focus();
-			return false;
-		}
-		saveFilename = encodeURIComponent(saveFilename);
-		
-		var url = "${pageContext.request.contextPath}/course/insertVideo";
-		var query = "saveFilename=" + saveFilename + "&chapNum=" + chapNum+ "&lessonNum=" + lessonNum+ "&lessonName=" + lessonName+ "&state=" + state;
-		
-		var fn = function(data){
-			$div.find("textarea").val("");
 			
-			var state = data.state;
-			if(state === "true") {
-				listVideo(chapNum);
-				
-			}
-		};
-		
-		ajaxFun(url, "post", query, "json", fn);
+		if(isVisible) {
+			$trVideoList.hide();
+		} else {
+			$trVideoList.show();
+            
+			// 영상 리스트
+			listVideo(chapNum);
+
+		}
 	});
+	
 });
+
 
 </script>
 
@@ -234,10 +296,10 @@ $(function(){
 <body>
 	<section class="py-5">
 		<div class="container px-5 my-5">
-			<div class="col-lg-3 sticky-top float-start" style="padding-top: 100px; padding-right: 50px;">
+			<div class="col-lg-3 sticky-top float-start"
+				style="padding-top: 100px; padding-right: 50px;">
 				<figure class="mb-4">
-					<img class="img-fluid rounded"
-						style="width: 270px; height: 170px;"
+					<img class="img-fluid rounded" style="width: 270px; height: 170px;"
 						src="${pageContext.request.contextPath}/uploads/course/${dto.imageFile}"
 						alt="..." />
 				</figure>

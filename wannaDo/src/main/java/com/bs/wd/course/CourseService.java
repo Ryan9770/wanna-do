@@ -32,5 +32,6 @@ public interface CourseService {
 	public void updateChapter(Chapter dto) throws Exception;
 	public void deleteChapter(int chapNum) throws Exception;
 	
+	public void insertVideo(Chapter dto) throws Exception;
 	public List<Chapter> listVideo(int chapNum);
 }

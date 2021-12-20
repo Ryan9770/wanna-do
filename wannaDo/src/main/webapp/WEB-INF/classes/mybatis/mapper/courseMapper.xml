@@ -132,8 +132,8 @@
 	
 	
 	<insert id="insertChapter" parameterType="com.bs.wd.course.Chapter">
-		INSERT INTO chapter(chapNum, num, chapterName, chapterNo)
-		VALUES (chapter_seq.NEXTVAL, #{num}, #{chapterName}, #{chapterNo})
+		INSERT INTO chapter(chapNum, num, chapterNo, chapterName, video)
+		VALUES (chapter_seq.NEXTVAL, #{num}, #{chapterNo}, #{chapterName}, #{video})
 	</insert>
 	
 	<!-- 댓글리스트 -->
@@ -143,23 +143,23 @@
 
 				FROM chapter 
 
-				WHERE num=#{num}
+				WHERE num=#{num} AND video=0
 				
 				ORDER BY chapterNo
 				
 
 	</select>
-	
 	<insert id="insertVideo" parameterType="com.bs.wd.course.Chapter">
-		INSERT INTO video(videoNum, chapNum, lessonName, lessonNum, saveFilename, reg_date, state)
-		VALUES (video_seq.NEXTVAL, #{chapNum}, #{lessonName}, #{lessonNum}, #{saveFilename}, SYSDATE, #{state})
+		INSERT INTO chapter(chapNum, num, chapterNo, chapterName, video, videoLink)
+		VALUES (chapter_seq.NEXTVAL, #{num}, #{chapterNo}, #{chapterName}, #{video}, #{videoLink})
 	</insert>
 	
+	<!-- 댓글의 답글 리스트 -->
 	<select id="listVideo" parameterType="Integer" resultType="com.bs.wd.course.Chapter">
-		SELECT chapNum, saveFilename, lessonName, lessonNum, reg_date, state
-		FROM video 
-		WHERE chapNum = #{chapNum}
-		ORDER BY lessonNum
+		SELECT chapNum, num, chapterNo, chapterName, video, videoLink
+		FROM chapter
+		WHERE video = #{video}
+		ORDER BY chapNum
 	</select>
 
 	

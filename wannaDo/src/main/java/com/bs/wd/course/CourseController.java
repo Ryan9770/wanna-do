@@ -417,14 +417,30 @@ public class CourseController {
 
 	// 댓글의 답글 리스트 : AJAX-TEXT
 		@RequestMapping(value = "listVideo")
-		public String listVideo(@RequestParam int chapNum, Model model) throws Exception {
-			List<Chapter> listVideo = service.listVideo(chapNum);
+		public String listVideo(@RequestParam int video, Model model) throws Exception {
+			List<Chapter> listVideo = service.listVideo(video);
 			
 			for (Chapter dto : listVideo) {
-				dto.setLessonName(dto.getLessonName().replaceAll("\n", "<br>"));
+				dto.setChapterName(dto.getChapterName().replaceAll("\n", "<br>"));
 			}
 
 			model.addAttribute("listVideo", listVideo);
 			return "course/listVideo";
 		}
+		
+	@RequestMapping(value = "insertVideo", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> insertVideo(Chapter dto, HttpSession session) {
+		String state = "true";
+
+		try {
+			service.insertVideo(dto);
+		} catch (Exception e) {
+			state = "false";
+		}
+
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		return model;
+	}
 }

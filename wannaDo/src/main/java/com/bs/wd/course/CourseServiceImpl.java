@@ -264,15 +264,25 @@ public class CourseServiceImpl  implements CourseService {
 	}		
 	
 	@Override
-	public List<Chapter> listVideo(int chapNum) {
+	public List<Chapter> listVideo(int video) {
 		List<Chapter> list = null;
 		
 		try {
-			list = dao.selectList("course.listVideo", chapNum);
+			list = dao.selectList("course.listVideo", video);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return list;
+	}
+
+	@Override
+	public void insertVideo(Chapter dto) throws Exception {
+		try {
+			dao.insertData("course.insertVideo", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 }
