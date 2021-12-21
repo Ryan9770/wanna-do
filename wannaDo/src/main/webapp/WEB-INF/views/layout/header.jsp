@@ -78,7 +78,7 @@
                          <a class="nav-link dropdown-toggle text-danger" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">고객센터</a>
                          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
                              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/notice/main">공지사항</a></li>
-                             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/faq">자주 묻는 질문</a></li>
+                             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/faq/main">자주 묻는 질문</a></li>
                          </ul>
                      </li>
 					<c:if test="${sessionScope.member.membership>0}">
