@@ -196,5 +196,53 @@ public class TradeServiceImpl implements TradeService {
 		}
 		return result;
 	}
+
+	@Override
+	public void insertTradeLike(Map<String, Object> map) throws Exception {
+		try {
+			dao.insertData("trade.insertTradeLike", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public void deleteTradeLike(Map<String, Object> map) throws Exception {
+		try {
+			dao.deleteData("trade.deleteTradeLike", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public int tradeLikeCount(int num) {
+		int result = 0;
+		
+		try {
+			result = dao.selectOne("trade.tradeLikeCount", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public boolean userTradeLiked(Map<String, Object> map) {
+		boolean result = false;
+		try {
+			Trade dto = dao.selectOne("trade.userTradeLiked", map);
+			if(dto != null) {
+				result = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 	
 }

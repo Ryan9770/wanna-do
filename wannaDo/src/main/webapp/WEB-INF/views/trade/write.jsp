@@ -21,6 +21,13 @@ function sendOk() {
         return;
     }
     
+    var str = f.price.value;
+    if(!str) {
+        alert("가격을 숫자로 입력하세요. ");
+        f.price.focus();
+        return;
+    }
+    
     var mode = "${mode}";
     if( (mode === "write") && (!f.selectFile.value) ) {
         alert("이미지 파일을 추가 하세요. ");
@@ -82,6 +89,20 @@ $(function() {
 	});
 });
 
+function inputNumberFormat(obj) {
+    obj.value = comma(uncomma(obj.value));
+}
+
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
+}
+
 </script>
 
 <div class="board">
@@ -127,7 +148,7 @@ $(function() {
 			<tr> 
 				<td>가 격</td>
 				<td> 
-					<input type="text" name="price" maxlength="70" class="boxTF" value="${dto.price}">
+					<input type="text" oninput="this.value = this.value.replaceAll(/\D/g, '')" name="price" maxlength="8" onkeyup="inputNumberFormat(this)" class="boxTF" value="${dto.price}">
 				</td>
 			</tr>
 		</table>

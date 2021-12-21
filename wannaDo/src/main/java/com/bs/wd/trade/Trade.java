@@ -20,7 +20,14 @@ public class Trade {
 	
 	private int replyCount;
 	
+	private int tradeLikeCount;
 	
+	public int getTradeLikeCount() {
+		return tradeLikeCount;
+	}
+	public void setTradeLikeCount(int tradeLikeCount) {
+		this.tradeLikeCount = tradeLikeCount;
+	}
 	public String getPrice() {
 		return price;
 	}

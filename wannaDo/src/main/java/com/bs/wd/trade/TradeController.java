@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bs.wd.common.MyUtil;
 import com.bs.wd.member.SessionInfo;
+import com.mongodb.DuplicateKeyException;
 
 @Controller("trade.tradeController") //객체생성&클라이언트 요청 받음 
 @RequestMapping("/trade/*")
@@ -31,6 +32,7 @@ public class TradeController {
 	@Autowired
 	private MyUtil myUtil;
 	
+
 	@RequestMapping(value="list")
 	public String list(
 			@RequestParam(value = "page", defaultValue = "1") int current_page,
@@ -113,7 +115,6 @@ public class TradeController {
 		
 		return ".trade.list";
 	}
-	
 	
 	@RequestMapping(value = "write", method = RequestMethod.GET)
 	public String writeForm(Model model, HttpSession session) throws Exception {
@@ -316,36 +317,6 @@ public class TradeController {
 		return model;
 	}
 	
-	
-	/*
-	@RequestMapping(value = "delete", method = RequestMethod.GET)
-	public String delete( 
-			@RequestParam int num, 
-			@RequestParam String page,
-			@RequestParam String originalFilename,
-			@RequestParam(defaultValue = "all") String condition,
-			@RequestParam(defaultValue = "") String keyword,
-			HttpSession session ) throws Exception {
-				
-		keyword = URLDecoder.decode(keyword, "utf-8");
-		String query = "page=" + page;
-		if(keyword.length() != 0) {
-			query += "&condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
-		}
-
-		String root = session.getServletContext().getRealPath("/");
-		String pathname = root + "uploads" + File.separator + "trade" + File.separator + originalFilename;
-		
-		try {
-			service.deleteTrade(num, pathname);
-		} catch (Exception e) {
-		}
-		
-		return "redirect:/trade/list?" + query;
-		
-	}
-	*/
-	
 	@RequestMapping(value = "delete", method = RequestMethod.GET)
 	public String delete(
 			@RequestParam int num,
@@ -368,4 +339,42 @@ public class TradeController {
 		
 		return "redirect:/trade/list?"+query;
 	}
+	
+	@RequestMapping(value = "insertTradeLike", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> insertTradeLike(
+			@RequestParam int num,
+			@RequestParam boolean userLiked,
+			HttpSession session) {
+		String state = "true";
+		int tradeLikeCount = 0;
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("num", num);
+		paramMap.put("userId", info.getUserId());
+		
+		try {
+			if(userLiked) {
+				service.deleteTradeLike(paramMap);
+			} else {
+				service.insertTradeLike(paramMap);
+			}
+		} catch (DuplicateKeyException e) {
+			state = "liked";
+		} catch (Exception e) {
+			state = "false";
+		}
+		
+		tradeLikeCount = service.tradeLikeCount(num);
+		
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		model.put("tradeLikeCount", tradeLikeCount);
+		
+		return model;
+	}
+	
+	
+	
 }

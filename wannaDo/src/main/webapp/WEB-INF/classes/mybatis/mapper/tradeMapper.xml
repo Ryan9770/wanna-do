@@ -37,10 +37,11 @@
 	</choose>
 	</sql>
 	
+	
 	<select id="listTrade" parameterType="map" resultType="com.bs.wd.trade.Trade">
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
-				SELECT num, subject, content, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, userName, price, type, hitCount
+				SELECT num, subject, content, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, userName, price, type, hitCount, originalFilename
 			FROM trade s
 			JOIN member1 m ON s.userId=m.userId
 			<where>
@@ -65,10 +66,14 @@
 	</select>	
 	
 	<select id="readTrade" parameterType="Integer" resultType="com.bs.wd.trade.Trade">
-		SELECT num, userName, subject, content, hitCount, reg_date, type, price, originalFilename
-		FROM trade s
-		JOIN member1 m ON s.userId=m.userId
-		WHERE num = #{num}
+		SELECT b.num, userName, subject, content, hitCount, b.reg_date, type, price, originalFilename, NVL(tradeLikeCount, 0), tradeLikeCount
+		FROM trade b
+		JOIN member1 m ON b.userId=m.userId
+		LEFT OUTER JOIN (
+			SELECT num, COUNT(*) tradeLikeCount FROM tradeLike
+			GROUP BY num
+		) bc ON b.num = bc.num
+		WHERE b.num = #{num}
 	</select>
 	
 	<update id="updateHitCount" parameterType="Integer">
@@ -159,6 +164,26 @@
 	<select id="replyAnswerCount" parameterType="Integer" resultType="Integer">
 		SELECT NVL(COUNT(*), 0)
 		FROM tradeReply WHERE answer = #{answer}
+	</select>
+	
+	<!--  좋아요 추가 -->
+	<insert id="insertTradeLike" parameterType="map">
+		INSERT INTO tradeLike(num, userId) VALUES (#{num}, #{userId} )
+	</insert>
+	
+	<!--  좋아요 취소 -->
+	<delete id="deleteTradeLike" parameterType="map">
+		DELETE FROM tradeLike WHERE num = #{num} AND userId = #{userId}
+	</delete>
+	
+	<!-- 좋아요 카운트 -->
+	<select id="tradeLikeCount" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM tradeLike WHERE num=#{num}
+	</select>
+      
+   	<!--  좋아요 여부 -->
+	<select id="userTradeLiked" parameterType="map" resultType="com.bs.wd.trade.Trade">
+		SELECT num, userId FROM tradeLike WHERE num = #{num} AND userId = #{userId}
 	</select>
 	
 	

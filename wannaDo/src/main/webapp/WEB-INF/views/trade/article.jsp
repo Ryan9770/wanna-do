@@ -95,6 +95,43 @@ $(function(){
 	});
 });
 
+//게시글 공감 여부
+$(function(){
+	$(".btnSendTradeLike").click(function(){
+		var $i = $(this).find("i");
+		var userLiked = $i.hasClass("bi-hand-thumbs-up-fill");
+		var msg = userLiked ? "찜한 것을 취소할까요? " : "이 거래글을 찜할까요? ";
+		
+		if(! confirm( msg )) {
+			return false;
+		}
+		
+		var url="${pageContext.request.contextPath}/trade/insertTradeLike";
+		var num="${dto.num}";
+		var query="num="+num+"&userLiked="+userLiked;
+		
+		var fn = function(data){
+			var state = data.state;
+			if(state==="true") {
+				if( userLiked ) {
+					$i.removeClass("bi-hand-thumbs-up-fill").addClass("bi-hand-thumbs-up");
+				} else {
+					$i.removeClass("bi-hand-thumbs-up").addClass("bi-hand-thumbs-up-fill");
+				}
+				
+				var count = data.tradeLikeCount;
+				$("#tradeLikeCount").text(count);
+			} else if(state==="liked") {
+				alert("게시글 공감은 한번만 가능합니다. !!!");
+			} else if(state==="false") {
+				alert("게시물 공감 여부 처리가 실패했습니다. !!!");
+			}
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
+	});
+});
+
 // 댓글 삭제
 $(function(){
 	$("body").on("click", ".deleteReply", function(){
@@ -258,6 +295,12 @@ $(function(){
 					<tr>
 						<td colspan="2">
 							${dto.content}
+						</td>
+					</tr>
+					
+					<tr>
+						<td colspan="2" class="text-center p-3">
+							<button type="button" class="btn btn-outline-secondary btnSendTradeLike" title="찜하기"><i class="bi ${userTradeLiked ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up' }"></i>&nbsp;&nbsp;<span id="tradeLikeCount">${dto.tradeLikeCount}</span></button>
 						</td>
 					</tr>
 					
