@@ -32,11 +32,12 @@
 	<select id="listCourse" parameterType="map" resultType="com.bs.wd.admin.courseManage.Course">
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
-				SELECT c.userId, userName, c.num, courseName, content,
-                price, TO_CHAR(c.reg_date, 'YYYY-MM-DD') creg_date, c.enabled, category
+				SELECT c.userId, creatorName, c.num, courseName, content,
+                price, TO_CHAR(c.reg_date, 'YYYY-MM-DD') reg_date, c.enabled, category
 				FROM course c
 				JOIN member1 m1 ON c.userId=m1.userId
 				JOIN courseCategory cc ON c.categoryNum=cc.categoryNum
+				JOIN creatorInfo i ON c.userId=i.userId
 				<where>
 					<if test="keyword!=null and keyword!='' ">
 						<include refid="where-list"/>
@@ -51,19 +52,19 @@
 	</select>
 	
 	<select id="readCourse" parameterType="Integer" resultType="com.bs.wd.admin.courseManage.Course">
-		SELECT c.userId, userName, c.num, courseName, content, TO_CHAR(creator_reg_date, 'YYYY-MM-DD') creator_reg_date,
-                price, TO_CHAR(c.reg_date, 'YYYY-MM-DD') creg_date, c.enabled, category, imageFile, 
-                chapterNo, chapterName, video, videolink
-				FROM course c
-				JOIN member1 m1 ON c.userId=m1.userId
-				JOIN courseCategory cc ON c.categoryNum=cc.categoryNum
-				LEFT OUTER JOIN chapter chp ON c.num=chp.num
-				LEFT OUTER JOIN creatorinfo ci ON m1.userId = ci.userId
-				LEFT OUTER JOIN (
-				SELECT num, COUNT(*) courseLikeCount FROM courseLike
-				GROUP BY num
-				) bc ON c.num = bc.num 
-				WHERE c.num = #{num}
+		SELECT b.num, b.userId, courseName, content, price, creatorName, imageFilename,
+			b.reg_date, tag, recommended, b.imageFile, courseLevel, creator_reg_date,
+			b.categoryNum, c.category,
+			NVL(courseLikeCount, 0) courseLikeCount
+		FROM course b
+		JOIN member1 m ON b.userId=m.userId
+		JOIN courseCategory c ON b.categoryNum = c.categoryNum
+		JOIN creatorInfo i ON b.userId=i.userId
+		LEFT OUTER JOIN (
+			SELECT num, COUNT(*) courseLikeCount FROM courseLike
+			GROUP BY num
+		) bc ON b.num = bc.num
+		WHERE b.num = #{num}
 	</select>
 	
 	<update id="updateCourseEnabled" parameterType="map">

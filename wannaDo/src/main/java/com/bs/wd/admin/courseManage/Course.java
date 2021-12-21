@@ -16,15 +16,15 @@ public class Course {
 	private String courseName;
 	private String content;
 	private String price;
-	private String creg_date;
-	private String vreg_date;
+	private String reg_date;
+	
 	private String tag;
 	private String recommended;
 	private String userId;
 	private int enabled;
 	private String imageFile;
 	private String state;
-	private String userName;
+	private String creatorName;
 	
 	private int courseNum;
 	
@@ -34,6 +34,7 @@ public class Course {
 	private String registerId;
 	private String sReg_date;
 	private String creator_reg_date;
+
 	
 	private int courseLikeCount;
 	
@@ -130,17 +131,12 @@ public class Course {
 	public void setPrice(String price) {
 		this.price = price;
 	}
-	public String getCreg_date() {
-		return creg_date;
+	
+	public String getReg_date() {
+		return reg_date;
 	}
-	public void setCreg_date(String creg_date) {
-		this.creg_date = creg_date;
-	}
-	public String getVreg_date() {
-		return vreg_date;
-	}
-	public void setVreg_date(String vreg_date) {
-		this.vreg_date = vreg_date;
+	public void setReg_date(String reg_date) {
+		this.reg_date = reg_date;
 	}
 	public String getTag() {
 		return tag;
@@ -179,11 +175,12 @@ public class Course {
 	public void setState(String state) {
 		this.state = state;
 	}
-	public String getUserName() {
-		return userName;
+
+	public String getCreatorName() {
+		return creatorName;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setCreatorName(String creatorName) {
+		this.creatorName = creatorName;
 	}
 	public long getStateNum() {
 		return stateNum;

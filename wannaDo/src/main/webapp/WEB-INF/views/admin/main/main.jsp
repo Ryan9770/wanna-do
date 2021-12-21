@@ -319,7 +319,7 @@ function listBirth() {
 		
 	var fn = function(data) {
 		var blist = data.listBirth;
-		
+		if( blist){
 		for(var i=0; i<blist.length; i++){
 			var name = blist[i].userName;
 			var birth = blist[i].birth;
@@ -328,7 +328,10 @@ function listBirth() {
 			var out = "<span style='font-size: 32px; font-weight: bold; margin:10px;'>" +name + "님의 생일 : "+month+"월 "+date+"일"+"</span>";
 			$(selector).html(out);
 		}
-
+		} else {
+			out = "<span style='font-size: 32px; font-weight: bold; margin:10px;'> 생일인 회원이 존재하지 않습니다. </span>";
+			$(selector).html(out);
+		}
 	};
 	
 	ajaxFun(url, "get", query, "json", fn);	

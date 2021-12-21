@@ -16,11 +16,11 @@
 		<td class="text-right pe-7 bg">아이디</td>
 		<td class="text-start">${dto.userId}</td>
 		<td class="text-right pe-7 bg">이름</td>
-		<td class="text-start">${dto.userName}</td>
+		<td class="text-start">${dto.creatorName}</td>
 	</tr>
 	<tr>
 		<td class="text-right pe-7 bg">강좌등록일</td>
-		<td class="text-start">${dto.creg_date}</td>
+		<td class="text-start">${dto.reg_date}</td>
 		<td class="text-right pe-7 bg">크리에이터 전환일</td>
 		<td class="text-start">${dto.creator_reg_date}</td>
 	</tr>

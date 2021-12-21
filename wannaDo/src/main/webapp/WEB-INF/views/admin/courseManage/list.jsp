@@ -183,9 +183,9 @@ function selectStateChange() {
 							<td>${dto.listNum}</td>
 							<td>${dto.category}</td>
 							<td>${dto.userId}</td>
-							<td>${dto.userName}</td>
+							<td>${dto.creatorName}</td>
 							<td>${dto.courseName}</td>
-							<td>${dto.creg_date}</td>
+							<td>${dto.reg_date}</td>
 							<td>${dto.enabled==1?"승인":"미승인"}</td>
 						</tr>
 						</c:forEach>

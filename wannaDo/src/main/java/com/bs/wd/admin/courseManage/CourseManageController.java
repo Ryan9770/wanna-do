@@ -133,9 +133,7 @@ public class CourseManageController {
 		map.put("end", end);
 		
 		Course dto = service.readCourse(num);
-		
-		
-		
+				
 		Course courseState=service.readCourseState(num);
 		List<Course> listState = service.listCourseState(num);
 		List<Course> listChapter = service.listChapter(map);
