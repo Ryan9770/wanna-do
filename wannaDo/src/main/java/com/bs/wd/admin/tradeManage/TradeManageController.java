@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bs.wd.common.MyUtil;
 import com.bs.wd.member.SessionInfo;
@@ -109,18 +110,45 @@ public class TradeManageController {
 	@RequestMapping(value = "detail")
 	public String detail(
 			@RequestParam int num,
+			@RequestParam(value = "page", defaultValue = "1") int current_page,
 			Model model
 			) throws Exception{
 		
 		Trade dto = service.readTrade(num);
 
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("num", num);
+		int rows = 5;
+		int replyCount = service.replyCount(map);
+		int total_page = myUtil.pageCount(rows, replyCount);
+		if(current_page > total_page) {
+			current_page = total_page;
+		}
+		
+		int start = (current_page - 1) * rows + 1;
+		int end = current_page * rows;
+		map.put("start", start);
+		map.put("end", end);
+		
+		List<Reply> listReply = service.listReply(map);
+		
+		for(Reply rdto : listReply) {
+			dto.setContent(rdto.getContent().replaceAll("\n", "<br>"));
+		}
+		String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
+		
 		model.addAttribute("dto",dto);
+		model.addAttribute("listReply",listReply);
+		model.addAttribute("replyCount",replyCount);
+		model.addAttribute("total_page",total_page);
+		model.addAttribute("page",current_page);
+		model.addAttribute("paging",paging);
 		
 		return "admin/tradeManage/detail";
 	}
 	
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
-	public String deleteStudy(@RequestParam int num
+	public String deleteTrade(@RequestParam int num
 			,HttpSession session,
 			@RequestParam String page,
 			@RequestParam(defaultValue = "all") String condition,
@@ -145,6 +173,23 @@ public class TradeManageController {
 		}
 		
 		return "redirect:/admin/tradeManage/list?"+query;
+	}
+	
+	@RequestMapping(value = "deleteReply", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> deleteReply(@RequestParam Map<String, Object> map) throws Exception{
+		String state = "true";
+		
+		try {
+			service.deleteReply(map);
+		} catch (Exception e) {
+			state = "false";
+		}
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("state", state);
+		
+		return model;
 	}
 	
 }

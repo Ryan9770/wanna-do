@@ -147,7 +147,7 @@ function selectStateChange() {
 	    </div>
 	    
 	    <div class="body-main ms-30">
-			<div id="tab-content" style="clear:both; padding: 20px 10px 0;">
+			
 			
 				<table class="table">
 					<tr>
@@ -207,6 +207,6 @@ function selectStateChange() {
 			</div>
 			
 	    </div>
-	</div>
+
 	<div id="course-dialog" style="display: none;"></div>
 </main>

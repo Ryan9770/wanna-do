@@ -58,9 +58,9 @@
 	
 	<select id="readTrade" parameterType="Integer" resultType="com.bs.wd.admin.tradeManage.Trade">
 		SELECT t.num, t.userId, userName, subject, content,
-			   hitCount, t.reg_date, type
+			   hitCount, TO_CHAR(t.reg_date, 'YYYY-MM-DD') reg_date, type, originalFilename
 		FROM trade t
-		JOIN member1 m1 ON s.userId=m1.userId
+		JOIN member1 m1 ON t.userId=m1.userId
 		WHERE t.num = #{num}
 	</select>
 	
@@ -104,7 +104,7 @@
 	</delete>
 	
 	<select id="listReplyAnswer" parameterType="Integer" resultType="com.bs.wd.admin.tradeManage.Reply">
-		SELECT replyNum, num, r.userId, userName, content, reg_date, answer
+		SELECT replyNum, num, r.userId, userName, content, TO_CHAR(r.reg_date,'YYYY-MM-DD') reg_date, answer
 		FROM tradeReply r
 		JOIN member1 m ON r.userId = m.userId
 		WHERE answer = #{answer}

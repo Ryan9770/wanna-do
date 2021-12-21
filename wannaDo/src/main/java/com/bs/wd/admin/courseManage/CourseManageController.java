@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -108,18 +110,40 @@ public class CourseManageController {
 	
 	// 강의 상세 정보 : AJAX-TEXT 응답
 	@RequestMapping(value = "detail")
-	public String detailCourse(
+	public String detailCourse(@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
 			@RequestParam int num,
 			Model model
 			) throws Exception{
 		
+		int rows = 5;
+		int total_page = 0;
+		int dataCount = 0;
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("num", num);
+
+		total_page = myUtil.pageCount(rows, dataCount);
+		if (current_page > total_page) {
+			current_page = total_page;
+		}
+
+		int start = (current_page - 1) * rows + 1;
+		int end = current_page * rows;
+		map.put("start", start);
+		map.put("end", end);
+		
 		Course dto = service.readCourse(num);
+		
+		
+		
 		Course courseState=service.readCourseState(num);
 		List<Course> listState = service.listCourseState(num);
+		List<Course> listChapter = service.listChapter(map);
 		
 		model.addAttribute("dto",dto);
 		model.addAttribute("courseState",courseState);
 		model.addAttribute("listState",listState);
+		model.addAttribute("listChapter", listChapter);
 		
 		return "admin/courseManage/detail";
 	}
@@ -151,4 +175,48 @@ public class CourseManageController {
 		return model;
 	}
 	
+	@RequestMapping("todayCourse")
+	@ResponseBody
+	public Map<String, Object> todayCourseCount() throws Exception{
+		int todayCourseCount = 0;
+		
+		todayCourseCount = service.todayCount();
+		Map<String, Object> map = new HashMap<String, Object>();
+			
+		map.put("todayCourseCount", todayCourseCount);
+		
+		return map;
+	}
+	
+	@RequestMapping("totalCourse" )
+	@ResponseBody
+	public Map<String, Object> totalCourseCount() throws Exception{
+		int totalCourseCount = 0;
+		
+		totalCourseCount = service.totalCount();
+		Map<String, Object> map = new HashMap<String, Object>();
+			
+		map.put("totalCourseCount", totalCourseCount);
+		
+		return map;
+	}
+	
+	@RequestMapping(value="courseAnalysis",produces="application/json; charset=utf-8")
+	@ResponseBody
+	public String listCourseSection() throws Exception{
+		JSONArray jarr = new JSONArray();
+		
+		JSONObject job;
+		List<Analysis> list = service.listCourseSection();
+		
+		for(int i=0; i<list.size(); i++) {
+			job = new JSONObject();
+			job.put("name", list.get(i).getSection().toString());
+			job.put("value", list.get(i).getCount());
+			jarr.put(job);
+		}
+		
+		
+		return jarr.toString();
+	}
 }

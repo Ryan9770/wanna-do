@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bs.wd.common.dao.CommonDAO;
+import com.bs.wd.course.Chapter;
 
 @Service("admin.courseManage.courseManageService")
 public class CourseManageServiceImpl implements CourseManageService{
@@ -92,5 +93,54 @@ public class CourseManageServiceImpl implements CourseManageService{
 		}
 		return dto;
 	}
+
+	@Override
+	public int todayCount() {
+		int result =0;
+		try {
+			result = dao.selectOne("courseManage.todayCount");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public int totalCount() {
+		int result =0;
+		try {
+			result = dao.selectOne("courseManage.totalCount");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 	
+	@Override
+	public List<Course> listChapter(Map<String, Object> map) {
+		List<Course> list = null;
+		
+		try {
+			list = dao.selectList("courseManage.listChapter", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+	@Override
+	public List<Analysis> listCourseSection() {
+		List<Analysis> list = null;
+		
+		try {
+			list = dao.selectList("courseManage.listCourseSection");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
 }

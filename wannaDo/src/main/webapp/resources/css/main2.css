@@ -16,6 +16,7 @@ nav *:before, nav *:after {
 
 ul {
   list-style: none;
+  padding : 0px;
 }
 
 .wrapper {
@@ -28,11 +29,11 @@ nav {
   background: #003366;
 }
 
-nav a {
+nav li a {
 	color: #fff; text-decoration: none; cursor: pointer;
 }
-nav a:hover {
-  color: #fff;
+nav li a:hover {
+  color: #777;
 }
 
 nav header {
@@ -100,14 +101,15 @@ nav ul li:nth-child(2) a:before { content: '\ef47'; }
 nav ul li:nth-child(3) a:before { content: '\ed0a'; }
 nav ul li:nth-child(4) a:before { content: '\ead2'; }
 nav ul li:nth-child(5) a:before { content: '\ecf4'; }
-nav ul li:nth-child(6) a:before { content: '\efac'; }
-nav ul li:nth-child(7) a:before { content: '\eecd'; }
-nav ul li:nth-child(8) a:before { content: '\e96b'; }
-nav ul li:nth-child(9) a:before { content: '\efcb'; }
-nav ul li:nth-child(11) a:before { content: '\e970'; }
-nav ul li:nth-child(12) a:before { content: '\ed12'; }
-nav ul li:nth-child(13) a:before { content: '\efe1'; }
-nav ul li:nth-child(14) a:before { content: '\f01b'; }
+nav ul li:nth-child(6) a:before { content: '\eeb0'; }
+nav ul li:nth-child(7) a:before { content: '\efac'; }
+nav ul li:nth-child(8) a:before { content: '\eecd'; }
+nav ul li:nth-child(9) a:before { content: '\e96b'; }
+nav ul li:nth-child(10) a:before { content: '\efcb'; }
+nav ul li:nth-child(12) a:before { content: '\e970'; }
+nav ul li:nth-child(13) a:before { content: '\ed12'; }
+nav ul li:nth-child(14) a:before { content: '\efe1'; }
+nav ul li:nth-child(15) a:before { content: '\f01b'; }
 
 main {
   flex: 1;

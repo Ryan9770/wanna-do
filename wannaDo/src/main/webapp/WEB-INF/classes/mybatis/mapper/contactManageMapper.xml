@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="contactManage">
+	<select id="dataCount" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) FROM contactus
+	</select>
+	
+	<select id="listContact" parameterType="map" resultType="com.bs.wd.admin.contactManage.Contact">
+		SELECT * FROM(
+			SELECT ROWNUM rnum, tb.* FROM(
+				SELECT contactIdx, fullname, email, tel, message, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, state
+				FROM contactus
+				ORDER BY reg_date DESC
+				) tb WHERE ROWNUM &lt;= #{end}
+			) WHERE rnum &gt;= #{start}	
+	</select>
+	
+	<update id="updateState" parameterType="map">
+		UPDATE contactus SET state=state+1 WHERE contactIdx=#{contactIdx}
+	</update>
+</mapper>

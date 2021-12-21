@@ -16,4 +16,5 @@ public interface MemberManageService {
 	public void insertMemberState(Member dto) throws Exception;
 	public List<Member> listMemberState(String userId);
 	public Member readMemberState(String userId);
+	public List<Member> listBirth();
 }

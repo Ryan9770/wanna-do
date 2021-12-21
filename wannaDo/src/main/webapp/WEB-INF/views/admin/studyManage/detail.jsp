@@ -51,3 +51,6 @@
 			</tr>
 		</c:forEach>
 </table>
+<div class="page-box">
+${replyCount == 0 ? "등록된 게시물이 없습니다." : paging}
+</div>

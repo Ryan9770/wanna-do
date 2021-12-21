@@ -13,8 +13,25 @@ $(function() {
         }
     });
 });
-</script>
 
+
+</script>
+<style type="text/css">
+
+
+.accordion{
+  width: 230px;
+  background: #003366;
+  border-radius: 0px;
+  
+}
+
+.active, .accordion:hover{
+	background: #54a4fc;
+}
+
+
+</style>
 <nav>
 	<header>
 		<span></span>
@@ -26,13 +43,14 @@ $(function() {
 		<li><span>Navigation</span></li>
 		<li><a href="${pageContext.request.contextPath}/admin">Home</a></li>
 		<li><a href="${pageContext.request.contextPath}/admin/memberManage/list">회원관리</a></li>
+
 		<li><a href="${pageContext.request.contextPath}/admin/courseManage/list">강의관리</a></li>
 		<li><a href="${pageContext.request.contextPath}/admin/studyManage/list">스터디게시판관리</a></li>
-		<li><a href="${pageContext.request.contextPath}/admin/tradeManage/list">중고거래게시판관리</a></li>
+		<li><a href="${pageContext.request.contextPath}/admin/tradeManage/list">거래게시판관리</a></li>
 		<li><a href="${pageContext.request.contextPath}/admin/noticeManage/main">공지사항관리</a></li>
 		<li><a href="${pageContext.request.contextPath}/admin/scheduleManage/main">일정관리</a></li>
 		<li><a>매출관리</a></li>
-		<li><a>고객센터관리</a></li>
+		<li><a href="${pageContext.request.contextPath}/admin/contactManage/list">고객의 소리</a></li>
 		<li><span>Other</span></li>
 		<c:choose>
 			<c:when test="${sessionScope.member.membership >= 99 }">

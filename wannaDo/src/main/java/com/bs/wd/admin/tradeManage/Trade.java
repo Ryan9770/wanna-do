@@ -11,6 +11,9 @@ public class Trade {
 	private String reg_date;
 	private int hitCount;
 	private String type;
+	private String price;
+	private String originalFilename;
+	private String saveFilename;
 	
 	private int replyCount;
 	
@@ -74,6 +77,25 @@ public class Trade {
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	public String getPrice() {
+		return price;
+	}
+	public void setPrice(String price) {
+		this.price = price;
+	}
+
+	public String getOriginalFilename() {
+		return originalFilename;
+	}
+	public void setOriginalFilename(String originalFilename) {
+		this.originalFilename = originalFilename;
+	}
+	public String getSaveFilename() {
+		return saveFilename;
+	}
+	public void setSaveFilename(String saveFilename) {
+		this.saveFilename = saveFilename;
 	}
 
 	

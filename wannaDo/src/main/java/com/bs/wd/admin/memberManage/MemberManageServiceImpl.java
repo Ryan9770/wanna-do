@@ -125,4 +125,15 @@ public class MemberManageServiceImpl implements MemberManageService {
 		return dto;
 	}
 
+	@Override
+	public List<Member> listBirth() {
+		List<Member> list = null;
+		try {
+			list = dao.selectList("memberManage.listBirth");
+		} catch (Exception e) {
+		}
+		
+		return list;
+	}
+
 }

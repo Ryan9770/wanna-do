@@ -46,14 +46,23 @@
 
 <h3 style="font-size: 15px; padding-top: 10px;"><i class="icofont-double-right"></i>영상 정보</h3>
 <table class="table border mx-auto my-10">
-	<tr>
-		<td>챕터</td>
-		<td>1</td>
-	</tr>
-	<tr>
-		<td>영상</td>
-		<td><div class="videoFrame"></div></td>
-	</tr>
+	<c:forEach var="vo" items="${listChapter}" varStatus="status">
+		<c:if test="${empty vo.videoLink}">
+			<tr>
+					<td>${vo.chapterNo}.${vo.chapterName}</td>
+			</tr>
+		</c:if>
+		<c:if test="${not empty vo.videoLink}">
+			<tr>
+				<td><iframe width="50%" height="300px;"
+					src="${vo.videoLink}"
+					title="YouTube video player" frameborder="0"
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+					allowfullscreen></iframe>
+				</td>
+			</tr>
+		</c:if>
+	</c:forEach>			
 </table>
 
 <form id="detailCourseForm" name="detailCourseForm" method="post">

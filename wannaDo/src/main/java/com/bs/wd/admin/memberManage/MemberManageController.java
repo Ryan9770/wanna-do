@@ -163,13 +163,17 @@ public class MemberManageController {
 		return model;
 	}
 	
-	@RequestMapping("analysis")
-	public String analysis(Model model) throws Exception {
-		// 회원 어낼러시스
+	@RequestMapping("listBirth")
+	@ResponseBody
+	public Map<String, Object> listBirth() throws Exception {
 		
-		return ".admin.memberManage.analysis";
+		List<Member> listBirth = service.listBirth();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("listBirth", listBirth);
+		
+		return map;
 	}
 	
-	// 회원 연령대별 인원수 : AJAX-JSON 응답
+	
 
 }

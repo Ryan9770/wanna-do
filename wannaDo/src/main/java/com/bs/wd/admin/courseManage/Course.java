@@ -2,11 +2,15 @@ package com.bs.wd.admin.courseManage;
 
 public class Course {
 	private int listNum;
+	
 	private int chapNum;
 	private int chapterNo;
-	private int videoNum;
 	private String chapterName;
 	private int categoryNum;
+	private int video;
+	private String videoLink;
+
+	
 	private int num;
 	private String category;
 	private String courseName;
@@ -19,11 +23,11 @@ public class Course {
 	private String userId;
 	private int enabled;
 	private String imageFile;
-	private int lessonNum;
-	private String lessonName;
 	private String state;
 	private String userName;
+	
 	private int courseNum;
+	
 	private int stateNum;
 	private int stateCode;
 	private String memo;
@@ -31,8 +35,28 @@ public class Course {
 	private String sReg_date;
 	private String creator_reg_date;
 	
+	private int courseLikeCount;
 	
 	
+	
+	public int getVideo() {
+		return video;
+	}
+	public void setVideo(int video) {
+		this.video = video;
+	}
+	public String getVideoLink() {
+		return videoLink;
+	}
+	public void setVideoLink(String videoLink) {
+		this.videoLink = videoLink;
+	}
+	public int getCourseLikeCount() {
+		return courseLikeCount;
+	}
+	public void setCourseLikeCount(int courseLikeCount) {
+		this.courseLikeCount = courseLikeCount;
+	}
 	public String getCreator_reg_date() {
 		return creator_reg_date;
 	}
@@ -63,12 +87,7 @@ public class Course {
 	public void setChapterNo(int chapterNo) {
 		this.chapterNo = chapterNo;
 	}
-	public int getVideoNum() {
-		return videoNum;
-	}
-	public void setVideoNum(int videoNum) {
-		this.videoNum = videoNum;
-	}
+
 	public String getChapterName() {
 		return chapterName;
 	}
@@ -153,18 +172,6 @@ public class Course {
 	}
 	public void setImageFile(String imageFile) {
 		this.imageFile = imageFile;
-	}
-	public int getLessonNum() {
-		return lessonNum;
-	}
-	public void setLessonNum(int lessonNum) {
-		this.lessonNum = lessonNum;
-	}
-	public String getLessonName() {
-		return lessonName;
-	}
-	public void setLessonName(String lessonName) {
-		this.lessonName = lessonName;
 	}
 	public String getState() {
 		return state;

@@ -19,7 +19,6 @@
 		FROM course c
 		JOIN member1 m1 ON c.userId = m1.userId
 		LEFT OUTER JOIN chapter chp ON c.num = chp.num
-		LEFT OUTER JOIN video v ON chp.chapNum = v.chapNum
 		<where>
 			<if test="keyword!=null and keyword!='' ">
 				<include refid="where-list"/>
@@ -34,13 +33,10 @@
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
 				SELECT c.userId, userName, c.num, courseName, content,
-                price, TO_CHAR(c.reg_date, 'YYYY-MM-DD') creg_date, c.enabled, category, 
-                chapterNo, chapterName, saveFilename, lessonName, lessonNum, TO_CHAR(v.reg_date, 'YYYY-MM-DD') vreg_date, state 
+                price, TO_CHAR(c.reg_date, 'YYYY-MM-DD') creg_date, c.enabled, category
 				FROM course c
 				JOIN member1 m1 ON c.userId=m1.userId
 				JOIN courseCategory cc ON c.categoryNum=cc.categoryNum
-				LEFT OUTER JOIN chapter chp ON c.num=chp.num
-				LEFT OUTER JOIN video v ON chp.chapNum=v.chapNum
 				<where>
 					<if test="keyword!=null and keyword!='' ">
 						<include refid="where-list"/>
@@ -57,13 +53,16 @@
 	<select id="readCourse" parameterType="Integer" resultType="com.bs.wd.admin.courseManage.Course">
 		SELECT c.userId, userName, c.num, courseName, content, TO_CHAR(creator_reg_date, 'YYYY-MM-DD') creator_reg_date,
                 price, TO_CHAR(c.reg_date, 'YYYY-MM-DD') creg_date, c.enabled, category, imageFile, 
-                chapterNo, chapterName, lessonName, lessonNum, TO_CHAR(v.reg_date, 'YYYY-MM-DD') vreg_date, state 
+                chapterNo, chapterName, video, videolink
 				FROM course c
 				JOIN member1 m1 ON c.userId=m1.userId
 				JOIN courseCategory cc ON c.categoryNum=cc.categoryNum
 				LEFT OUTER JOIN chapter chp ON c.num=chp.num
-				LEFT OUTER JOIN video v ON chp.chapNum=v.chapNum
-				LEFT OUTER JOIN creatorinfo ci ON m1.userId = ci.userId 
+				LEFT OUTER JOIN creatorinfo ci ON m1.userId = ci.userId
+				LEFT OUTER JOIN (
+				SELECT num, COUNT(*) courseLikeCount FROM courseLike
+				GROUP BY num
+				) bc ON c.num = bc.num 
 				WHERE c.num = #{num}
 	</select>
 	
@@ -91,5 +90,43 @@
 			ORDER BY stateNum   DESC
 		) WHERE ROWNUM = 1
 	</select>
+	
+	<select id="todayCount" parameterType="String" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) 
+		FROM course
+		WHERE TO_CHAR(reg_date,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+	</select>
+	
+	<select id="totalCount" parameterType="String" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) 
+		FROM course
+	</select>
+	
+	<select id="listChapter" parameterType="map" resultType="com.bs.wd.admin.courseManage.Course">
+				SELECT chapNum, num, chapterName, chapterNo, video, videoLink
+				FROM chapter 
+				ORDER BY chapNum
+	</select>
+	
+	<select id="listCourseSection" resultType="com.bs.wd.admin.courseManage.Analysis">
+		WITH courseSection AS( 
+			SELECT c.categoryNum, category
+			FROM course c
+			JOIN courseCategory cc ON cc.categoryNum=c.categoryNum
+			WHERE enabled = 1
+		)
+	<![CDATA[
+	SELECT '토익' section, COUNT(*) count FROM courseSection WHERE category = 'TOEIC'
+    UNION ALL
+    SELECT '토플' section, COUNT(*) count FROM courseSection WHERE category = 'TOEFL'
+    UNION ALL
+    SELECT '토스' section, COUNT(*) count FROM courseSection WHERE category = 'TOS'
+    UNION ALL
+    SELECT '텝스' section, COUNT(*) count FROM courseSection WHERE category = 'TEPS'
+    UNION ALL
+    SELECT '오픽' section, COUNT(*) count FROM courseSection WHERE category = 'OPIC'
+	]]></select>
+	
+	
 	
 </mapper>

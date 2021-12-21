@@ -135,7 +135,7 @@ public class StudyManageController {
 		List<Reply> listReply = service.listReply(map);
 		
 		for (Reply rdto : listReply) {
-			dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+			dto.setContent(rdto.getContent().replaceAll("\n", "<br>"));
 		}
 		
 		String paging = myUtil.pagingMethod(current_page, total_page, "listPage");

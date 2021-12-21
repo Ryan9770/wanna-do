@@ -30,17 +30,17 @@ background-color : #fff;
 			        </div>
 			        <div class="col-lg-3">
 			            <div class="population_analysis">
-			                <h4>현재 접속자</h4>
-			                <h3><span class="counter">${currentCount}</span></h3>
+			                <h4>오늘 접속자</h4>
+			                <h3><span class="counter">${toDayCount}</span></h3>
 			                <div class="d-flex">
-			                    <span>Current</span>
+			                    <span>Today</span>
 			                </div>
 			            </div>
 			        </div>
 			        <div class="col-lg-3">
 			            <div class="population_analysis">
-			                <h4>오늘 올라온 영상 수</h4>
-			                <h3><span class="counter">0</span> </h3>
+			                <h4>오늘 올라온 강좌 수</h4>
+			                <h3><span class="counter todayCourse">${todayCourseCount}</span> </h3>
 			                <div class="d-flex">
 			                    <span>Today Course</span>
 			                </div>
@@ -48,18 +48,21 @@ background-color : #fff;
 			        </div>
 			        <div class="col-lg-3">
 			            <div class="population_analysis">
-			                <h4>오늘 구매된 쿠키</h4>
-			                <h3><span class="counter">0</span></h3>
+			                <h4>총 강좌 수</h4>
+			                <h3><span class="counter totalCourse">${totalCourseCount}</span></h3>
 			                <div class="d-flex">
-			                    <span>Today Cookie</span>
+			                    <span>Total Course</span>
 			                </div>
 			            </div>
 			        </div>
 			    </div>
 			</div>
 				<div class="chart-box row justify-content-center">
-					<div class="chart-container p-0 m-3" id="bar1"></div>
-					<div class="chart-container p-0 m-3" id="circle1"></div>
+					<div class="chart-container p-0 m-3 text-center">
+					<h3>이번 달 생일인 회원</h3>
+					<div id="birthday"></div>
+					</div>
+					<div class="chart-container p-0 m-3" id="pieContainer"></div>
 					<div class="chart-container p-0 m-3" id="distribution"></div>
 					<div class="chart-container p-0 m-3" id=""></div>
 				</div>
@@ -69,6 +72,7 @@ background-color : #fff;
 </main>
  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
 <script type="text/javascript">
+/*
 $(function() {
 var dom = document.getElementById("bar1");
 var myChart = echarts.init(dom);
@@ -99,48 +103,58 @@ if (option && typeof option === 'object') {
 }
 });
 
-$(function() {
-	var chartDom = document.getElementById('circle1');
-	var myChart = echarts.init(chartDom);
-	var option;
+*/
 
-	option = {
-	  title: {
-	    text: 'Referer of a Website',
-	    subtext: 'Fake Data',
-	    left: 'center'
-	  },
-	  tooltip: {
-	    trigger: 'item'
-	  },
-	  legend: {
-	    orient: 'vertical',
-	    left: 'left'
-	  },
-	  series: [
-	    {
-	      name: 'Access From',
-	      type: 'pie',
-	      radius: '50%',
-	      data: [
-	        { value: 1048, name: 'Search Engine' },
-	        { value: 735, name: 'Direct' },
-	        { value: 580, name: 'Email' },
-	        { value: 484, name: 'Union Ads' },
-	        { value: 300, name: 'Video Ads' }
-	      ],
-	      emphasis: {
-	        itemStyle: {
-	          shadowBlur: 10,
-	          shadowOffsetX: 0,
-	          shadowColor: 'rgba(0, 0, 0, 0.5)'
-	        }
-	      }
-	    }
-	  ]
-	};
+$(function(){
+	var url="${pageContext.request.contextPath}/admin/courseManage/courseAnalysis";
+	
+	$.getJSON(url, function(data){
+		var chartDom = document.getElementById('pieContainer');
+		var myChart = echarts.init(chartDom);
+		var option;
 
-	option && myChart.setOption(option);
+		option = {
+			title: {
+				text: '카테고리별 강좌 수'
+			},
+			tooltip: {
+				trigger: 'item'
+			},
+			legend: {
+				top: '5%',
+				left: 'center'
+			},
+			series: [
+				{
+					name: '카테고리별 강좌',
+					type: 'pie',
+					radius: ['40%', '70%'],
+					avoidLabelOverlap: false,
+					itemStyle: {
+						borderRadius: 10,
+						borderColor: '#fff',
+						borderWidth: 2
+					},
+					label: {
+						show: false,
+						position: 'center'
+					},
+					emphasis: {
+						label: {
+							show: true,
+							fontSize: '40',
+							fontWeight: 'bold'
+						}
+					},
+					labelLine: {
+						show: false
+					},
+					data: data
+				}
+			]
+		};
+		option && myChart.setOption(option);		
+	});
 });
 
 $(function() {
@@ -248,4 +262,75 @@ $(function() {
 
 	option && myChart.setOption(option);
 });
+</script>
+<script type="text/javascript">
+function ajaxFun(url, method, query, dataType, fn){
+	$.ajax({
+		type:method,
+		url:url,
+		data:query,
+		dataType:dataType,
+		success:function(data){
+			fn(data);
+		},
+		error:function(jqXHR){
+			alert("요청 처리가 실패했습니다.")
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+
+$(function() {
+	todayCourse();
+	totalCourse();
+	listBirth();
+});
+
+function todayCourse() {
+	var url = "${pageContext.request.contextPath}/admin/courseManage/todayCourse";
+	var query = null;
+	
+	var fn = function(data) {
+		var todayCourseCount= data.todayCourseCount;
+		if(todayCourseCount != "0"){
+			$(".todayCourse").html(todayCourseCount);
+		} else{
+			$(".todayCourse").html("0");
+		}
+	};
+	ajaxFun(url, "get", query, "json", fn);
+}
+
+function totalCourse() {
+	var url = "${pageContext.request.contextPath}/admin/courseManage/totalCourse";
+	var query = null;
+	
+	var fn = function(data) {
+		var totalCourseCount= data.totalCourseCount;		
+		$(".totalCourse").html(totalCourseCount);
+	};
+	ajaxFun(url, "get", query, "json", fn);
+}
+
+function listBirth() {
+	var url = "${pageContext.request.contextPath}/admin/memberManage/listBirth";
+	var query = null;
+	var selector = "#birthday";
+		
+	var fn = function(data) {
+		var blist = data.listBirth;
+		
+		for(var i=0; i<blist.length; i++){
+			var name = blist[i].userName;
+			var birth = blist[i].birth;
+			var month = birth.substring(5,7);
+			var date = birth.substring(8,10);
+			var out = "<span style='font-size: 32px; font-weight: bold; margin:10px;'>" +name + "님의 생일 : "+month+"월 "+date+"일"+"</span>";
+			$(selector).html(out);
+		}
+
+	};
+	
+	ajaxFun(url, "get", query, "json", fn);	
+}
 </script>

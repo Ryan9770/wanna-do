@@ -22,7 +22,7 @@
 
 	<div class="body-container">	
 		<div class="body-title">
-			<h3>중고거래 게시판 관리</h3>
+			<h3>거래 게시판 관리</h3>
 		</div>
 		
 	  <div class="body-main">
@@ -118,8 +118,8 @@ function ajaxFun(url, method, query, dataType, fn) {
 			} else if(jqXHR.status === 400) {
 				alert("요청 처리가 실패했습니다.");
 				return false;
+				console.log(jqXHR.responseText);
 			}
-			console.log(jqXHR.responseText);
 		}
 	});
 }
@@ -138,7 +138,7 @@ function detailtrade(num){
 		},
 		height:768,
 		width:1024,
-		title: "스터디 글 정보",
+		title: "거래 게시글 정보",
 		close:function(event, ui) {
 		}
 	});
@@ -185,5 +185,26 @@ function listPage(page) {
 	ajaxFun(url, "get", query, "json", fn);
 	
 }
+
+$(function(){
+	$("body").on("click", ".deleteReply", function(){
+		if(! confirm("댓글을 삭제하시겠습니까 ? ")) {
+		    return false;
+		}
+		
+		var replyNum = $(this).attr("data-replyNum");
+		var page = $(this).attr("data-page");
+		
+		var url = "${pageContext.request.contextPath}/admin/tradeManage/deleteReply";
+		var query = "replyNum="+replyNum;
+		
+		var fn = function(data){
+			$("#trade-dialog").dialog("close");
+			listPage(page);
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
+	});
+});
 
 </script>

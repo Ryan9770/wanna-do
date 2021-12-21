@@ -95,4 +95,11 @@
 	</select>
 
 	<!-- 챠트 쿼리 -->
+	<select id="listBirth" resultType="com.bs.wd.admin.memberManage.Member">
+	SELECT m2.userId, userName, birth
+	FROM member2 m2
+	JOIN member1 m1 ON m2.userId=m1.userId
+	WHERE  TO_CHAR(birth, 'MMDD') &gt;= TO_CHAR(SYSDATE,'MMDD') AND  TO_CHAR(birth, 'MMDD') &lt;= TO_CHAR(LAST_DAY(SYSDATE),'MMDD')
+	ORDER BY TO_CHAR(birth, 'MMDD') ASC
+	</select>
 </mapper>
