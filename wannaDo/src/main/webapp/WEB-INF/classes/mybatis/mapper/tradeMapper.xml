@@ -41,15 +41,19 @@
 	<select id="listTrade" parameterType="map" resultType="com.bs.wd.trade.Trade">
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
-				SELECT num, subject, content, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, userName, price, type, hitCount, originalFilename
+				SELECT s.num, subject, content, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, userName, price, type, hitCount, originalFilename, tradeLikeCount
 			FROM trade s
 			JOIN member1 m ON s.userId=m.userId
-			<where>
+			LEFT OUTER JOIN (
+				SELECT num, COUNT(*) tradeLikeCount FROM tradeLike
+				GROUP BY num
+			) bc ON s.num = bc.num
+				<where>
 				<if test="keyword!=null and keyword!=''">
 					<include refid="where-list"/>
 				</if>
 			</where>
-			ORDER BY num DESC
+			ORDER BY s.num DESC
 			) tb WHERE ROWNUM &lt;=#{end}
 		) WHERE rnum &gt;=#{start}
 	</select>

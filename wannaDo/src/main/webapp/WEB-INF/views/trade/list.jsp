@@ -16,6 +16,68 @@ function searchList() {
 	f.submit();
 }
 
+function ajaxFun(url, method, query, dataType, fn) {
+	$.ajax({
+		type:method,
+		url:url,
+		data:query,
+		dataType:dataType,
+		success:function(data) {
+			fn(data);
+		},
+		beforeSend:function(jqXHR) {
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error:function(jqXHR) {
+			if(jqXHR.status === 403) {
+				login();
+				return false;
+			} else if(jqXHR.status === 400) {
+				alert("요청 처리가 실패 했습니다.");
+				return false;
+			}
+	    	
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+
+$(function(){
+	$(".btnSendTradeLike").click(function(){
+		var $i = $(this).find("i");
+		var userLiked = $i.hasClass("bi-hand-thumbs-up-fill");
+		var msg = userLiked ? "찜한 것을 취소할까요? " : "이 거래글을 찜할까요? ";
+		
+		if(! confirm( msg )) {
+			return false;
+		}
+		
+		var url="${pageContext.request.contextPath}/trade/insertTradeLike";
+		var num=$(this).attr("data-num");
+		var query="num="+num+"&userLiked="+userLiked;
+		
+		var fn = function(data){
+			var state = data.state;
+			if(state==="true") {
+				if( userLiked ) {
+					$i.removeClass("bi-hand-thumbs-up-fill").addClass("bi-hand-thumbs-up");
+				} else {
+					$i.removeClass("bi-hand-thumbs-up").addClass("bi-hand-thumbs-up-fill");
+				}
+				
+				var count = data.tradeLikeCount;
+				$("#tradeLikeCount"+num).text(count);
+			} else if(state==="liked") {
+				alert("게시글 공감은 한번만 가능합니다. !!!");
+			} else if(state==="false") {
+				alert("게시물 공감 여부 처리가 실패했습니다. !!!");
+			}
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
+	});
+});
+
 
 </script>
 <div>
@@ -50,7 +112,12 @@ function searchList() {
                             </div>
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#"> 찜 </a></div>
+	                             <div class="text-center">
+									<button type="button" class="btn btn-outline-secondary btnSendTradeLike" data-num="${dto.num}" title="찜하기"><i class="bi ${userTradeLiked ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up' }"></i>&nbsp;&nbsp;<span id="tradeLikeCount${dto.num}">${dto.tradeLikeCount}</span></button>
+	                        	</div>
+                           	<!--
+                                 <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#"> 찜 </a></div>
+                             -->
                             </div>
                         </div>
                     </div>
@@ -76,6 +143,7 @@ function searchList() {
 								<option value="reg_date" ${condition=="reg_date"?"selected='selected'":""}>등록일</option>
 								<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
 								<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
+								<option value="type" ${condition=="type"?"selected='selected'":""}>말머리</option>
 							</select>
 						</div>
 						<div class="col-auto p-1">
@@ -90,6 +158,5 @@ function searchList() {
 					<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/trade/write';">글올리기</button>
 				</div>
 			</div>
-               
-
 </section>
+</div>
