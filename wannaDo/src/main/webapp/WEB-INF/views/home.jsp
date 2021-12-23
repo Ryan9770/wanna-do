@@ -63,7 +63,7 @@
                             <div class="fw-bold">
                                 Han Saem
                                 <span class="fw-bold text-danger mx-1">/</span>
-                                CEO, Wanna-do
+                                CEO, Wanna-do.
                             </div>
                         </div>
                     </div>
