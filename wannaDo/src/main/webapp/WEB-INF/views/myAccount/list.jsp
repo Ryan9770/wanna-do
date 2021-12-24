@@ -8,7 +8,7 @@
 function imageViewer(src) {
 	var viewer = $(".photo-layout");
 	var s="<img src='"+src+"'>";
-	viewer.html(s);
+	//viewer.html(s);
 	$(".dialog-photo").dialog({
 		title:"이미지",
 		width: 600,
@@ -142,7 +142,7 @@ function imageViewer(src) {
 			</div>			
 		</div>
 		<div class="dialog-photo">
-	     		<div class="photo-layout"></div>
+	     		<div class="photo-layout" style="display:hidden"></div>
 		</div>
 	</c:if>
 </div>

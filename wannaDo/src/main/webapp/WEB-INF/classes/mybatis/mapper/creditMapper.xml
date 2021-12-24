@@ -6,7 +6,7 @@
 		SELECT wallet_seq.NEXTVAL FROM dual
 	</select>
 	<select id="insertCredit" parameterType="com.bs.wd.credit.Credit">
-		INSERT INTO mywallet(num, userId, amount, price, buy_date) VALUES(#{num}, #{userId}, #{amount}, #{price}, SYSDATE)
+		INSERT INTO mywallet(num, userId, amount, price, buy_date, state) VALUES(#{num}, #{userId}, #{amount}, #{price}, SYSDATE, 0)
 	</select>
 	<select id="dataCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*), 0)
@@ -17,7 +17,7 @@
 	<select id="listCredit" parameterType="map" resultType="com.bs.wd.credit.Credit">
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
-				SELECT w.num, w.userId, amount, price, TO_CHAR(buy_date, 'YYYY-MM-DD') buy_date
+				SELECT w.num, w.userId, amount, price, buy_date, state
 				FROM mywallet w
 				JOIN member1 m ON w.userId=m.userId
 				WHERE w.userId=#{userId}
@@ -30,4 +30,16 @@
 		FROM mywallet
 		WHERE userId=#{userId}
 	</select>
+	<insert id="refundRequest" parameterType="com.bs.wd.credit.Credit">
+		INSERT INTO refundCookie(num, refund_date, amount, price, userId, cookieNum)
+		VALUES(cookieRefund_seq.NEXTVAL, SYSDATE, #{amount}, #{price}, #{userId}, #{num})
+	</insert>
+	<update id="creditStateUpdate" parameterType="Integer">
+		UPDATE myWallet SET state = 1
+		WHERE num=#{num}
+	</update>
+	<delete id="refundOk" parameterType="Integer">
+		DELETE FROM mywallet
+		WHERE num=#{num}
+	</delete>
 </mapper>

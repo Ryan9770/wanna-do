@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <main>
-	<h1>Admin Page</h1>
+	<h1>Creator Page</h1>
 	
 	<div class="body-container">
 	    <div class="body-title">
@@ -12,7 +12,7 @@
 	    </div>
 	    
 	    <div class="body-main">
-			관리자 페이지 입니다.
+			크리에이터 페이지 입니다.
 	    </div>
 	</div>
 	
