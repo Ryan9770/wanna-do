@@ -30,7 +30,7 @@
 	  
 	<!-- 2단 크리에이터 -->
 	<definition name=".creatorLayout" template="/WEB-INF/views/creator/layout/layout2.jsp">
-	    <put-attribute name="title" value="spring" />
+	    <put-attribute name="title" value="WANNA DO" />
 	  	<put-attribute name="left" value="/WEB-INF/views/creator/layout/left.jsp" />
 		<put-attribute name="body" value="/WEB-INF/views/creator/main/main.jsp" />
 	</definition>
