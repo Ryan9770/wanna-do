@@ -1,5 +1,7 @@
 package com.bs.wd.credit;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,10 +61,20 @@ public class CreditController {
 		
 		List<Credit> list = service.listCredit(map);
 		
+		Date endDate = new Date();
+		long gap;
 		int listNum, n = 0;
 		for (Credit dto : list) {
 			listNum = dataCount - (start + n - 1);
 			dto.setListNum(listNum);
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date beginDate = formatter.parse(dto.getBuy_date());
+			gap = (endDate.getTime() - beginDate.getTime()) / (60 * 60 * 1000);
+			dto.setGap(gap);
+
+			dto.setBuy_date(dto.getBuy_date().substring(0, 10));
+			
 			n++;
 		}
 		String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
@@ -76,14 +88,15 @@ public class CreditController {
 		return "credit/list";
 	}
 	
-	@RequestMapping(value = "buy")
+	@RequestMapping(value="buy")
 	public String buy() throws Exception {
 		return "credit/buy";
 	}
 	
 	@RequestMapping(value="pay", method=RequestMethod.GET)
-	public String payForm(@RequestParam int amount, Model model) throws Exception {
+	public String payForm(@RequestParam int amount, @RequestParam int price, Model model) throws Exception {
 		model.addAttribute("amount", amount);
+		model.addAttribute("price", price);
 		return ".credit.pay";
 	}
 	
@@ -116,5 +129,33 @@ public class CreditController {
 		model.put("state", state);
 		model.put("myCookie", count);
 		return model;
+	}
+	
+	@RequestMapping(value="refund", method=RequestMethod.GET)
+	public String refundForm(@RequestParam int num,
+			@RequestParam int amount,
+			@RequestParam int price,
+			HttpSession session, Model model) throws Exception {
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		model.addAttribute("num", num);
+		model.addAttribute("amount", amount);
+		model.addAttribute("price", price);
+		model.addAttribute("userId", info.getUserId());
+		
+		return ".credit.refund";
+	}
+	
+	@RequestMapping(value="refund", method=RequestMethod.POST)
+	public String refundSubmit(Credit dto, HttpSession session) throws Exception {
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		try {
+			dto.setUserId(info.getUserId());
+			service.refundRequest(dto);
+			service.creditStateUpdate(dto.getNum());
+		} catch (Exception e) {
+		}
+		return "redirect:/credit/main";
 	}
 }

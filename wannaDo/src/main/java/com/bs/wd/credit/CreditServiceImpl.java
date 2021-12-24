@@ -57,5 +57,33 @@ public class CreditServiceImpl implements CreditService {
 		}
 		return result;
 	}
+
+	@Override
+	public String buyDate(String userId) {
+		String result = null;
+		try {
+			result = dao.selectOne("credit.buyDate", userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public void refundRequest(Credit dto) throws Exception {
+		try {
+			dao.selectOne("credit.refundRequest", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void creditStateUpdate(int num) throws Exception {
+		try {
+			dao.selectOne("credit.creditStateUpdate", num);
+		} catch (Exception e) {
+		}
+	}
 	
 }

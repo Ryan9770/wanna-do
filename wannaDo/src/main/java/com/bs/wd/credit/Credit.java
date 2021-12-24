@@ -8,6 +8,9 @@ public class Credit {
 	private String buy_date;
 	private int listNum;
 	
+	private long gap;
+	private int state;
+	
 	public int getNum() {
 		return num;
 	}
@@ -43,5 +46,17 @@ public class Credit {
 	}
 	public void setListNum(int listNum) {
 		this.listNum = listNum;
+	}
+	public long getGap() {
+		return gap;
+	}
+	public void setGap(long gap) {
+		this.gap = gap;
+	}
+	public int getState() {
+		return state;
+	}
+	public void setState(int state) {
+		this.state = state;
 	}
 }

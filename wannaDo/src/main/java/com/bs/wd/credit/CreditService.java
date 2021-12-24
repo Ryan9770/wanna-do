@@ -8,4 +8,7 @@ public interface CreditService {
 	public int dataCount(Map<String, Object> map);
 	public List<Credit> listCredit(Map<String, Object> map);
 	public int myCookie(String userId);
+	public String buyDate(String userId);
+	public void refundRequest(Credit dto) throws Exception;
+	public void creditStateUpdate(int num) throws Exception;
 }
