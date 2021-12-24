@@ -352,6 +352,8 @@ public class MemberController {
 		try {
 			dto.setUserId(info.getUserId());
 			service.insertCreator(dto, path);
+			
+			info.setMembership(22);
 		} catch (Exception e) {
 		}
 		
