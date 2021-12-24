@@ -7,8 +7,12 @@
 background-color : #fff;
  display : inline-block;
  border : 1px solid #333;
- width: 500px;
+ min-width: 300px;
  height: 500px;
+}
+
+.refund{
+	margin: 20px;
 }
 </style>
 
@@ -57,14 +61,22 @@ background-color : #fff;
 			        </div>
 			    </div>
 			</div>
-				<div class="chart-box row justify-content-center">
-					<div class="chart-container p-0 m-3 text-center">
-					<h3>이번 달 생일인 회원</h3>
-					<div id="birthday"></div>
+				<div class="chart-box row justify-content-center d-flex p-0">
+					<div class="chart-container m-3 col-4 shadow d-flex" id="pieContainer"></div>
+					<div class="chart-container shadow m-3 col-7 d-flex" id="bar1"></div>
+					<div class="chart-container p-0 m-3 col-5 shadow d-flex" id="distribution"></div>
+					<div class="chart-container p-0 m-3 col-6 text-center shadow d-flex">					
+					<table id="refundCookie" class="justify-content-center w-100">
+						<tr>
+							<th>환불 요청 번호</th>
+							<th>요청인</th>
+							<th>요청 갯수</th>
+							<th>요청 금액</th>
+							<th>사유</th>
+						</tr>
+						<tr class="refund"></tr>
+					</table>
 					</div>
-					<div class="chart-container p-0 m-3" id="pieContainer"></div>
-					<div class="chart-container p-0 m-3" id="distribution"></div>
-					<div class="chart-container p-0 m-3" id=""></div>
 				</div>
 			</div>
 		</div>
@@ -72,8 +84,10 @@ background-color : #fff;
 </main>
  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
 <script type="text/javascript">
-/*
+
 $(function() {
+var url = "${pageContext.request.contextPath}/admin/memberManage/ageAnalysis";
+ $.getJSON(url, function(data) {
 var dom = document.getElementById("bar1");
 var myChart = echarts.init(dom);
 var app = {};
@@ -81,29 +95,45 @@ var app = {};
 var option;
 
 
-
 option = {
-  xAxis: {
-    type: 'category',
-    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-  },
-  yAxis: {
-    type: 'value'
-  },
-  series: [
-    {
-      data: [120, 200, 150, 80, 70, 110, 130],
-      type: 'bar'
-    }
-  ]
-};
+		  title: {
+		    text: '나이대별 회원 수'
+		  },
+		  tooltip: {
+		    trigger: 'axis',
+		    axisPointer: {
+		      type: 'shadow'
+		    }
+		  },
+		  legend: {},
+		  grid: {
+		    left: '3%',
+		    right: '4%',
+		    bottom: '3%',
+		    containLabel: true
+		  },
+		  xAxis: {
+		    type: 'value',
+		    boundaryGap: [0, 0.01]
+		  },
+		  yAxis: {
+		    type: 'category',
+		    data: ['10대','20대','30대','40대','50대','60대','기타']
+		  },
+		  series: [
+		    {
+		      name: '회원 구분',
+		      type: 'bar',
+		      data: data
+		    }
+		  ]
+		};
 
-if (option && typeof option === 'object') {
-    myChart.setOption(option);
-}
+			option && myChart.setOption(option);
+ });
 });
 
-*/
+
 
 $(function(){
 	var url="${pageContext.request.contextPath}/admin/courseManage/courseAnalysis";
@@ -264,7 +294,7 @@ $(function() {
 });
 </script>
 <script type="text/javascript">
-function ajaxFun(url, method, query, dataType, fn){
+function ajaxFun(url, method, query, dataType, fn) {
 	$.ajax({
 		type:method,
 		url:url,
@@ -273,9 +303,18 @@ function ajaxFun(url, method, query, dataType, fn){
 		success:function(data){
 			fn(data);
 		},
-		error:function(jqXHR){
-			alert("요청 처리가 실패했습니다.")
-			console.log(jqXHR.responseText);
+		beforeSend : function(jqXHR) {
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error : function(jqXHR) {
+			if (jqXHR.status == 403) {
+				location.href="${pageContext.request.contextPath}/member/login";
+				return false;
+			} else if(jqXHR.status === 400) {
+				alert("요청 처리가 실패했습니다.");
+				return false;
+			}
+		
 		}
 	});
 }
@@ -283,7 +322,7 @@ function ajaxFun(url, method, query, dataType, fn){
 $(function() {
 	todayCourse();
 	totalCourse();
-	listBirth();
+	listRefund();
 });
 
 function todayCourse() {
@@ -312,28 +351,47 @@ function totalCourse() {
 	ajaxFun(url, "get", query, "json", fn);
 }
 
-function listBirth() {
-	var url = "${pageContext.request.contextPath}/admin/memberManage/listBirth";
+
+function listRefund() {
+	var url = "${pageContext.request.contextPath}/admin/creditManage/listRefund";
 	var query = null;
-	var selector = "#birthday";
-		
+	var selector = ".refund";	
+	
 	var fn = function(data) {
-		var blist = data.listBirth;
-		if( blist){
-		for(var i=0; i<blist.length; i++){
-			var name = blist[i].userName;
-			var birth = blist[i].birth;
-			var month = birth.substring(5,7);
-			var date = birth.substring(8,10);
-			var out = "<span style='font-size: 32px; font-weight: bold; margin:10px;'>" +name + "님의 생일 : "+month+"월 "+date+"일"+"</span>";
-			$(selector).html(out);
-		}
-		} else {
-			out = "<span style='font-size: 32px; font-weight: bold; margin:10px;'> 생일인 회원이 존재하지 않습니다. </span>";
-			$(selector).html(out);
-		}
+		var str;
+		$(data.listRefund).each(function(index, item) {
+			var id = item.userId;
+			var price = item.price;
+			var amount = item.amount;
+			var date = item.refund_date;
+			var t = betweenTime(date);
+			if(t < 60){
+				t = t + "분 전";
+			} else if( (t / 60) < 24){
+				t = Math.floor((t / 60)) + "시간 전";
+			} else if( ( t / (60 * 24) ) <365 ){
+				t = Math.floor(t / (60 * 24)) + "일 전 ";
+			} 
+		
+			str = "<tr align='center' height='33' width='100'></tr>"
+			$(str).append("<td>"+id+"</td>").append("<td>"+id+"</td>").append("<td>"+id+"</td>")
+				.append("<td>"+t+"</td>").appendTo(selector);
+		});
+			
 	};
 	
 	ajaxFun(url, "get", query, "json", fn);	
 }
+
+function betweenTime(value) {
+	var vDate = new Date(value);
+	var now = new Date();
+	
+	var time = ( now.getTime()- vDate.getTime() ) / (1000*60); //분
+	time = parseInt(time);
+	return time;
+}
+
+
+
 </script>

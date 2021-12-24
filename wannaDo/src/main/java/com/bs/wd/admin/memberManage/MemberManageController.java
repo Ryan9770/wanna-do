@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bs.wd.common.MyUtil;
+import com.bs.wd.admin.memberManage.Analysis;
 
 @Controller("admin.memberManage.memberManageController")
 @RequestMapping("/admin/memberManage/*")
@@ -113,6 +116,75 @@ public class MemberManageController {
 		return ".admin.memberManage.list";
 	}
 	
+	@RequestMapping("clist")
+	public String creatorManage(@RequestParam(value="page", defaultValue="1") int current_page,
+			@RequestParam(defaultValue="") String enabled,
+			HttpServletRequest req,
+			Model model) throws Exception {
+		
+		String cp = req.getContextPath();
+   	    
+		int rows = 4;
+		int total_page = 0;
+		int dataCount = 0;
+   	    
+		// 전체 페이지 수
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("enabled", enabled);
+        
+        dataCount = service.creatorCount(map);
+        if(dataCount != 0) {
+            total_page = myUtil.pageCount(rows, dataCount) ;
+        }
+
+        // 다른 사람이 자료를 삭제하여 전체 페이지수가 변화 된 경우
+        if(total_page < current_page) {
+            current_page = total_page;
+        }
+
+        // 리스트에 출력할 데이터를 가져오기
+		int start = (current_page - 1) * rows + 1;
+		int end = current_page * rows;
+		map.put("start", start);
+		map.put("end", end);
+
+        // 멤버 리스트
+        List<Creator> list = service.listCreator(map);
+
+        // 리스트의 번호
+        int listNum, n = 0;
+        for(Creator dto : list) {
+        	listNum = dataCount - (start + n - 1);
+            dto.setListNum(listNum);
+            n++;
+        }
+        
+        String query = "";
+        String listUrl = cp+"/admin/memberManage/list";
+        
+        if(enabled.length()!=0) {
+        	if(query.length()!=0)
+        		query = query +"&enabled="+enabled;
+        	else
+        		query = "enabled="+enabled;
+        }
+        
+        if(query.length()!=0) {
+        	listUrl = listUrl + "?" + query;
+        }
+        
+        String paging = myUtil.paging(current_page, total_page, listUrl);        
+		
+        model.addAttribute("list", list);
+        model.addAttribute("page", current_page);
+        model.addAttribute("dataCount", dataCount);
+        model.addAttribute("total_page", total_page);
+        model.addAttribute("paging", paging);
+        model.addAttribute("enabled", enabled);
+        
+		return ".admin.memberManage.clist";
+	}
+	
 	// 회원상세 정보 : AJAX-Text 응답
 	@RequestMapping(value="detaile")
 	public String detaileMember(
@@ -128,6 +200,23 @@ public class MemberManageController {
 		model.addAttribute("listState", listState);
 		
 		return "admin/memberManage/detaile";
+	}
+	
+	@RequestMapping(value = "detail")
+	public String detailCreator(
+			@RequestParam String userId,
+			Model model
+			) throws Exception{
+		
+		Creator dto = service.readCreator(userId);
+		Member memberState=service.readMemberState(userId);
+		List<Member> listState=service.listMemberState(userId);
+
+		model.addAttribute("dto", dto);
+		model.addAttribute("memberState", memberState);
+		model.addAttribute("listState", listState);
+		
+		return "admin/memberManage/detail";
 	}
 	
 	@RequestMapping(value="updateMemberState", method=RequestMethod.POST)
@@ -173,7 +262,24 @@ public class MemberManageController {
 		
 		return map;
 	}
-	
-	
+
+	@RequestMapping(value = "ageAnalysis", produces="application/json; charset=utf-8")
+	@ResponseBody
+	public String listAgeSection() throws Exception{
+		JSONArray jarr = new JSONArray();
+		
+		JSONObject job;
+		
+		List<Analysis> listAge = service.listAgeSection();
+		
+		for(int i=0; i<listAge.size(); i++) {
+			job = new JSONObject();
+			job.put("name", listAge.get(i).getSection().toString());
+			job.put("value", listAge.get(i).getCount());
+			jarr.put(job);
+		}
+		
+		return jarr.toString();
+	}
 
 }

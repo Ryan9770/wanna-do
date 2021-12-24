@@ -49,7 +49,7 @@
 	<c:forEach var="vo" items="${listChapter}" varStatus="status">
 		<c:if test="${empty vo.videoLink}">
 			<tr>
-					<td>${vo.chapterNo}.${vo.chapterName}</td>
+					<td>${vo.orderNo}.${vo.subject}</td>
 			</tr>
 		</c:if>
 		<c:if test="${not empty vo.videoLink}">

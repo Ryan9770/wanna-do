@@ -95,9 +95,6 @@
 </main>
 
 <script type="text/javascript">
-$(function() {
-	listPage(1);
-});
 
 function ajaxFun(url, method, query, dataType, fn) {
 	$.ajax({
@@ -157,33 +154,17 @@ function deleteOk(num) {
 	if(! confirm("선택한 게시글을 삭제하시겠습니까 ? ")){
 		return false;
 	}
-	var url = "${pageContext.request.contextPath}/admin/studyManage/delete";
 	var query = "page="+${page}+"&num="+num;
+	var url = "${pageContext.request.contextPath}/admin/studyManage/delete?"+query;
 	
-	var fn = function(data){
-		var state = data.state;
-		if(state==="true"){
-			return false;
-		} else{
-			alert("삭제에 실패하였습니다.");
-		}
-	};
-
-	ajaxFun(url, "post", query,"json",fn);
-	$("#study-dialog").dialog("close");
-	location.reload();
+	location.href = url;
 }
 
 
 function listPage(page) {
-	var url = "${pageContext.request.contextPath}/admin/studyManage/list";
+	var url = "${pageContext.request.contextPath}/admin/studyManage/list?";
 	var query = "page="+page;
-	
-	var fn = function() {
-		
-	}
-	ajaxFun(url, "get", query, "json", fn);
-	
+	location.href=url+query;
 }
 
 </script>

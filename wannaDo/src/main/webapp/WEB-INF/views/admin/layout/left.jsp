@@ -43,7 +43,7 @@ $(function() {
 		<li><span>Navigation</span></li>
 		<li><a href="${pageContext.request.contextPath}/admin">Home</a></li>
 		<li><a href="${pageContext.request.contextPath}/admin/memberManage/list">회원관리</a></li>
-
+		<li><a href="${pageContext.request.contextPath}/admin/memberManage/clist">크리에이터관리</a></li>
 		<li><a href="${pageContext.request.contextPath}/admin/courseManage/list">강의관리</a></li>
 		<li><a href="${pageContext.request.contextPath}/admin/studyManage/list">스터디게시판관리</a></li>
 		<li><a href="${pageContext.request.contextPath}/admin/tradeManage/list">거래게시판관리</a></li>

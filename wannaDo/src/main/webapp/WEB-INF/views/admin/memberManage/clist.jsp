@@ -48,7 +48,7 @@ function ajaxFun(url, method, query, dataType, fn) {
 function searchList() {
 	var f=document.searchForm;
 	f.enabled.value=$("#selectEnabled").val();
-	f.action="${pageContext.request.contextPath}/admin/memberManage/list";
+	f.action="${pageContext.request.contextPath}/admin/memberManage/clist";
 	f.submit();
 }
 	
@@ -73,8 +73,9 @@ function detailedMember(userId) {
 		  close: function(event, ui) {
 		  }
 	});
+	
 
-	var url = "${pageContext.request.contextPath}/admin/memberManage/detaile";
+	var url = "${pageContext.request.contextPath}/admin/memberManage/detail";
 	var query = "userId="+userId;
 	
 	var fn = function(data){
@@ -153,7 +154,7 @@ function selectStateChange() {
 	
 	<div class="body-container">
 	    <div class="body-title">
-			<h2><i class="icofont-users"></i> 회원 관리 </h2>
+			<h2><i class="icofont-users"></i> 크리에이터 관리 </h2>
 	    </div>
 	    
 	    <div class="body-main ms-30">
@@ -171,46 +172,30 @@ function selectStateChange() {
 						</td>
 					</tr>
 				</table>
-					
-				<table class="table table-border table-list">
-					<thead>
-						<tr> 
-							<th class="col-1">번호</th>
-							<th class="col-1">아이디</th>
-							<th class="col-1">이름</th>
-							<th class="col-2">생년월일</th>
-							<th class="col-2">전화번호</th>
-							<th class="col-1">상태</th>
-							<th class="col-2">이메일</th>
-						</tr>
-					</thead>
-					
-					<tbody>
-						<c:forEach var="dto" items="${list}">
-						<tr class="hover-tr" onclick="detailedMember('${dto.userId}');"> 
-							<td>${dto.listNum}</td>
-							<td>${dto.userId}</td>
-							<td>${dto.userName}</td>
-							<td>${dto.birth}</td>
-							<td>${dto.tel}</td>
-							<td>${dto.enabled==1?"활성":"잠금"}</td>
-							<td>${dto.email}</td>
-						</tr>
-						</c:forEach>
-					</tbody>
-				</table>
+				<div class="container">
+					<div class="row">
+					<c:forEach var="dto" items="${list}">
+					  <div class="col-5 justify-content-center m-auto">
+						 <a onclick="detailedMember('${dto.userId}')">
+						 	<img src="${pageContext.request.contextPath}/uploads/creatorinfo/${dto.imageFilename}" class="img-fluid">	
+						 </a>
+						  <p>${dto.creatorName}</p>
+					  </div>
+					  </c:forEach>
+					</div>
+				</div>
 						 
 				<div class="page-box">
-					${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
+					${dataCount == 0 ? "등록된 크리에이터가 없습니다." : paging}
 				</div>
 						
 				<table class="table">
 					<tr>
 						<td align="left" width="100">
-							<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/admin/memberManage/list';">새로고침</button>
+							<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/admin/memberManage/clist';">새로고침</button>
 						</td>
 						<td align="center">
-							<form name="searchForm" action="${pageContext.request.contextPath}/admin/memberManage/list" method="post">
+							<form name="searchForm" action="${pageContext.request.contextPath}/admin/memberManage/clist" method="post">
 								<select name="condition" class="selectField">
 									<option value="userId"     ${condition=="userId" ? "selected='selected'":""}>아이디</option>
 									<option value="userName"   ${condition=="userName" ? "selected='selected'":""}>이름</option>

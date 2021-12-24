@@ -95,9 +95,7 @@
 </main>
 
 <script type="text/javascript">
-$(function() {
-	listPage(1);
-});
+
 
 function ajaxFun(url, method, query, dataType, fn) {
 	$.ajax({
@@ -119,7 +117,6 @@ function ajaxFun(url, method, query, dataType, fn) {
 				alert("요청 처리가 실패했습니다.");
 				return false;
 			}
-			console.log(jqXHR.responseText);
 		}
 	});
 }
@@ -157,33 +154,17 @@ function deleteOk(num) {
 	if(! confirm("선택한 게시글을 삭제하시겠습니까 ? ")){
 		return false;
 	}
-	var url = "${pageContext.request.contextPath}/admin/tradeManage/delete";
 	var query = "page="+${page}+"&num="+num;
-	
-	var fn = function(data){
-		var state = data.state;
-		if(state==="true"){
-			return false;
-		} else{
-			alert("삭제에 실패하였습니다.");
-		}
-	};
-
-	ajaxFun(url, "post", query,"json",fn);
-	$("#trade-dialog").dialog("close");
-	location.reload();
+	var url = "${pageContext.request.contextPath}/admin/tradeManage/delete?"+query;
+	location.href=url;	
 }
 
 
 function listPage(page) {
-	var url = "${pageContext.request.contextPath}/admin/tradeManage/list";
+	var url = "${pageContext.request.contextPath}/admin/tradeManage/list?";
 	var query = "page="+page;
 	
-	var fn = function() {
-		
-	}
-	ajaxFun(url, "get", query, "json", fn);
-	
+	location.href=url+query;
 }
 
 $(function(){

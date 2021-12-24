@@ -147,7 +147,7 @@ public class TradeManageController {
 		return "admin/tradeManage/detail";
 	}
 	
-	@RequestMapping(value = "delete", method = RequestMethod.POST)
+	@RequestMapping(value = "delete", method = RequestMethod.GET)
 	public String deleteTrade(@RequestParam int num
 			,HttpSession session,
 			@RequestParam String page,

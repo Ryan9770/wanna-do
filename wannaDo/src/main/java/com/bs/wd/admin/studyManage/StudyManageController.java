@@ -149,7 +149,7 @@ public class StudyManageController {
 		return "admin/studyManage/detail";
 	}
 	
-	@RequestMapping(value = "delete", method = RequestMethod.POST)
+	@RequestMapping(value = "delete", method = RequestMethod.GET)
 	public String deleteStudy(@RequestParam int num
 			,HttpSession session,
 			@RequestParam String page,

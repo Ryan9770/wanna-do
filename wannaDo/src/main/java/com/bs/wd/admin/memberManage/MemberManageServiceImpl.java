@@ -67,7 +67,12 @@ public class MemberManageServiceImpl implements MemberManageService {
 	@Override
 	public List<Analysis> listAgeSection() {
 		List<Analysis> list=null;
-
+		try {
+			list = dao.selectList("memberManage.listAgeSection");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return list;
 	}
 
@@ -134,6 +139,40 @@ public class MemberManageServiceImpl implements MemberManageService {
 		}
 		
 		return list;
+	}
+
+	@Override
+	public List<Creator> listCreator(Map<String, Object> map) {
+		List<Creator> list = null;
+		try {
+			list = dao.selectList("memberManage.listCreator", map);
+		} catch (Exception e) {
+			
+		}
+		
+		return list;
+	}
+
+	@Override
+	public Creator readCreator(String userId) {
+		Creator dto = null;
+		try {
+			dto = dao.selectOne("memberManage.");
+		} catch (Exception e) {
+			
+		}
+		return dto;
+	}
+
+	@Override
+	public int creatorCount(Map<String, Object> map) {
+		int result = 0;
+		try {
+			result = dao.selectOne("memberManage.creatorCount", map);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return result;
 	}
 
 }

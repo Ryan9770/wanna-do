@@ -4,8 +4,8 @@ public class Course {
 	private int listNum;
 	
 	private int chapNum;
-	private int chapterNo;
-	private String chapterName;
+	private int orderNo;
+	private String subject;
 	private int categoryNum;
 	private int video;
 	private String videoLink;
@@ -82,18 +82,18 @@ public class Course {
 	public void setChapNum(int chapNum) {
 		this.chapNum = chapNum;
 	}
-	public int getChapterNo() {
-		return chapterNo;
+	
+	public int getOrderNo() {
+		return orderNo;
 	}
-	public void setChapterNo(int chapterNo) {
-		this.chapterNo = chapterNo;
+	public void setOrderNo(int orderNo) {
+		this.orderNo = orderNo;
 	}
-
-	public String getChapterName() {
-		return chapterName;
+	public String getSubject() {
+		return subject;
 	}
-	public void setChapterName(String chapterName) {
-		this.chapterName = chapterName;
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
 	public int getCategoryNum() {
 		return categoryNum;
