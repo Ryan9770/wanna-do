@@ -40,17 +40,17 @@
 							<td>${dto.amount}</td>
 							<td><fmt:formatNumber value="${dto.price}" pattern="#,###" /> 원</td>
 							<td>${dto.buy_date}</td>
-							<c:if test="${dto.gap < 72 && dto.state == 0}">
+							<c:if test="${dto.gap < 1 && dto.state == 0}">
 								<td>
 									<button type="button" data-num="${dto.num}" data-amount="${dto.amount}" data-price="${dto.price}" class="btn btn-light refund">환불 요청</button>
 								</td>
 							</c:if>
-							<c:if test="${dto.gap < 72 && dto.state == 1}">
+							<c:if test="${dto.gap < 1 && dto.state == 1}">
 								<td>
 									<button type="button" class="btn btn-light refund" disabled>환불 진행 중</button>
 								</td>
 							</c:if>
-							<c:if test="${dto.gap >= 72}">
+							<c:if test="${dto.gap >= 1}">
 								<td>
 									<button type="button" class="btn btn-light refund" disabled>기한 만료</button>
 								</td>
