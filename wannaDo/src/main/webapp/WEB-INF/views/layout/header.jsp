@@ -61,7 +61,7 @@
                          <a class="nav-link dropdown-toggle text-danger" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">강좌</a>
                          <ul class="dropdown-menu dropdown-menu-end text-danger" aria-labelledby="navbarDropdownBlog">
                              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/course/main">강좌목록</a></li>
-                             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/calendar/list">시험일정</a></li>
+                             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/schedule/main">시험일정</a></li>
                          </ul>
                      </li>
                      <li class="nav-item dropdown">

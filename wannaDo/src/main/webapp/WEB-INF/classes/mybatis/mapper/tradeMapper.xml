@@ -184,11 +184,12 @@
 	<select id="tradeLikeCount" parameterType="Integer" resultType="Integer">
 		SELECT COUNT(*) FROM tradeLike WHERE num=#{num}
 	</select>
-      
+     
    	<!--  좋아요 여부 -->
 	<select id="userTradeLiked" parameterType="map" resultType="com.bs.wd.trade.Trade">
 		SELECT num, userId FROM tradeLike WHERE num = #{num} AND userId = #{userId}
 	</select>
+	
 	
 	
 </mapper>
