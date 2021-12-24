@@ -24,7 +24,7 @@
 		FROM schedule s
 		LEFT OUTER JOIN scheduleCategory sc ON s.categoryNum = sc.categoryNum
 		<where>
-			s.userId = #{userId}
+			s.userId = #{userId} OR s.userId = 'admin'
 			<if test="categoryList != null">
 				AND 
 				s.categoryNum IN

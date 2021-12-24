@@ -105,7 +105,7 @@ $(function(){
                                     <!-- Product name-->
                                   <p style="color: grey;"> ${dto.type} </p>  <h5 class="fw-bolder"><a href="${articleUrl}&num=${dto.num}">${dto.subject} ${replyCount} </a></h5>
                                     <!-- Product price-->
-                                    ₩ <fmt:formatNumber value="${dto.price }" pattern="#,###" />
+                                    ₩ ${dto.price}"
                                     <br> ${dto.reg_date}
                                     <br> ${dto.userName}
                                 </div>
