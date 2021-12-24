@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="creatorCourseManage">
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*)
+		  FROM course c
+		  JOIN member1 m1 ON c.userId = m1.userId
+		 WHERE c.userId = #{userId}
+		<where>
+			<if test="enabled!=''">
+				AND enabled = #{enabled, jdbcType=INTEGER}
+			</if>
+		</where>
+	</select>
+	
+	<select id="listCourse" parameterType="map" resultType="com.bs.wd.creator.courseManage.Course">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT c.userId, creatorName, c.num, courseName, content,
+                price, TO_CHAR(c.reg_date, 'YYYY-MM-DD') reg_date, c.enabled, category
+				  FROM course c
+			      JOIN member1 m1 ON c.userId=m1.userId
+				  JOIN courseCategory cc ON c.categoryNum=cc.categoryNum
+				  JOIN creatorInfo i ON #{userId}=i.userId
+				<where>
+					<if test="enabled!=''">
+						AND enabled = #{enabled, jdbcType=INTEGER}
+					</if>
+				</where> 
+				ORDER BY c.num DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}	
+	</select>
+</mapper>
