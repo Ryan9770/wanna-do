@@ -10,30 +10,51 @@
 	<div class="accordion-item">
 		<c:forEach var="vo" items="${listChapter}" varStatus="status">
 			<h2 class="accordion-header" id="flush-heading-${status.index}">
-
+				
 				<button class="accordion-button btnVideoListLayout"
 					data-chapNum='${vo.chapNum}' type="button"
 					data-bs-toggle="collapse"
 					data-bs-target="#flush-collapse-${status.index}"
 					aria-expanded="false"
-					aria-controls="flush-collapse-${status.index}">${vo.chapterNo}.${vo.chapterName }</button>
+					aria-controls="flush-collapse-${status.index}">${vo.orderNo}.${vo.subject }</button>
 
 			</h2>
 			<div id="flush-collapse-${status.index}"
 				class="accordion-collapse collapse"
 				aria-labelledby="flush-heading-${status.index}">
+					<c:choose>
+							<c:when test="${sessionScope.member.userId==vo.userId}">
+							<button class='deleteChapter' data-chapNum='${vo.chapNum}'
+									>챕터 삭제</button>
+				
+							</c:when>
+							<c:otherwise>
+
+							</c:otherwise>
+						</c:choose>
 				<div class="accordion-body">
+					<div class="col ps-1">
+						
+					
+						<c:choose>
+							<c:when test="${sessionScope.member.userId==vo.userId}">
+								<button class="btn btn-light btnVideoAdd"
+									data-chapNum="${vo.chapNum}" type="button">영상 추가</button>
+							</c:when>
+							<c:otherwise>
+
+							</c:otherwise>
+						</c:choose>
+				
+
+					</div>
 					<table class='table table-borderless'>
 						<tr>
 							<td colspan='2' class="px-3">
 								<div class="p-2 border">
 									<div id='listVideo${vo.chapNum}' class='p-2'></div>
 
-									<div class='row p-2'>
-										<div class="col ps-1">
-											<button class="btn btn-light btnVideoAdd" data-chapNum="${vo.chapNum}" type="button">과목추가</button>
-										</div>
-									</div>
+									<div class='row p-2'></div>
 								</div>
 							</td>
 						</tr>
@@ -49,7 +70,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="myDialogModalLabel">챕터 추가</h5>
+				<h5 class="modal-title" id="myDialogModalLabel">영상 추가</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal"
 					aria-label="Close"></button>
 			</div>
@@ -64,9 +85,9 @@
 
 									<div class="row px-2">
 										<div class='col'>
-											<textarea class='form-control' name="chapterNo"
+											<textarea class='form-control' name="orderNo"
 												placeholder="영상번호"></textarea>
-											<textarea class='form-control' name="chapterName"
+											<textarea class='form-control' name="subject"
 												placeholder="영상제목"></textarea>
 											<textarea class='form-control' name="videoLink"
 												placeholder="영상링크"></textarea>

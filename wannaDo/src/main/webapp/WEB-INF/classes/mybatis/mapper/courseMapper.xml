@@ -59,13 +59,14 @@
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
 				SELECT b.num, b.userId, userName, courseName, imageFile, courseLevel,
-					TO_CHAR(b.reg_date, 'YYYY-MM-DD') reg_date, creatorName,
+					TO_CHAR(b.reg_date, 'YYYY-MM-DD') reg_date, creatorName, b.enabled,
 					c.categoryNum, category
 				FROM course b
 				JOIN member1 m ON b.userId=m.userId
 				JOIN courseCategory c ON b.categoryNum = c.categoryNum
 				JOIN creatorInfo i ON b.userId=i.userId
 				<where>
+					
 					<if test="categoryNum!=0">
 						( c.categoryNum = #{categoryNum} )
 					</if>
@@ -75,13 +76,14 @@
 					</if>
 				</where>
 				ORDER BY num DESC
+				
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
 	</select>
 	
 	<select id="readCourse" parameterType="Integer" resultType="com.bs.wd.course.Course">
 		SELECT b.num, b.userId, courseName, content, price, creatorName, imageFilename,
-			b.reg_date, tag, recommended, b.imageFile, courseLevel, 
+			b.reg_date, tag, recommended, b.imageFile, courseLevel, intro,
 			b.categoryNum, c.category,
 			NVL(courseLikeCount, 0) courseLikeCount
 		FROM course b
@@ -132,35 +134,75 @@
 	
 	
 	<insert id="insertChapter" parameterType="com.bs.wd.course.Chapter">
-		INSERT INTO chapter(chapNum, num, chapterNo, chapterName, video)
-		VALUES (chapter_seq.NEXTVAL, #{num}, #{chapterNo}, #{chapterName}, #{video})
+		INSERT INTO chapter(chapNum, num, orderNo, subject, video)
+		VALUES (chapter_seq.NEXTVAL, #{num}, #{orderNo}, #{subject}, #{video})
 	</insert>
 	
 	<!-- 댓글리스트 -->
 	<select id="listChapter" parameterType="map" resultType="com.bs.wd.course.Chapter">
 
-				SELECT chapNum, num, chapterName, chapterNo
-
-				FROM chapter 
-
-				WHERE num=#{num} AND video=0
+			
 				
-				ORDER BY chapterNo
-				
+				SELECT chapNum, ch.num, subject, orderNo, c.userId
+            FROM chapter ch
+                JOIN course c ON ch.num=c.num
+                JOIN member1 m1 ON c.userid=m1.userId
+                WHERE ch.num=#{num} AND video=0
+            ORDER BY orderNo
 
 	</select>
+	
+	<delete id="deleteChapter" parameterType="map">
+		DELETE FROM chapter
+		WHERE chapNum=#{chapNum}
+		OR video=#{chapNum}
+
+	</delete>
+	
 	<insert id="insertVideo" parameterType="com.bs.wd.course.Chapter">
-		INSERT INTO chapter(chapNum, num, chapterNo, chapterName, video, videoLink)
-		VALUES (chapter_seq.NEXTVAL, #{num}, #{chapterNo}, #{chapterName}, #{video}, #{videoLink})
+		INSERT INTO chapter(chapNum, num, orderNo, subject, video, videoLink)
+		VALUES (chapter_seq.NEXTVAL, #{num}, #{orderNo}, #{subject}, #{video}, #{videoLink})
 	</insert>
 	
-	<!-- 댓글의 답글 리스트 -->
+	<!-- 영상 리스트 -->
 	<select id="listVideo" parameterType="Integer" resultType="com.bs.wd.course.Chapter">
-		SELECT chapNum, num, chapterNo, chapterName, video, videoLink
+		SELECT chapNum, num, orderNo, subject, video, videoLink
 		FROM chapter
 		WHERE video = #{video}
 		ORDER BY chapNum
 	</select>
+	
+	
+	
+	<!-- 리뷰 -->
+	<insert id="insertReview" parameterType="com.bs.wd.course.Review">
+		INSERT INTO courseReview(reviewNum, num, userId, content, reg_date, rate)
+			VALUES (courseReview_seq.NEXTVAL, #{num}, #{userId}, #{content}, SYSDATE, #{rate})
+	</insert>
+
+	<select id="listReview" parameterType="map" resultType="com.bs.wd.course.Review">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT r.reviewNum, r.userId, userName, num, content, r.reg_date, rate 
+				FROM courseReview r
+				JOIN member1 m ON r.userId = m.userId
+				WHERE num=#{num}
+				ORDER BY r.reviewNum DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<select id="reviewCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) FROM courseReview
+		WHERE num=#{num}
+	</select>
+	
+	<delete id="deleteReview" parameterType="map">
+		DELETE FROM courseReview
+		WHERE reviewNum = #{reviewNum}
+	</delete>
+	
+	
 
 	
 </mapper>

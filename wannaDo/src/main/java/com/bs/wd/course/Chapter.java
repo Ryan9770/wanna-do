@@ -3,16 +3,22 @@ package com.bs.wd.course;
 public class Chapter {
 	private int chapNum;
 	private int num;
-	private String chapterName;
-	private int chapterNo;
+	private String subject;
+	private int orderNo;
 	private int video;
 	private String videoLink;
-
+	private String userId;
 	
 
 	
 
 
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 	public String getVideoLink() {
 		return videoLink;
 	}
@@ -37,17 +43,17 @@ public class Chapter {
 	public void setNum(int num) {
 		this.num = num;
 	}
-	public String getChapterName() {
-		return chapterName;
+	public String getSubject() {
+		return subject;
 	}
-	public void setChapterName(String chapterName) {
-		this.chapterName = chapterName;
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
-	public int getChapterNo() {
-		return chapterNo;
+	public int getOrderNo() {
+		return orderNo;
 	}
-	public void setChapterNo(int chapterNo) {
-		this.chapterNo = chapterNo;
+	public void setOrderNo(int orderNo) {
+		this.orderNo = orderNo;
 	}
 
 	

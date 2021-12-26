@@ -3,8 +3,35 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<style>
+.btn-level + .btn-level,
+.btn-courses + .btn-courses{
+	margin-left:0.5rem
+}
+.btn-level,.btn-courses{
+	border-radius:5000rem;
+}
+.btn-courses{
+	border-color:#212529;
+}
+.btn-courses:hover{
+	background-color:#212529;
+	color:#fff;
+}
+.btn-courses:focus{
+	box-shadow:0 0 0 0.25rem rgb(33,37,41,0.25);
+}
+.btn-courses.active{
+	background-color:#212529;
+	color:#fff;
+}
 
-
+.level-badge{
+	left:10px;
+	top:10px;
+	border-radius:5000rem;
+}
+</style>
 
 <script type="text/javascript">
 
@@ -50,7 +77,7 @@ function listPage(page) {
 	
 	var level = "";
 	$(".course-level").find(".btn-level").each(function(){
-		if($(this).hasClass("btn-primary")) {
+		if($(this).hasClass("active")) {
 			level = $(this).text();
 			return false;
 		}
@@ -70,29 +97,16 @@ function listPage(page) {
 	ajaxFun(url, "get", query, "html", fn);
 }
 
-// 검색
-function searchList() {
-	var f=document.courseSearchForm;
-	f.condition.value=$("#condition").val();
-	f.keyword.value=$.trim($("#keyword").val());
 
-	listPage(1);
-}
-
-// 새로고침
-function reloadCourse() {
-	var f=document.courseSearchForm;
-	f.condition.value="all";
-	f.keyword.value="";
-	
-	listPage(1);
-}
 
 $(function(){
 	$(".btn-level").click(function(){
-		$(".course-level").find(".btn-level").removeClass("btn-primary");
-		$(".course-level").find(".btn-level").addClass("btn-danger");
-		$(this).removeClass("btn-danger").addClass("btn-primary");
+// 		$(".course-level").find(".btn-level").removeClass("btn-primary");
+// 		$(".course-level").find(".btn-level").addClass("btn-danger");
+// 		$(this).removeClass("btn-danger").addClass("btn-primary");
+
+		$(this).addClass("active");
+		$(this).siblings(".btn-level").removeClass("active");
 		
 		listPage(1);
 	});
@@ -102,37 +116,34 @@ $(function(){
 
 <div class="container">
 	<div class="body-container">	
-		<div class="body-title" style="text-align: center;">
-			<h1>강좌 목록 </h1>
+		<div class="body-title pt-5 mt-5" style="text-align: center;">
+			<h1>All Courses</h1>
+			<div>와나두와 함께하는 실력향상</div>
+			<div>우리가 제공하는 강좌들을 살펴보세요.</div>
 		</div>
 	    		
-		<div class="body-main">
+	<div class="body-main mt-5 pt-4">
 	<div class="container">
-		<div class="col course-level" style="width: 50%">
-			<h5 style="text-align: center;">난이도 필터</h5>
-			<button type="button" class="btn btn-primary btn-level">모두</button>
-			<button type="button" class="btn btn-danger btn-level">초급</button>
-			<button type="button" class="btn btn-danger btn-level">중급</button>
-			<button type="button" class="btn btn-danger btn-level">고급</button>
+		<div class="col course-level d-flex align-items-center">
+			<div class="me-3">난이도 필터</div>
+			<button type="button" class="btn btn-outline-danger btn-level active">모두</button>
+			<button type="button" class="btn btn-outline-danger btn-level">초급</button>
+			<button type="button" class="btn btn-outline-danger btn-level">중급</button>
+			<button type="button" class="btn btn-outline-danger btn-level">고급</button>
 		</div>
 		
-		<div class="col" style="width: 50%">
-			<h5 style="text-align: center;">과목별 필터</h5>
-			<ul class="nav nav-tabs" id="myTab" role="tablist">
-				
-				<li class="nav-item" role="presentation">
-					<button class="nav-link active" id="tab-0" data-bs-toggle="tab" data-bs-target="#nav-content" type="button" role="tab" aria-controls="0" aria-selected="true" data-categoryNum="0">모두</button>
-				</li>
+		<div class="col d-flex align-items-center mt-2">
+			<div class="me-3">과목별 필터</div>
+			<div class="nav " id="myTab" role="tablist">
+				<button class="btn btn-courses active" id="tab-0" data-bs-toggle="tab" data-bs-target="#nav-content" type="button" role="tab" aria-controls="0" aria-selected="true" data-categoryNum="0">모두</button>
 				<c:forEach var="dto" items="${listCategory}" varStatus="status">
-					<li class="nav-item" role="presentation">
-						<button class="nav-link" id="tab-${status.count}" data-bs-toggle="tab" data-bs-target="#nav-content" type="button" role="tab" aria-controls="${status.count}" aria-selected="true" data-categoryNum="${dto.categoryNum}">${dto.category}</button>
-					</li>
+					<button class="btn btn-courses" id="tab-${status.count}" data-bs-toggle="tab" data-bs-target="#nav-content" type="button" role="tab" aria-controls="${status.count}" aria-selected="true" data-categoryNum="${dto.categoryNum}">${dto.category}</button>
 				</c:forEach>
-			</ul>
+			</div>
 		</div>
 	</div>
 			
-			<div class="tab-content pt-2" id="nav-tabContent" >
+			<div class="tab-content border-top border-danger border-2 mt-4 " id="nav-tabContent" >
 				<div class="tab-pane fade show active" id="nav-content" role="tabpanel" aria-labelledby="nav-tab-content">
 				</div>
 			</div>
@@ -150,7 +161,7 @@ $(function(){
 	<div class="container px-3 my-3">
 		<h2 class="display-3 fw-bolder mb-3">쿠키가 부족하면?</h2>
 		<a class="btn btn-lg btn-primary"
-			href="${pageContext.request.contextPath}/credit/buy">여기눌러</a>
+			href="${pageContext.request.contextPath}/credit/main">여기눌러</a>
 	</div>
 </section>
 

@@ -10,11 +10,6 @@ import com.bs.wd.common.FileManager;
 import com.bs.wd.common.dao.CommonDAO;
 
 
-
-
-
-
-
 @Service("course.courseService")
 public class CourseServiceImpl  implements CourseService {
 	@Autowired
@@ -254,9 +249,9 @@ public class CourseServiceImpl  implements CourseService {
 	}
 
 	@Override
-	public void deleteChapter(int chapNum) throws Exception {
+	public void deleteChapter(Map<String, Object> map) throws Exception {
 		try {
-			dao.deleteData("course.deleteChapter", chapNum);
+			dao.deleteData("course.deleteChapter", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -285,4 +280,53 @@ public class CourseServiceImpl  implements CourseService {
 			throw e;
 		}
 	}
+
+	@Override
+	public void insertReview(Review dto) throws Exception {
+		try {
+			dao.insertData("course.insertReview", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public int reviewCount(Map<String, Object> map) {
+	int result = 0;
+		
+		try {
+			result = dao.selectOne("course.reviewCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public List<Review> listReview(Map<String, Object> map) {
+		List<Review> list = null;
+
+		try {
+			list = dao.selectList("course.listReview", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	@Override
+	public void deleteReview(Map<String, Object> map) throws Exception {
+		try {
+			dao.deleteData("course.deleteReview", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+
+	
 }

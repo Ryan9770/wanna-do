@@ -4,10 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 
-
-
-
-
 public interface CourseService {
 	public void insertCourse(Course dto, String pathname) throws Exception;
 	public int dataCount(Map<String, Object> map);
@@ -30,8 +26,15 @@ public interface CourseService {
 	public void insertChapter(Chapter dto) throws Exception;
 	public List<Chapter> listChapter(Map<String, Object> map);
 	public void updateChapter(Chapter dto) throws Exception;
-	public void deleteChapter(int chapNum) throws Exception;
+	public void deleteChapter(Map<String, Object> map) throws Exception;
 	
 	public void insertVideo(Chapter dto) throws Exception;
 	public List<Chapter> listVideo(int chapNum);
+	
+	
+	public void insertReview(Review dto) throws Exception;
+	public int reviewCount(Map<String, Object> map);
+	public List<Review> listReview(Map<String, Object> map);
+	public void deleteReview(Map<String, Object> map) throws Exception;
+
 }

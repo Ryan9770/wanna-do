@@ -23,8 +23,6 @@ import com.bs.wd.common.MyUtil;
 import com.bs.wd.member.SessionInfo;
 
 
-
-
 @Controller("course.courseController")
 @RequestMapping("/course/*")
 public class CourseController {
@@ -132,6 +130,7 @@ public class CourseController {
 			return "redirect:/course/main";
 		}
 
+		dto.setRecommended(myUtil.htmlSymbols(dto.getRecommended()));
 		dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 
 		// 이전 글, 다음 글
@@ -399,7 +398,7 @@ public class CourseController {
 		List<Chapter> listChapter = service.listChapter(map);
 		
 		for (Chapter dto : listChapter) {
-			dto.setChapterName(dto.getChapterName().replaceAll("\n", "<br>"));
+			dto.setSubject(dto.getSubject().replaceAll("\n", "<br>"));
 		}
 
 
@@ -414,6 +413,23 @@ public class CourseController {
 
 		return "course/listChapter";
 	}
+	
+	// 댓글 및 댓글의 답글 삭제 : AJAX-JSON
+		@RequestMapping(value = "deleteChapter", method = RequestMethod.POST)
+		@ResponseBody
+		public Map<String, Object> deleteChapter(@RequestParam Map<String, Object> paramMap) {
+			String state = "true";
+			
+			try {
+				service.deleteChapter(paramMap);
+			} catch (Exception e) {
+				state = "false";
+			}
+
+			Map<String, Object> map = new HashMap<>();
+			map.put("state", state);
+			return map;
+		}
 
 	// 댓글의 답글 리스트 : AJAX-TEXT
 		@RequestMapping(value = "listVideo")
@@ -421,7 +437,7 @@ public class CourseController {
 			List<Chapter> listVideo = service.listVideo(video);
 			
 			for (Chapter dto : listVideo) {
-				dto.setChapterName(dto.getChapterName().replaceAll("\n", "<br>"));
+				dto.setSubject(dto.getSubject().replaceAll("\n", "<br>"));
 			}
 
 			model.addAttribute("listVideo", listVideo);
@@ -443,4 +459,87 @@ public class CourseController {
 		model.put("state", state);
 		return model;
 	}
+	
+	
+	// 리뷰 ---------------------------
+		// 리뷰 리스트 : AJAX-TEXT
+		@RequestMapping(value = "listReview")
+		public String listReview(@RequestParam int num,
+				@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
+				Model model) throws Exception {
+
+			int rows = 5;
+			int total_page = 0;
+			int dataCount = 0;
+
+			Map<String, Object> map = new HashMap<>();
+			map.put("num", num);
+
+			dataCount = service.reviewCount(map);
+			total_page = myUtil.pageCount(rows, dataCount);
+			if (current_page > total_page) {
+				current_page = total_page;
+			}
+			
+			int start = (current_page - 1) * rows + 1;
+			int end = current_page * rows;
+			map.put("start", start);
+			map.put("end", end);
+			
+			List<Review> listReview = service.listReview(map);
+
+			for (Review dto : listReview) {
+				dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+			}
+
+			// AJAX 용 페이징
+			String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
+
+			// 포워딩할 jsp로 넘길 데이터
+			model.addAttribute("listReview", listReview);
+			model.addAttribute("pageNo", current_page);
+			model.addAttribute("replyCount", dataCount);
+			model.addAttribute("total_page", total_page);
+			model.addAttribute("paging", paging);
+
+			return "course/listReview";
+		}
+
+		// 댓글 등록 : AJAX-JSON
+		@RequestMapping(value = "insertReview", method = RequestMethod.POST)
+		@ResponseBody
+		public Map<String, Object> insertReview(Review dto, HttpSession session) {
+			SessionInfo info = (SessionInfo) session.getAttribute("member");
+			String state = "true";
+
+			try {
+				dto.setUserId(info.getUserId());
+				service.insertReview(dto);
+			} catch (Exception e) {
+				state = "false";
+			}
+
+			Map<String, Object> model = new HashMap<>();
+			model.put("state", state);
+			return model;
+		}
+
+		// 댓글 삭제 : AJAX-JSON
+		@RequestMapping(value = "deleteReview", method = RequestMethod.POST)
+		@ResponseBody
+		public Map<String, Object> deleteReview(@RequestParam Map<String, Object> paramMap) {
+
+			String state = "true";
+			try {
+				service.deleteReview(paramMap);
+			} catch (Exception e) {
+				state = "false";
+			}
+
+			Map<String, Object> map = new HashMap<>();
+			map.put("state", state);
+			return map;
+		}
+	
+
 }

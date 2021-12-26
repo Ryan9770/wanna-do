@@ -417,8 +417,9 @@ $(function() {
 
 					<tr>
 						<td class="table-light col-sm-2" scope="row">강좌 가격</td>
-						<td><input type="text" name="price" class="form-control"
+						<td><input type="text" name="price" class="form-control" style="width: 20%"
 							value="${dto.price}"></td>
+		
 					</tr>
 
 

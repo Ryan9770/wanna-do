@@ -15,9 +15,10 @@ public class Course {
 	private int hitCount;
 	private String price;
 	private String reg_date;
+	private int enabled;
+	private String intro;
 	
-	
-    private int groupCategoryNum;
+	private int groupCategoryNum;
     private int categoryNum;
     private String groupCategory;
     private String category;
@@ -29,7 +30,23 @@ public class Course {
     
     private int courseLikeCount;
     
+    public String getIntro() {
+    	return intro;
+    }
     
+    
+    public void setIntro(String intro) {
+    	this.intro = intro;
+    }
+    
+    public int getEnabled() {
+    	return enabled;
+    }
+    
+    
+    public void setEnabled(int enabled) {
+    	this.enabled = enabled;
+    }
 	
 	
 	public String getImageFile() {
