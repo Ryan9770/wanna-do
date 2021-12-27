@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="home">
+	<select id="listCourse" resultType="com.bs.wd.course.Course">
+		SELECT * 
+		  FROM (
+			SELECT c.num, imageFile, category, courseName, recommended, creatorName, imageFilename, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, courseLevel, hitCount
+			  FROM course c 
+			  JOIN courseCategory cc ON c.categoryNum = cc.categoryNum
+			  JOIN creatorInfo i ON c.userId = i.userId
+			ORDER BY hitCount DESC
+		)
+		 WHERE ROWNUM &lt;=3
+	</select>
+</mapper>
