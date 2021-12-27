@@ -6,120 +6,18 @@
 .body-container {
 	max-width: 800px;
 }
-
 .ck
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .ck-editor__main
 >
 .ck-editor__editable
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 :not
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
 (
 .ck-focused
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
 )
 {
 border
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 :
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
 none
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ;
 }
 .table .ellipsis {
@@ -140,6 +38,24 @@ none
 .table .ellipsis:before {
 	content: '';
 	display: inline-block;
+}
+
+.star {font-size:0; letter-spacing:-4px;}
+.star li {
+    font-size:22px;
+    letter-spacing:0;
+    display:inline-block;
+    margin-left:3px;
+    color:#cccccc;
+    text-decoration:none;
+    cursor:pointer;
+}
+.star li:first-child {margin-left:0;}
+.star li.on {color:#F2CB61;}
+.star-none  {
+	cursor: default;
+	pointer-events: none;
+	
 }
 </style>
 <link rel="stylesheet"
@@ -195,7 +111,7 @@ function ajaxFun(url, method, query, dataType, fn) {
 $(function(){
 	$(".btnSendCourseLike").click(function(){
 		var $i = $(this).find("i");
-		var userLiked = $i.hasClass("bi-hand-thumbs-up-fill");
+		var userLiked = $i.hasClass("bi-heart-fill");
 		var msg = userLiked ? "강좌 찜을 취소하시겠습니까 ? " : "강좌 찜을하십니까 ? ";
 		
 		if(! confirm( msg )) {
@@ -210,9 +126,9 @@ $(function(){
 			var state = data.state;
 			if(state==="true") {
 				if( userLiked ) {
-					$i.removeClass("bi-hand-thumbs-up-fill").addClass("bi-hand-thumbs-up");
+					$i.removeClass("bi-heart-fill").addClass("bi-heart");
 				} else {
-					$i.removeClass("bi-hand-thumbs-up").addClass("bi-hand-thumbs-up-fill");
+					$i.removeClass("bi-heart").addClass("bi-heart-fill");
 				}
 				
 				var count = data.courseLikeCount;
@@ -450,7 +366,7 @@ $(function(){
 		
 		var $tb = $(this).closest("table");
 		var content = $tb.find("textarea").val().trim();
-		var rate = $tb.find("textarea").val().trim();
+		var rate = $tb.find("input[name=rate]").val().trim();
 		if(! content) {
 			$tb.find("textarea").focus();
 			return false;
@@ -462,16 +378,32 @@ $(function(){
 		
 		var fn = function(data){
 			$tb.find("textarea").val("");
+			$tb.find("input[name=rate]").val("0");
 			
 			var state=data.state;
 			if(state === "true") {
-				listPage(1);
+				listPage1(1);
 			} else if(state === "false") {
 				alert("댓글을 추가 하지 못했습니다.");
 			}
 		};
 		
 		ajaxFun(url, "post", query, "json", fn);
+	});
+});
+
+// 별점 추가
+$(function(){
+	$( ".star-input li" ).click(function() {
+		var b=$(this).hasClass("on");
+	    $(this).parent().children("li").removeClass("on");
+	    $(this).addClass("on").prevAll("li").addClass("on");
+	    if(b) {
+	    	$(this).removeClass("on");
+	    }
+	    
+	    var s=$(".star-input .on").length;
+	    $("#rate").val(s);
 	});
 });
 
@@ -495,6 +427,140 @@ $(function(){
 		
 		ajaxFun(url, "post", query, "json", fn);
 	});
+});
+
+// 쪽지
+$(function(){
+	// 영상 추가 대화상자
+	$("body").on("click", ".btnQnaMessage", function(){
+		$("form[name=qnaForm]").each(function(){
+			this.reset();
+		});
+		
+		$(".btnQnaMessage").attr("data-chapNum", $(this).attr("data-chapNum"));
+		$("#qnaMessageModal").modal("show");
+	});
+});
+
+function sendOk() {
+	var f = document.noteForm;
+	var str;
+
+	if($("#forms-receiver-list input[name=receivers]").length === 0) {
+		alert("받을 사람을 추가하세요.");
+		return;
+	}
+
+	str = f.content.value.trim();
+	if(!str) {
+		alert("내용을 입력하세요.");
+		f.content.focus();
+		return;
+	}
+
+	f.action="${pageContext.request.contextPath}/note/write";
+
+	f.submit();
+}
+
+$(function(){
+	$(".btnReceiverDialog").click(function(){
+		$("#condition").val("userName");
+		$("#keyword").val("");
+		$(".dialog-receiver-list ul").empty();
+		
+		$("#myDialogModal").modal("show");
+	});
+	
+	// 대화상자 - 받는사람 검색 버튼
+	$(".btnReceiverFind").click(function(){
+		var condition = $("#condition").val();
+		var keyword = $("#keyword").val();
+		if(! keyword) {
+			$("#keyword").focus();
+			return false;
+		}
+		
+		var url = "${pageContext.request.contextPath}/note/listFriend"; 
+		var query = "condition="+condition+"&keyword="+encodeURIComponent(keyword);
+		
+		var fn = function(data){
+			$(".dialog-receiver-list ul").empty();
+			searchListFriend(data);
+		};
+		ajaxFun(url, "get", query, "json", fn);
+	});
+	
+	function searchListFriend(data) {
+		var s;
+		for(var i=0; i<data.listFriend.length; i++) {
+			var userId = data.listFriend[i].userId;
+			var userName = data.listFriend[i].userName;
+			
+			s = "<li><input type='checkbox' class='form-check-input' data-userId='"+userId+"' title='"+userId+"'> <span>"+userName+"</span></li>";
+			$(".dialog-receiver-list ul").append(s);
+		}
+	}
+	
+	// 대화상자-받는 사람 추가 버튼
+	$(".btnAdd").click(function(){
+		var len1 = $(".dialog-receiver-list ul input[type=checkbox]:checked").length;
+		var len2 = $("#forms-receiver-list input[name=receivers]").length;
+		
+		if(len1 == 0) {
+			alert("추가할 사람을 먼저 선택하세요.");
+			return false;			
+		}
+		
+		if(len1 + len2 >= 5) {
+			alert("받는사람은 최대 5명까지만 가능합니다.");
+			return false;
+		}
+		
+		var b, userId, userName, s;
+
+		b = false;
+		$(".dialog-receiver-list ul input[type=checkbox]:checked").each(function(){
+			userId = $(this).attr("data-userId");
+			userName = $(this).next("span").text();
+			
+			$("#forms-receiver-list input[name=receivers]").each(function(){
+				if($(this).val() == userId) {
+					b = true;
+					return false;
+				}
+			});
+			
+			if(! b) {
+				s = "<span class='receiver-user btn border px-1'>"+userName+" <i class='bi bi-trash' data-userId='"+userId+"'></i></span>";
+				$(".forms-receiver-name").append(s);
+				
+				s = "<input type='hidden' name='receivers' value='"+userId+"'>";
+				$("#forms-receiver-list").append(s);
+			}
+		});
+		
+		$("#myDialogModal").modal("hide");
+	});
+	
+	$(".btnClose").click(function(){
+		$("#myDialogModal").modal("hide");
+	});
+	
+	$("body").on("click", ".bi-trash", function(){
+		var userId = $(this).attr("data-userId");
+		
+		$(this).parent().remove();
+		$("#forms-receiver-list input[name=receivers]").each(function(){
+			var receiver = $(this).val();
+			if(userId == receiver) {
+				$(this).remove();
+				return false;
+			}
+		});
+		
+	});
+
 });
 </script>
 
@@ -526,17 +592,31 @@ $(function(){
 						</div>
 					</div>
 					<div class="d-flex justify-content-between mb-3">
-						<div class="border border-secondary rounded col-7  d-flex align-items-center justify-content-center">★★★★★ <span>5.0</span></div>
+						<div class="border border-secondary rounded col-7  d-flex align-items-center justify-content-center"><div>
+							<ul class="star star-none">
+								<c:forEach var="n" begin="1" end="${dto.rateAvg}">
+							    	<li class="on"><span>★</span></li>
+							   
+								</c:forEach>
+								<c:forEach var="n" begin="${dto.rateAvg+1}" end="5">
+							    	<li><span>★</span></li>
+								</c:forEach>
+							</ul>
+			 	 		</div>
+		 	 		</div>
 						<button type="button"
 							class="btn btn-outline-secondary btnSendCourseLike col-4" title="좋아요">
 							<i
-								class="bi ${userCourseLiked ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up' }"></i>&nbsp;&nbsp;<span
+								class="bi ${userCourseLiked ? 'bi-heart-fill':'bi-heart' }"></i>&nbsp;&nbsp;<span
 								id="courseLikeCount">${dto.courseLikeCount}</span>
 						</button>
 					</div>
 					<div class="d-grid">
 						<button type="button" class="btn btn-danger"
 							onclick="${pageContext.request.contextPath}/course/pay">구매하기</button>
+					</div>
+					<div>
+						<button type='button' class='btn btn-light btnQnaMessage'>쪽지 보내기</button>
 					</div>
 				</div>
 			</div>
@@ -593,31 +673,40 @@ $(function(){
 					</div>
 
 					<!-- Comments section-->
-					<div class="review">
-						<form name="reviewForm" method="post">
-							<div class='form-header'>
-								<span class="bold">리뷰</span><span> - 후기 작성 부탁드립니다.</span>
-							</div>
-
-							<table class="table table-borderless review-form">
-								<tr>
-									<td><textarea class='form-control' name="content" placeholder="평가내용"></textarea>
-									</td>
-								</tr>
-								<tr>
-									<td><textarea class='form-control' name="rate" placeholder="별점"></textarea>
-									</td>
-								</tr>
-								<tr>
-									<td align='right'>
-										<button type='button' class='btn btn-light btnSendReview'>리뷰
-											등록</button>
-									</td>
-								</tr>
-							</table>
-						</form>
-
-						<div id="listReview"></div>
+					<div class="review pt-5" >
+						<div class="bg-light border border-light px-5 py-5">
+							<form name="reviewForm" method="post">
+								<div class='form-header'>
+									<span class="bold">리뷰</span><span> - 후기 작성 부탁드립니다.</span>
+								</div>
+		
+								<table class="table table-borderless review-form">
+									<tr>
+										<td><textarea class='form-control' name="content" placeholder="평가내용"></textarea>
+										</td>
+										<td>
+											<div>
+												<ul class="star star-input">
+											    	<li><span>★</span></li>
+												    <li><span>★</span></li>
+												    <li><span>★</span></li>
+												    <li><span>★</span></li>
+												    <li><span>★</span></li>
+												</ul>
+												<input type="text" name="rate" id="rate" value="0" readonly="readonly">
+										 	 </div>
+										 
+										<td align='right'>
+											<button type='button' class='btn btn-danger btnSendReview'>리뷰 등록</button>
+										</td>
+									</tr>
+			
+					
+								</table>
+							</form>
+		
+							<div id="listReview"></div>
+						</div>
 					</div>
 
 
@@ -653,7 +742,8 @@ $(function(){
 			</div>
 		
 			<div class="col-2 sticky-top float-end bg-white border border-light shadow rounded" style="top:40px;">
-				광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고광고
+				
+				<a href="${pageContext.request.contextPath}/credit/main">쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키</a>
 			</div>
 		</div>
 	</section>
@@ -710,13 +800,112 @@ $(function(){
 
 				<div class='col'>
 					<iframe id="sampleMovie" width="500" height="300"
-						style="border: none;" allowfullscreen></iframe>
+						style="border: none;"></iframe>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
+
+<div class="modal fade" id="qnaMessageModal" tabindex="-1"
+	data-bs-backdrop="static" data-bs-keyboard="false"
+	aria-labelledby="myDialogModalLabel2" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content" style="width: 550px; height: 800px">
+			<div class="modal-header">
+				<h5 class="modal-title" id="myDialogModalLabel2">쪽지 보내기</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form name="noteForm" method="post">
+					<table class="table write-form mt-5">
+						<tr>
+							<td class="table-light col-sm-2" scope="row">받는사람</td>
+							<td>
+								<div class="row">
+									<div class="col-auto pe-0">
+										<button type="button" class="btn btn-light btnReceiverDialog">추가</button>
+									</div>
+									<div class="col">
+										<div class="forms-receiver-name"></div>
+									</div>
+								</div>
+								<small class="form-control-plaintext">한 번에 보낼 수 있는 최대 인원은 5명입니다.</small>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="table-light col-sm-2" scope="row">제 목</td>
+							<td>
+								<input type="text" name="subject" class="form-control" value="">
+							</td>
+						</tr>
+	        
+						<tr>
+							<td class="table-light col-sm-2" scope="row">내 용</td>
+							<td>
+								<textarea name="content" id="content" class="form-control"></textarea>
+							</td>
+						</tr>
+						
+					</table>
+					
+					<table class="table table-borderless mb-5">
+	 					<tr>
+							<td class="text-center">
+								<button type="button" class="btn btn-dark" onclick="sendOk();">보내기&nbsp;<i class="bi bi-check2"></i></button>
+								<button type="reset" class="btn btn-light">다시입력</button>
+								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/course/article?pageNo=1&num=${dto.num}';">취소&nbsp;<i class="bi bi-x"></i></button>
+								<div id="forms-receiver-list"></div>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="myDialogModal" tabindex="-1" 
+		data-bs-backdrop="static" data-bs-keyboard="false"
+		aria-labelledby="myDialogModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="myDialogModalLabel">받는 사람</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-auto p-1">
+						<select name="condition" id="condition" class="form-select">
+							<option value="userName">이름</option>
+							<option value="userId">아이디</option>
+						</select>
+					</div>
+					<div class="col-auto p-1">
+						<input type="text" name="keyword" id="keyword" class="form-control">
+					</div>
+					<div class="col-auto p-1">
+						<button type="button" class="btn btn-light btnReceiverFind"> <i class="bi bi-search"></i> </button>
+					</div>				
+				</div>
+				<div class="row p-1">
+					<div class="border p-1 dialog-receiver-list">
+						<ul></ul>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary btnAdd">추가</button>
+				<button type="button" class="btn btn-secondary btnClose">닫기</button>
+			</div>			
+		</div>
+	</div>
+</div>
 <script>               
 
 var $videoId = "";
@@ -729,21 +918,23 @@ $(function(){
 		if(url.indexOf("=") > 0) {
 			$url = url.substring(url.indexOf("=") + 1);
 		}
-		var movSrc = 'https://www.youtube.com/embed/'+url+'?autoplay=1';
+		var movSrc = 'https://www.youtube.com/embed/'+url+'?autoplay=1&enablejsapi=1&version=3&playerapiid=ytplayer';
 		// var movSrc = 'https://www.youtube.com/embed/'+url;
 		document.getElementById("sampleMovie").setAttribute("allow", "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture");
+		document.getElementById("sampleMovie").setAttribute("allowfullscreen", 1);
 		document.getElementById("sampleMovie").setAttribute("src", movSrc);
 		
 		
 		$("#watchVideoModal").modal("show");
-		
-
-
-		
-
+	
+	});
+	
+	var myModalEl = document.getElementById('watchVideoModal');
+	myModalEl.addEventListener('hide.bs.modal', function (event) {
+		var frame = document.getElementById("sampleMovie");
+	    frame.contentWindow.postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*');
 	});
 });
-
 
 </script>
 

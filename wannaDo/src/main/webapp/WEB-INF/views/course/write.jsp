@@ -391,7 +391,7 @@ $(function() {
 							<div class="row">
 								<div class="col-sm-4 pe-1">
 									<select name="categoryNum" class="form-select">
-											<option value="">:: 난이도 선택 ::</option>
+											<option value="">:: 과목 선택 ::</option>
 										<c:forEach var="vo" items="${listCategory}">
 											<option value="${vo.categoryNum}"
 												${dto.categoryNum==vo.categoryNum?"selected='selected'":""}>${vo.category}</option>
@@ -476,7 +476,7 @@ $(function() {
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="myDialogModalLabel">카테고리 수정</h5>
+				<h5 class="modal-title" id="myDialogModalLabel">과목 수정</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
@@ -485,7 +485,7 @@ $(function() {
 					<table class="table table-borderless table-category">
 						<thead class="table-light">
 							<tr class="border-top border-bottom text-center"> 
-								<th width="150">카테고리</th>
+								<th width="150">과목</th>
 								<th>변경</th>
 							</tr>
 						</thead>

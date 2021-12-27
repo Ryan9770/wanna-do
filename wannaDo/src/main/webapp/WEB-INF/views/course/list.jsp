@@ -11,7 +11,7 @@
 				<c:forEach var="dto" items="${list}">
 				<c:if test="${dto.enabled==1}">
 					<div class="col-lg-3 course-list">
-						<div class="position-relative mb-5" data-num="${dto.num}">
+						<div class="position-relative mb-5 pb-5" data-num="${dto.num}">
 							<a href="article?pageNo=1&num=${dto.num}">
 							<img class="img-fluid rounded-3 mb-3"
 								style="width: 270px; height: 210px; border:1px solid #eee;"

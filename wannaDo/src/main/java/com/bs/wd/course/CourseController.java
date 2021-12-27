@@ -28,6 +28,8 @@ import com.bs.wd.member.SessionInfo;
 public class CourseController {
 	@Autowired
 	private CourseService service;
+	
+
 	@Autowired
 	private MyUtil myUtil;
 
@@ -129,7 +131,7 @@ public class CourseController {
 		if (dto == null) {
 			return "redirect:/course/main";
 		}
-
+		
 		dto.setRecommended(myUtil.htmlSymbols(dto.getRecommended()));
 		dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 
@@ -541,5 +543,6 @@ public class CourseController {
 			return map;
 		}
 	
+		
 
 }

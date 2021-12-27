@@ -65,6 +65,7 @@
 				JOIN member1 m ON b.userId=m.userId
 				JOIN courseCategory c ON b.categoryNum = c.categoryNum
 				JOIN creatorInfo i ON b.userId=i.userId
+			
 				<where>
 					
 					<if test="categoryNum!=0">
@@ -85,16 +86,22 @@
 		SELECT b.num, b.userId, courseName, content, price, creatorName, imageFilename,
 			b.reg_date, tag, recommended, b.imageFile, courseLevel, intro,
 			b.categoryNum, c.category,
-			NVL(courseLikeCount, 0) courseLikeCount
-		FROM course b
+			NVL(courseLikeCount, 0) courseLikeCount,
+			NVL(avg, 0 ) rateAvg
+ 		FROM course b
 		JOIN member1 m ON b.userId=m.userId
 		JOIN courseCategory c ON b.categoryNum = c.categoryNum
 		JOIN creatorInfo i ON b.userId=i.userId
-
 		LEFT OUTER JOIN (
 			SELECT num, COUNT(*) courseLikeCount FROM courseLike
 			GROUP BY num
 		) bc ON b.num = bc.num
+		LEFT OUTER JOIN (
+			SELECT num, TRUNC(AVG(rate), 0) avg
+			FROM courseReview
+			GROUP BY num
+		) cr ON b.num = cr.num	
+		
 		WHERE b.num = #{num}
 	</select>
 	

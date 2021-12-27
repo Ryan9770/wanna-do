@@ -17,6 +17,8 @@ public class Course {
 	private String reg_date;
 	private int enabled;
 	private String intro;
+	private int rate;
+	private int rateAvg;
 	
 	private int groupCategoryNum;
     private int categoryNum;
@@ -29,6 +31,24 @@ public class Course {
 	private MultipartFile selectFile;
     
     private int courseLikeCount;
+
+    public int getRateAvg() {
+    	return rateAvg;
+    }
+    
+    
+    public void setRateAvg(int rateAvg) {
+    	this.rateAvg = rateAvg;
+    }
+
+    public int getRate() {
+    	return rate;
+    }
+    
+    
+    public void setRate(int rate) {
+    	this.rate = rate;
+    }
     
     public String getIntro() {
     	return intro;

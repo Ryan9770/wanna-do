@@ -12,6 +12,7 @@
 			<h2 class="accordion-header" id="flush-heading-${status.index}">
 				
 				<button class="accordion-button btnVideoListLayout"
+					style="background-color: #df4759; color: #f8f9fa;"
 					data-chapNum='${vo.chapNum}' type="button"
 					data-bs-toggle="collapse"
 					data-bs-target="#flush-collapse-${status.index}"
