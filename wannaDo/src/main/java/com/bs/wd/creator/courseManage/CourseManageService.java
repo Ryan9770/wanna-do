@@ -8,8 +8,11 @@ public interface CourseManageService {
 	
 	public List<Course> listCourse(Map<String, Object>map);
 	public List<Course> listCategory(Map<String, Object> map);
+	public List<Course> listCourseState(int num);
+	public List<Course> listChapter(Map<String, Object> map);
 	
 	public Course readCourse(int num);
+	public Course readCourseState(int num);
 	
 	public void updateCourseEnabled(Map<String, Object> map) throws Exception;
 

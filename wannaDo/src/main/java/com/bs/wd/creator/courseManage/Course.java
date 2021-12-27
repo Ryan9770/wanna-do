@@ -8,6 +8,7 @@ public class Course {
 	private int num;
 	private String category;
 	private String courseName;
+	private String courseLevel;
 	private String content;
 	private String price;
 	private String reg_date; // 강좌 등록일
@@ -29,6 +30,12 @@ public class Course {
     private String imageFilename;
 	private MultipartFile selectFile;
 	
+	public String getCourseLevel() {
+		return courseLevel;
+	}
+	public void setCourseLevel(String courseLevel) {
+		this.courseLevel = courseLevel;
+	}
 	public String getImageFilename() {
 		return imageFilename;
 	}

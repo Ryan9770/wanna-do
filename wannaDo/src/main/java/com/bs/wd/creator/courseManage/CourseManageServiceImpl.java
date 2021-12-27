@@ -144,4 +144,33 @@ public class CourseManageServiceImpl implements CourseManageService{
 		}
 	}
 
+	@Override
+	public List<Course> listCourseState(int num) {
+		List<Course> list = null;
+		
+		try {
+			list = dao.selectList("creatorCourseManage.listCourseState",num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<Course> listChapter(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Course readCourseState(int num) {
+		Course dto = null;
+		try {
+			dto = dao.selectOne("creatorCourseManage.readCourseState", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
+
 }

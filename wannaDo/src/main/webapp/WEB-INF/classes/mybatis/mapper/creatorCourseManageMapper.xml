@@ -2,16 +2,14 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="creatorCourseManage">
+
 	<select id="dataCount" parameterType="map" resultType="Integer">
 		SELECT COUNT(*)
-		  FROM course c
-		  JOIN member1 m1 ON c.userId = m1.userId
-		 WHERE c.userId = #{userId}
-		<where>
+		  FROM course
+		 WHERE userId = #{userId}
 			<if test="enabled!=''">
 				AND enabled = #{enabled, jdbcType=INTEGER}
 			</if>
-		</where>
 	</select>
 	
 	<select id="listCourse" parameterType="map" resultType="com.bs.wd.creator.courseManage.Course">
@@ -22,14 +20,56 @@
 				  FROM course c
 			      JOIN member1 m1 ON c.userId=m1.userId
 				  JOIN courseCategory cc ON c.categoryNum=cc.categoryNum
-				  JOIN creatorInfo i ON #{userId}=i.userId
-				<where>
-					<if test="enabled!=''">
-						AND enabled = #{enabled, jdbcType=INTEGER}
-					</if>
-				</where> 
+				  JOIN creatorInfo i ON c.userId=i.userId
+				WHERE i.userId = #{userId}
+				<if test="enabled!=''">
+					AND c.enabled = #{enabled, jdbcType=INTEGER}
+				</if>
 				ORDER BY c.num DESC
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}	
+	</select>
+	
+	<select id="listCourseName" parameterType="map" resultType="com.bs.wd.creator.courseManage.Course">
+		SELECT c.num, c.userId, creatorName, c.num, courseName, content,
+	                price, TO_CHAR(c.reg_date, 'YYYY-MM-DD') reg_date, c.enabled, category
+		  FROM course c
+	      JOIN member1 m1 ON c.userId=m1.userId
+		  JOIN courseCategory cc ON c.categoryNum=cc.categoryNum
+		  JOIN creatorInfo i ON c.userId=i.userId
+	 	 WHERE i.userId = #{userId}
+	  ORDER BY c.num DESC
+	</select>
+	
+	<select id="readCourse" parameterType="Integer" resultType="com.bs.wd.creator.courseManage.Course">
+		SELECT b.num, courseName, content, price, recommended,
+			b.reg_date, tag, recommended, b.imageFile, courseLevel, 
+			b.categoryNum, c.category,
+			NVL(courseLikeCount, 0) courseLikeCount
+		FROM course b
+		JOIN member1 m ON b.userId=m.userId
+		JOIN courseCategory c ON b.categoryNum = c.categoryNum
+		JOIN creatorInfo i ON b.userId=i.userId
+		LEFT OUTER JOIN (
+			SELECT num, COUNT(*) courseLikeCount FROM courseLike
+			GROUP BY num
+		) bc ON b.num = bc.num
+		WHERE b.num = #{num}	
+	</select>
+	
+	<select id="readCourseState" parameterType="Integer" resultType="com.bs.wd.creator.courseManage.Course">
+		SELECT * FROM (
+			SELECT stateNum  , courseNum, stateCode, memo, registerId, sReg_date
+			FROM courseState
+			WHERE courseNum = #{num}
+			ORDER BY stateNum   DESC
+		) WHERE ROWNUM = 1
+	</select>
+	
+	<select id="listCourseState" parameterType="Integer" resultType="com.bs.wd.creator.courseManage.Course">
+		SELECT stateNum  , courseNum, stateCode, memo, registerId, sReg_date
+		FROM courseState
+		WHERE courseNum = #{num}
+		ORDER BY stateNum   DESC
 	</select>
 </mapper>

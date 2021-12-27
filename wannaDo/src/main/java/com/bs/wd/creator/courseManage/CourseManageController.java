@@ -99,6 +99,27 @@ public class CourseManageController {
 		return ".creator.courseManage.list";
 	}
 	
+	// modal창으로 띄우는 ajax
+	@RequestMapping(value="detail")
+	public String detailCourse(@RequestParam int num,
+							Model model) throws Exception{
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("num", num);
+		
+		Course dto = service.readCourse(num);
+		
+		Course courseState = service.readCourseState(num);
+		List<Course> listState = service.listCourseState(num);
+		List<Course> listChapter = service.listChapter(map);
+		
+		model.addAttribute("dto", dto);
+		model.addAttribute("courseState", courseState);
+		model.addAttribute("listState", listState);
+		
+		return "creator/courseManage/detail";
+	}
+	
 	@RequestMapping(value="write", method = RequestMethod.GET)
 	public String writeForm(Model model) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -109,7 +130,7 @@ public class CourseManageController {
 		model.addAttribute("mode", "write");
 		model.addAttribute("listCategory", listCategory);
 		
-		return "creator/courseManage/write";
+		return ".creator.courseManage.write";
 	}
 
 	@RequestMapping(value="write", method = RequestMethod.POST)

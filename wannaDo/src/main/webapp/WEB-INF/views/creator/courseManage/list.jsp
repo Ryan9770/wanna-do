@@ -49,45 +49,19 @@ function ajaxFun(url, method, query, dataType, fn) {
 }
 
 function searchList() {
-	var url = "${pageContext.request.contextPath}/creator/courseManage/list";
+	var enabled = $("#selectEnabled").val();
+	var url = "${pageContext.request.contextPath}/creator/courseManage/list?enabled="+enabled;
 	location.href=url;
 }	
 
-function writeCourse(){
-	var dlg=$("#write-dialog").dialog({
-		autoOpen: false,
-		modal : true,
-		buttons: {
-			"등록" : function(){
-				writeOk();
-			},
-			"닫기" : function(){
-				$(this).dialog("close");
-			}
-		},
-		height : 700,
-		width : 1080,
-		title : "강의 등록",
-		close : function(event, ui){
-		}
-	});
-	
-	var url = "${pageContext.request.contextPath}/creator/courseManage/write";
-	var query = "";
-	
-	var fn = function(data){
-		$('#write-dialog').html(data);
-		dlg.dialog("open");
-	};
-	ajaxFun(url,"get",query,"html",fn);
-}
-
-function detailCourse(num) {
+function detailCourse(num){
+	console.log("gg")
 	var dlg = $("#course-dialog").dialog({
 		  autoOpen: false,
 		  modal: true,
 		  buttons: {
 		       " 수정 " : function() {
+		    	   
 		    	   updateOk(); 
 		       },
 		       " 닫기 " : function() {
@@ -96,12 +70,11 @@ function detailCourse(num) {
 		  },
 		  height: 640,
 		  width: 1080,
-		  title: "강의상세정보",
+		  title: "강좌상세정보",
 		  close: function(event, ui) {
 		  }
 	});
-
-	var url = "${pageContext.request.contextPath}/creator/courseManage/detail";
+	var url ="${pageContext.request.contextPath}/creator/courseManage/detail";
 	var query = "num="+num;
 	
 	var fn = function(data){
@@ -110,51 +83,25 @@ function detailCourse(num) {
 	};
 	ajaxFun(url, "post", query, "html", fn);
 }
-	
-function updateOk() {
-	var f = document.detailCourseForm;
-	
-	if(! f.stateCode.value) {
-		f.stateCode.focus();
-		return;
-	}
-	if(! $.trim(f.memo.value)) {
-		f.memo.focus();
-		return;
-	}
-	
-	var url = "${pageContext.request.contextPath}/creator/courseManage/updateCourseState";
-	var query=$("#detailCourseForm").serialize();
 
-	var fn = function(data){
-		$("form input[name=page]").val("${page}");
-		searchList();
-	};
-	ajaxFun(url, "post", query, "json", fn);
-		
-	$('#course-dialog').dialog("close");
-}
-
-function courseStateDetailView() {
+function courseStateDetailView(){
 	$('#CourseStateDetail').dialog({
 		  modal: true,
 		  minHeight: 100,
 		  maxHeight: 450,
 		  width: 750,
-		  title: '강의 상세',
+		  title: '강좌 상세',
 		  close: function(event, ui) {
-			   $(this).dialog("destroy"); // 이전 대화상자가 남아 있으므로 필요
+			   $(this).dialog("destroy");
 		  }
-	  });	
+	  });
 }
-
-
 </script>
 
 <main>
 	<div class="body-container">
 	    <div class="body-title">
-			<h2> 내 강의 목록 </h2>
+			<h2> 내 강좌 목록 </h2>
 	    </div>
 	    
 	    <div class="body-main ms-30">
@@ -164,10 +111,10 @@ function courseStateDetailView() {
 						${dataCount}개(${page}/${total_page} 페이지)
 					</td>
 					<td align="right">
-						<select id="selectEnabled" name="searchForm" class="selectField" onchange="searchList();">
+						<select id="selectEnabled" name="enabled" class="selectField" onchange="searchList();">
 							<option value="" ${enabled=="" ? "selected='selected'":""}>::강좌상태::</option>
-							<option value="0" ${enabled=="0" ? "selected='selected'":""}>잠금</option>
-							<option value="1" ${enabled=="1" ? "selected='selected'":""}>활성</option>
+							<option value="1" ${enabled=="1" ? "selected='selected'":""}>승인</option>
+							<option value="0" ${enabled=="0" ? "selected='selected'":""}>미승인</option>
 						</select>
 					</td>
 				</tr>
@@ -209,16 +156,12 @@ function courseStateDetailView() {
 						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/creator/courseManage/list';">새로고침</button>
 					</td>
 					<td align="right" width="100">
-						<button type="button" class="btn" onclick="writeCourse();">강좌등록</button>
+						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/creator/courseManage/write';">강좌등록</button>
 					</td>
 				</tr>
 			</table>
-			
 		</div>
-			
     </div>
-
-	<div id="course-dialog" style="display: none;"></div>
-	<div id="write-dialog" style="display: none;"></div>
-	<div id="category-dialog" style="display: none;"></div>
+    
+	<div id="course-dialog" style="display: none;"></div>	
 </main>
