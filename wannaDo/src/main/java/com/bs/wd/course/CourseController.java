@@ -495,7 +495,7 @@ public class CourseController {
 			}
 
 			// AJAX 용 페이징
-			String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
+			String paging = myUtil.pagingMethod(current_page, total_page, "listPage1");
 
 			// 포워딩할 jsp로 넘길 데이터
 			model.addAttribute("listReview", listReview);
@@ -507,7 +507,7 @@ public class CourseController {
 			return "course/listReview";
 		}
 
-		// 댓글 등록 : AJAX-JSON
+		// 리뷰 등록 : AJAX-JSON
 		@RequestMapping(value = "insertReview", method = RequestMethod.POST)
 		@ResponseBody
 		public Map<String, Object> insertReview(Review dto, HttpSession session) {
@@ -526,7 +526,7 @@ public class CourseController {
 			return model;
 		}
 
-		// 댓글 삭제 : AJAX-JSON
+		// 리뷰 삭제 : AJAX-JSON
 		@RequestMapping(value = "deleteReview", method = RequestMethod.POST)
 		@ResponseBody
 		public Map<String, Object> deleteReview(@RequestParam Map<String, Object> paramMap) {

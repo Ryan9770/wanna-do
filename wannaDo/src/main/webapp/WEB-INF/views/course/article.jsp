@@ -431,13 +431,12 @@ $(function(){
 
 // 쪽지
 $(function(){
-	// 영상 추가 대화상자
 	$("body").on("click", ".btnQnaMessage", function(){
 		$("form[name=qnaForm]").each(function(){
 			this.reset();
 		});
 		
-		$(".btnQnaMessage").attr("data-chapNum", $(this).attr("data-chapNum"));
+		$(".btnQnaMessage").attr("data-receiveId", $(this).attr("data-receiveId"));
 		$("#qnaMessageModal").modal("show");
 	});
 });
@@ -446,10 +445,6 @@ function sendOk() {
 	var f = document.noteForm;
 	var str;
 
-	if($("#forms-receiver-list input[name=receivers]").length === 0) {
-		alert("받을 사람을 추가하세요.");
-		return;
-	}
 
 	str = f.content.value.trim();
 	if(!str) {
@@ -616,7 +611,7 @@ $(function(){
 							onclick="${pageContext.request.contextPath}/course/pay">구매하기</button>
 					</div>
 					<div>
-						<button type='button' class='btn btn-light btnQnaMessage'>쪽지 보내기</button>
+						<button type='button' class='btn btn-light btnQnaMessage' data-receiveId="${dto.userId}">쪽지 보내기</button>
 					</div>
 				</div>
 			</div>
@@ -693,7 +688,7 @@ $(function(){
 												    <li><span>★</span></li>
 												    <li><span>★</span></li>
 												</ul>
-												<input type="text" name="rate" id="rate" value="0" readonly="readonly">
+												<input type="text" name="rate" id="rate" value="0" readonly="readonly" hidden="hidden">
 										 	 </div>
 										 
 										<td align='right'>
@@ -829,10 +824,9 @@ $(function(){
 										<button type="button" class="btn btn-light btnReceiverDialog">추가</button>
 									</div>
 									<div class="col">
-										<div class="forms-receiver-name"></div>
+										<div class="forms-receiver-name"><span class='receiver-user btn border px-1'>${dto.userId}<i class='bi bi-trash' data-userId='${dto.userId}'></i></span></div>
 									</div>
-								</div>
-								<small class="form-control-plaintext">한 번에 보낼 수 있는 최대 인원은 5명입니다.</small>
+								</div>	
 							</td>
 						</tr>
 						
@@ -887,7 +881,7 @@ $(function(){
 						</select>
 					</div>
 					<div class="col-auto p-1">
-						<input type="text" name="keyword" id="keyword" class="form-control">
+						<input type="text" name="keyword" id="keyword" class="form-control" value="${dto.userId}">
 					</div>
 					<div class="col-auto p-1">
 						<button type="button" class="btn btn-light btnReceiverFind"> <i class="bi bi-search"></i> </button>

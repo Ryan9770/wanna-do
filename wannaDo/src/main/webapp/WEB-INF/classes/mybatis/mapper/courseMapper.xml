@@ -58,7 +58,7 @@
 	<select id="listCourse" parameterType="map" resultType="com.bs.wd.course.Course">
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
-				SELECT b.num, b.userId, userName, courseName, imageFile, courseLevel,
+				SELECT b.num, b.userId, m.userName, courseName, imageFile, courseLevel,
 					TO_CHAR(b.reg_date, 'YYYY-MM-DD') reg_date, creatorName, b.enabled,
 					c.categoryNum, category
 				FROM course b

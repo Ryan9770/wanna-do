@@ -19,7 +19,9 @@ public class Course {
 	private String intro;
 	private int rate;
 	private int rateAvg;
+	private String userName;
 	
+
 	private int groupCategoryNum;
     private int categoryNum;
     private String groupCategory;
@@ -30,7 +32,29 @@ public class Course {
     private String imageFile;
 	private MultipartFile selectFile;
     
+	
     private int courseLikeCount;
+    
+    private String receiveId;
+    
+	public String getReceiveId() {
+		return receiveId;
+	}
+
+
+	public void setReceiveId(String receiveId) {
+		this.receiveId = receiveId;
+	}
+
+
+	public String getUserName() {
+		return userName;
+	}
+
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
     public int getRateAvg() {
     	return rateAvg;

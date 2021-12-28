@@ -33,7 +33,7 @@
 					<c:forEach var="n" begin="${vo.rate+1}" end="5">
 				    	<li><span>★</span></li>
 					</c:forEach>
-				    <a>${vo.rate}</a>
+				    <li>${vo.rate}</li>
 				</ul>
 			</td>
 		</tr>
@@ -41,4 +41,4 @@
 	</c:forEach>
 </table>
 
-<div class="page-box">${paging}</div>
+<div class="pagination pagination-sm">${paging}</div>
