@@ -3,9 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/jquery/css/jquery-ui.min.css" type="text/css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/jquery/js/jquery.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/util-jquery.js"></script>
+
 <script type="text/javascript">
 
-function imageViewer(src) {
+function imageViewer2(src) {
 	var viewer = $(".photo-layout");
 	var s="<img src='"+src+"'>";
 	//viewer.html(s);
@@ -16,6 +20,19 @@ function imageViewer(src) {
 		modal: true
 	});
 }
+
+function imageViewer(){
+	$('.dialog-photo').dialog({
+		  modal: true,
+		  height: 500,
+		  width: 500,
+		  title: '크리에이터 프로필',
+		  close: function(event, ui) {
+			   $(this).dialog("destroy");
+		  }
+	  });
+	
+}
 </script>
 
 <style type="text/css">
@@ -23,11 +40,10 @@ function imageViewer(src) {
     /* border: 1px solid #444444; */
     border-collapse: collapse;
     margin-top:30px;
-    background-color:#fcf0f1;
   }
   
   td {
-    border: 3px solid white;
+    border: 1px solid gainsboro;
 	height:50px;
 	text-align: center;
 	font-size:18px;
@@ -44,6 +60,7 @@ function imageViewer(src) {
 	z-index: 9999;
 	background-repeat : no-repeat;
 	background-size : cover;
+	display: inline-block;
 	}
 
 	.photo-layout img {
@@ -51,23 +68,36 @@ function imageViewer(src) {
 	}
 	
 	.title{
-		background-color: #ffabaf;
-		color:#DC3545;
+		background-color: whitesmoke;
+		color:#3c434a;
 		font-size:18px;
 	}
+	
+	.buttonTd td p{
+		padding:0;
+		margin: 0
+	}
+	
+	.buttonTd td:hover{
+		cursor: pointer;
+	}	
+	
+	.buttonTd td p:hover{
+		font-size: 17px
+	}		
+
 </style>
 
-<div class="container px-5 mt-5">
-	
+<div class="container px-5 mt-5" style="min-height: 533px">
 	<c:if test="${sessionScope.member.membership<22 }">
-		<div class="body-container">	
+		<div class="body-container py-3">	
 			<div class="body-title mb-3">
 				<h3>기본 정보</h3>
-				<table>
+				<table style="width:100%">
 					<tr>
 						<td class="title">아이디</td>
 						<td>${dto.userId}</td>
-						<td>닉네임</td>
+						<td class="title">닉네임</td>
 						<td>${dto.userName}</td>
 					</tr>
 					<tr>
@@ -82,13 +112,25 @@ function imageViewer(src) {
 						<td class="title">이메일</td>
 						<td colspan="3">${dto.email}</td>
 					</tr>	
+					<tr>
+						<td class="title">가입일</td>
+						<td colspan="3">${dto.register_date}</td>
+					</tr>	
 				</table>
-			</div>
-			<hr>
-			<div class="body-title mb-5">
-				<h3>쿠키 사용 정보</h3>
-				<table style="width:100%">
-				</table>	
+				<table class="table">
+					<tr class="buttonTd">
+						<td colspan="2" style="border:none; cursor: default;"></td>
+						<td align="right" width="155" onclick="javascript:location.href='${pageContext.request.contextPath}/member/pwd';">
+							<button type="button" class="btn" ><p>내 정보 수정</p></button>
+						</td>
+						<td align="right" width="155" onclick="javascript:location.href='${pageContext.request.contextPath}/credit/main';">
+							<button type="button" class="btn" ><p>쿠키 결제 내역</p></button>
+						</td>
+						<td align="right" width="155"  onclick="javascript:location.href='${pageContext.request.contextPath}/member/change';">
+							<button type="button" class="btn"><p>크리에이터 전환</p></button>
+						</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</c:if>
@@ -114,20 +156,20 @@ function imageViewer(src) {
 					</tr>
 					<tr>
 						<td rowspan="2" class="title">전화번호</td>
-						<td align="center" style="color:#DC3545;">기본</td>
+						<td align="center" style="color:#3c434a;">기본</td>
 						<td colspan="2">${dto.tel}</td>
 					</tr>
 					<tr>
-						<td align="center" style="color:#DC3545;">크리에이터</td>
+						<td align="center" style="color:#3c434a;">크리에이터</td>
 						<td colspan="2">${dto.creatorTel}</td>
 					</tr>
 					<tr>
 						<td rowspan="2" class="title">이메일</td>
-						<td align="center" style="color:#DC3545;">기본</td>
+						<td align="center" style="color:#3c434a;">기본</td>
 						<td colspan="2">${dto.email}</td>
 					</tr>				
 					<tr>
-						<td align="center" style="color:#DC3545;">크리에이터</td>
+						<td align="center" style="color:#3c434a;">크리에이터</td>
 						<td colspan="2">${dto.creatorEmail}</td>
 					</tr>		
 					<tr>
@@ -141,8 +183,6 @@ function imageViewer(src) {
 				</table>	
 			</div>			
 		</div>
-		<div class="dialog-photo">
-	     		<div class="photo-layout" style="display:hidden"></div>
-		</div>
+		<div class="dialog-photo" style="display: none;"></div>
 	</c:if>
 </div>
