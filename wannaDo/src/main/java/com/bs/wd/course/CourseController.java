@@ -545,7 +545,7 @@ public class CourseController {
 		
 		// 구매
 		@RequestMapping(value="pay", method=RequestMethod.GET)
-		public String payForm(@RequestParam int num, @RequestParam String price, @RequestParam String courseName, @RequestParam String creatorName, Model model) throws Exception {
+		public String payForm(@RequestParam int num, @RequestParam String price, @RequestParam String courseName, Model model) throws Exception {
 			model.addAttribute("num", num);
 			model.addAttribute("price",price);
 			model.addAttribute("courseName",courseName);

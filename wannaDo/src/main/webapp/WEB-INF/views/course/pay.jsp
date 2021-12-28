@@ -85,7 +85,6 @@ function pay() {
 						<button type="button" onclick="pay();" class="btn btn-lg btn-primary">결제하기</button>
 						<input type="hidden" name="courseName" value="${courseName}"/>
 	                    <input type="hidden" name="price" value="${price}"/>
-	                    <input type="hidden" name="price" value="${creatorName}"/>
 					</div>
 				</div>
 			</div>

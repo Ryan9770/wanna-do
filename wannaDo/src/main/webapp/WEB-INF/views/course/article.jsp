@@ -608,7 +608,7 @@ $(function(){
 					</div>
 					<div class="d-grid">
 						<button type="button" class="btn btn-danger"
-							onclick="location.href='${pageContext.request.contextPath}/course/pay?num=${dto.num}&price=${dto.price}&courseName=${dto.courseName}&creatorName=${dto.creatorName}';">구매하기</button>
+							onclick="location.href='${pageContext.request.contextPath}/course/pay?num=${dto.num}&price=${dto.price}&courseName=${dto.courseName}';">구매하기</button>
 					</div>
 					<div>
 						<button type='button' class='btn btn-light btnQnaMessage' data-receiveId="${dto.userId}">쪽지 보내기</button>
