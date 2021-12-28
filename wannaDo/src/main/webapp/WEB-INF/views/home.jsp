@@ -27,21 +27,21 @@
                <div class="col-lg-8">
                    <div class="row gx-5 row-cols-1 row-cols-md-2">
                        <div class="col mb-5 h-100">
-                           <div class="feature bg-danger bg-gradient text-white rounded-3 mb-3"><i class="bi bi-collection"></i></div>
+                           <div class="feature bg-danger bg-gradient text-white rounded-3 mb-3"><i class="bi bi-card-checklist"></i></div>
                            <h2 class="h5">간단한 가입</h2>
                            <p class="mb-0">필수 정보만 입력하면 가입 완료 ! <br>자유로운 크리에이터 전환도 가능 😎</div>
                        <div class="col mb-5 h-100">
-                           <div class="feature bg-danger bg-gradient text-white rounded-3 mb-3"><i class="bi bi-building"></i></div>
+                           <div class="feature bg-danger bg-gradient text-white rounded-3 mb-3"><i class="bi bi-collection"></i></div>
                            <h2 class="h5">꼼꼼한 영상 품질 관리</h2>
                            <p class="mb-0">간단한 절차 속에 꼼꼼한 검수를 통해 <br>보장된 퀄리티의 강의 영상을 제공합니다👋</p>
                        </div>
                        <div class="col mb-5 mb-md-0 h-100">
-                           <div class="feature bg-danger bg-gradient text-white rounded-3 mb-3"><i class="bi bi-toggles2"></i></div>
+                           <div class="feature bg-danger bg-gradient text-white rounded-3 mb-3"><i class="bi bi-credit-card"></i></div>
                            <h2 class="h5">쿠키 결제</h2>
                            <p class="mb-0">결제한 쿠키는 강의 구매 뿐 아니라 <br>추후 굿즈 구매에도 사용할 수 있습니다.🍪</p>
                        </div>
                        <div class="col h-100">
-                           <div class="feature bg-danger bg-gradient text-white rounded-3 mb-3"><i class="bi bi-toggles2"></i></div>
+                           <div class="feature bg-danger bg-gradient text-white rounded-3 mb-3"><i class="bi bi-person-workspace"></i></div>
                            <h2 class="h5">와나두 챌린지</h2>
                            <p class="mb-0">와나두는 회원들의 실제 실력 향상을 바랍니다.<br>함께, 하지만 스스로 공부할 수 있는 다양한 방법을 제시할 것 입니다.👨‍🏫</p>
 	                  </div>
