@@ -32,7 +32,6 @@ function pay() {
 						<p class="lead fw-normal text-muted mb-4" style="font-size: 16px;">상기 내용대로 결제하시겠습니까?</p>
 						<button onclick="pay();"class="btn btn-lg btn-primary">결제하기</button>
 						<input type="hidden" name="amount" value="${amount}"/>
-	                    <input type="hidden" name="userId" value="${sessionScope.member.userId}"/>
 	                    <input type="hidden" name="price" value="${price}"/>
 					</div>
 				</div>

@@ -117,10 +117,14 @@ public class CreditController {
 	public Map<String, Object> myCookie(HttpSession session) throws Exception {
 		String state = "true";
 		int count = 0;
+		int count1 = 0;
+		int count2 = 0;
 		try {
 			SessionInfo info = (SessionInfo)session.getAttribute("member");
 			String userId = info.getUserId();
-			count = service.myCookie(userId);
+			count1 = service.myCookie(userId);
+			count2 = service.useCookie(userId);
+			count = count1 - count2;
 		} catch (Exception e) {
 			state = "true";
 		}
@@ -157,5 +161,60 @@ public class CreditController {
 		} catch (Exception e) {
 		}
 		return "redirect:/credit/main";
+	}
+	
+	@RequestMapping(value="listUse")
+	public String listUse(
+			@RequestParam(value="pageNo", defaultValue="1") int current_page,
+			HttpServletRequest req,
+			HttpSession session, Model model) throws Exception {
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		int rows = 10;
+		int total_page = 0;
+		int useCount = 0;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", info.getUserId());
+		
+		useCount = service.useCount(map);
+		if(useCount != 0) {
+			total_page = myUtil.pageCount(rows, useCount);
+		}
+		if(total_page < current_page) {
+			current_page = total_page;
+		}
+		
+		int start = (current_page - 1) * rows + 1;
+		int end = current_page * rows;
+		map.put("start", start);
+		map.put("end", end);
+		
+		List<Credit> listUse = service.listUse(map);
+		
+		Date endDate = new Date();
+		long gap;
+		int listNum, n = 0;
+		for (Credit dto : listUse) {
+			listNum = useCount - (start + n - 1);
+			dto.setListNum(listNum);
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date beginDate = formatter.parse(dto.getUse_date());
+			gap = (endDate.getTime() - beginDate.getTime()) / (60 * 60 * 1000);
+			dto.setGap(gap);
+
+			dto.setUse_date(dto.getUse_date().substring(0, 10));
+			
+			n++;
+		}
+		String paging = myUtil.pagingMethod(current_page, total_page, "listUse");
+		
+		model.addAttribute("listUse", listUse);
+		model.addAttribute("pageNo", current_page);
+		model.addAttribute("useCount", useCount);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("paging", paging);
+		
+		return "credit/listUse";
 	}
 }

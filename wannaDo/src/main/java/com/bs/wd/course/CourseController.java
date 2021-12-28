@@ -542,7 +542,26 @@ public class CourseController {
 			map.put("state", state);
 			return map;
 		}
-	
 		
+		// 구매
+		@RequestMapping(value="pay", method=RequestMethod.GET)
+		public String payForm(@RequestParam int num, @RequestParam String price, @RequestParam String courseName, @RequestParam String creatorName, Model model) throws Exception {
+			model.addAttribute("num", num);
+			model.addAttribute("price",price);
+			model.addAttribute("courseName",courseName);
+			return ".course.pay";
+		}
+		
+		@RequestMapping(value="pay", method=RequestMethod.POST)
+		public String paySubmit(Course dto, HttpSession session) throws Exception {
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			try {
+				dto.setUserId(info.getUserId());
+				service.buyCourse(dto);
+			} catch (Exception e) {
+			}
+			return "redirect:/course/main";
+		}
+
 
 }

@@ -85,5 +85,48 @@ public class CreditServiceImpl implements CreditService {
 		} catch (Exception e) {
 		}
 	}
-	
+
+	@Override
+	public List<Credit> listUse(Map<String, Object> map) {
+		List<Credit> list = null;
+		try {
+			list = dao.selectList("credit.listUse", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public int useCookie(String userId) {
+		int result = 0;
+		try {
+			result = dao.selectOne("credit.useCookie", userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public int useCount(Map<String, Object> map) {
+		int result = 0;
+		try {
+			result = dao.selectOne("credit.useCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public String useDate(String userId) {
+		String result = null;
+		try {
+			result = dao.selectOne("credit.useDate", userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}	
 }

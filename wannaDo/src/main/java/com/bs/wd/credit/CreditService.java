@@ -11,4 +11,8 @@ public interface CreditService {
 	public String buyDate(String userId);
 	public void refundRequest(Credit dto) throws Exception;
 	public void creditStateUpdate(int num) throws Exception;
+	public List<Credit> listUse(Map<String, Object> map);
+	public int useCookie(String userId);
+	public int useCount(Map<String, Object> map);
+	public String useDate(String userId);
 }

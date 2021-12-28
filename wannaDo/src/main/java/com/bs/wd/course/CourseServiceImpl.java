@@ -327,6 +327,13 @@ public class CourseServiceImpl  implements CourseService {
 		}
 	}
 
+	@Override
+	public void buyCourse(Course dto) throws Exception {
+		try {
+			dao.insertData("course.buyCourse", dto);
+		} catch (Exception e) {
+		}
+	}
 
 	
 }

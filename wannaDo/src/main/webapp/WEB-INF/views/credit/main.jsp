@@ -37,12 +37,118 @@ $(function(){
 		
 		if(tab == "list") {
 			listPage(1);
-		} else {
+		} else if(tab == "listUse") {
+			listUse(1);
+    	} else {
 			 buyPage();
 		}
     });
 });
 </c:if>
+</script>
+<script type="text/javascript">
+	function login() {
+		location.href="${pageContext.request.contextPath}/member/login";
+	}
+	
+	function ajaxFun(url, method, query, dataType, fn) {
+		$.ajax({
+			type:method,
+			url:url,
+			data:query,
+			dataType:dataType,
+			success:function(data) {
+				fn(data);
+			},
+			beforeSend:function(jqXHR) {
+				jqXHR.setRequestHeader("AJAX", true);
+			},
+			error:function(jqXHR) {
+		    	if(jqXHR.status===403) {
+		    		login();
+		    		return false;
+		    	} else if(jqXHR.status === 402) {
+		    		alert("권한이 없습니다.");
+		    		return false;
+				} else if(jqXHR.status === 400) {
+					alert("요청 처리가 실패 했습니다.");
+					return false;
+		    	}
+				console.log(jqXHR.responseText);
+			}
+		});
+	}
+	<c:if test="${not empty sessionScope.member}">
+	$(function(){
+		listPage(1);
+	});
+	</c:if>
+	
+	<c:if test="${not empty sessionScope.member}">
+	$(function(){
+		listUse(1);
+	});
+	</c:if>
+	
+	<c:if test="${empty sessionScope.member}">
+	$(function(){
+		buyPage();
+	});
+	</c:if>
+	
+	function listPage(page) {
+		var url = "${pageContext.request.contextPath}/credit/list";
+		var query = "pageNo="+page;
+		var selector = ".content-frame";
+		
+		var fn = function(data){
+			$(selector).html(data);
+		};
+		ajaxFun(url, "get", query, "html", fn);
+	}
+	
+	function listUse(page) {
+		var url = "${pageContext.request.contextPath}/credit/listUse";
+		var query = "pageNo="+page;
+		var selector = ".content-frame";
+		
+		var fn = function(data){
+			$(selector).html(data);
+		};
+		ajaxFun(url, "get", query, "html", fn);
+	}
+	
+	function buyPage() {
+		var url = "${pageContext.request.contextPath}/credit/buy";
+		var query = null;
+		var selector = ".content-frame";
+		
+		var fn = function(data){
+			$(selector).html(data);
+		};
+		ajaxFun(url, "get", query, "html", fn);
+	}
+	$(function(){
+		var isLogin = "${not empty sessionScope.member ? 'true':'false'}";
+		if(isLogin === "true") {
+			myCookie();
+		}
+		function myCookie() {
+			var url = "${pageContext.request.contextPath}/credit/myCookie";
+			$.ajax({
+				type:"POST",
+				url:url,
+				async:false,
+				data:null,
+				dataType:"json",
+				success:function(data) {
+					var myCookie = data.myCookie;
+					$("#myCookie").html(myCookie);
+				}
+			});
+		}
+	});
+	
 </script>
 
 <div class="container px-5 py-5">
@@ -64,6 +170,9 @@ $(function(){
 					<button class="nav-link" id="tab-list" data-bs-toggle="tab" data-bs-target="#nav-content" type="button" role="tab" aria-controls="list" aria-selected="true" data-tab="list">구매내역</button>
 				</li>
 				<li class="nav-item" role="presentation">
+					<button class="nav-link" id="tab-buy" data-bs-toggle="tab" data-bs-target="#nav-content" type="button" role="tab" aria-controls="listUse" aria-selected="true" data-tab="listUse">쿠키사용내역</button>
+				</li>
+				<li class="nav-item" role="presentation">
 					<button class="nav-link" id="tab-buy" data-bs-toggle="tab" data-bs-target="#nav-content" type="button" role="tab" aria-controls="buy" aria-selected="true" data-tab="buy">쿠키샵</button>
 				</li>
 			</ul>
@@ -73,92 +182,3 @@ $(function(){
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-function login() {
-	location.href="${pageContext.request.contextPath}/member/login";
-}
-
-function ajaxFun(url, method, query, dataType, fn) {
-	$.ajax({
-		type:method,
-		url:url,
-		data:query,
-		dataType:dataType,
-		success:function(data) {
-			fn(data);
-		},
-		beforeSend:function(jqXHR) {
-			jqXHR.setRequestHeader("AJAX", true);
-		},
-		error:function(jqXHR) {
-	    	if(jqXHR.status===403) {
-	    		login();
-	    		return false;
-	    	} else if(jqXHR.status === 402) {
-	    		alert("권한이 없습니다.");
-	    		return false;
-			} else if(jqXHR.status === 400) {
-				alert("요청 처리가 실패 했습니다.");
-				return false;
-	    	}
-			console.log(jqXHR.responseText);
-		}
-	});
-}
-<c:if test="${not empty sessionScope.member}">
-$(function(){
-	listPage(1);
-});
-</c:if>
-
-<c:if test="${empty sessionScope.member}">
-$(function(){
-	buyPage();
-});
-</c:if>
-
-function listPage(page) {
-	var url = "${pageContext.request.contextPath}/credit/list";
-	var query = "pageNo="+page;
-	var selector = ".content-frame";
-	
-	var fn = function(data){
-		$(selector).html(data);
-	};
-	ajaxFun(url, "get", query, "html", fn);
-}
-
-function buyPage() {
-	var url = "${pageContext.request.contextPath}/credit/buy";
-	var query = null;
-	var selector = ".content-frame";
-	
-	var fn = function(data){
-		$(selector).html(data);
-	};
-	ajaxFun(url, "get", query, "html", fn);
-}
-</script>
-<script type="text/javascript">
-	$(function(){
-		var isLogin = "${not empty sessionScope.member ? 'true':'false'}";
-		if(isLogin === "true") {
-			myCookie();
-		}
-
-		function myCookie() {
-			var url = "${pageContext.request.contextPath}/credit/myCookie";
-			$.ajax({
-				type:"POST",
-				url:url,
-				data:null,
-				dataType:"json",
-				success:function(data) {
-					var myCookie = data.myCookie;
-					$("#myCookie").html(myCookie);
-				}
-			});
-		}
-	});
-	
-</script>

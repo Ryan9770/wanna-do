@@ -5,9 +5,9 @@
 	<select id="seq" resultType="Integer">
 		SELECT wallet_seq.NEXTVAL FROM dual
 	</select>
-	<select id="insertCredit" parameterType="com.bs.wd.credit.Credit">
+	<insert id="insertCredit" parameterType="com.bs.wd.credit.Credit">
 		INSERT INTO mywallet(num, userId, amount, price, buy_date, state) VALUES(#{num}, #{userId}, #{amount}, #{price}, SYSDATE, 0)
-	</select>
+	</insert>
 	<select id="dataCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*), 0)
 		FROM mywallet w
@@ -38,8 +38,39 @@
 		UPDATE myWallet SET state = 1
 		WHERE num=#{num}
 	</update>
+	<update id="refundPermit" parameterType="Integer">
+		UPDATE myWallet SET state = 2
+		WHERE num=#{num}
+	</update>
+	<update id="refundDeny" parameterType="Integer">
+		UPDATE myWallet SET state = 0
+		WHERE num=#{num}
+	</update>
 	<delete id="refundOk" parameterType="Integer">
 		DELETE FROM mywallet
-		WHERE num=#{num}
+		JOIN refundCookie ON num = cookieNum
+		WHERE num=#{num} AND state=2
 	</delete>
+	<select id="useCookie" parameterType="map" resultType="Integer">
+		SELECT NVL(sum(amount), 0)
+		FROM useCookie
+		WHERE userId=#{userId}
+	</select>
+	<select id="listUse" parameterType="map" resultType="com.bs.wd.credit.Credit">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT u.num, u.userId, amount, courseName, use_date, state
+				FROM useCookie u
+				JOIN member1 m ON u.userId=m.userId
+				WHERE u.userId=#{userId}
+				ORDER BY num DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	<select id="useCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM useCookie u
+		JOIN member1 m ON u.userId=m.userId
+		WHERE u.userId=#{userId}
+	</select>
 </mapper>

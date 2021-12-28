@@ -10,6 +10,9 @@ public class Credit {
 	
 	private long gap;
 	private int state;
+	private String courseName;
+	
+	private String use_date;
 	
 	public int getNum() {
 		return num;
@@ -58,5 +61,17 @@ public class Credit {
 	}
 	public void setState(int state) {
 		this.state = state;
+	}
+	public String getUse_date() {
+		return use_date;
+	}
+	public void setUse_date(String use_date) {
+		this.use_date = use_date;
+	}
+	public String getCourseName() {
+		return courseName;
+	}
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
 	}
 }

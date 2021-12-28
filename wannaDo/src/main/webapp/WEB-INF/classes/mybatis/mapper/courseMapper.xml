@@ -209,7 +209,11 @@
 		WHERE reviewNum = #{reviewNum}
 	</delete>
 	
-	
+	<!-- 구매 -->
+	<insert id="buyCourse" parameterType="com.bs.wd.course.Course">
+		INSERT INTO useCookie(num, userId, amount, use_date, courseName, state)
+		VALUES(buyCourse_seq.NEXTVAL, #{userId}, #{price}, SYSDATE, #{courseName}, 0)
+	</insert>
 
 	
 </mapper>

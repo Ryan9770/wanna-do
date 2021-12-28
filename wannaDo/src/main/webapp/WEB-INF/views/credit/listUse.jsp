@@ -18,7 +18,7 @@
 			<table class="table">
 				<tr>
 					<td align="left" width="50%">
-						${dataCount}개(${page}/${total_page} 페이지)
+						${useCount}개(${page}/${total_page} 페이지)
 					</td>
 				</tr>
 			</table>	
@@ -26,7 +26,7 @@
 				<thead class="table-light" style="text-align: center">
 					<tr>
 						<th class="col-1">번호</th>
-						<th class="col-3">구매 수량</th>
+						<th class="col-3">강의명</th>
 						<th class="col-3">가격</th>
 						<th class="col-3">구매일</th>
 						<th class="col-3">환불 요청</th>
@@ -34,15 +34,15 @@
 				</thead>
 						
 				<tbody style="text-align: center">
-					<c:forEach var="dto" items="${list}">
+					<c:forEach var="vo" items="${listUse}">
 						<tr class="hover-tr">
-							<td>${dto.listNum}<input type="hidden" name="num" value="${dto.num}"></td>
-							<td>${dto.amount}</td>
-							<td><fmt:formatNumber value="${dto.price}" pattern="#,###" /> 원</td>
-							<td>${dto.buy_date}</td>
-							<c:if test="${dto.gap < 168 && dto.state == 0}">
+							<td>${vo.listNum}<input type="hidden" name="num" value="${vo.num}"></td>
+							<td>${vo.courseName}</td>
+							<td>${vo.amount}</td>
+							<td>${vo.use_date}</td>
+							<c:if test="${vo.gap < 168 && vo.state == 0}">
 								<td>
-									<button type="button" data-num="${dto.num}" data-amount="${dto.amount}" data-price="${dto.price}" class="btn btn-light refund">환불 요청</button>
+									<button type="button" data-num="${vo.num}" data-amount="${vo.amount}" data-price="${vo.courseName}" class="btn btn-light refund">환불 요청</button>
 								</td>
 							</c:if>
 							<c:if test="${dto.state == 1}">
@@ -50,7 +50,7 @@
 									<button type="button" class="btn btn-light refund" disabled>환불 진행 중</button>
 								</td>
 							</c:if>
-							<c:if test="${dto.gap >= 168 && dto.state == 0}">
+							<c:if test="${vo.gap >= 168 && vo.state == 0}">
 								<td>
 									<button type="button" class="btn btn-light refund" disabled>기한 만료</button>
 								</td>
@@ -60,7 +60,7 @@
 				</tbody>
 			</table>
 			<div class="page-box" style="text-align: center">
-				${dataCount == 0 ? "구매 내역이 없습니다." : paging}
+				${useCount == 0 ? "구매 내역이 없습니다." : paging}
 			</div>
 		</div>
 	</div>
@@ -77,8 +77,8 @@ $(function(){
 			}
 			var num = $(this).attr("data-num");
 			var amount = $(this).attr("data-amount");
-			var price = $(this).attr("data-price");
-			var query = "num="+num+"&amount="+amount+"&price="+price;
+			var courseName = $(this).attr("data-courseName");
+			var query = "num="+num+"&amount="+amount+"&courseName="+courseName;
 			var url = "${pageContext.request.contextPath}/credit/refund?" + query;
 			location.href = url;
 		});
