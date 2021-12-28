@@ -173,8 +173,10 @@
 	
 	<!-- 영상 리스트 -->
 	<select id="listVideo" parameterType="Integer" resultType="com.bs.wd.course.Chapter">
-		SELECT chapNum, num, orderNo, subject, video, videoLink
-		FROM chapter
+		SELECT chapNum, ch.num, orderNo, subject, video, videoLink, c.userId
+		FROM chapter ch
+			 JOIN course c ON ch.num=c.num
+             JOIN member1 m1 ON c.userid=m1.userId
 		WHERE video = #{video}
 		ORDER BY chapNum
 	</select>

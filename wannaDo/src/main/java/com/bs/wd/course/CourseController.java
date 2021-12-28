@@ -357,7 +357,7 @@ public class CourseController {
 		return model;
 	}
 
-	// 댓글 및 댓글의 답글 등록 : AJAX-JSON
+	// 챕터 등록 : AJAX-JSON
 	@RequestMapping(value = "insertChapter", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> insertChapter(Chapter dto, HttpSession session) {
@@ -374,7 +374,7 @@ public class CourseController {
 		return model;
 	}
 	
-	// 댓글 리스트 : AJAX-TEXT
+	// 챕터 리스트 : AJAX-TEXT
 	@RequestMapping(value = "listChapter")
 	public String listChapter(@RequestParam int num, 
 			@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
@@ -416,7 +416,7 @@ public class CourseController {
 		return "course/listChapter";
 	}
 	
-	// 댓글 및 댓글의 답글 삭제 : AJAX-JSON
+	// 챕터 삭제 : AJAX-JSON
 		@RequestMapping(value = "deleteChapter", method = RequestMethod.POST)
 		@ResponseBody
 		public Map<String, Object> deleteChapter(@RequestParam Map<String, Object> paramMap) {
@@ -433,7 +433,7 @@ public class CourseController {
 			return map;
 		}
 
-	// 댓글의 답글 리스트 : AJAX-TEXT
+	// 영상 리스트 : AJAX-TEXT
 		@RequestMapping(value = "listVideo")
 		public String listVideo(@RequestParam int video, Model model) throws Exception {
 			List<Chapter> listVideo = service.listVideo(video);

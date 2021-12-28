@@ -6,18 +6,75 @@
 .body-container {
 	max-width: 800px;
 }
+
 .ck
+
+
+
+
+
+
+
+
 .ck-editor__main
 >
 .ck-editor__editable
+
+
+
+
+
+
+
+
 :not
+
+
+
+
+
+
+
+
 (
 .ck-focused
+
+
+
+
+
+
+
+
 )
 {
 border
+
+
+
+
+
+
+
+
 :
+
+
+
+
+
+
+
+
 none
+
+
+
+
+
+
+
+
 ;
 }
 .table .ellipsis {
@@ -40,23 +97,43 @@ none
 	display: inline-block;
 }
 
-.star {font-size:0; letter-spacing:-4px;}
-.star li {
-    font-size:22px;
-    letter-spacing:0;
-    display:inline-block;
-    margin-left:3px;
-    color:#cccccc;
-    text-decoration:none;
-    cursor:pointer;
+.star {
+	font-size: 0;
+	letter-spacing: -4px;
 }
-.star li:first-child {margin-left:0;}
-.star li.on {color:#F2CB61;}
-.star-none  {
+
+.star li {
+	font-size: 22px;
+	letter-spacing: 0;
+	display: inline-block;
+	margin-left: 3px;
+	color: #cccccc;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.star li:first-child {
+	margin-left: 0;
+}
+
+.star li.on {
+	color: #F2CB61;
+}
+
+.star-none {
 	cursor: default;
 	pointer-events: none;
-	
 }
+
+.course-detail-contents .ck-content {
+	border: none;
+	padding: 0;
+}
+
+.list-review>div {
+	border-bottom: 1px solid #ccc;
+}
+
 </style>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/boot-board.css"
@@ -164,14 +241,14 @@ $(function(){
 	$(".btnSendChapter").click(function(){
 		var num = "${dto.num}";
 		var $tb = $(this).closest("table");
-		var orderNo = $tb.find("textarea[name=orderNo]").val().trim();
-		var subject = $tb.find("textarea[name=subject]").val().trim();
+		var orderNo = $tb.find("input[name=orderNo]").val().trim();
+		var subject = $tb.find("input[name=subject]").val().trim();
 		if(! orderNo) {
-			$tb.find("textarea[name=orderNo]").focus();
+			$tb.find("input[name=orderNo]").focus();
 			return false;
 		}
 		if(! subject) {
-			$tb.find("textarea[name=subject]").focus();
+			$tb.find("input[name=subject]").focus();
 			return false;
 		}
 		subject = encodeURIComponent(subject);
@@ -186,10 +263,10 @@ $(function(){
 			if(state === "true") {
 				listPage(1);
 			} else if(state === "false") {
-				alert("댓글을 추가 하지 못했습니다.");
+				alert("챕터를 추가 하지 못했습니다.");
 			}
 		};
-		
+		$("#addChapterModal").modal("hide");
 		ajaxFun(url, "post", query, "json", fn);
 	});
 });
@@ -202,20 +279,20 @@ $(function(){
 		var chapNum = $(this).attr("data-chapNum");
 		var $td = $(this).closest("td");
 		
-		var orderNo = $td.find("textarea[name=orderNo]").val().trim();
-		var subject = $td.find("textarea[name=subject]").val().trim();
-		var videoLink = $td.find("textarea[name=videoLink]").val().trim();
+		var orderNo = $td.find("input[name=orderNo]").val().trim();
+		var subject = $td.find("input[name=subject]").val().trim();
+		var videoLink = $td.find("input[name=videoLink]").val().trim();
 		
 		if(! orderNo) {
-			$td.find("textarea[name=orderNo]").focus();
+			$td.find("input[name=orderNo]").focus();
 			return false;
 		}
 		if(! subject) {
-			$td.find("textarea[name=subject]").focus();
+			$td.find("input[name=subject]").focus();
 			return false;
 		}
 		if(! videoLink) {
-			$td.find("textarea[name=videoLink]").focus();
+			$td.find("input[name=videoLink]").focus();
 			return false;
 		}
 		subject = encodeURIComponent(subject);
@@ -224,16 +301,16 @@ $(function(){
 		var query = "num=" + num + "&subject=" + subject + "&video=" + chapNum + "&orderNo=" + orderNo + "&videoLink=" + videoLink;
 		
 		var fn = function(data){
-			$td.find("textarea[name=orderNo]").val("");
-			$td.find("textarea[name=subject]").val("");
-			$td.find("textarea[name=videoLink]").val("");
+			$td.find("input[name=orderNo]").val("");
+			$td.find("input[name=subject]").val("");
+			$td.find("input[name=videoLink]").val("");
 			
 			var state = data.state;
 			if(state === "true") {
 				listVideo(chapNum);
 			}
 		};
-		
+		$("#addVideoModal").modal("hide");
 		ajaxFun(url, "post", query, "json", fn);
 	});
 });
@@ -255,7 +332,7 @@ function listVideo(video) {
 $(function(){
 	$("body").on("click", ".btnVideoListLayout", function(){
 		var $trVideoList = $(this).closest("tr").next();
-
+		
 		
 		var isVisible = $trVideoList.is(':visible');
 		var chapNum = $(this).attr("data-chapNum");
@@ -300,8 +377,8 @@ $(function(){
 		var query = "chapNum="+chapNum;
 		
 		var fn = function(data){
-			// var state = data.state;
-			listPage(page);
+			
+			listPage(1);
 		};
 		
 		ajaxFun(url, "post", query, "json", fn);
@@ -330,7 +407,7 @@ $(function(){
 		var chapNum = $(this).attr("data-chapNum");
 		var video = $(this).attr("data-video");
 		
-		var url = "${pageContext.request.contextPath}/course/deleteVideo";
+		var url = "${pageContext.request.contextPath}/course/deleteChapter";
 		var query = "chapNum=" + chapNum;
 		
 		var fn = function(data){
@@ -436,13 +513,12 @@ $(function(){
 			this.reset();
 		});
 		
-		$(".btnQnaMessage").attr("data-receiveId", $(this).attr("data-receiveId"));
 		$("#qnaMessageModal").modal("show");
 	});
 });
 
 function sendOk() {
-	var f = document.noteForm;
+	var f = document.qnaForm;
 	var str;
 
 
@@ -462,7 +538,7 @@ $(function(){
 	$(".btnReceiverDialog").click(function(){
 		$("#condition").val("userName");
 		$("#keyword").val("");
-		$(".dialog-receiver-list ul").empty();
+		$(".dialog-receiver-list ul").empty();s
 		
 		$("#myDialogModal").modal("show");
 	});
@@ -562,47 +638,62 @@ $(function(){
 
 <body>
 	<section class="pb-5 bg-light">
-	<div class="sub-banner position-relative" style="height:160px; background:#212529;">
-		<h1 class="fw-bolder mb-1 position-absolute top-50 start-50 translate-middle" style="color:#fff; min-width:fit-content;">${dto.courseName}</h1>		
-	</div>
+		<div class="sub-banner position-relative"
+			style="height: 160px; background: #212529;">
+			<h1
+				class="fw-bolder mb-1 position-absolute top-50 start-50 translate-middle"
+				style="color: #fff; min-width: fit-content;">${dto.courseName}</h1>
+		</div>
 		<div class="container my-5">
-			<div class="col-lg-3 sticky-top float-start bg-white border border-light shadow rounded" style="top:40px;">
-				<div style="overflow: hidden; height: 190px;">
+			<div
+				class="col-lg-3 sticky-top float-start bg-white border border-light shadow rounded"
+				style="top: 40px;">
+				<div style="overflow: hidden; height: 200px;">
 					<img class="img-fluid rounded" style="width: 100%; height: auto;"
 						src="${pageContext.request.contextPath}/uploads/course/${dto.imageFile}"
 						alt="..." />
 				</div>
 				<div class="p-3">
 					<div class="fs-2 py-3">
-						<img width="35" height="35" style="vertical-align:sub; margin-right:0.7rem;" src="https://user-images.githubusercontent.com/93500782/145944393-e33135d9-16c1-495c-9d34-5f5fd1d79f32.png"/>
-					${dto.price}개</div>
-					<div class="d-flex align-items-center my-4 border border-end-0 border-start-0 border-secondary py-3">
+						<img width="35" height="35"
+							style="vertical-align: sub; margin-right: 0.7rem;"
+							src="https://user-images.githubusercontent.com/93500782/145944393-e33135d9-16c1-495c-9d34-5f5fd1d79f32.png" />
+						${dto.price}개
+					</div>
+					<div
+						class="d-flex align-items-center my-4 border border-end-0 border-start-0 border-secondary py-3">
 						<img class="img-fluid rounded" style="width: 60px; height: auto;"
 							src="${pageContext.request.contextPath}/uploads/creatorInfo/${dto.imageFilename}"
 							alt="..." />
-						<div class="ms-3">
-							<div class="fw-bold">${dto.creatorName}</div>
+						<div class="ms-3 flex-fill">
+							<div class="d-flex align-items-center justify-contents-space">
+								<div class="fw-bold text-truncate flex-fill"
+									style="max-width: 120px">${dto.creatorName}</div>
+								<button type='button'
+									class='btn btn-sm btn-outline-dark btnQnaMessage'
+									data-receiveId="${dto.userId}" style="cursor: pointer;"><i class="bi bi-envelope"></i>
+									보내기</button>
+							</div>
+
 							<div class="text-muted">${dto.intro}</div>
-	
 						</div>
 					</div>
 					<div class="d-flex justify-content-between mb-3">
-						<div class="border border-secondary rounded col-7  d-flex align-items-center justify-content-center"><div>
-							<ul class="star star-none">
+						<div class="rounded col-7  d-flex align-items-center">
+							<span class="me-2">평점 :</span>
+							<ul class="star star-none p-0 m-0">
 								<c:forEach var="n" begin="1" end="${dto.rateAvg}">
-							    	<li class="on"><span>★</span></li>
-							   
+									<li class="on"><span>★</span></li>
 								</c:forEach>
 								<c:forEach var="n" begin="${dto.rateAvg+1}" end="5">
-							    	<li><span>★</span></li>
+									<li><span>★</span></li>
 								</c:forEach>
 							</ul>
-			 	 		</div>
-		 	 		</div>
+						</div>
 						<button type="button"
-							class="btn btn-outline-secondary btnSendCourseLike col-4" title="좋아요">
-							<i
-								class="bi ${userCourseLiked ? 'bi-heart-fill':'bi-heart' }"></i>&nbsp;&nbsp;<span
+							class="btn btn-outline-danger btnSendCourseLike col-4"
+							title="좋아요">
+							<i class="bi ${userCourseLiked ? 'bi-heart-fill':'bi-heart' }"></i>&nbsp;&nbsp;<span
 								id="courseLikeCount">${dto.courseLikeCount}</span>
 						</button>
 					</div>
@@ -610,35 +701,38 @@ $(function(){
 						<button type="button" class="btn btn-danger"
 							onclick="location.href='${pageContext.request.contextPath}/course/pay?num=${dto.num}&price=${dto.price}&courseName=${dto.courseName}';">구매하기</button>
 					</div>
-					<div>
-						<button type='button' class='btn btn-light btnQnaMessage' data-receiveId="${dto.userId}">쪽지 보내기</button>
-					</div>
 				</div>
 			</div>
-			
-			<div class="d-inline-flex col-7">
-				<div class="bg-white border border-light shadow rounded mx-3 p-3">
+
+			<div class="d-inline-flex col-7 flex-column">
+				<div
+					class="bg-white border border-light shadow rounded mx-3 px-4 py-5 mb-5"
+					style="max-width: 724px">
 					<!-- Post content-->
 					<article>
 						<figure>
-							<table class="table">
+							<table class="table mb-5">
 								<tbody>
 									<tr>
-										<td style="width: 200px;">난이도</td>
-										<td style="width: 1000px;">${dto.courseLevel}</td>
+										<td
+											style="width: 200px; background: #F8F9FA; border: 1px solid #ccc; vertical-align: middle;">난이도</td>
+										<td style="width: 1000px; border: 1px solid #ccc;">${dto.courseLevel}</td>
 									</tr>
 									<tr>
-										<td>강사명</td>
-										<td>${dto.creatorName}</td>
+										<td
+											style="background: #F8F9FA; border: 1px solid #ccc; vertical-align: middle;">강사명</td>
+										<td style="border: 1px solid #ccc;">${dto.creatorName}</td>
 									</tr>
 									<tr>
-										<td>태그</td>
-										<td>${dto.tag}</td>
+										<td
+											style="background: #F8F9FA; border: 1px solid #ccc; vertical-align: middle;">태그</td>
+										<td style="border: 1px solid #ccc;">${dto.tag}</td>
 
 									</tr>
 									<tr>
-										<td style="border-bottom: none;">추천대상</td>
-										<td>${dto.recommended}</td>
+										<td
+											style="border-bottom: none; background: #F8F9FA; border: 1px solid #ccc; vertical-align: middle;">추천대상</td>
+										<td style="border: 1px solid #ccc;">${dto.recommended}</td>
 									</tr>
 								</tbody>
 							</table>
@@ -647,60 +741,79 @@ $(function(){
 						<!-- Preview image figure-->
 
 						<!-- Post content-->
-						<section class="mb-5">
+						<section class="course-detail-contents">
 							<div class="editor">${dto.content}</div>
-						</section>
+						</section> 
 					</article>
+				</div>
+
+
+				<div
+					class="mx-3 mb-5"
+					style="max-width: 724px">
 					<div class="Chapter">
-						<div class="col ps-1">
+						<div class="col text-end mb-3">
 							<c:choose>
 								<c:when test="${sessionScope.member.userId==dto.userId}">
-									<button class="btn btn-light btnChapterAdd" type="button">챕터추가</button>
+									<button class="btn btn-outline-dark btnChapterAdd"
+										type="button">
+										챕터 <i class="bi bi-plus"></i>
+									</button>
 								</c:when>
 								<c:otherwise>
 
 								</c:otherwise>
 							</c:choose>
-
 						</div>
 
-						<div id="listChapter"></div>
+						<div id="listChapter" class="shadow"></div>
 					</div>
+				</div>
 
+
+				<div
+					class="bg-white border border-light shadow rounded mx-3 px-4 py-5"
+					style="max-width: 724px">
 					<!-- Comments section-->
-					<div class="review pt-5" >
-						<div class="bg-light border border-light px-5 py-5">
-							<form name="reviewForm" method="post">
-								<div class='form-header'>
-									<span class="bold">리뷰</span><span> - 후기 작성 부탁드립니다.</span>
-								</div>
-		
-								<table class="table table-borderless review-form">
-									<tr>
-										<td><textarea class='form-control' name="content" placeholder="평가내용"></textarea>
-										</td>
-										<td>
-											<div>
-												<ul class="star star-input">
-											    	<li><span>★</span></li>
-												    <li><span>★</span></li>
-												    <li><span>★</span></li>
-												    <li><span>★</span></li>
-												    <li><span>★</span></li>
-												</ul>
-												<input type="text" name="rate" id="rate" value="0" readonly="readonly" hidden="hidden">
-										 	 </div>
-										 
-										<td align='right'>
-											<button type='button' class='btn btn-danger btnSendReview'>리뷰 등록</button>
-										</td>
-									</tr>
-			
-					
-								</table>
-							</form>
-		
-							<div id="listReview"></div>
+					<div class="review">
+						<div>
+							<div class='form-header mb-2'>
+								<span class="bold">리뷰</span><span> - 후기 작성 부탁드립니다.</span>
+							</div>
+							<div class="bg-light border p-5 py-4 mb-4">
+								<form name="reviewForm" method="post">
+
+									<table class="table table-borderless review-form mb-0">
+										<tr>
+											<td class="pb-1 p-0">
+												<div>
+													<ul class="star star-input p-0 m-0">
+														<li><span>★</span></li>
+														<li><span>★</span></li>
+														<li><span>★</span></li>
+														<li><span>★</span></li>
+														<li><span>★</span></li>
+													</ul>
+													<input type="text" name="rate" id="rate" value="0"
+														readonly="readonly" hidden="hidden">
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td class="pb-2 p-0"><textarea class='form-control'
+													name="content" placeholder="평가내용"></textarea></td>
+										</tr>
+										<tr>
+											<td class="p-0" align='right'>
+												<button type='button' class='btn btn-danger btnSendReview' onclick="location.href='${pageContext.request.contextPath}/course/article?pageNo=1&num=${dto.num}';">리뷰
+													등록</button>
+											</td>
+										</tr>
+									</table>
+								</form>
+							</div>
+
+							<div id="listReview" class="list-review"></div>
 						</div>
 					</div>
 
@@ -735,9 +848,11 @@ $(function(){
 					</table>
 				</div>
 			</div>
-		
-			<div class="col-2 sticky-top float-end bg-white border border-light shadow rounded" style="top:40px;">
-				
+
+			<div
+				class="col-2 sticky-top float-end bg-white border border-light shadow rounded bg-black"
+				style="background-color: #eee; top: 40px;">
+
 				<a href="${pageContext.request.contextPath}/credit/main">쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키</a>
 			</div>
 		</div>
@@ -762,14 +877,16 @@ $(function(){
 
 					<table class="table table-borderless chapter-form">
 						<tr>
-							<td><textarea class='form-control' name="orderNo"
-									placeholder="챕터번호"></textarea></td>
-							<td><textarea class='form-control' name="subject"
-									placeholder="챕터명"></textarea></td>
+							<td><input class='form-control' name="orderNo"
+									placeholder="챕터번호"></input></td>
+						</tr>
+						<tr>
+							<td><input class='form-control' name="subject"
+									placeholder="챕터명"></input></td>
 						</tr>
 						<tr>
 							<td align='right'>
-								<button type='button' class='btn btn-light btnSendChapter'>챕터
+								<button type='button' class='btn btn-outline-secondary btnSendChapter'>챕터
 									등록</button>
 							</td>
 						</tr>
@@ -814,44 +931,47 @@ $(function(){
 					aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<form name="noteForm" method="post">
+				<form name="qnaForm" method="post">
 					<table class="table write-form mt-5">
 						<tr>
 							<td class="table-light col-sm-2" scope="row">받는사람</td>
 							<td>
 								<div class="row">
-									<div class="col-auto pe-0">
-										<button type="button" class="btn btn-light btnReceiverDialog">추가</button>
-									</div>
 									<div class="col">
-										<div class="forms-receiver-name"><span class='receiver-user btn border px-1'>${dto.userId}<i class='bi bi-trash' data-userId='${dto.userId}'></i></span></div>
+										<div class="forms-receiver-name">
+											<span class='receiver-user btn border px-1'>${dto.userId}<i
+												class='bi bi-trash' data-userId='${dto.userId}'></i></span>
+										</div>
 									</div>
-								</div>	
+								</div>
 							</td>
 						</tr>
-						
+
 						<tr>
 							<td class="table-light col-sm-2" scope="row">제 목</td>
-							<td>
-								<input type="text" name="subject" class="form-control" value="">
-							</td>
+							<td><input type="text" name="subject" class="form-control"
+								value=""></td>
 						</tr>
-	        
+
 						<tr>
 							<td class="table-light col-sm-2" scope="row">내 용</td>
-							<td>
-								<textarea name="content" id="content" class="form-control"></textarea>
-							</td>
+							<td><textarea name="content" id="content"
+									class="form-control"></textarea></td>
 						</tr>
-						
+
 					</table>
-					
+
 					<table class="table table-borderless mb-5">
-	 					<tr>
+						<tr>
 							<td class="text-center">
-								<button type="button" class="btn btn-dark" onclick="sendOk();">보내기&nbsp;<i class="bi bi-check2"></i></button>
+								<button type="button" class="btn btn-dark" onclick="sendOk();">
+									보내기&nbsp;<i class="bi bi-check2"></i>
+								</button>
 								<button type="reset" class="btn btn-light">다시입력</button>
-								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/course/article?pageNo=1&num=${dto.num}';">취소&nbsp;<i class="bi bi-x"></i></button>
+								<button type="button" class="btn btn-light"
+									onclick="location.href='${pageContext.request.contextPath}/course/article?pageNo=1&num=${dto.num}';">
+									취소&nbsp;<i class="bi bi-x"></i>
+								</button>
 								<div id="forms-receiver-list"></div>
 							</td>
 						</tr>
@@ -863,14 +983,15 @@ $(function(){
 </div>
 
 
-<div class="modal fade" id="myDialogModal" tabindex="-1" 
-		data-bs-backdrop="static" data-bs-keyboard="false"
-		aria-labelledby="myDialogModalLabel" aria-hidden="true">
+<div class="modal fade" id="myDialogModal" tabindex="-1"
+	data-bs-backdrop="static" data-bs-keyboard="false"
+	aria-labelledby="myDialogModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="myDialogModalLabel">받는 사람</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
 				<div class="row">
@@ -881,11 +1002,14 @@ $(function(){
 						</select>
 					</div>
 					<div class="col-auto p-1">
-						<input type="text" name="keyword" id="keyword" class="form-control" value="${dto.userId}">
+						<input type="text" name="keyword" id="keyword"
+							class="form-control" value="${dto.userId}">
 					</div>
 					<div class="col-auto p-1">
-						<button type="button" class="btn btn-light btnReceiverFind"> <i class="bi bi-search"></i> </button>
-					</div>				
+						<button type="button" class="btn btn-light btnReceiverFind">
+							<i class="bi bi-search"></i>
+						</button>
+					</div>
 				</div>
 				<div class="row p-1">
 					<div class="border p-1 dialog-receiver-list">
@@ -896,7 +1020,7 @@ $(function(){
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary btnAdd">추가</button>
 				<button type="button" class="btn btn-secondary btnClose">닫기</button>
-			</div>			
+			</div>
 		</div>
 	</div>
 </div>

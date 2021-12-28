@@ -157,7 +157,7 @@ $(function(){
 	</div>
 </div>
 
-<section class="py-1 bg-light">
+<section class="py-1 bg-light my-3">
 	<div class="container px-3 my-3">
 		<h2 class="display-3 fw-bolder mb-3">쿠키가 부족하면?</h2>
 		<a class="btn btn-lg btn-primary"
