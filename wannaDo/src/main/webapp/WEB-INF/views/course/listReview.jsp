@@ -53,9 +53,11 @@
 			<c:choose>
 				<c:when
 					test="${sessionScope.member.userId==vo.userId || sessionScope.member.membership > 50 }">
+			
 					<span class='deleteReview border-start ps-2' data-reviewNum='${vo.reviewNum}' data-pageNo='${pageNo}' style="cursor:pointer;">
 						<i class="bi bi-trash"></i>
 					</span>
+					
 				</c:when>
 				<c:otherwise>
 	

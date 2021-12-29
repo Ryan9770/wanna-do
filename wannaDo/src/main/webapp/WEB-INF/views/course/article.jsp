@@ -520,7 +520,7 @@ $(function(){
 function sendOk() {
 	var f = document.qnaForm;
 	var str;
-
+	
 
 	str = f.content.value.trim();
 	if(!str) {
@@ -534,105 +534,7 @@ function sendOk() {
 	f.submit();
 }
 
-$(function(){
-	$(".btnReceiverDialog").click(function(){
-		$("#condition").val("userName");
-		$("#keyword").val("");
-		$(".dialog-receiver-list ul").empty();s
-		
-		$("#myDialogModal").modal("show");
-	});
-	
-	// 대화상자 - 받는사람 검색 버튼
-	$(".btnReceiverFind").click(function(){
-		var condition = $("#condition").val();
-		var keyword = $("#keyword").val();
-		if(! keyword) {
-			$("#keyword").focus();
-			return false;
-		}
-		
-		var url = "${pageContext.request.contextPath}/note/listFriend"; 
-		var query = "condition="+condition+"&keyword="+encodeURIComponent(keyword);
-		
-		var fn = function(data){
-			$(".dialog-receiver-list ul").empty();
-			searchListFriend(data);
-		};
-		ajaxFun(url, "get", query, "json", fn);
-	});
-	
-	function searchListFriend(data) {
-		var s;
-		for(var i=0; i<data.listFriend.length; i++) {
-			var userId = data.listFriend[i].userId;
-			var userName = data.listFriend[i].userName;
-			
-			s = "<li><input type='checkbox' class='form-check-input' data-userId='"+userId+"' title='"+userId+"'> <span>"+userName+"</span></li>";
-			$(".dialog-receiver-list ul").append(s);
-		}
-	}
-	
-	// 대화상자-받는 사람 추가 버튼
-	$(".btnAdd").click(function(){
-		var len1 = $(".dialog-receiver-list ul input[type=checkbox]:checked").length;
-		var len2 = $("#forms-receiver-list input[name=receivers]").length;
-		
-		if(len1 == 0) {
-			alert("추가할 사람을 먼저 선택하세요.");
-			return false;			
-		}
-		
-		if(len1 + len2 >= 5) {
-			alert("받는사람은 최대 5명까지만 가능합니다.");
-			return false;
-		}
-		
-		var b, userId, userName, s;
 
-		b = false;
-		$(".dialog-receiver-list ul input[type=checkbox]:checked").each(function(){
-			userId = $(this).attr("data-userId");
-			userName = $(this).next("span").text();
-			
-			$("#forms-receiver-list input[name=receivers]").each(function(){
-				if($(this).val() == userId) {
-					b = true;
-					return false;
-				}
-			});
-			
-			if(! b) {
-				s = "<span class='receiver-user btn border px-1'>"+userName+" <i class='bi bi-trash' data-userId='"+userId+"'></i></span>";
-				$(".forms-receiver-name").append(s);
-				
-				s = "<input type='hidden' name='receivers' value='"+userId+"'>";
-				$("#forms-receiver-list").append(s);
-			}
-		});
-		
-		$("#myDialogModal").modal("hide");
-	});
-	
-	$(".btnClose").click(function(){
-		$("#myDialogModal").modal("hide");
-	});
-	
-	$("body").on("click", ".bi-trash", function(){
-		var userId = $(this).attr("data-userId");
-		
-		$(this).parent().remove();
-		$("#forms-receiver-list input[name=receivers]").each(function(){
-			var receiver = $(this).val();
-			if(userId == receiver) {
-				$(this).remove();
-				return false;
-			}
-		});
-		
-	});
-
-});
 </script>
 
 
@@ -934,23 +836,15 @@ $(function(){
 				<form name="qnaForm" method="post">
 					<table class="table write-form mt-5">
 						<tr>
-							<td class="table-light col-sm-2" scope="row">받는사람</td>
 							<td>
-								<div class="row">
-									<div class="col">
-										<div class="forms-receiver-name">
-											<span class='receiver-user btn border px-1'>${dto.userId}<i
-												class='bi bi-trash' data-userId='${dto.userId}'></i></span>
-										</div>
-									</div>
-								</div>
-							</td>
+								<input type="text" name="receivers" id="receivers" value="${dto.userId}" class="form-control" readonly="readonly" hidden="hidden">
+							</td>							
 						</tr>
 
 						<tr>
 							<td class="table-light col-sm-2" scope="row">제 목</td>
 							<td><input type="text" name="subject" class="form-control"
-								value=""></td>
+								value=""></td> 
 						</tr>
 
 						<tr>

@@ -18,7 +18,7 @@
 								data-video='${vo.video}' style="cursor: pointer;"><i class='bi bi-trash'></i></span>
 						</c:when>
 						<c:otherwise>
-
+							<p>123</p>
 						</c:otherwise>
 					</c:choose>
 					<button class="btn btn-secondary btnWatchVideo ms-3" type="button"

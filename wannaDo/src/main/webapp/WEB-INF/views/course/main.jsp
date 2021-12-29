@@ -151,8 +151,7 @@ $(function(){
 		</div>
 				<div class="col text-end">
 					<button type="button" class="btn btn-light"
-						onclick="location.href='${pageContext.request.contextPath}/course/write';">강좌
-						등록</button>
+						onclick="location.href='${pageContext.request.contextPath}/course/write';">강좌 등록</button>
 				</div>
 	</div>
 </div>

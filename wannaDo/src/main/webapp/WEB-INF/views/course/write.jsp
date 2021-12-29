@@ -480,6 +480,9 @@ $(function() {
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
+				<div class='form-header mb-2'>
+					<span class="bold">※ 수정 및 삭제는 신중히 해 주십시오</span>
+				</div>
         		
 				<form name="categoryForm" method="post">
 					<table class="table table-borderless table-category">

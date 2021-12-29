@@ -141,7 +141,7 @@ public class CourseController {
 		map.put("keyword", keyword);
 		map.put("num", num);
 
-		// 게시글 좋아요 여부
+		// 게시글 찜 여부
 		map.put("userId", info.getUserId());
 		boolean userCourseLiked = service.userCourseLiked(map);
 
