@@ -2,11 +2,7 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<style type="text/css">
-.body-main{
-	max-width: 1200px;
-}
-</style>
+
 <div class="row board-list-header">
     <div class="col-auto me-auto">
     	${dataCount}개(${pageNo}/${total_page} 페이지)
@@ -63,17 +59,17 @@
 	</tbody>
 </table>
 
-<div class="page-box">
+<div class="page-box d-flex justify-content-center">
 	${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
 </div>
 
-<div class="row board-list-footer">
-	<div class="col">
+<div class=" d-flex justify-content-between">
+	<div class="col-1">
 		<button type="button" class="btn btn-light" onclick="reloadBoard();">새로고침</button>
 	</div>
-	<div class="col-6 text-center">
-		<div class="row">
-			<div class="col-auto p-1">
+	<div class="col-7 ">
+		<div class="row d-flex justify-content-center">
+			<div class="col-2 p-1">
 				<select name="condition" id="condition" class="form-select">
 					<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
 					<option value="userName" ${condition=="userName"?"selected='selected'":""}>작성자</option>
@@ -82,15 +78,15 @@
 					<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
 				</select>
 			</div>
-			<div class="col-auto p-1">
+			<div class="col-4 p-1">
 				<input type="text" name="keyword" id="keyword" value="${keyword}" class="form-control">
 			</div>
-			<div class="col-auto p-1">
+			<div class="col-1 p-1">
 				<button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
 			</div>
 		</div>
 	</div>
-	<div class="col text-end">
+	<div class="col-1 text-end">
 		<c:if test="${sessionScope.member.membership>50}">
 			<button type="button" class="btn btn-light" onclick="insertForm();">글올리기</button>
 		</c:if>

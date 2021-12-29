@@ -15,7 +15,7 @@ public interface CourseManageService {
 	public List<Course> listCourseState(int courseNum);
 	public Course readCourseState(int courseNum);
 	public int todayCount();
-	public List<Course> listChapter(Map<String, Object> map);
+	public List<Course> listChapter(int courseNum);
 	public int totalCount();
 	public List<Analysis> listCourseSection();
 }

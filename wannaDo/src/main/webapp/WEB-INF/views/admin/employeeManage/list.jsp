@@ -3,11 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<style type="text/css">
-.body-main {
-	max-width: 1200px;
-}
-</style>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css" type="text/css">
 
@@ -138,14 +133,12 @@ function selectStateChange() {
 </script>
 
 <main>
-	<h1>Admin Page</h1>
-	
 	<div class="body-container">
 	    <div class="body-title">
-			<h2><i class="icofont-users"></i> 회원 관리 </h2>
+			<h2><i class="icofont-id"></i> 사원 관리 </h2>
 	    </div>
 	    
-	    <div class="body-main ms-30">
+	    <div class="body-main shadow">
 				<table class="table">
 					<tr>
 						<td align="left" width="50%">
@@ -186,7 +179,7 @@ function selectStateChange() {
 				</table>
 						 
 				<div class="page-box">
-					${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
+					${dataCount == 0 ? "등록된 회원이 없습니다." : paging}
 				</div>
 						
 				<table class="table">

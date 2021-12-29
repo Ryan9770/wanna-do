@@ -118,11 +118,11 @@ public class CourseManageServiceImpl implements CourseManageService{
 
 	
 	@Override
-	public List<Course> listChapter(Map<String, Object> map) {
+	public List<Course> listChapter(int num) {
 		List<Course> list = null;
 		
 		try {
-			list = dao.selectList("courseManage.listChapter", map);
+			list = dao.selectList("courseManage.listChapter", num);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

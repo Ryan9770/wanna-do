@@ -3,11 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<style type="text/css">
-.body-main {
-	max-width: 1200px;
-}
-</style>
+
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css" type="text/css">
 
@@ -69,17 +65,19 @@ function detailedMember(userId) {
 		  },
 		  height: 520,
 		  width: 800,
-		  title: "회원상세정보",
+		  title: "크리에이터 상세정보",
 		  close: function(event, ui) {
 		  }
 	});
 	
-
+	console.log(userId);
 	var url = "${pageContext.request.contextPath}/admin/memberManage/detail";
 	var query = "userId="+userId;
 	
+	console.log(url);
 	var fn = function(data){
 		$('#member-dialog').html(data);
+		console.log(data);
 		dlg.dialog("open");
 	};
 	ajaxFun(url, "post", query, "html", fn);
@@ -150,14 +148,12 @@ function selectStateChange() {
 </script>
 
 <main>
-	<h1>Admin Page</h1>
-	
 	<div class="body-container">
 	    <div class="body-title">
-			<h2><i class="icofont-users"></i> 크리에이터 관리 </h2>
+			<h2><i class="icofont-drawing-tablet"></i> 크리에이터 관리 </h2>
 	    </div>
 	    
-	    <div class="body-main ms-30">
+	    <div class="body-main shadow">
 				<table class="table">
 					<tr>
 						<td align="left" width="50%">

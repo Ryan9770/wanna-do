@@ -3,11 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<style type="text/css">
-.body-main {
-	max-width: 1200px;
-}
-</style>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css" type="text/css">
 
@@ -126,7 +121,7 @@ function selectStateChange() {
 	
 	var s = f.stateCode.value;
 	var txt = f.stateCode.options[f.stateCode.selectedIndex].text;
-	
+	console.log(s);
 	f.memo.value = "";	
 	if(! s) {
 		return;
@@ -143,12 +138,10 @@ function selectStateChange() {
 <main>
 	<div class="body-container">
 	    <div class="body-title">
-			<h2><i class="icofont-users"></i> 강의 관리 </h2>
+			<h2><i class="icofont-book"></i> 강의 관리 </h2>
 	    </div>
 	    
-	    <div class="body-main ms-30">
-			
-			
+	    <div class="body-main shadow">
 				<table class="table">
 					<tr>
 						<td align="left" width="50%">
@@ -193,7 +186,7 @@ function selectStateChange() {
 				</table>
 						 
 				<div class="page-box">
-					${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
+					${dataCount == 0 ? "등록된 강좌가 없습니다." : paging}
 				</div>
 						
 				<table class="table">

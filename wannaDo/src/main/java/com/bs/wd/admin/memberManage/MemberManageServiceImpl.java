@@ -157,7 +157,7 @@ public class MemberManageServiceImpl implements MemberManageService {
 	public Creator readCreator(String userId) {
 		Creator dto = null;
 		try {
-			dto = dao.selectOne("memberManage.");
+			dto = dao.selectOne("memberManage.readCreator",userId);
 		} catch (Exception e) {
 			
 		}

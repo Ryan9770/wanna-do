@@ -14,15 +14,28 @@
 		</choose>
 	</sql>
 	
+	
 	<select id="dataCount" parameterType="map" resultType="Integer">
 		SELECT COUNT(*)
 		FROM member m
 		JOIN member1 m1 ON m.memberIdx = m1.memberIdx
-		LEFT OUTER JOIN member2 m2 ON m1.userId = m2.userId
 		<where>
 			<if test="keyword!=null and keyword!='' ">
 				<include refid="where-list"/>
 			</if>
+			<if test="enabled !='' ">
+				AND enabled = #{enabled}
+			</if>
+			AND m.membership = 1
+		</where> 
+    </select>
+    
+    <select id="creatorCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*)
+		FROM creatorinfo c
+		JOIN member1 m1 ON c.userId=m1.userId
+		JOIN member m ON m1.memberIdx=m.memberidx
+		<where>
 			<if test="enabled!=''">
 				AND enabled = #{enabled}
 			</if>
@@ -47,13 +60,13 @@
 					<if test="enabled!=''">
 						AND enabled = #{enabled}
 					</if>
-					AND m.membership &lt; 50
+					AND m.membership = 1
 				</where> 
 				ORDER BY register_date DESC
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
 	</select>
-
+	 
 	<select id="readMember" parameterType="String" resultType="com.bs.wd.admin.memberManage.Member">
 		SELECT membership, m1.memberIdx, m1.userId, userName, userPwd, enabled,
 			register_date, modify_date, last_login,
@@ -63,6 +76,31 @@
 		LEFT OUTER JOIN member2 m2 ON m1.userId = m2.userId
 		WHERE m1.userId = #{userId}
 	</select>
+
+	<select id="listCreator" parameterType="map" resultType="com.bs.wd.admin.memberManage.Creator">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT c.userId, creatorName, imageFilename, creator_reg_date,
+					intro ,enabled 
+				FROM creatorInfo c 
+				JOIN member1 m1 ON m1.userId=c.userId
+                JOIN member m ON m1.memberIdx=m.memberIdx
+				WHERE m.membership &lt; 50
+				ORDER BY creator_reg_date DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+
+	<select id="readCreator" parameterType="String" resultType="com.bs.wd.admin.memberManage.Creator">
+		SELECT m.membership, c.userId, creatorIdx, creatorName, enabled, imageFilename, TO_CHAR(creator_reg_date,' YYYY-MM-DD') creator_reg_date,
+			register_date, last_login, intro,
+			TO_CHAR(birth, 'YYYY-MM-DD') birth, email, tel
+            FROM creatorinfo c
+            JOIN member1 m1 ON c.userId = m1.userId
+            JOIN member m ON m.memberIdx = m1.memberIdx
+            LEFT OUTER JOIN member2 m2 ON m1.userId = m2.userId
+            WHERE c.userId = #{userId}
+	</select>	
 
 	<update id="updateFailureCountReset" parameterType="String">
 		UPDATE member1 SET failure_cnt = 0
@@ -101,5 +139,30 @@
 	JOIN member1 m1 ON m2.userId=m1.userId
 	WHERE  TO_CHAR(birth, 'MMDD') &gt;= TO_CHAR(SYSDATE,'MMDD') AND  TO_CHAR(birth, 'MMDD') &lt;= TO_CHAR(LAST_DAY(SYSDATE),'MMDD')
 	ORDER BY TO_CHAR(birth, 'MMDD') ASC
+	</select>
+	
+	<select id="listAgeSection" resultType="com.bs.wd.admin.memberManage.Analysis">
+		WITH memberAge AS(
+		    SELECT m2.userId,TRUNC(MONTHS_BETWEEN(SYSDATE, birth)/12) age
+		    FROM member m
+		    JOIN member1 m1 ON m.memberIdx = m1.memberIdx
+		    JOIN member2 m2 ON m1.userId = m2.userId
+		    WHERE m.membership &lt; 51
+		)
+<![CDATA[
+		SELECT '10대' section, COUNT(*) count FROM memberAge WHERE age >=10 AND age<20
+		UNION ALL
+		SELECT '20대' section, COUNT(*) count FROM memberAge WHERE age >=20 AND age<30
+		UNION ALL
+		SELECT '30대' section, COUNT(*) count FROM memberAge WHERE age >=30 AND age<40
+		UNION ALL
+		SELECT '40대' section, COUNT(*) count FROM memberAge WHERE age >=40 AND age<50
+		UNION ALL
+		SELECT '50대' section, COUNT(*) count FROM memberAge WHERE age >=50 AND age<60
+		UNION ALL
+		SELECT '60대' section, COUNT(*) count FROM memberAge WHERE age >=60 AND age<70
+		UNION ALL
+		SELECT '기타' section, COUNT(*) count FROM memberAge WHERE age >=70 OR age<10
+]]>
 	</select>
 </mapper>

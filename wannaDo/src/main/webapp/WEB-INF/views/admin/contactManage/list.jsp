@@ -3,9 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <style type="text/css">
-.body-main{
-	max-width: 1200px;
-}
 
 tbody button{
 	border: none;
@@ -18,7 +15,7 @@ tbody button{
 		<h2><i class="icofont-contacts"></i> 문의 관리 </h2>
 	</div>
 	
-	<div class="body-main ms-30">
+	<div class="body-main  shadow">
 		<table class="table">
 			<tr>
 				<td align="left" width="50%">
@@ -63,7 +60,7 @@ tbody button{
 			
 		</table>
 		<div class="page-box">
-					${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
+					${dataCount == 0 ? "등록된 문의가 없습니다." : paging}
 		</div>
 	</div>
 </div>

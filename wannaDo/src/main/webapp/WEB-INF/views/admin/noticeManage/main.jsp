@@ -3,23 +3,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<style type="text/css">
-.body-container {
-	max-width: 800px;
-}
-</style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
-<div class="container">
-	<div class="body-container">	
-		<div class="body-title">
-			<h3><i class="bi bi-clipboard"></i> 공지사항 </h3>
-		</div>
-		
-		<div class="body-main content-frame">
-		</div>
+<main>
+<div class="body-container">	
+	<div class="body-title">
+		<h2><i class="icofont-notification"></i> 공지사항 </h2>
+	</div>
+	
+	<div class="body-main content-frame shadow">
 	</div>
 </div>
+</main>
 
 <form name="searchForm" method="post">
 	<input type="hidden" name="condition" value="all">

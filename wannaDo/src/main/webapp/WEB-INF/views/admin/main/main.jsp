@@ -6,18 +6,26 @@
 .chart-container{
 background-color : #fff;
  display : inline-block;
- border : 1px solid #333;
+ border : none;
  min-width: 300px;
- height: 500px;
+ height: 400px; 
+}
+
+.body-container{
+	background-color: transparent;
 }
 
 .refund{
 	margin: 20px;
 }
+
+.refund tr td{
+	font-size: 17px;
+}
 </style>
 
 <main class=" bg-secondary bg-opacity-10">
-	<h1>Dashboard</h1>
+	<h1 class="fw-bold">Dashboard</h1>
 	<div class="body-container">
 	    <div class="body-main">
 	    	<div class="dashboard container-fluid">
@@ -62,19 +70,17 @@ background-color : #fff;
 			    </div>
 			</div>
 				<div class="chart-box row justify-content-center d-flex p-0">
-					<div class="chart-container m-3 col-4 shadow d-flex" id="pieContainer"></div>
-					<div class="chart-container shadow m-3 col-7 d-flex" id="bar1"></div>
-					<div class="chart-container p-0 m-3 col-5 shadow d-flex" id="distribution"></div>
-					<div class="chart-container p-0 m-3 col-6 text-center shadow d-flex">					
-					<table id="refundCookie" class="justify-content-center w-100">
+					<div class="chart-container m-3 col-4 d-flex shadow" id="pieContainer"></div>
+					<div class="chart-container m-3 col-7 d-flex shadow" id="bar1"></div>
+					<div class="chart-container p-0 m-3 col-5 d-flex  shadow" id="bar2"></div>
+					<div class="chart-container p-0 m-3 col-6 text-center d-flex shadow">					
+					<table id="refundCookie" class="justify-content-center w-100 refund " >
 						<tr>
-							<th>환불 요청 번호</th>
-							<th>요청인</th>
-							<th>요청 갯수</th>
-							<th>요청 금액</th>
-							<th>사유</th>
+							<th class="col-2 m-0 p-0 border">요청인</th>
+							<th class="col-2 m-0 p-0 border">요청 갯수</th>
+							<th class="col-2 m-0 p-0 border">요청 금액</th>
+							<th class="col-2 m-0 p-0 border">요청일</th>
 						</tr>
-						<tr class="refund"></tr>
 					</table>
 					</div>
 				</div>
@@ -188,109 +194,40 @@ $(function(){
 });
 
 $(function() {
-	var chartDom = document.getElementById('distribution');
+	var url="${pageContext.request.contextPath}/admin/creditManage/listBuySection";
+	
+	$.getJSON(url, function(data) {
+	var chartDom = document.getElementById('bar2');
 	var myChart = echarts.init(chartDom);
 	var option;
 
-	const colors = ['#5470C6', '#EE6666'];
+	
 	option = {
-	  color: colors,
-	  tooltip: {
-	    trigger: 'none',
-	    axisPointer: {
-	      type: 'cross'
-	    }
-	  },
-	  legend: {},
-	  grid: {
-	    top: 70,
-	    bottom: 50
-	  },
-	  xAxis: [
-	    {
-	      type: 'category',
-	      axisTick: {
-	        alignWithLabel: true
-	      },
-	      axisLine: {
-	        onZero: false,
-	        lineStyle: {
-	          color: colors[1]
-	        }
-	      },
-	      axisPointer: {
-	        label: {
-	          formatter: function (params) {
-	            return (
-	              'Precipitation  ' +
-	              params.value +
-	              (params.seriesData.length ? '：' + params.seriesData[0].data : '')
-	            );
-	          }
-	        }
-	      },
-	      // prettier-ignore
-	      data: ['2016-1', '2016-2', '2016-3', '2016-4', '2016-5', '2016-6', '2016-7', '2016-8', '2016-9', '2016-10', '2016-11', '2016-12']
-	    },
-	    {
-	      type: 'category',
-	      axisTick: {
-	        alignWithLabel: true
-	      },
-	      axisLine: {
-	        onZero: false,
-	        lineStyle: {
-	          color: colors[0]
-	        }
-	      },
-	      axisPointer: {
-	        label: {
-	          formatter: function (params) {
-	            return (
-	              'Precipitation  ' +
-	              params.value +
-	              (params.seriesData.length ? '：' + params.seriesData[0].data : '')
-	            );
-	          }
-	        }
-	      },
-	      // prettier-ignore
-	      data: ['2015-1', '2015-2', '2015-3', '2015-4', '2015-5', '2015-6', '2015-7', '2015-8', '2015-9', '2015-10', '2015-11', '2015-12']
-	    }
-	  ],
-	  yAxis: [
-	    {
-	      type: 'value'
-	    }
-	  ],
-	  series: [
-	    {
-	      name: 'Precipitation(2015)',
-	      type: 'line',
-	      xAxisIndex: 1,
-	      smooth: true,
-	      emphasis: {
-	        focus: 'series'
-	      },
-	      data: [
-	        2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3
-	      ]
-	    },
-	    {
-	      name: 'Precipitation(2016)',
-	      type: 'line',
-	      smooth: true,
-	      emphasis: {
-	        focus: 'series'
-	      },
-	      data: [
-	        3.9, 5.9, 11.1, 18.7, 48.3, 69.2, 231.6, 46.6, 55.4, 18.4, 10.3, 0.7
-	      ]
-	    }
-	  ]
-	};
-
+			title: {
+				text: '주간 매출 현황'
+			},
+			 tooltip: {
+				    trigger: 'axis',
+				    axisPointer: {
+				      type: 'shadow'
+				    }
+				  },
+			  xAxis: {
+			    type: 'category',
+			    data: ['6 Days ago', '5 Days ago', '4 Days ago', '3 Days ago', '2 Days ago', '1 Day ago', 'Today']
+			  },
+			  yAxis: {
+			    type: 'value'
+			  },
+			  series: [
+			    {
+			      data: data,
+			      type: 'bar'
+			    }
+			  ]
+			};
 	option && myChart.setOption(option);
+	});
 });
 </script>
 <script type="text/javascript">
@@ -353,7 +290,7 @@ function totalCourse() {
 
 
 function listRefund() {
-	var url = "${pageContext.request.contextPath}/admin/creditManage/listRefund";
+	var url = "${pageContext.request.contextPath}/admin/creditManage/refundList";
 	var query = null;
 	var selector = ".refund";	
 	
@@ -373,9 +310,9 @@ function listRefund() {
 				t = Math.floor(t / (60 * 24)) + "일 전 ";
 			} 
 		
-			str = "<tr align='center' height='33' width='100'></tr>"
-			$(str).append("<td>"+id+"</td>").append("<td>"+id+"</td>").append("<td>"+id+"</td>")
-				.append("<td>"+t+"</td>").appendTo(selector);
+			str = "<tr></tr>"
+			$(str).append("<td class='border'>"+id+"</td>").append("<td class='border'>"+amount+"</td>").append("<td class='border'>"+price+"</td>")
+				.append("<td class='border'>"+t+"</td>").appendTo(selector);
 		});
 			
 	};

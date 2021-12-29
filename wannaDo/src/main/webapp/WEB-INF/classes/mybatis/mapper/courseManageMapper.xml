@@ -102,10 +102,11 @@
 		FROM course
 	</select>
 	
-	<select id="listChapter" parameterType="map" resultType="com.bs.wd.admin.courseManage.Course">
+	<select id="listChapter" parameterType="Integer" resultType="com.bs.wd.admin.courseManage.Course">
 				SELECT chapNum, num, subject, orderNo, video, videoLink
 				FROM chapter 
-				ORDER BY chapNum
+				WHERE num = #{num}
+				ORDER BY chapNum 
 	</select>
 	
 	<select id="listCourseSection" resultType="com.bs.wd.admin.courseManage.Analysis">
@@ -127,6 +128,9 @@
     SELECT '오픽' section, COUNT(*) count FROM courseSection WHERE category = 'OPIC'
 	]]></select>
 	
-	
+	<insert id="buyCourse" parameterType="com.bs.wd.course.Course">
+      INSERT INTO useCookie(num, userId, amount, use_date, courseName)
+      VALUES(buyCourse_seq.NEXTVAL, #{userId}, #{price}, SYSDATE, #{courseName})
+   </insert>
 	
 </mapper>

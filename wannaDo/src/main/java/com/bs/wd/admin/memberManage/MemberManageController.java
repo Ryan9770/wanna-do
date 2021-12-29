@@ -160,7 +160,7 @@ public class MemberManageController {
         }
         
         String query = "";
-        String listUrl = cp+"/admin/memberManage/list";
+        String listUrl = cp+"/admin/memberManage/clist";
         
         if(enabled.length()!=0) {
         	if(query.length()!=0)
@@ -211,7 +211,7 @@ public class MemberManageController {
 		Creator dto = service.readCreator(userId);
 		Member memberState=service.readMemberState(userId);
 		List<Member> listState=service.listMemberState(userId);
-
+		
 		model.addAttribute("dto", dto);
 		model.addAttribute("memberState", memberState);
 		model.addAttribute("listState", listState);

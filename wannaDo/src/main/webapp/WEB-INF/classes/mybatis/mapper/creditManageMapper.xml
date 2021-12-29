@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="creditManage">
+	<select id="refundDataCount" resultType="Integer" parameterType="map">
+		SELECT NVL(COUNT(*), 0)
+		FROM refundCookie rc
+		JOIN member1 m1 ON rc.userId=m1.userId
+	</select>
+	
+	<select id="buyDataCount" resultType="Integer" parameterType="map">
+		SELECT NVL(COUNT(*), 0)
+		FROM mywallet mw
+		JOIN member1 m1 ON mw.userId=m1.userId
+	</select>
+	
+	
+	
+	<select id="listRefund" parameterType="map" resultType="com.bs.wd.admin.creditManage.RefundCookie">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT num, TO_CHAR(refund_date, 'YYYY-MM-DD')refund_date, amount, price, rc.userId
+				FROM refundCookie rc
+				JOIN member1 m1 ON rc.userId= m1.userId
+				ORDER BY refund_date DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	
+	<select id="listBuy" resultType="com.bs.wd.admin.creditManage.MyWallet" parameterType="map">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT num, TO_CHAR(buy_date,'YYYY-MM-DD') buy_date, amount, price, mw.userId, state
+				FROM mywallet mw
+				JOIN member1 m1 ON mw.userId=m1.userId
+				ORDER BY buy_date
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	<!-- 
+	<select id="listRefund" resultType="com.bs.wd.admin.creditManage.MyWallet" parameterType="map">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT num, TO_CHAR(buy_date,'YYYY-MM-DD') buy_date, amount, price, mw.userId, state
+				FROM refundCookie
+				JOIN member1 m1 ON mw.userId=m1.userId
+				WHERE state = 0
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	-->
+	
+	<update id="refundPermit" parameterType="Integer">
+      UPDATE myWallet SET state = 2
+      WHERE num=#{num}
+   </update>
+   
+   <update id="refundDeny" parameterType="Integer">
+      UPDATE myWallet SET state = 0
+      WHERE num=#{num}
+   </update>
+  
+   <delete id="refundOk" parameterType="Integer">
+      DELETE FROM mywallet
+      JOIN refundCookie ON num = cookieNum
+      WHERE num=#{num} AND state=2
+   </delete>
+   
+   <select id="listBuySection" resultType="com.bs.wd.admin.creditManage.Analysis">
+	WITH buySection AS (
+	 SELECT num, buy_date, price, amount
+	 FROM mywallet
+	 WHERE state = 1
+	)
+	<![CDATA[
+	SELECT '6일 전' section, NVL(sum(price),0) price FROM buySection WHERE TO_CHAR(buy_date, 'yyyymmdd') = TO_CHAR(TRUNC(sysdate,'iw')-6, 'yyyymmdd')
+	UNION ALL
+	SELECT '5일' section, NVL(sum(price),0) price FROM buySection WHERE TO_CHAR(buy_date, 'yyyymmdd') = TO_CHAR(TRUNC(sysdate,'iw')-5, 'yyyymmdd')
+	UNION ALL
+	SELECT '4일' section, NVL(sum(price),0) price FROM buySection WHERE TO_CHAR(buy_date, 'yyyymmdd') = TO_CHAR(TRUNC(sysdate,'iw')-4, 'yyyymmdd')
+	UNION ALL
+	SELECT '3일' section, NVL(sum(price),0) price FROM buySection WHERE TO_CHAR(buy_date, 'yyyymmdd') = TO_CHAR(TRUNC(sysdate,'iw')-3, 'yyyymmdd')
+	UNION ALL
+	SELECT '2일' section, NVL(sum(price),0) price FROM buySection WHERE TO_CHAR(buy_date, 'yyyymmdd') = TO_CHAR(TRUNC(sysdate,'iw')-2, 'yyyymmdd')
+	UNION ALL
+	SELECT '1일' section, NVL(sum(price),0) price FROM buySection WHERE TO_CHAR(buy_date, 'yyyymmdd') = TO_CHAR(TRUNC(sysdate,'iw')-1, 'yyyymmdd')
+	UNION ALL
+	SELECT '오늘' section, NVL(sum(price),0) price FROM buySection WHERE TO_CHAR(buy_date, 'yyyymmdd') = TO_CHAR(TRUNC(sysdate,'iw'), 'yyyymmdd')
+	]]>
+</select>
+   
+</mapper>

@@ -63,7 +63,7 @@ nav header span:before {
 }
 
 nav header a:before {
-  content: '\ef1d';
+  content: '\efd4';
   font: normal 20px IcoFont;
   top: 28px;
   right: 15px;
@@ -99,22 +99,22 @@ nav ul a:before {
 /* 메뉴 아이콛 */
 nav ul li:nth-child(2) a:before { content: '\ef47'; }
 nav ul li:nth-child(3) a:before { content: '\ed0a'; }
-nav ul li:nth-child(4) a:before { content: '\ead2'; }
-nav ul li:nth-child(5) a:before { content: '\ecf4'; }
-nav ul li:nth-child(6) a:before { content: '\eeb0'; }
-nav ul li:nth-child(7) a:before { content: '\efac'; }
-nav ul li:nth-child(8) a:before { content: '\eecd'; }
-nav ul li:nth-child(9) a:before { content: '\e96b'; }
-nav ul li:nth-child(10) a:before { content: '\efcb'; }
-nav ul li:nth-child(12) a:before { content: '\e970'; }
-nav ul li:nth-child(13) a:before { content: '\ed12'; }
-nav ul li:nth-child(14) a:before { content: '\efe1'; }
-nav ul li:nth-child(15) a:before { content: '\f01b'; }
+nav ul li:nth-child(4) a:before { content: '\ea2c'; }
+nav ul li:nth-child(5) a:before { content: '\ead2'; }
+nav ul li:nth-child(6) a:before { content: '\ecf4'; }
+nav ul li:nth-child(7) a:before { content: '\eeb0'; }
+nav ul li:nth-child(8) a:before { content: '\efac'; }
+nav ul li:nth-child(9) a:before { content: '\eecd'; }
+nav ul li:nth-child(10) a:before { content: '\e96b'; }
+nav ul li:nth-child(11) a:before { content: '\eef1'; }
+nav ul li:nth-child(13) a:before { content: '\e970'; }
+nav ul li:nth-child(14) a:before { content: '\ef1d'; }
+
 
 main {
   flex: 1;
   padding: 25px;
-  /* background: #f5f5f5; */
+  background: #e9e9e9;
 }
 
 main h1 {
@@ -124,12 +124,12 @@ main h1 {
   line-height: 76px;
   font-size: 24px;
   font-weight: 500;
-  background: #ffffff;
 }
 
 .body-container {
 	display: block;
-	padding-top: 10px;
+	padding: 20px;
+	
 }
 
 .body-title {
@@ -137,7 +137,7 @@ main h1 {
     padding-top: 10px;
     padding-bottom: 5px;
     margin: 0 0 25px 0;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #333;
 }
 .body-title h2 {
     font-size: 23px;
@@ -152,5 +152,6 @@ main h1 {
 
 .body-main {
 	display: block;
-	padding-bottom: 15px;
+	padding: 20px;
+	background: #fff;
 }

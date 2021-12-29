@@ -2,11 +2,7 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<style type="text/css">
-.body-main{
-	max-width: 1200px;
-}
-</style>
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css" type="text/css">
 
 <style type="text/css">
@@ -17,15 +13,12 @@
 </style>
 
 <main>
-	<h1>Admin Page</h1>
-
-
 	<div class="body-container">	
 		<div class="body-title">
-			<h3>스터디 게시판 관리</h3>
+			<h2><i class="icofont-users"></i>스터디 게시판 관리</h2>
 		</div>
 		
-	  <div class="body-main">
+	  <div class="body-main shadow">
 			<table class="table">
 				<tr>
 					<td align="left" width="50%">
@@ -34,7 +27,7 @@
 				</tr>
 			</table>		
 
-			<table class="table table-hover table-list">
+			<table class="table table-hover table-list align-center">
 				<thead class="table-light">
 					<tr>
 						<th class="col-1">번호</th>

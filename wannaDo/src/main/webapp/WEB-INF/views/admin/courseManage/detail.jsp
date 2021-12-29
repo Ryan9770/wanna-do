@@ -28,8 +28,7 @@
 	<tr>
 		<td class="text-right pe-3 bg align-middle">강의승인여부</td>
 		<td colspan="3" class="text-start">
-			${dto.enabled==1?"승인":"비공개전환"}
-			<c:if test="${dto.enabled==0 && not empty courseState}">, ${courseState.memo}</c:if>
+			<c:if test="${dto.enabled==0 && not empty courseState}">${courseState.memo}</c:if>
 			&nbsp;<span class="btn" onclick="courseStateDetailView();" style="cursor: pointer;">자세히</span>
 		</td>
 	</tr>
@@ -47,18 +46,11 @@
 <h3 style="font-size: 15px; padding-top: 10px;"><i class="icofont-double-right"></i>영상 정보</h3>
 <table class="table border mx-auto my-10">
 	<c:forEach var="vo" items="${listChapter}" varStatus="status">
-		<c:if test="${empty vo.videoLink}">
-			<tr>
-					<td>${vo.orderNo}.${vo.subject}</td>
-			</tr>
-		</c:if>
 		<c:if test="${not empty vo.videoLink}">
 			<tr>
-				<td><iframe width="50%" height="300px;"
-					src="${vo.videoLink}"
-					title="YouTube video player" frameborder="0"
-					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-					allowfullscreen></iframe>
+				<td><iframe id="sampleMovie" width="500" height="300" 
+				src="https://www.youtube.com/embed/${vo.videoLink}"
+						style="border: none;" allowfullscreen></iframe>
 				</td>
 			</tr>
 		</c:if>
@@ -74,7 +66,7 @@
 				<select class="selectField" name="stateCode" id="stateCode" onchange="selectStateChange()">
 					<option value="">::상태코드::</option>
 					<c:if test="${dto.enabled==0}">
-						<option value="0">잠금 해제</option>
+						<option value="0">승인</option>
 					</c:if>
 					<option value="2">카테고리에 맞지 않는 강의</option>
 					<option value="3">불건전 강의 등록</option>
@@ -95,7 +87,6 @@
 	<input type="hidden" name="num" value="${dto.num}">
 	<input type="hidden" name="userId" value="${dto.userId}">
 	<input type="hidden" name="registerId" value="${sessionScope.member.userId}">
-	<input type="hidden" name="enabled" value="${dto.enabled}"> 
 </form>
 
 <div id="CourseStateDetail" style="display: none;">
@@ -121,3 +112,6 @@
 		</c:if>
 	</table>  
 </div>
+<script type="text/javascript">
+
+</script>
