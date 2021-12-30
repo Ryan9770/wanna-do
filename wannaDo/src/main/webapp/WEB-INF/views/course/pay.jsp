@@ -77,7 +77,10 @@ function pay() {
 		success:function(data) {
 			var myCookie = data.myCookie;
 			var f = document.payForm;
-			if(myCookie >= ${price}) {
+			
+			var num = f.courseNum.value;
+			
+			if(myCookie >= ${dto.price}) {
 			f.action = "${pageContext.request.contextPath}/course/pay";
 			f.submit();
 			} else {
@@ -95,14 +98,15 @@ function pay() {
 				<div class="col-lg-8 col-xxl-6">
 					<div class="text-center my-5">
 						<h1 class="fw-bolder mb-3">결제 확인</h1>
-						<p class="lead fw-normal text-muted mb-4" style="font-size: 16px;">강의명 : ${courseName}</p>
-						<p class="lead fw-normal text-muted mb-4" style="font-size: 16px;">필요한 쿠키 : ${price}</p>
+						
+						<p class="lead fw-normal text-muted mb-4" style="font-size: 16px;">강의명 : ${dto.courseName}</p>
+						<p class="lead fw-normal text-muted mb-4" style="font-size: 16px;">필요한 쿠키 : ${dto.price}</p>
 						<p class="lead fw-normal text-muted mb-4" style="font-size: 16px;">보유 중인 쿠키 : <span id=myCookie></span></p>
 						<p class="lead fw-normal text-muted mb-4" style="font-size: 16px;">상기 내용대로 결제하시겠습니까?</p>
 						<button type="button" onclick="pay();" class="btn btn-lg btn-primary">결제하기</button>
-						<input type="hidden" name="courseName" value="${courseName}"/>
-	                    <input type="hidden" name="price" value="${price}"/>
-	                    <input type="hidden" name="num" value="${num}"/>
+						<input type="hidden" name="courseName" value="${dto.courseName}"/>
+	                    <input type="hidden" name="price" value="${dto.price}"/>
+	                    <input type="hidden" name="courseNum" value="${dto.num}"/>
 					</div>
 				</div>
 			</div>
