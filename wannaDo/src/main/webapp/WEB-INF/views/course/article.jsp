@@ -707,8 +707,8 @@ function sendOk() {
 										</tr>
 										<tr>
 											<td class="p-0" align='right'>
-												<button type='button' class='btn btn-danger btnSendReview' onclick="location.href='${pageContext.request.contextPath}/course/article?pageNo=1&num=${dto.num}';">리뷰
-													등록</button>
+												<button type='button' class='btn btn-danger btnSendReview' 
+												onclick="location.href='${pageContext.request.contextPath}/course/article?pageNo=1&num=${dto.num}';">리뷰 등록</button>
 											</td>
 										</tr>
 									</table>
