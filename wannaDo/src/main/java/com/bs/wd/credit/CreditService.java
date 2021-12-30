@@ -15,4 +15,5 @@ public interface CreditService {
 	public int useCookie(String userId);
 	public int useCount(Map<String, Object> map);
 	public String useDate(String userId);
+	public void refundOk(int num) throws Exception;
 }

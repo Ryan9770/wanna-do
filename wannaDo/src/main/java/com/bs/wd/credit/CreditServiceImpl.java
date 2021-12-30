@@ -128,5 +128,14 @@ public class CreditServiceImpl implements CreditService {
 			e.printStackTrace();
 		}
 		return result;
-	}	
+	}
+
+	@Override
+	public void refundOk(int num) throws Exception {
+		try {
+			dao.selectOne("credit.refundOk", num);
+		} catch (Exception e) {
+		}
+	}
+
 }

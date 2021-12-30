@@ -38,18 +38,10 @@
 		UPDATE myWallet SET state = 1
 		WHERE num=#{num}
 	</update>
-	<update id="refundPermit" parameterType="Integer">
-		UPDATE myWallet SET state = 2
-		WHERE num=#{num}
-	</update>
-	<update id="refundDeny" parameterType="Integer">
-		UPDATE myWallet SET state = 0
-		WHERE num=#{num}
-	</update>
 	<delete id="refundOk" parameterType="Integer">
 		DELETE FROM mywallet
 		JOIN refundCookie ON num = cookieNum
-		WHERE num=#{num} AND state=2
+		WHERE num=#{num} AND state=1
 	</delete>
 	<select id="useCookie" parameterType="map" resultType="Integer">
 		SELECT NVL(sum(amount), 0)

@@ -547,21 +547,22 @@ public class CourseController {
 		@RequestMapping(value="pay", method=RequestMethod.GET)
 		public String payForm(@RequestParam int num, @RequestParam String price, @RequestParam String courseName, Model model) throws Exception {
 			model.addAttribute("num", num);
+			model.addAttribute("courseNum", num);
 			model.addAttribute("price",price);
 			model.addAttribute("courseName",courseName);
 			return ".course.pay";
 		}
-		
+				
 		@RequestMapping(value="pay", method=RequestMethod.POST)
 		public String paySubmit(Course dto, HttpSession session) throws Exception {
 			SessionInfo info = (SessionInfo)session.getAttribute("member");
 			try {
 				dto.setUserId(info.getUserId());
 				service.buyCourse(dto);
+				System.out.println(dto.getNum());
+				service.creatorCredit(dto, dto.getNum());
 			} catch (Exception e) {
 			}
 			return "redirect:/course/main";
 		}
-
-
 }

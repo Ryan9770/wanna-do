@@ -213,9 +213,14 @@
 	
 	<!-- 구매 -->
 	<insert id="buyCourse" parameterType="com.bs.wd.course.Course">
-		INSERT INTO useCookie(num, userId, amount, use_date, courseName, state)
-		VALUES(buyCourse_seq.NEXTVAL, #{userId}, #{price}, SYSDATE, #{courseName}, 0)
+		INSERT INTO useCookie(num, userId, amount, use_date, courseNum, courseName, state)
+		VALUES(buyCourse_seq.NEXTVAL, #{userId}, #{price}, SYSDATE, #{courseNum}, #{courseName}, 0)
 	</insert>
-
+	<select id="creatorId" parameterType="Integer" resultType="String">
+		SELECT userId FROM course WHERE num=#{num}
+	</select>
+	<insert id="creatorCredit" parameterType="com.bs.wd.course.Course">
+		INSERT INTO mywallet(num, userId, amount, price, buy_date, state) VALUES(wallet_seq.NEXTVAL, #{userId}, #{price}, 0, SYSDATE, 0)
+	</insert>
 	
 </mapper>

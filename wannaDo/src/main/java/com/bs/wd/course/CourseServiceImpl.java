@@ -1,5 +1,6 @@
 package com.bs.wd.course;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.bs.wd.common.FileManager;
 import com.bs.wd.common.dao.CommonDAO;
+import com.bs.wd.credit.Credit;
 
 
 @Service("course.courseService")
@@ -335,5 +337,18 @@ public class CourseServiceImpl  implements CourseService {
 		}
 	}
 
+	@Override
+	public void creatorCredit(Course dto, int num) throws Exception {
+		try {
+			String userId = dao.selectOne("course.creatorId", num);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("userId", userId);
+			map.put("price", dto.getPrice());
+			dao.insertData("course.creatorCredit", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
 	
 }

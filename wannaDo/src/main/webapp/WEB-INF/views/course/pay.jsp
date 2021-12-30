@@ -57,6 +57,7 @@ $(function(){
 			type:"POST",
 			url:url,
 			data:null,
+			async:false,
 			dataType:"json",
 			success:function(data) {
 				var myCookie = data.myCookie;
@@ -66,9 +67,25 @@ $(function(){
 	}
 });
 function pay() {
-	var f = document.payForm;
-	f.action = "${pageContext.request.contextPath}/course/pay"
-	f.submit();
+	var url = "${pageContext.request.contextPath}/credit/myCookie";
+	$.ajax({
+		type:"POST",
+		url:url,
+		data:null,
+		async:false,
+		dataType:"json",
+		success:function(data) {
+			var myCookie = data.myCookie;
+			var f = document.payForm;
+			if(myCookie >= ${price}) {
+			f.action = "${pageContext.request.contextPath}/course/pay";
+			f.submit();
+			} else {
+				alert("쿠키가 부족합니다.");
+			}
+		}
+	});
+	
 }
 </script>
 <body>
@@ -85,6 +102,7 @@ function pay() {
 						<button type="button" onclick="pay();" class="btn btn-lg btn-primary">결제하기</button>
 						<input type="hidden" name="courseName" value="${courseName}"/>
 	                    <input type="hidden" name="price" value="${price}"/>
+	                    <input type="hidden" name="num" value="${num}"/>
 					</div>
 				</div>
 			</div>

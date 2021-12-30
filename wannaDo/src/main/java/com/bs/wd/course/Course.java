@@ -37,6 +37,8 @@ public class Course {
     
     private String receiveId;
     
+    private int courseNum;
+    
 	public String getReceiveId() {
 		return receiveId;
 	}
@@ -176,12 +178,6 @@ public class Course {
 	public void setListNum(int listNum) {
 		this.listNum = listNum;
 	}
-	public int getnum() {
-		return num;
-	}
-	public void setnum(int num) {
-		this.num = num;
-	}
 	public String getCourseName() {
 		return courseName;
 	}
@@ -230,7 +226,18 @@ public class Course {
 	public void setReg_date(String reg_date) {
 		this.reg_date = reg_date;
 	}
-	
+	public int getNum() {
+		return num;
+	}
+	public void setNum(int num) {
+		this.num = num;
+	}
+	public int getCourseNum() {
+		return courseNum;
+	}
+	public void setCourseNum(int courseNum) {
+		this.courseNum = courseNum;
+	}
 }
 	
 	
