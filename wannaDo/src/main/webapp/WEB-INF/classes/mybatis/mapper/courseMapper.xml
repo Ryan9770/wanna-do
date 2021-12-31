@@ -140,6 +140,28 @@
 	
 	
 	
+		<!-- 게시 글 좋아요 추가 -->
+	<insert id="insertCourseBuy" parameterType="map">
+		INSERT INTO courseBuy(num, userId) VALUES (#{num}, #{userId})
+	</insert>
+
+	<!-- 게시 글 좋아요 삭제 -->
+	<delete id="deleteCourseBuy" parameterType="map">
+		DELETE FROM courseBuy WHERE num = #{num} AND userId = #{userId}
+	</delete>
+      
+	<!-- 게시글 좋아요 개수 -->
+	<select id="courseBuyCount" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM courseBuy WHERE num=#{num}
+	</select>
+
+	<!-- 게시글 좋아요 여부 -->
+	<select id="userCourseBought" parameterType="map" resultType="com.bs.wd.course.Course">
+		SELECT num, userId FROM courseBuy WHERE num = #{num} AND userId = #{userId}
+	</select>
+	
+	
+	
 	<insert id="insertChapter" parameterType="com.bs.wd.course.Chapter">
 		INSERT INTO chapter(chapNum, num, orderNo, subject, video)
 		VALUES (chapter_seq.NEXTVAL, #{num}, #{orderNo}, #{subject}, #{video})
@@ -147,9 +169,7 @@
 	
 	<!-- 댓글리스트 -->
 	<select id="listChapter" parameterType="map" resultType="com.bs.wd.course.Chapter">
-
-			
-				
+	
 				SELECT chapNum, ch.num, subject, orderNo, c.userId
             FROM chapter ch
                 JOIN course c ON ch.num=c.num

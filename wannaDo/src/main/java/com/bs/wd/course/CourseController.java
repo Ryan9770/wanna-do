@@ -128,7 +128,11 @@ public class CourseController {
 
 		// 해당 레코드 가져 오기
 		Course dto = service.readCourse(num);
+		Course vo = service.readCourse(num);
 		if (dto == null) {
+			return "redirect:/course/main";
+		}
+		if (vo == null) {
 			return "redirect:/course/main";
 		}
 		
@@ -144,10 +148,14 @@ public class CourseController {
 		// 게시글 찜 여부
 		map.put("userId", info.getUserId());
 		boolean userCourseLiked = service.userCourseLiked(map);
+		boolean userCourseBought = service.userCourseBought(map);
 
 		model.addAttribute("dto", dto);
+		model.addAttribute("vo", vo);
+		
 
 		model.addAttribute("userCourseLiked", userCourseLiked);
+		model.addAttribute("userCourseBought", userCourseBought);
 
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("query", query);
@@ -283,6 +291,39 @@ public class CourseController {
 
 		return model;
 	}
+
+	@RequestMapping(value = "insertCourseBuy", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> insertCourseBuy(@RequestParam int num, @RequestParam boolean userBought,
+			HttpSession session) {
+		String state = "true";
+		int courseBuyCount = 0;
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("num", num);
+		paramMap.put("userId", info.getUserId());
+		
+		try {
+			if (userBought) {
+				service.deleteCourseBuy(paramMap);
+			} else {
+				service.insertCourseBuy(paramMap);
+			}
+		} catch (DuplicateKeyException e) {
+			state = "bought";
+		} catch (Exception e) {
+			state = "false";
+		}
+		
+		courseBuyCount = service.courseBuyCount(num);
+		
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		model.put("courseBuyCount", courseBuyCount);
+		
+		return model;
+	}
 	
 	@RequestMapping(value = "listAllCategory")
 	public String listAllCategory(Model model) throws Exception {
@@ -378,8 +419,11 @@ public class CourseController {
 	@RequestMapping(value = "listChapter")
 	public String listChapter(@RequestParam int num, 
 			@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
-			Model model) throws Exception {
+			Model model,
+			HttpSession session) throws Exception {
 
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
 		int rows = 5;
 		int total_page = 0;
 		int dataCount = 0;
@@ -399,6 +443,7 @@ public class CourseController {
 		
 		List<Chapter> listChapter = service.listChapter(map);
 		
+		
 		for (Chapter dto : listChapter) {
 			dto.setSubject(dto.getSubject().replaceAll("\n", "<br>"));
 		}
@@ -407,10 +452,15 @@ public class CourseController {
 		// AJAX 용 페이징
 		String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
 
+		map.put("userId", info.getUserId());
+		boolean userCourseBought = service.userCourseBought(map);
+		
+		
 		// 포워딩할 jsp로 넘길 데이터
 		model.addAttribute("listChapter", listChapter);
 		model.addAttribute("pageNo", current_page);
 		model.addAttribute("total_page", total_page);
+		model.addAttribute("userCourseBought", userCourseBought);
 		model.addAttribute("paging", paging);
 
 		return "course/listChapter";
@@ -468,8 +518,11 @@ public class CourseController {
 		@RequestMapping(value = "listReview")
 		public String listReview(@RequestParam int num,
 				@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
-				Model model) throws Exception {
-
+				Model model,
+				HttpSession session) throws Exception {
+				
+			SessionInfo info = (SessionInfo) session.getAttribute("member");
+			
 			int rows = 5;
 			int total_page = 0;
 			int dataCount = 0;
@@ -497,11 +550,15 @@ public class CourseController {
 			// AJAX 용 페이징
 			String paging = myUtil.pagingMethod(current_page, total_page, "listPage1");
 
+			map.put("userId", info.getUserId());
+			boolean userCourseBought = service.userCourseBought(map);
+				
 			// 포워딩할 jsp로 넘길 데이터
 			model.addAttribute("listReview", listReview);
 			model.addAttribute("pageNo", current_page);
 			model.addAttribute("replyCount", dataCount);
 			model.addAttribute("total_page", total_page);
+			model.addAttribute("userCourseBought", userCourseBought);
 			model.addAttribute("paging", paging);
 
 			return "course/listReview";

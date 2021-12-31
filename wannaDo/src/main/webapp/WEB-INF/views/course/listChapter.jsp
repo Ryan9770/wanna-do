@@ -23,8 +23,8 @@
 	<c:forEach var="vo" items="${listChapter}" varStatus="status">
 		<div class="accordion-item">
 			<h2 class="accordion-header ms-2" id="flush-heading-${status.index}">
-				<button class="accordion-button btnVideoListLayout bg-white"
-					style="color: #212529;" data-chapNum='${vo.chapNum}' type="button"
+				<button class="accordion-button btnVideoListLayout bg-white" 
+					style="color: #212529;" data-chapNum='${vo.chapNum}' type="button" ${userCourseBought ? '':'disabled="disabled'}
 					data-bs-toggle="collapse"
 					data-bs-target="#flush-collapse-${status.index}"
 					aria-expanded="false"
@@ -42,7 +42,7 @@
 						<div class="col">
 							<c:choose>
 								<c:when test="${sessionScope.member.userId==vo.userId}">
-									<button class="btn btn-outline-dark btnVideoAdd"
+									<button class="btn btn-outline-dark btnVideoAdd"  
 										data-chapNum="${vo.chapNum}" type="button">영상 <i class="bi bi-plus"></i></button>
 								</c:when>
 								<c:otherwise>

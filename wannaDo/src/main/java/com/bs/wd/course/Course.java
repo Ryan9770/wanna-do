@@ -34,10 +34,27 @@ public class Course {
     
 	
     private int courseLikeCount;
+    private int courseBuyCount;
     
-    private String receiveId;
-    
-    private int courseNum;
+    public int getCourseBuyCount() {
+		return courseBuyCount;
+	}
+
+
+	public void setCourseBuyCount(int courseBuyCount) {
+		this.courseBuyCount = courseBuyCount;
+	}
+	private String receiveId;
+    private String buyId;
+    public String getBuyId() {
+		return buyId;
+	}
+
+
+	public void setBuyId(String buyId) {
+		this.buyId = buyId;
+	}
+	private int courseNum;
     
 	public String getReceiveId() {
 		return receiveId;

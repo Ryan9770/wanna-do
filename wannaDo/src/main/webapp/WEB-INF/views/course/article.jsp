@@ -133,6 +133,9 @@ none
 .list-review>div {
 	border-bottom: 1px solid #ccc;
 }
+.bi-bag-fill {
+	pointer-events: none;
+}
 
 </style>
 <link rel="stylesheet"
@@ -534,7 +537,41 @@ function sendOk() {
 	f.submit();
 }
 
-
+$(function(){
+	$(".btnBuyCourse").click(function(){
+		var $i = $(this).find("i");
+		var userBought = $i.hasClass("bi-bag-fill");
+		var msg = userBought ? "강좌 찜을 취소하시겠습니까 ? " : "강좌를 구매하십니까 ? ";
+		
+		if(! confirm( msg )) {
+			return false;
+		}
+		
+		var url="${pageContext.request.contextPath}/course/insertCourseBuy";
+		var num="${dto.num}";
+		var query="num="+num+"&userBought="+userBought;
+		
+		var fn = function(data){
+			var state = data.state;
+			if(state==="true") {
+				if( userBought ) {
+					$i.removeClass("bi-bag-fill").addClass("bi-bag");
+				} else {
+					$i.removeClass("bi-bag").addClass("bi-bag-fill");
+				}
+				
+				var count = data.courseBuyCount;
+				$("#courseBuyCount").text(count);
+			} else if(state==="bought") {
+				alert("강좌 찜은 한번만 가능합니다. !!!");
+			} else if(state==="false") {
+				alert("강좌 찜 여부 처리가 실패했습니다. !!!");
+			}
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
+	});
+});
 </script>
 
 
@@ -600,8 +637,13 @@ function sendOk() {
 						</button>
 					</div>
 					<div class="d-grid">
-						<button type="button" class="btn btn-danger"
-							onclick="location.href='${pageContext.request.contextPath}/course/pay?num=${dto.num}&price=${dto.price}&courseName=${dto.courseName}';">구매하기</button>
+						<button type="button"
+							class="btn ${userCourseBought ? 'btn-secondary':'btn-danger'}" ${userCourseBought ? 'disabled="disabled':''}
+							title="${userCourseBought ? '구매완료':'구매하기'}" onclick="location.href='${pageContext.request.contextPath}/course/pay?num=${dto.num}&price=${dto.price}&courseName=${dto.courseName}';">
+							<i class="bi ${userCourseBought ? 'bi-bag-fill':'bi-bag'}"></i><span
+								id="courseBuyCount"></span>
+						</button>
+						
 					</div>
 				</div>
 			</div>
@@ -689,7 +731,7 @@ function sendOk() {
 										<tr>
 											<td class="pb-1 p-0">
 												<div>
-													<ul class="star star-input p-0 m-0">
+													<ul class="star star-input p-0 m-0" ${userCourseBought ? '':'disabled="disabled'}>
 														<li><span>★</span></li>
 														<li><span>★</span></li>
 														<li><span>★</span></li>
@@ -702,12 +744,12 @@ function sendOk() {
 											</td>
 										</tr>
 										<tr>
-											<td class="pb-2 p-0"><textarea class='form-control'
+											<td class="pb-2 p-0"><textarea class='form-control' ${userCourseBought ? '':'disabled="disabled'}
 													name="content" placeholder="평가내용"></textarea></td>
 										</tr>
 										<tr>
 											<td class="p-0" align='right'>
-												<button type='button' class='btn btn-danger btnSendReview' 
+												<button type='button' class='btn btn-danger btnSendReview' ${userCourseBought ? '':'disabled="disabled'}
 												onclick="location.href='${pageContext.request.contextPath}/course/article?pageNo=1&num=${dto.num}';">리뷰 등록</button>
 											</td>
 										</tr>

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.bs.wd.common.FileManager;
 import com.bs.wd.common.dao.CommonDAO;
-import com.bs.wd.credit.Credit;
 
 
 @Service("course.courseService")
@@ -349,6 +348,56 @@ public class CourseServiceImpl  implements CourseService {
 			e.printStackTrace();
 			throw e;
 		}
+	}
+
+	@Override
+	public void insertCourseBuy(Map<String, Object> map) throws Exception {
+		try {
+			dao.insertData("course.insertCourseBuy", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public void deleteCourseBuy(Map<String, Object> map) throws Exception {
+		try {
+			dao.deleteData("course.deleteCourseBuy", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
+
+	@Override
+	public int courseBuyCount(int num) {
+		int result = 0;
+		
+		try {
+			result = dao.selectOne("course.courseBuyCount", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public boolean userCourseBought(Map<String, Object> map) {
+		boolean result = false;
+		try {
+			Course dto = dao.selectOne("course.userCourseBought", map);
+			if(dto != null) {
+				result = true; 
+			}
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 	
 }

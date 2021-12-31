@@ -3,8 +3,6 @@ package com.bs.wd.course;
 import java.util.List;
 import java.util.Map;
 
-import com.bs.wd.credit.Credit;
-
 
 public interface CourseService {
 	public void insertCourse(Course dto, String pathname) throws Exception;
@@ -24,6 +22,11 @@ public interface CourseService {
 	public void deleteCourseLike(Map<String, Object> map) throws Exception;
 	public int courseLikeCount(int num);
 	public boolean userCourseLiked(Map<String, Object> map);
+	
+	public void insertCourseBuy(Map<String, Object> map) throws Exception;
+	public void deleteCourseBuy(Map<String, Object> map) throws Exception;
+	public int courseBuyCount(int num);
+	public boolean userCourseBought(Map<String, Object> map);
 	
 	public void insertChapter(Chapter dto) throws Exception;
 	public List<Chapter> listChapter(Map<String, Object> map);
