@@ -220,7 +220,7 @@
 		SELECT userId FROM course WHERE num=#{num}
 	</select>
 	<insert id="creatorCredit" parameterType="com.bs.wd.course.Course">
-		INSERT INTO mywallet(num, userId, amount, price, buy_date, state) VALUES(wallet_seq.NEXTVAL, #{userId}, #{price}, 0, SYSDATE, 0)
+		INSERT INTO mywallet(num, userId, amount, price, buy_date, state) VALUES(wallet_seq.NEXTVAL, #{userId}, #{price}, 0, SYSDATE, 2)
 	</insert>
 	
 </mapper>

@@ -13,6 +13,7 @@ public class Credit {
 	private String courseName;
 	
 	private String use_date;
+	private int courseNum;
 	
 	public int getNum() {
 		return num;
@@ -73,5 +74,11 @@ public class Credit {
 	}
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
+	}
+	public int getCourseNum() {
+		return courseNum;
+	}
+	public void setCourseNum(int courseNum) {
+		this.courseNum = courseNum;
 	}
 }

@@ -16,4 +16,6 @@ public interface CreditService {
 	public int useCount(Map<String, Object> map);
 	public String useDate(String userId);
 	public void refundOk(int num) throws Exception;
+	public void refundCourse(Map<String, Object> map) throws Exception;
+	public void refundStateUpdate(int num) throws Exception;
 }

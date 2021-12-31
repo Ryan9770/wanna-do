@@ -20,7 +20,7 @@
 				SELECT w.num, w.userId, amount, price, buy_date, state
 				FROM mywallet w
 				JOIN member1 m ON w.userId=m.userId
-				WHERE w.userId=#{userId}
+				WHERE w.userId=#{userId} and state=0
 				ORDER BY num DESC
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
@@ -40,7 +40,6 @@
 	</update>
 	<delete id="refundOk" parameterType="Integer">
 		DELETE FROM mywallet
-		JOIN refundCookie ON num = cookieNum
 		WHERE num=#{num} AND state=1
 	</delete>
 	<select id="useCookie" parameterType="map" resultType="Integer">
@@ -51,7 +50,7 @@
 	<select id="listUse" parameterType="map" resultType="com.bs.wd.credit.Credit">
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
-				SELECT u.num, u.userId, amount, courseName, use_date, state
+				SELECT u.num, u.userId, amount, courseName, use_date, state, courseNum
 				FROM useCookie u
 				JOIN member1 m ON u.userId=m.userId
 				WHERE u.userId=#{userId}
@@ -65,4 +64,12 @@
 		JOIN member1 m ON u.userId=m.userId
 		WHERE u.userId=#{userId}
 	</select>
+	<delete id="refundCourse" parameterType="map">
+		DELETE FROM courseBuy
+		WHERE num=#{courseNum} AND userId=#{userId}
+	</delete>
+	<update id="refundStateUpdate" parameterType="Integer">
+		UPDATE useCookie SET state = 1
+		WHERE num=#{num}
+	</update>
 </mapper>

@@ -545,13 +545,15 @@ public class CourseController {
 		
 		// 구매
 		@RequestMapping(value="pay", method=RequestMethod.GET)
-		public String payForm(@RequestParam int num, @RequestParam String price, @RequestParam String courseName, Model model) throws Exception {
-			model.addAttribute("num", num);
-			model.addAttribute("courseNum", num);
-			model.addAttribute("price",price);
-			model.addAttribute("courseName",courseName);
-			return ".course.pay";
-		}
+	      public String payForm(@RequestParam int num, Model model) throws Exception {
+	         
+	         Course dto = service.readCourse(num);
+	         
+	         model.addAttribute("dto",dto);
+	         
+	         return ".course.pay";
+	      }
+
 				
 		@RequestMapping(value="pay", method=RequestMethod.POST)
 		public String paySubmit(Course dto, HttpSession session) throws Exception {
@@ -559,7 +561,6 @@ public class CourseController {
 			try {
 				dto.setUserId(info.getUserId());
 				service.buyCourse(dto);
-				System.out.println(dto.getNum());
 				service.creatorCredit(dto, dto.getNum());
 			} catch (Exception e) {
 			}

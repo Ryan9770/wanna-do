@@ -158,6 +158,7 @@ public class CreditController {
 			dto.setUserId(info.getUserId());
 			service.refundRequest(dto);
 			service.creditStateUpdate(dto.getNum());
+			service.refundOk(dto.getNum());
 		} catch (Exception e) {
 		}
 		return "redirect:/credit/main";
@@ -216,5 +217,35 @@ public class CreditController {
 		model.addAttribute("paging", paging);
 		
 		return "credit/listUse";
+	}
+	
+	@RequestMapping(value="refundCourse", method=RequestMethod.GET)
+	public String refundCourseForm(@RequestParam int courseNum,
+			@RequestParam int amount,
+			@RequestParam String courseName,
+			HttpSession session, Model model) throws Exception {
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		model.addAttribute("courseNum", courseNum);
+		model.addAttribute("amount", amount);
+		model.addAttribute("courseName", courseName);
+		model.addAttribute("userId", info.getUserId());
+		
+		return ".credit.refundCourse";
+	}
+	
+	@RequestMapping(value="refundCourse", method=RequestMethod.POST)
+	public String refundCourseSubmit(Credit dto, HttpSession session) throws Exception {
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		try {
+			service.refundStateUpdate(dto.getNum());
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("userId", info.getUserId());
+			map.put("courseNum", dto.getCourseNum());
+			service.refundCourse(map);
+		} catch (Exception e) {
+		}
+		return "redirect:/credit/main";
 	}
 }

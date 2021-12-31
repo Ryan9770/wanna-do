@@ -42,17 +42,12 @@
 							<td>${vo.use_date}</td>
 							<c:if test="${vo.gap < 168 && vo.state == 0}">
 								<td>
-									<button type="button" data-num="${vo.num}" data-amount="${vo.amount}" data-price="${vo.courseName}" class="btn btn-light refund">환불 요청</button>
+									<button type="button" data-num="${vo.num}" data-courseNum="${vo.courseNum}" data-amount="${vo.amount}" data-courseName="${vo.courseName}" class="btn btn-light refundCourse">환불 요청</button>
 								</td>
 							</c:if>
-							<c:if test="${dto.state == 1}">
+							<c:if test="${vo.state == 1}">
 								<td>
-									<button type="button" class="btn btn-light refund" disabled>환불 진행 중</button>
-								</td>
-							</c:if>
-							<c:if test="${vo.gap >= 168 && vo.state == 0}">
-								<td>
-									<button type="button" class="btn btn-light refund" disabled>기한 만료</button>
+									<button type="button" class="btn btn-light" disabled>환불 완료</button>
 								</td>
 							</c:if>
 						</tr>
@@ -71,15 +66,16 @@
 
 <script type="text/javascript">
 $(function(){
-		$("body").on("click", ".refund", function(){
+		$("body").on("click", ".refundCourse", function(){
 			if(! confirm("환불 요청을 진행하시겠습니까?")) {
 			    return false;
 			}
 			var num = $(this).attr("data-num");
+			var courseNum = $(this).attr("data-courseNum");
 			var amount = $(this).attr("data-amount");
 			var courseName = $(this).attr("data-courseName");
-			var query = "num="+num+"&amount="+amount+"&courseName="+courseName;
-			var url = "${pageContext.request.contextPath}/credit/refund?" + query;
+			var query = "num="+num+"&courseNum="+courseNum+"&amount="+amount+"&courseName="+courseName;
+			var url = "${pageContext.request.contextPath}/credit/refundCourse?" + query;
 			location.href = url;
 		});
 	});
