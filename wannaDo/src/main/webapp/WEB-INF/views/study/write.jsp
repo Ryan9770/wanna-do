@@ -78,13 +78,13 @@ function sendOk() {
  	 	<div class="pt-1" style="width:90%;"> 
 			<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 			  <input type="radio" class="btn-check" name="state" value="모집" id="btnradio1" autocomplete="off" checked>
-			  <label class="btn btn-outline-primary" for="btnradio1">모집</label>
+			  <label class="btn btn-outline-danger" for="btnradio1">모집</label>
 			
 			  <input type="radio" class="btn-check" name="state" value="참가" id="btnradio2" autocomplete="off">
-			  <label class="btn btn-outline-primary" for="btnradio2">참가</label>
+			  <label class="btn btn-outline-danger" for="btnradio2">참가</label>
 			
 			  <input type="radio" class="btn-check" name="state" value="마감" id="btnradio3" autocomplete="off">
-			  <label class="btn btn-outline-primary" for="btnradio3">마감</label>
+			  <label class="btn btn-outline-danger" for="btnradio3">마감</label>
 			</div>
 		</div>
 		<br>
@@ -106,9 +106,9 @@ function sendOk() {
 		<table class="table">
 			<tr> 
 				<td align="center">
-						<button class="btn btn-primary" type="button" name="checkButton" onclick="sendOk();"> ${mode=="update"?"수정완료":"등록완료"} </button>
-						<button class="btn btn-secondary" type="reset" class="btn">다시입력</button>
-						<button class="btn btn-secondary" type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/study/list';">${mode=="update"?"수정취소":"돌아가기"}</button>
+						<button class="btn btn-danger" type="button" name="checkButton" onclick="sendOk();"> ${mode=="update"?"수정완료":"등록완료"} </button>
+						<button class="btn btn-outline-secondary" type="reset" class="btn">다시입력</button>
+						<button class="btn btn-outline-secondary" type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/study/list';">${mode=="update"?"수정취소":"돌아가기"}</button>
 					<c:if test="${mode=='update'}">
 						<input type="hidden" name="num" value="${dto.num}">
 						<input type="hidden" name="originalFilename" value="${dto.originalFilename}">

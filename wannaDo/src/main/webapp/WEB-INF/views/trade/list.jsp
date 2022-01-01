@@ -165,15 +165,14 @@ $(function(){
             </div>
               
      <nav aria-label="Page navigation example">
-			<div class="page-box">
+			<div class="page-box page-box">
 				${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
 			</div>
 	</nav>
-
 		<table class="table" style="width: 90%; vertical-align: center; margin: auto;">
 		<tr>
 			<td align="left">
-				<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/trade/list';">새로고침</button>
+				<button type="button" class="btn btn-outline-danger" onclick="location.href='${pageContext.request.contextPath}/trade/list';">새로고침</button>
 			</td>
 				<td align="center">
 				<div class="col-6 text-center" style="margin-left: 120px;">
@@ -198,7 +197,7 @@ $(function(){
 				</div>
 				</td>
 			<td align="right">
-				<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/trade/write';">글올리기</button>
+				<button type="button" class="btn btn-outline-danger" onclick="location.href='${pageContext.request.contextPath}/trade/write';">글올리기</button>
 			</td>
 		<tr>
 	</tr>

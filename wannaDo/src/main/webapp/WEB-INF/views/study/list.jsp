@@ -122,7 +122,7 @@ function searchList() {
 <table class="table" style="width: 90%; vertical-align: center; margin: auto;">
 		<tr>
 			<td align="left">
-				<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/study/list';">새로고침</button>
+				<button type="button" class="btn btn-outline-danger" onclick="location.href='${pageContext.request.contextPath}/study/list';">새로고침</button>
 			</td>
 				<td align="center">
 				<div class="col-6 text-center" style="margin-left: 120px;">
@@ -147,7 +147,7 @@ function searchList() {
 				</div>
 				</td>
 			<td align="right">
-				<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/study/write';">글올리기</button>
+				<button type="button" class="btn btn-outline-danger" onclick="location.href='${pageContext.request.contextPath}/study/write';">글올리기</button>
 			</td>
 		<tr>
 	</tr>

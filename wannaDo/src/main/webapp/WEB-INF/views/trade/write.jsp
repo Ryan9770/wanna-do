@@ -166,10 +166,10 @@ function uncomma(str) {
  	 	<div class="pt-1" style="width:90%;"></div>
 		<div class="btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
 			<input type="radio" class="btn-check" name="type" id="btnradio1" autocomplete="off" value="판매" checked>
-			<label class="btn btn-outline-primary" for="btnradio1"> 구매 </label>
+			<label class="btn btn-outline-danger" for="btnradio1"> 구매 </label>
 			
 			<input type="radio" class="btn-check" name="type" id="btnradio2" autocomplete="off" value="구매">
-			<label class="btn btn-outline-primary" for="btnradio2"> 판매 </label>
+			<label class="btn btn-outline-danger" for="btnradio2"> 판매 </label>
 			
 			<input type="text" placeholder="₩ 가격을 숫자로 입력하세요." oninput="this.value = this.value.replaceAll(/\D/g, '')" name="price" maxlength="8" onkeyup="inputNumberFormat(this)" class="boxTF" value="${dto.price}" style="margin-left: 10px;">
 		</div>
@@ -203,9 +203,9 @@ function uncomma(str) {
 						</label>
 						
 					</div>
-						<button class="btn btn-primary" type="button" name="checkButton" onclick="sendOk();"> ${mode=="update"?"수정완료":"등록완료"} </button>
-						<button class="btn btn-secondary" type="reset" class="btn">다시입력</button>
-						<button class="btn btn-secondary" type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/trade/list';">${mode=="update"?"수정취소":"돌아가기"}</button>
+						<button class="btn btn-danger" type="button" name="checkButton" onclick="sendOk();"> ${mode=="update"?"수정완료":"등록완료"} </button>
+						<button class="btn btn-outline-secondary" type="reset" class="btn">다시입력</button>
+						<button class="btn btn-outline-secondary" type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/trade/list';">${mode=="update"?"수정취소":"돌아가기"}</button>
 					<c:if test="${mode=='update'}">
 						<input type="hidden" name="num" value="${dto.num}">
 						<input type="hidden" name="originalFilename" value="${dto.originalFilename}">
