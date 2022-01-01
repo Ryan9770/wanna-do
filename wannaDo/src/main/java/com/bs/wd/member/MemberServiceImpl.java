@@ -327,4 +327,15 @@ public class MemberServiceImpl implements MemberService {
 			throw e;
 		}
 	}
+
+	@Override
+	public String readCreatorDate(String userId) {
+		String day = "";
+		try {
+			day = dao.selectOne("member.readCreatorRegdate", userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return day;
+	}
 }

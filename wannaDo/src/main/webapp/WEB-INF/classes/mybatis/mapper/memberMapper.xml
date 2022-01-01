@@ -83,6 +83,14 @@ LEFT OUTER JOIN member2 m2 ON m.userId = m2.userId
 		 WHERE m.userId = #{userId}
 	</select>
 	
+	<select id="readCreatorRegdate" parameterType="String" resultType="String">
+		SELECT creator_reg_date
+		  FROM member1 m
+		  JOIN creatorInfo c ON c.userId = m.userId
+LEFT OUTER JOIN member2 m2 ON m.userId = m2.userId
+		 WHERE m.userId = #{userId}
+	</select>
+	
 	<select id="readMemberByName" parameterType="String" resultType="com.bs.wd.member.Member">
 		SELECT userName
 		FROM member1 m 

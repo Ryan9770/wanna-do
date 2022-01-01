@@ -18,6 +18,8 @@ public interface MemberService {
 	public Member readMemberByName(String userName) ;
 	public Member readMemberByCreatorName(String creatorName) ;
 	
+	public String readCreatorDate(String userId);
+	
 	public void deleteMember(Map<String, Object> map) throws Exception;
 	
 	public void generatePwd(Member dto) throws Exception;
