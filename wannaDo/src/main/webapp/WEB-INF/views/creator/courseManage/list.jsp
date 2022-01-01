@@ -3,15 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<style type="text/css">
-.body-main {
-	max-width: 1200px;
-}
-</style>
-
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css" type="text/css">
 
 <style type="text/css">
+
+.body-main {
+	max-width: 1200px;
+}
+
 .hover-tr:hover {
 	cursor: pointer;
 	background: #fffdfd;
@@ -21,6 +20,7 @@
 	max-width:800px;
 	max-height:640px;
 }
+
 </style>
 <script type="text/javascript">
 function ajaxFun(url, method, query, dataType, fn) {
@@ -54,8 +54,11 @@ function searchList() {
 	location.href=url;
 }	
 
+function updateOk(){
+	
+}
+
 function detailCourse(num){
-	console.log("gg")
 	var dlg = $("#course-dialog").dialog({
 		  autoOpen: false,
 		  modal: true,
@@ -125,8 +128,8 @@ function courseStateDetailView(){
 					<tr> 
 						<th class="col-1 ">번호</th>
 						<th class="col-1 ">카테고리</th>
-						<th class="col-4 ">강의명</th>
-						<th class="col-3 ">강의등록날짜</th>
+						<th class="col-5 ">강의명</th>
+						<th class="col-2 ">강의등록날짜</th>
 						<th class="col-1 ">수강생 수</th>
 						<th class="col-1 ">승인상태</th>
 					</tr>
@@ -139,18 +142,16 @@ function courseStateDetailView(){
 						<td>${dto.category}</td>
 						<td>${dto.courseName}</td>
 						<td>${dto.reg_date}</td>
-						<td>${dto.countStudent}</td>
+						<td>${dto.studentCount==null?"0":dto.studentCount}명</td>
 						<td>${dto.enabled==1?"승인":"미승인"}</td>
 					</tr>
 					</c:forEach>
 				</tbody>
 			</table>
-						 
 			<div class="page-box">
 				${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
 			</div>
-					
-			<table class="table">
+			<table class="table" >
 				<tr>
 					<td align="left" width="100">
 						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/creator/courseManage/list';">새로고침</button>
@@ -159,7 +160,8 @@ function courseStateDetailView(){
 						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/creator/courseManage/write';">강좌등록</button>
 					</td>
 				</tr>
-			</table>
+			</table>						 
+
 		</div>
     </div>
     
