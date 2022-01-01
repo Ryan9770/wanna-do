@@ -32,11 +32,11 @@ function sendLogin() {
 
 </script>
 
-<div class="container px-5 py-5">
+<div class="container px-5 py-5 ">
 	<div class="row justify-content-center">	
 
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
+        <div class="row justify-content-md-center mt-5 mb-5">
+            <div class="col-md-6">
                 <div class="border mt-3 p-4">
                     <form name="loginForm" action="" method="post" class="row g-3">
                         <h3 class="text-center"><i class="bi bi-lock"></i> 회원 로그인</h3>

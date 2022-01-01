@@ -51,7 +51,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark" style="border-bottom: 2px red solid; padding-top:0; ">
          <div class="container px-5">
-             <a class="navbar-brand text-danger" href="${pageContext.request.contextPath}/">Wanna Do</a>
+         	<a class="navbar-brand text-danger" href="${pageContext.request.contextPath}/">Wanna Do</a>	
              <button class="navbar-toggler bg-danger" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
              <div class="collapse navbar-collapse" id="navbarSupportedContent">
                  <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -88,13 +88,14 @@
 	                             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/myAccount/list">내 정보</a></li>
 	                             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/myCourse/list">나의 학습</a></li>
 	   							 <c:if test="${sessionScope.member.membership>0 && sessionScope.member.membership<51 }">
-									<li><a class="dropdown-item" href="${pageContext.request.contextPath}/credit/main">내쿠키</a></li>
+									<li><a class="dropdown-item" href="${pageContext.request.contextPath}/credit/main">내 쿠키</a></li>
 									<hr>
-									<li><a class="dropdown-item" href="${pageContext.request.contextPath}/member/pwd">내정보 수정</a></li>
+									<li><a class="dropdown-item" href="${pageContext.request.contextPath}/member/pwd">내 정보 수정</a></li>
 			 					 </c:if>									
 								 <c:if test="${sessionScope.member.membership<22}">
 									<li><a class="dropdown-item" href="${pageContext.request.contextPath}/member/change">크리에이터 전환</a></li>								 
 								 </c:if>
+	                             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/member/pwd">회원 탈퇴</a></li>
 	                         </ul>
 	                     </li>	
 					</c:if>             

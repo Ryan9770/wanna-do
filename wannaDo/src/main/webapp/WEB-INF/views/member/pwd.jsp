@@ -7,6 +7,7 @@
 .body-container {
 	max-width: 800px;
 }
+
 </style>
 
 <script type="text/javascript">
@@ -28,9 +29,9 @@ function sendOk() {
 <div class="container px-5 py-5 ">
 	<div class="row justify-content-center">	
 
-        <div class="row justify-content-md-center">
+        <div class="row justify-content-md-center mt-5 mb-5">
             <div class="col-md-7">
-                <div class="border mt-5 p-4 mb-3">
+                <div class="border mt-5 p-4 mb-5">
                     <form name="pwdForm" method="post" class="row g-3">
                         <h3 class="text-center fw-bold">패스워드 재확인</h3>
                         
