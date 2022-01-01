@@ -7,4 +7,5 @@ import com.bs.wd.course.Course;
 
 public interface HomeService {
 	public List<Course> listCourse();
+	
 }
