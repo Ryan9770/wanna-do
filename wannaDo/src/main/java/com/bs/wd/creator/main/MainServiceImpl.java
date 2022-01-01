@@ -26,4 +26,36 @@ public class MainServiceImpl implements MainService{
 		return list;
 	}
 
+	@Override
+	public int myCookie(String userId) {
+		int result = 0;
+		
+		try {
+			int myWallet = dao.selectOne("creatorCourseManage.myWalletCookie", userId);
+			//int useCookie = dao.selectOne("creatorCourseManage.useCookie", userId);
+			
+			result = myWallet;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public int avgRate(String userId) {
+		int result = 0;
+		try {
+			result = dao.selectOne("creatorCourseManage.avgRate", userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public String aboutAccount(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

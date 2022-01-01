@@ -26,9 +26,7 @@ $(function() {
 		<li><span>Navigation</span></li>
 		<li><a href="${pageContext.request.contextPath}/creator">Home</a></li>
 		<li><a href="${pageContext.request.contextPath}/creator/courseManage/list">강좌관리</a></li>
-		<li><a>강의관리</a></li>
 		<li><a href="${pageContext.request.contextPath}/creator/memberManage/list">수강생관리</a></li>
-		<li><a>매출관리</a></li>
 		<li><span>Other</span></li>
 		<li><a href="${pageContext.request.contextPath}/member/logout">Logout</a></li>
 	</ul>
