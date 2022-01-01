@@ -16,11 +16,16 @@
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
 				SELECT c.userId, creatorName, c.num, courseName, content,
-                price, TO_CHAR(c.reg_date, 'YYYY-MM-DD') reg_date, c.enabled, category
+                price, TO_CHAR(c.reg_date, 'YYYY-MM-DD') reg_date, c.enabled, category, studentCount
 				  FROM course c
 			      JOIN member1 m1 ON c.userId=m1.userId
 				  JOIN courseCategory cc ON c.categoryNum=cc.categoryNum
 				  JOIN creatorInfo i ON c.userId=i.userId
+				  LEFT OUTER JOIN(
+				  	SELECT courseNum, COUNT(*) studentCount
+				  	  FROM useCookie
+  			  	  GROUP BY courseNum
+				  ) uc ON uc.courseNum = c.num
 				WHERE i.userId = #{userId}
 				<if test="enabled!=''">
 					AND c.enabled = #{enabled, jdbcType=INTEGER}
@@ -42,18 +47,18 @@
 	</select>
 	
 	<select id="readCourse" parameterType="Integer" resultType="com.bs.wd.creator.courseManage.Course">
-		SELECT b.num, courseName, content, price, recommended,
-			b.reg_date, tag, recommended, b.imageFile, courseLevel, 
-			b.categoryNum, c.category,
-			NVL(courseLikeCount, 0) courseLikeCount
+		SELECT b.num, b.courseName, content, price, recommended,
+		    b.reg_date, tag, recommended, b.imageFile, courseLevel,studentCount,
+		    b.categoryNum, c.category
 		FROM course b
 		JOIN member1 m ON b.userId=m.userId
 		JOIN courseCategory c ON b.categoryNum = c.categoryNum
 		JOIN creatorInfo i ON b.userId=i.userId
 		LEFT OUTER JOIN (
-			SELECT num, COUNT(*) courseLikeCount FROM courseLike
-			GROUP BY num
-		) bc ON b.num = bc.num
+		     SELECT courseNum, count(*) studentCount
+		       FROM useCookie
+		    GROUP BY courseNum
+		) uc  ON uc.courseNum = b.num
 		WHERE b.num = #{num}	
 	</select>
 	
@@ -71,5 +76,52 @@
 		FROM courseState
 		WHERE courseNum = #{num}
 		ORDER BY stateNum   DESC
+	</select>
+	
+	<select id="listChapter" parameterType="Integer" resultType="com.bs.wd.creator.courseManage.Course">
+		SELECT chapNum, num, subject, orderNo, video, videoLink
+		FROM chapter 
+		WHERE num = #{num}
+		ORDER BY chapNum 
+	</select>	
+	
+	<select id="avgRate" parameterType="String" resultType="Integer">
+	  SELECT AVG(rate)
+  	    FROM courseReview
+	    JOIN course ON courseReview.num=course.num
+	   WHERE course.userId = #{userId}
+	   GROUP BY course.userId
+	</select>
+	
+	<select id="memberCount" parameterType="map" resultType="Integer">
+	  SELECT DISTINCT COUNT(*) 
+  	    FROM useCookie
+	    JOIN course ON useCookie.courseNum=course.num
+	   WHERE course.userId = #{userId}
+	</select>
+	
+	<select id="listMember" parameterType="map" resultType="com.bs.wd.creator.memberManage.Member">
+	SELECT * FROM (
+		SELECT ROWNUM rnum, tb.* FROM (
+		  SELECT useCookie.userId, courseNum, course.courseName, TO_CHAR(use_date, 'YYYY-MM-DD') buy_date, category
+	  	    FROM useCookie
+		    JOIN course ON useCookie.courseNum=course.num		
+		    JOIN courseCategory ON courseCategory.categoryNum = course.categoryNum
+		   WHERE course.userId = #{userId}
+	       ORDER BY courseNum DESC	
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}	
+	</select>
+	
+	<select id="myWalletCookie" parameterType="String" resultType="Integer">
+		SELECT SUM(amount)
+		  FROM mywallet
+		 WHERE userId=#{userId}	
+	</select>	
+	
+	<select id="useCookie" parameterType="String" resultType="Integer">
+		SELECT SUM(amount)
+		  FROM usecookie
+		 WHERE userId=#{userId}
 	</select>
 </mapper>

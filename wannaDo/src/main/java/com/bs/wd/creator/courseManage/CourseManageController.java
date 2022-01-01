@@ -111,11 +111,24 @@ public class CourseManageController {
 		
 		Course courseState = service.readCourseState(num);
 		List<Course> listState = service.listCourseState(num);
-		List<Course> listChapter = service.listChapter(map);
+		List<Course> listChapter = service.listChapter(num);
 		
+		for(int i=0; i<listChapter.size();i++) {
+			String videoLink = listChapter.get(i).getVideoLink();
+			if(videoLink != null) {
+				if(videoLink.indexOf("=") > 0 ) {
+					String Link = videoLink.substring(videoLink.indexOf("=") + 1); 
+					listChapter.get(i).setVideoLink(Link);
+				} else {
+					String Link = videoLink.substring(videoLink.lastIndexOf("/")+1);
+					listChapter.get(i).setVideoLink(Link);
+				}
+			}
+		}	
 		model.addAttribute("dto", dto);
 		model.addAttribute("courseState", courseState);
 		model.addAttribute("listState", listState);
+		model.addAttribute("listChapter", listChapter);
 		
 		return "creator/courseManage/detail";
 	}

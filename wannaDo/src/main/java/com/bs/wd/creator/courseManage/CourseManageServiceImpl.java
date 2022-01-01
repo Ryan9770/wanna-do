@@ -157,9 +157,15 @@ public class CourseManageServiceImpl implements CourseManageService{
 	}
 
 	@Override
-	public List<Course> listChapter(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Course> listChapter(int num) {
+		List<Course> list = null;
+		
+		try {
+			list = dao.selectList("creatorCourseManage.listChapter",num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 	@Override

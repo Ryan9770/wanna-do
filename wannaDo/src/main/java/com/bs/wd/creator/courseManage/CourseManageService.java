@@ -9,7 +9,7 @@ public interface CourseManageService {
 	public List<Course> listCourse(Map<String, Object>map);
 	public List<Course> listCategory(Map<String, Object> map);
 	public List<Course> listCourseState(int num);
-	public List<Course> listChapter(Map<String, Object> map);
+	public List<Course> listChapter(int courseNum);
 	
 	public Course readCourse(int num);
 	public Course readCourseState(int num);

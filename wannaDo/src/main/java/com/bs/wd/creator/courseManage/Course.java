@@ -21,15 +21,68 @@ public class Course {
 	
 	private String memo;
 	private String creg_date;
-	private String countStudent;
 	private String sReg_date;	// 승인 일
 	private int stateNum;
 	private int stateCode;
+	
+	private String studentCount;
 
 	private String imageFile;
     private String imageFilename;
 	private MultipartFile selectFile;
 	
+	private int chapNum;
+	private int orderNo;
+	private String subject;
+	private int categoryNum;
+	private int video;
+	private String videoLink;
+	
+	private int avgRate;
+	
+	
+	public int getAvgRate() {
+		return avgRate;
+	}
+	public void setAvgRate(int avgRate) {
+		this.avgRate = avgRate;
+	}
+	public int getChapNum() {
+		return chapNum;
+	}
+	public void setChapNum(int chapNum) {
+		this.chapNum = chapNum;
+	}
+	public int getOrderNo() {
+		return orderNo;
+	}
+	public void setOrderNo(int orderNo) {
+		this.orderNo = orderNo;
+	}
+	public String getSubject() {
+		return subject;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+	public int getCategoryNum() {
+		return categoryNum;
+	}
+	public void setCategoryNum(int categoryNum) {
+		this.categoryNum = categoryNum;
+	}
+	public int getVideo() {
+		return video;
+	}
+	public void setVideo(int video) {
+		this.video = video;
+	}
+	public String getVideoLink() {
+		return videoLink;
+	}
+	public void setVideoLink(String videoLink) {
+		this.videoLink = videoLink;
+	}
 	public String getCourseLevel() {
 		return courseLevel;
 	}
@@ -150,19 +203,17 @@ public class Course {
 	public void setStateCode(int stateCode) {
 		this.stateCode = stateCode;
 	}
-	public String getCountStudent() {
-		return countStudent;
-	}
-	public void setCountStudent(String countStudent) {
-		this.countStudent = countStudent;
-	}
 	public String getCreg_date() {
 		return creg_date;
 	}
 	public void setCreg_date(String creg_date) {
 		this.creg_date = creg_date;
 	}
+	public String getStudentCount() {
+		return studentCount;
+	}
+	public void setStudentCount(String studentCount) {
+		this.studentCount = studentCount;
+	}
 
-
-	
 }
