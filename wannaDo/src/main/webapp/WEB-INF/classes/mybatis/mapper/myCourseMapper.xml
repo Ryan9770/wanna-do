@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="myCourse">
+	<select id="listLike" parameterType="map" resultType="com.bs.wd.myCourse.MyCourse">
+		SELECT c.num,category, courseName, courseLevel, price
+		  FROM course c
+		  JOIN courseLike l ON c.num = l.num
+		  JOIN courseCategory cc ON c.categoryNum = cc.categoryNum
+		 WHERE l.userId= #{userId}
+	</select>
+	
+	<select id="listMyCourse" parameterType="map" resultType="com.bs.wd.myCourse.MyCourse">
+	SELECT course.num, category, course.courseName, course.courseLevel
+	  FROM course 
+	  JOIN courseCategory ON course.categorynum = courseCategory.categorynum
+	  JOIN useCookie ON useCookie.courseNum=course.num	
+	 WHERE useCookie.userId = #{userId}
+	</select>
+</mapper>

@@ -88,7 +88,7 @@ function imageViewer(){
 
 </style>
 
-<div class="container px-5 mt-5" style="min-height: 533px">
+<div class="container px-5 mt-5 mb-5" style="min-height: 533px">
 	<c:if test="${sessionScope.member.membership<22 }">
 		<div class="body-container py-3">	
 			<div class="body-title mb-3">
@@ -139,7 +139,7 @@ function imageViewer(){
 		<div class="body-container">	
 			<div class="body-title mb-5">
 				<h3>기본 정보</h3>
-				<table style="width:100%">
+				<table style="width:100%;">
 					<tr>
 						<td width="120" class="title">아이디</td>
 						<td width="30%">${dto.userId}</td>
@@ -181,6 +181,17 @@ function imageViewer(){
 						<td colspan="3">${dto.creator_reg_date}</td>
 					</tr>
 				</table>	
+				<table class="table">
+					<tr class="buttonTd">
+						<td colspan="2" style="border:none; cursor: default;"></td>
+						<td align="right" width="155" onclick="javascript:location.href='${pageContext.request.contextPath}/member/pwd';">
+							<button type="button" class="btn" ><p>내 정보 수정</p></button>
+						</td>
+						<td align="right" width="155" onclick="javascript:location.href='${pageContext.request.contextPath}/credit/main';">
+							<button type="button" class="btn" ><p>쿠키 결제 내역</p></button>
+						</td>
+					</tr>
+				</table>
 			</div>			
 		</div>
 		<div class="dialog-photo" style="display: none;"></div>
