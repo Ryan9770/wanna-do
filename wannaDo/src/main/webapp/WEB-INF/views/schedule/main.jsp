@@ -173,7 +173,7 @@ $(function(){
 		</div>
 	</div>
 </div>
-<div style="padding-bottom: 50px;"/>
+<div style="padding-bottom: 50px;"></div>
 
 	
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/fullcalendar5/lib/main.min.js"></script>
@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		selectMirror: true,
 		select: function(info) {
 			// 날짜의 셀을 선택하거나 드래그하면 일정 추가 화면으로 이동
-			insertSchedule(info.startStr, info.endStr, info.allDay);
+//			insertSchedule(info.startStr, info.endStr, info.allDay);
 			calendar.unselect();
 		},
 		eventClick: function(info) {
