@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bs.wd.member.SessionInfo;
+import com.mongodb.DuplicateKeyException;
 
 @Controller("schedule.scheduleController")
 @RequestMapping("/schedule/*")
@@ -285,4 +286,40 @@ public class ScheduleController {
 		model.put("state", state);
 		return model;
 	}
+	
+	@RequestMapping(value = "insertScheduleLike", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> insertScheduleLike( 
+			@RequestParam int num,
+			@RequestParam boolean userLiked,
+			HttpSession session) {
+		String state = "true";
+		int scheduleLikeCount = 0;
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("num", num);
+		paramMap.put("userId", info.getUserId());
+		
+		try {
+			if(userLiked) {
+				service.deleteScheduleLike(paramMap);
+			} else {
+				service.insertScheduleLike(paramMap);
+			}
+		} catch (DuplicateKeyException e) {
+			state = "liked";
+		} catch (Exception e) {
+			state = "false";
+		} 
+		
+		scheduleLikeCount = service.scheduleLikeCount(num);
+		
+		Map<String,Object> model = new HashMap<>();
+		model.put("state", state);
+		model.put("scheduleLikeCount", scheduleLikeCount);
+		
+		return model;
+	}
+	
 }

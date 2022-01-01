@@ -7,6 +7,38 @@
 .body-container {
 	max-width: 800px;
 }
+.board {
+	margin: 50px;
+	width: 90%;
+	vertical-align: center; 
+	text-align: center; 
+	padding-top: 60px; 
+	margin: auto;"
+}
+
+.trade-form {
+	margin: 50px;
+	width: 90%;	
+	border: 1px solid #BDBDBD;
+	padding: 50px;
+	border-radius: 5px;
+	border-spacing: 10px;
+}
+
+.cent-align {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+
+img {
+  width: 350px;
+  height: auto;
+  object-fit: cover;
+}
+
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
@@ -258,19 +290,22 @@ $(function(){
 </script>
 
 
-<div class="container">
-	<div class="body-container">	
-		<div class="body-title">
-			<h3><i class="bi bi-image"></i> 중고거래 게시판 </h3>
-		</div>
-		
-		<div class="body-main">
+<div class="board">
+	<div class="title">
+	    <h3> 중고거래</h3>
+	    <p style="color: grey;"> 중고 물품을 거래할 수 있습니다.  </p>
+	    <hr>
+	</div>
+</div>	
 
+		<!--  <div class="body-main" style="width: 80%;"> -->
+		<div class="trade-form">
+		
 			<table class="table mb-0">
 				<thead>
 					<tr>
-						<td colspan="2" align="center">
-							${dto.subject}
+						<td colspan="2" align="center" style="font-size: 25px; font-weight: 20px;">
+							<p style="color: grey;"> [${dto.type}] </p> ${dto.subject}
 						</td>
 					</tr>
 				</thead>
@@ -278,10 +313,16 @@ $(function(){
 				<tbody>
 					<tr>
 						<td width="50%">
-							이름 : ${dto.userName}						
+							이름 : ${dto.userName}(${dto.userId})					
 						</td>
 						<td align="right">
 							${dto.reg_date}
+						</td>
+					</tr>
+					
+					<tr>
+						<td>
+							가격 : ${dto.price} ₩
 						</td>
 					</tr>
 
@@ -300,7 +341,7 @@ $(function(){
 					
 					<tr>
 						<td colspan="2" class="text-center p-3">
-							<button type="button" class="btn btn-outline-secondary btnSendTradeLike" title="찜하기"><i class="bi ${userTradeLiked ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up' }"></i>&nbsp;&nbsp;<span id="tradeLikeCount">${dto.tradeLikeCount}</span></button>
+							<button type="button" class="btn btn-outline-secondary btnSendTradeLike" title="찜하기"><i class="bi ${userLiked ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up' }"></i>&nbsp;&nbsp;<span id="tradeLikeCount">${dto.tradeLikeCount}</span></button>
 						</td>
 					</tr>
 					
@@ -352,13 +393,13 @@ $(function(){
 			<div class="reply">
 				<form name="replyForm" method="post">
 					<div class='form-header'>
-						<span class="bold">댓글</span><span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가해 주세요.</span>
+						<span class="bold">댓글</span><span > </span>
 					</div>
 					
 					<table class="table table-borderless reply-form">
 						<tr>
 							<td>
-								<textarea class='form-control' name="content"></textarea>
+								<textarea class='form-control' name="content" placeholder="타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가해 주세요." style="color: grey;"></textarea>
 							</td>
 						</tr>
 						<tr>
@@ -370,7 +411,5 @@ $(function(){
 				</form>
 				<div id="listReply"></div>				
 	</div>
-</div>
-</div>
 </div>
 

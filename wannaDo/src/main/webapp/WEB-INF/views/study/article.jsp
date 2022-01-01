@@ -4,19 +4,60 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <style type="text/css">
-.body-container {
-	max-width: 800px;
+.board {
+	margin: 50px;
+	width: 90%;
+	vertical-align: center; 
+	text-align: center; 
+	padding-top: 60px; 
+	margin: auto;"
 }
+.trade-form {
+	margin: 50px;
+	width: 90%;	
+	border: 1px solid #BDBDBD;
+	padding: 50px;
+	border-radius: 5px;
+	border-spacing: 10px;
+}
+
+.cent-align {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+	
+
+.trade-form {
+	margin: 50px;
+	width: 90%;	
+	border: 1px solid #BDBDBD;
+	padding: 50px;
+	border-radius: 5px;
+	border-spacing: 10px;
+}
+
+
+	
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
 <script type="text/javascript">
-function deleteStudy() {
-	if( confirm("게시글을 삭제하시겠습니까?" ) ) {
-		var url = "${pageContext.request.contextPath}/study/delete?num=${dto.num}&${query}";
+function updateStudy() {
+	if( confirm("게시글을 수정하시겠습니까?" ) ) {
+		var url = "${pageContext.request.contextPath}/study/update?num=${dto.num}&${query}";
 		location.href= url;
 	}
 }
+
+<c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.membership>50}">
+	function deleteStudy() {
+		if( confirm("게시글을 삭제하시겠습니까?" ) ) {
+			var url = "${pageContext.request.contextPath}/study/delete?num=${dto.num}&${query}";
+			location.href= url;
+		}
+	}
+</c:if>
 </script>
 
 <script type="text/javascript">
@@ -220,74 +261,100 @@ $(function(){
 
 </script>
 
+
 <div class="board">
 	<div class="title">
-	    <h3><span>|</span> 게시판</h3>
+	    <h3> 스터디 룸</h3>
+	    <p style="color: grey;"> 스터디를 모집하거나 참가할 수 있습니다.  </p>
+	    <hr>
 	</div>
-	
-	<table class="table table-border table-article">
-		<tr>
-			<td colspan="2" align="center">
-				${dto.subject}
-			</td>
-		</tr>
+</div>	
+
+		<!--  <div class="body-main" style="width: 80%;"> -->
+		<div class="trade-form">
 		
-		<tr>
-			<td width="50%">
-				${dto.userName}
-			</td>
-			<td align="right">
-				${dto.reg_date} | 조회 ${dto.hitCount}
-			</td>
-		</tr>
-		
-		<tr>
-			<td colspan="2" valign="top" height="200">
-				${dto.content} 
-			</td>
-		</tr>	
-		<tr>
-			<td colspan="2">
-				다음글 : 
-				<c:if test="${not empty preReadDto}">
-					<a href="${pageContext.request.contextPath}/study/
-					article?num=${preReadDto.num}&${query}">${preReadDto.subject}</a>
-				</c:if>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				이전글 : 
-				<c:if test="${not empty nextReadDto}">
-					<a href="${pageContext.request.contextPath}/study/
-					article?num=${nextReadDto.num}&${query}">${nextReadDto.subject}</a>
-				</c:if>			
-			</td>
-		</tr>
-	</table>
-	
-	<table class="table">
-		<tr>
-			<td width="50%">
-				<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/study/update?num=${dto.num}&page=${page}';">수정</button>
-				<button type="button" class="btn" onclick="deleteStudy();">삭제</button>
-			</td>
-			<td align="right">
-				<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/study/list?${query}';">리스트</button>
-			</td>
-		</tr>
-	</table>
-	
-	<div class="reply">
+			<table class="table mb-0">
+				<thead>
+					<tr>
+						<td colspan="2" align="center" style="font-size: 25px; font-weight: 20px;">
+							<p style="color: grey;"> [${dto.state}] </p> ${dto.subject}
+						</td>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr>
+						<td width="50%">
+							이름 : ${dto.userName}(${dto.userId})					
+						</td>
+						<td align="right">
+							${dto.reg_date}
+						</td>
+					</tr>
+											
+					<tr>
+						<td colspan="3">
+							<div style="min-height: 500px;">
+								${dto.content}
+							</div>
+						</td>
+					</tr>
+					
+					<tr>
+						<td colspan="2">
+							이전글 :
+							<c:if test="${not empty preReadDto}">
+								<a href="${pageContext.request.contextPath}/study/article?${query}&num=${preReadDto.num}">${preReadDto.subject}</a>
+							</c:if>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							다음글 :
+							<c:if test="${not empty nextReadDto}">
+								<a href="${pageContext.request.contextPath}/study/article?${query}&num=${nextReadDto.num}">${nextReadDto.subject}</a>
+							</c:if>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<table class="table table-borderless">
+				<tr>
+					<td width="50%">
+						<c:choose>
+							<c:when test="${sessionScope.member.userId==dto.userId}">
+								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/study/update?num=${dto.num}&page=${page}';">수정</button>
+							</c:when>
+							<c:otherwise>
+								<button type="button" class="btn btn-light" disabled="disabled">수정</button>
+							</c:otherwise>
+						</c:choose>
+				    	
+						<c:choose>
+				    		<c:when test="${sessionScope.member.userId==dto.userId || sessionScope.member.membership>50}">
+				    			<button type="button" class="btn btn-light" onclick="deleteStudy();">삭제</button>
+				    		</c:when>
+				    		<c:otherwise>
+				    			<button type="button" class="btn btn-light" disabled="disabled">삭제</button>
+				    		</c:otherwise>
+				    	</c:choose>
+					</td>
+					<td class="text-end">
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/study/list?${query}';">리스트</button>
+					</td>
+				</tr>
+			</table>
+			<div class="reply">
 				<form name="replyForm" method="post">
 					<div class='form-header'>
-						<span class="bold">댓글</span><span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가해 주세요.</span>
+						<span class="bold">댓글</span><span > </span>
 					</div>
 					
 					<table class="table table-borderless reply-form">
 						<tr>
 							<td>
-								<textarea class='form-control' name="content"></textarea>
+								<textarea class='form-control' name="content" placeholder="타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가해 주세요." style="color: grey;"></textarea>
 							</td>
 						</tr>
 						<tr>
@@ -300,3 +367,4 @@ $(function(){
 				<div id="listReply"></div>				
 	</div>
 </div>
+

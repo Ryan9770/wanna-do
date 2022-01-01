@@ -3,25 +3,98 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<style type="text/css">
+<script type="text/javascript">
+function ajaxFun(url, method, query, dataType, fn) {
+	$.ajax({
+		type:method,
+		url:url,
+		data:query,
+		dataType:dataType,
+		success:function(data) {
+			fn(data);
+		},
+		beforeSend:function(jqXHR) {
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error:function(jqXHR) {
+			if(jqXHR.status === 403) {
+				login();
+				return false;
+			} else if(jqXHR.status === 400) {
+				alert("요청 처리가 실패 했습니다.");
+				return false;
+			}
+	    	
+			console.log(jqXHR.responseText);
+		}
+	});
+}
 
+//게시글 공감 여부
+$(function(){
+	$(".btnSendScheduleLike").click(function(){
+		var $i = $(this).find("i");
+		var userLiked = $i.hasClass("bi-hand-thumbs-up-fill");
+		var msg = userLiked ? "찜한 것을 취소할까요? " : "이 일정을 찜할까요? ";
+		
+		if(! confirm( msg )) {
+			return false;
+		}
+		
+		var url="${pageContext.request.contextPath}/schedule/insertScheduleLike";
+		var num="${dto.num}";
+		var query="num="+num+"&userLiked="+userLiked;
+		
+		var fn = function(data){
+			var state = data.state;
+			if(state==="true") {
+				if( userLiked ) {
+					$i.removeClass("bi-hand-thumbs-up-fill").addClass("bi-hand-thumbs-up");
+				} else {
+					$i.removeClass("bi-hand-thumbs-up").addClass("bi-hand-thumbs-up-fill");
+				}
+				
+				var count = data.scheduleLikeCount;
+				$("#scheduleLikeCount").text(count);
+			} else if(state==="liked") {
+				alert("이미 일정을 찜했습니다.");
+			} else if(state==="false") {
+				alert("요청 처리가 실패했습니다.");
+			}
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
+	});
+});
+</script>
+
+
+<style type="text/css">
+.board {
+	margin: 50px;
+	width: 90%;
+	vertical-align: center; 
+	text-align: center; 
+	padding-top: 60px; 
+	margin: auto;"
+}
 </style>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/fullcalendar5/lib/main.min.css">
 
+
+<div class="board">
+	<div class="title">
+	    <h3> 일정관리 </h3>
+	    <p style="color: grey;"> 영어 시험 일정을 확인하고 찜할 수 있습니다.  </p>
+	    <hr>
+	</div>
+</div>	
+
 <div class="container">
-	<div class="body-container">	
-		<div class="body-title">
-			<h3><i class="bi bi-calendar-event"></i> 일정관리 </h3>
-		</div>
-		
+	<div class="body-container">			
 		<div class="body-main">
 			<div class="row">
-				<div class="col-sm-1 px-0 text-center">
-					<a class="btn" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
-						<i class="bi bi-layout-text-sidebar-reverse" style="font-size : 25px;"></i>
-					</a>
-				</div>
 				<div class="col px-2">
 					<div id="calendar"></div>
 				</div>
@@ -32,60 +105,7 @@
 	</div>
 </div>
 
-<!-- 좌측 카테고리 관리 오프캔버스 -->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-	<div class="offcanvas-header">
-		<h5 class="offcanvas-title" id="offcanvasExampleLabel"><i class="bi bi-gear-wide-connected"></i> 내 컬린더 설정</h5>
-		<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-	</div>
-	<div class="offcanvas-body">
-		<div class="row">
-			<div class="col">
-				<button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-					카테고리 추가 <i class="bi bi-plus-lg"></i>
-				</button>
-			</div>
-			<div class="col-auto text-end">
-				<button class="btn btnDeleteIcon" type="button" title="편집">
-					<i class="bi bi-three-dots-vertical"></i>
-				</button>
-			</div>
-		</div>
-		<div class="collapse" id="collapseExample">
-		  <div class="card card-body">
-		  	<div class="input-group">
-				<input type="text" id="category-input" class="form-control">
-				<button type="button" class="btn btn-outline-success btnCategoryAddOk"><i class="bi bi-save"></i></button>
-			</div>
-		  </div>
-		</div>
-		
-		<div class="d-flex flex-column bd-highlight mt-3 px-2 category-list">
-			<c:forEach var="vo" items="${listCategory}">
-				<div class='row p-2 border category-row'>
-					<div class='col-auto'>
-						<input class='form-check-input me-1 category-item' type='checkbox' value='${vo.categoryNum}' checked='checked'>
-					</div>
-					<div class='col ps-0'>
-						${vo.category}
-					</div>
-					<div class='col-auto text-end invisible category-item-minus'>
-						<a href='#'><i class='bi bi-dash-square category-item-delete' data-categoryNum='${vo.categoryNum}'></i></a>
-					</div>
-				</div>
-			</c:forEach>
-		</div>
-		
-		<c:if test="${listCategory.size() > 0}">
-			<div class="row">
-				<div class="col pt-1 text-end">
-					<button type="button" class="btn btnCategorySearch" title="검색"><i class="bi bi-search"></i></button>
-				</div>
-			</div>
-		</c:if>
-		
-	</div>
-</div>
+
 
 <!-- 일정 상세 보기 Modal -->
 <div class="modal fade" id="myDialogModal" tabindex="-1" aria-labelledby="myDialogModalLabel" aria-hidden="true">
@@ -141,7 +161,7 @@
 				<table class="table table-borderless">
 					<tr>
 						<td class="text-end">
-							<button type="button" class="btn btn-outline-danger btnScheduleLike"> 찜하기 </button>
+							<button type="button" class="btn btn-outline-secondary btnSendScheduleLike" title="찜하기"><i class="bi ${userLiked ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up' }"></i>&nbsp;&nbsp;<span id="scheduleLikeCount">${dto.scheduleLikeCount}</span></button>
 						<!-- 
 							<button type="button" class="btn btn-outline-primary btnScheduleUpdate">일정 수정</button>
 			    			<button type="button" class="btn btn-outline-danger btnScheduleDelete">일정 삭제</button>
@@ -153,17 +173,20 @@
 		</div>
 	</div>
 </div>
+<div style="padding-bottom: 50px;"/>
 
+	
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/fullcalendar5/lib/main.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/fullcalendar5/lib/locales-all.min.js"></script>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/dateUtil.js"></script>
 
 <script type="text/javascript">
+
+
 function login() {
 	location.href="${pageContext.request.contextPath}/member/login";
 }
-
 function ajaxFun(url, method, query, dataType, fn) {
 	$.ajax({
 		type:method,
@@ -186,7 +209,6 @@ function ajaxFun(url, method, query, dataType, fn) {
 		}
 	});
 }
-
 var calendar = null;
 document.addEventListener('DOMContentLoaded', function() {
 	var calendarEl = document.getElementById('calendar');

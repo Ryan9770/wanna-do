@@ -12,7 +12,7 @@ public interface StudyService {
 	public Study preReadStudy(Map<String, Object> map);
 	public Study nextReadStudy(Map<String, Object> map);
 	public void updateStudy(Study dto) throws Exception;
-	public void deleteStudy(int num) throws Exception;
+	public void deleteStudy(int num, String userId, int membership) throws Exception;
 	
 	public void insertReply(Reply dto) throws Exception;
 	public List<Reply> listReply(Map<String, Object> map);

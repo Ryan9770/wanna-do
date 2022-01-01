@@ -16,4 +16,9 @@ public interface ScheduleService {
 	public List<Schedule> listCategory(Map<String, Object> map) throws Exception;
 	public void deleteCategory(Map<String, Object> map) throws Exception;
 	
+	public void insertScheduleLike(Map<String, Object> map) throws Exception;
+	public void deleteScheduleLike(Map<String, Object> map) throws Exception;
+	public int scheduleLikeCount(int num);
+	public boolean userScheduleLiked(Map<String, Object> map);
+	
 }

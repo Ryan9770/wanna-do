@@ -3,12 +3,57 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<script type="text/javascript">
-function sendOk() {
-    var f = document.boardForm;
+<script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script>
+  
+<style>
+.board {
+	margin: 50px;
+	width: 90%;
+}
 
+.trade-form {
+	margin: 50px;
+	width: 90%;	
+	border: 1px solid #BDBDBD;
+	padding: 50px;
+	border-radius: 5px;
+	border-spacing: 10px;
+	
+}
+
+.trade-table-main {
+	margin: 30px;
+	padding: 15px;	
+}
+
+.input-file-button{
+  padding: 6px 25px;
+  background-color:#FF6600;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+.ck-editor__editable {
+    min-height: 400px;
+}
+
+img {
+  width: 350px;
+  height: auto;
+  object-fit: cover;
+}
+
+</style>
+
+
+<script type="text/javascript">
+
+function sendOk() {
+    var f = document.boardForm; 
     var str = f.subject.value;
-    if(!str) {
+
+	if(!str) {
         alert("제목을 입력하세요. ");
         f.subject.focus();
         return;
@@ -102,63 +147,65 @@ function uncomma(str) {
     str = String(str);
     return str.replace(/[^\d]+/g, '');
 }
-
+  
 </script>
 
+
+
+            
 <div class="board">
 	<div class="title">
-	    <h3><span>|</span> 글 올리기 </h3>
+	    <h3> 중고거래 글 작성 </h3>
+	    <p style="color: grey;"> 중고 물품을 거래할 수 있습니다.  </p>
+	    <hr>
 	</div>
-
-	<form name="boardForm" method="post" enctype="multipart/form-data">
-		<div class="form-check" >
-			<input class="form-check-input" type="radio" name="type" value="판매" id="flexRadioDefault1">
-			  <label class="form-check-label" for="flexRadioDefault1">
-			    판매
-			  </label> 
-			</div>
-			<div class="form-check">
-			  <input class="form-check-input" type="radio" name="type" value="구매" id="flexRadioDefault2" checked>
-			  <label class="form-check-label" for="flexRadioDefault2">
-			    구매
-			  </label>
-		</div>
-
-		<table class="table table-border table-form">
-				
-			<tr> 
-				<td>제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
-				<td> 
-					<input type="text" name="subject" maxlength="100" class="boxTF" value="${dto.subject}">
-				</td>
-			</tr>
-			<tr> 
-				<td>내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
-				<td valign="top"> 
-					<textarea name="content" class="boxTA">${dto.content}</textarea>
-				</td>
-			</tr>
-			<tr>
-				<td class="table-light col-sm-2" scope="row">이미지</td>
-				<td>
-					<input type="file" name="selectFile" accept="image/*" class="form-control">
-				</td>
-			</tr>
-	
-			<tr> 
-				<td>가 격</td>
-				<td> 
-					<input type="text" oninput="this.value = this.value.replaceAll(/\D/g, '')" name="price" maxlength="8" onkeyup="inputNumberFormat(this)" class="boxTF" value="${dto.price}">
-				</td>
-			</tr>
-		</table>
+</div>	
+		
+	 <form class="trade-form" name="boardForm" method="post" enctype="multipart/form-data"> 
+	 
+ 	 	<div class="pt-1" style="width:90%;"></div>
+		<div class="btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
+			<input type="radio" class="btn-check" name="type" id="btnradio1" autocomplete="off" value="판매" checked>
+			<label class="btn btn-outline-primary" for="btnradio1"> 구매 </label>
 			
+			<input type="radio" class="btn-check" name="type" id="btnradio2" autocomplete="off" value="구매">
+			<label class="btn btn-outline-primary" for="btnradio2"> 판매 </label>
+			
+			<input type="text" placeholder="₩ 가격을 숫자로 입력하세요." oninput="this.value = this.value.replaceAll(/\D/g, '')" name="price" maxlength="8" onkeyup="inputNumberFormat(this)" class="boxTF" value="${dto.price}" style="margin-left: 10px;">
+		</div>
+		<br>
+		<br>
+		<div class="mb-3">
+			  <label for="exampleFormControlInput1" class="form-label" style="font: bold;">제목</label>
+			  <input type="text" value="${dto.subject}" name="subject" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력하세요.">
+		</div>
+		
+		<div class="mb-3">
+			  <label for="exampleFormControlTextarea1" class="form-label" style="font: bold;">내용</label>
+			<!--  <textarea name="content" class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="내용을 입력하세요."> ${dto.content} </textarea>    -->
+			<textarea name="content" class="form-control" id="editor" rows="10" placeholder="내용을 입력하세요."> ${dto.content} </textarea>  
+			
+		</div>
+		
+
+		<div>
+			<input type="file" name="selectFile" accept="image/*" class="form-control">
+			<p style="color: grey;"> ※ 사진 업로드는 필수입니다. </p>
+		</div>
+	
+	
 		<table class="table">
 			<tr> 
 				<td align="center">
-					<button type="button" class="btn" onclick="sendOk();">${mode=="update"?"수정완료":"등록완료"}</button>
-					<button type="reset" class="btn">다시입력</button>
-					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/trade/list';">${mode=="update"?"수정취소":"등록취소"}</button>
+					<div>
+						<!-- <input class="form-check-input" type="checkbox">  -->
+						<label style="color: grey; font-size: 14px;"> (주)Wanna Do는 통신판매의 당사자가 아니며 상품 거래에 대한 책임은 판매자 및 구매자에게 있습니다. 
+						</label>
+						
+					</div>
+						<button class="btn btn-primary" type="button" name="checkButton" onclick="sendOk();"> ${mode=="update"?"수정완료":"등록완료"} </button>
+						<button class="btn btn-secondary" type="reset" class="btn">다시입력</button>
+						<button class="btn btn-secondary" type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/trade/list';">${mode=="update"?"수정취소":"돌아가기"}</button>
 					<c:if test="${mode=='update'}">
 						<input type="hidden" name="num" value="${dto.num}">
 						<input type="hidden" name="originalFilename" value="${dto.originalFilename}">
@@ -167,7 +214,16 @@ function uncomma(str) {
 				</td>
 			</tr>
 		</table>
-
 	</form>
-	
-</div>
+
+<script>
+    // 3. CKEditor5를 생성할 textarea 지정
+    ClassicEditor
+        .create( document.querySelector( '#editor' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+    s
+</script>
+
+

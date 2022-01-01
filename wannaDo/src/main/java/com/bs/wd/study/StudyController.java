@@ -177,11 +177,15 @@ public class StudyController {
 	public String updateForm (
 			@RequestParam int num,
 			@RequestParam String page,
+			HttpSession session,
 			Model model
 			) throws Exception {
 		Study dto = service.readStudy(num);
-		if(dto == null) {
-			return "redirect:/sutdy/list?page="+page;
+		
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+		if(dto == null || ! info.getUserId().equals(dto.getUserId())) {
+			return "redirect:/study/list?page="+page;
 		}
 		
 		model.addAttribute("dto", dto);
@@ -198,7 +202,11 @@ public class StudyController {
 			@RequestParam String page,
 			HttpSession session
 			) throws Exception {
+		
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
 		try {
+			dto.setUserId(info.getUserId());
 			service.updateStudy(dto);
 		} catch (Exception e) {
 		}
@@ -213,9 +221,10 @@ public class StudyController {
 			@RequestParam String page,
 			@RequestParam(defaultValue = "all") String condition,
 			@RequestParam(defaultValue = "") String keyword,
-			HttpSession session
-			) throws Exception {
+			HttpSession session) throws Exception {
 		keyword = URLDecoder.decode(keyword, "utf-8");
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
 		
 		String query = "page="+ page;
 		if(keyword.length() != 0) {
@@ -223,7 +232,7 @@ public class StudyController {
 		}
 		
 		try {
-			service.deleteStudy(num);
+			service.deleteStudy(num, info.getUserId(), info.getMembership());
 		} catch (Exception e) {
 		}
 		

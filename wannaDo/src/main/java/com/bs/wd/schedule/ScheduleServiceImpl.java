@@ -121,4 +121,50 @@ public class ScheduleServiceImpl implements ScheduleService {
 		
 	}
 
+	@Override
+	public void insertScheduleLike(Map<String, Object> map) throws Exception {
+		try {
+			dao.insertData("schedule.insertScheduleLike", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public void deleteScheduleLike(Map<String, Object> map) throws Exception {
+		try {
+			dao.deleteData("schedule.deleteScheduleLike", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public int scheduleLikeCount(int num) {
+		int result = 0;
+		
+		try {
+			result = dao.selectOne("schedule.scheduleLikeCount", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public boolean userScheduleLiked(Map<String, Object> map) {
+		boolean result = false;
+		try {
+			Schedule dto = dao.selectOne("schedule.userScheduleLiked", map);
+			if(dto != null) {
+				result = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 }

@@ -91,20 +91,24 @@ public class StudyServiceImpl implements StudyService {
 		try {
 			dao.updateData("study.updateStudy", dto);	
 		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
 		}
 	
 	}
 
 	@Override
-	public void deleteStudy(int num) throws Exception {
+	public void deleteStudy(int num, String userId, int membership) throws Exception {
 		try {
 			Study dto = readStudy(num);
-			if(dto == null) {
+			if(dto == null || (membership < 51 && ! dto.getUserId().equals(userId))) {
 				return;
 			}
 			
 			dao.deleteData("study.deleteStudy", num);
 		} catch (Exception e) {
+			e.printStackTrace();
+			return;
 		}
 	}
 

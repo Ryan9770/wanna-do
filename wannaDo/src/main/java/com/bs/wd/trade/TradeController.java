@@ -209,7 +209,11 @@ public class TradeController {
 		String root = session.getServletContext().getRealPath("/");
 		String pathname = root + "uploads" + File.separator + "trade";
 		
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+		
 		try {
+			dto.setUserId(info.getUserId());
 			service.updateTrade(dto, pathname);
 		} catch (Exception e) {
 		}

@@ -6,6 +6,26 @@
 
 
 <style type="text/css">
+.board {
+	margin: 50px;
+	width: 90%;
+	vertical-align: center; 
+	text-align: center; 
+	padding-top: 60px; 
+	margin: auto;"
+}
+
+.trade-form {
+	margin: 50px;
+	width: 90%;	
+	border: 1px solid #BDBDBD;
+	padding: 50px;
+	border-radius: 5px;
+	border-spacing: 10px;
+	
+}
+
+
 </style>
 
 
@@ -80,14 +100,14 @@ $(function(){
 
 
 </script>
-<div>
-<div style="margin-top: 50px; margin-left: 80px; width: 90%;">
-	<div>
-		<p style="text-align: left; font-size: 25px;"> 중고거래 게시판</p>
-	 	<p style="color: grey; font-size: 14px;"> 중고거래 게시판입니다. </p>
-	<hr size="5" width="90%" align="center">
+
+<div class="board">
+	<div class="title">
+	    <h3> 중고거래</h3>
+	    <p style="color: grey;"> 중고 물품을 거래할 수 있습니다.  </p>
+	    <hr>
 	</div>
-</div>
+</div>	
 
 <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
@@ -97,7 +117,7 @@ $(function(){
                         <div class="card h-100">
                             <!-- Product image-->
 		                            <a href="${articleUrl}&num=${dto.num}" title="${dto.subject}">
-					 					<img class="img-fluid img-thumbnail w-100 h-100" src="${pageContext.request.contextPath}/uploads/trade/${dto.originalFilename}">
+					 					<img class="img-thumbnail" src="${pageContext.request.contextPath}/uploads/trade/${dto.originalFilename}">
 					 				</a>
 					 		<!-- Product details-->
                             <div class="card-body p-4">
@@ -105,7 +125,7 @@ $(function(){
                                     <!-- Product name-->
                                   <p style="color: grey;"> ${dto.type} </p>  <h5 class="fw-bolder"><a href="${articleUrl}&num=${dto.num}">${dto.subject} ${replyCount} </a></h5>
                                     <!-- Product price-->
-                                    ₩ ${dto.price}"
+                                    ₩ ${dto.price}
                                     <br> ${dto.reg_date}
                                     <br> ${dto.userName}
                                 </div>
@@ -113,7 +133,7 @@ $(function(){
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
 	                             <div class="text-center">
-									<button type="button" class="btn btn-outline-secondary btnSendTradeLike" data-num="${dto.num}" title="찜하기"><i class="bi ${userTradeLiked ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up' }"></i>&nbsp;&nbsp;<span id="tradeLikeCount${dto.num}">${dto.tradeLikeCount}</span></button>
+									<button type="button" class="btn btn-outline-secondary btnSendTradeLike" data-num="${dto.num}" title="찜하기"><i class="bi ${userLiked ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up' }"></i>&nbsp;&nbsp;<span id="tradeLikeCount${dto.num}">${dto.tradeLikeCount}</span></button>
 	                        	</div>
                            	<!--
                                  <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#"> 찜 </a></div>
@@ -125,38 +145,43 @@ $(function(){
               </div>
             </div>
               
+     <nav aria-label="Page navigation example">
 			<div class="page-box">
 				${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
 			</div>
-			
-			<div class="row board-list-footer">
-				<div class="col">
-						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/trade/list';">새로고침</button>
-			</div>
-			
-			<div class="col-6 text-center">
+	</nav>
+
+		<table class="table" style="width: 90%; vertical-align: center; margin: auto;">
+		<tr>
+			<td align="left">
+				<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/trade/list';">새로고침</button>
+			</td>
+				<td align="center">
+				<div class="col-6 text-center" style="margin-left: 120px;">
 					<form class="row" name="searchForm" action="${pageContext.request.contextPath}/trade/list" method="post">
 						<div class="col-auto p-1">
-							<select name="condition" class="form-select">
-								<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
-								<option value="userName" ${condition=="userName"?"selected='selected'":""}>작성자</option>
-								<option value="reg_date" ${condition=="reg_date"?"selected='selected'":""}>등록일</option>
-								<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
-								<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
-								<option value="type" ${condition=="type"?"selected='selected'":""}>말머리</option>
-							</select>
+						<select name="condition" class="form-select">
+							<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
+							<option value="name" ${condition=="name"?"selected='selected'":""}>작성자</option>
+							<option value="reg_date" ${condition=="reg_date"?"selected='selected'":""}>등록일</option>
+							<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
+							<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
+							<option value="type" ${condition=="state"?"selected='selected'":""}>말머리</option>
+						</select> &nbsp;
 						</div>
 						<div class="col-auto p-1">
-							<input type="text" name="keyword" value="${keyword}" class="form-control">
+							<input type="text" name="keyword" placeholder="검색어를 입력하세요." value="${keyword}" class="form-control">
 						</div>
 						<div class="col-auto p-1">
 							<button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
 						</div>
 					</form>
 				</div>
-				<div class="col text-end">
-					<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/trade/write';">글올리기</button>
-				</div>
-			</div>
+				</td>
+			<td align="right">
+				<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/trade/write';">글올리기</button>
+			</td>
+		<tr>
+	</tr>
+</table>
 </section>
-</div>

@@ -70,7 +70,7 @@
 	</select>	
 	
 	<select id="readTrade" parameterType="Integer" resultType="com.bs.wd.trade.Trade">
-		SELECT b.num, userName, subject, content, hitCount, b.reg_date, type, price, originalFilename, NVL(tradeLikeCount, 0), tradeLikeCount
+		SELECT b.num, m.userId, userName, subject, content, hitCount, b.reg_date, type, price, originalFilename, NVL(tradeLikeCount, 0), tradeLikeCount
 		FROM trade b
 		JOIN member1 m ON b.userId=m.userId
 		LEFT OUTER JOIN (
@@ -114,7 +114,7 @@
 	
 	<update id="updateTrade" parameterType="com.bs.wd.trade.Trade">
 		UPDATE trade SET subject=#{subject}, content=#{content}, type=#{type}, price=#{price}, originalFilename=#{originalFilename}
-		WHERE num=#{num}
+		WHERE num=#{num} AND userId=#{userId}
 	</update>
 	<delete id="deleteTrade" parameterType="Integer">
 		DELETE FROM trade WHERE num=#{num}

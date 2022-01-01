@@ -3,24 +3,66 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+
 <style type="text/css">
+.board {
+	margin: 50px;
+	width: 90%;
+	vertical-align: center; 
+	text-align: center; 
+	padding-top: 60px; 
+	margin: auto;"
+}
 .body {
 }
+
 .num {
 	width: 70px;
+	text-align: center;
 }
 
 .name {
 	width: 120px;
+	text-align: center;
+	
 }
 
 .regdate {
 	width: 200px;
+	text-align: center;
 }
 
 .hitcount {
 	width: 80px;
+	text-align: center;
 }
+
+a:link {
+	color: black;
+	text-decoration: none;
+}
+a:visited {
+	color: black;
+	text-decoration: none;
+}
+a:hover {
+	color: black;
+	text-decoration: underline;
+	font: bold;
+}
+a:active {
+    text-decoration: none;
+}
+
+table {
+	padding: 50px;
+}
+
+td {
+	min-height: 100px;
+}
+
+
 </style>
 
 
@@ -29,22 +71,22 @@ function searchList() {
 	var f=document.searchForm;
 	f.submit();
 }
+
 </script>
 
-<div>
-<div style="margin-top: 50px; margin-left: 80px; width: 90%;">
-	<div>
-		<p style="text-align: left; font-size: 25px;"> 스터디 게시판</p>
-	 	<p style="color: grey; font-size: 14px;"> 스터디를 위한 게시판입니다. </p>
-	<hr size="5" width="90%" align="center">
+<div class="board">
+	<div class="title">
+	    <h3> 스터디 룸 </h3>
+	    <p style="color: grey;"> 스터디를 모집하거나 참가할 수 있습니다.  </p>
+	    <hr>
 	</div>
-</div>
+</div>	
 
 <br>
 
 <div>
-	<table class="table table-striped" style="width: 90%; vertical-align: center; margin: auto;">
-		<tr>
+	<table class="table table-hover" style="width: 90%; vertical-align: center; margin: auto;">
+		<tr min-height: 100px;>
 			<th class="num">번호</th>
 			<th class="name">말머리</th>
 			<th class="subject">제목</th>
@@ -53,49 +95,58 @@ function searchList() {
 			<th class="hitcount">조회수</th>
 		</tr>
 		<c:forEach var="dto" items="${list}">
-			<tr>
-				<td> ${dto.listNum} </td>
-				<td> ${dto.state} </td>
-				<td><a href="${articleUrl}&num=${dto.num}">${dto.subject} ${replyCount} </a></td>
-				<td> ${dto.userName} </td>
-				<td> ${dto.reg_date} </td>
-				<td> ${dto.hitCount} </td>
+			<tr min-height: 100px;>
+				<td style="text-align: center;"> ${dto.listNum} </td>
+				<td style="text-align: center;"> ${dto.state} </td>
+				<td><a href="${articleUrl}&num=${dto.num}">${dto.subject}  &nbsp;
+						<span class="badge bg-danger rounded-pill">${dto.replyCount}</span>
+					</a></td>
+				<td style="text-align: center;"> ${dto.userName} </td>
+				<td style="text-align: center;"> ${dto.reg_date} </td>
+				<td style="text-align: center;"> ${dto.hitCount} </td>
 			</tr>
 		</c:forEach>
 	</table>
 </div>
  
- <br>
- <nav aria-label="Page navigation example">
-  <ul class="pagination justify-content-center">
-    <li>${dataCount == 0 ? "등록된 게시물이 없습니다." :  paging} </li>
-</ul>
+<br>
+
+<nav aria-label="Page navigation example">
+	<ul class="pagination justify-content-center">
+		<li>${dataCount == 0 ? "등록된 게시물이 없습니다." :  paging} </li>
+	</ul>
 </nav>
 
-<table class="table">
+<table class="table" style="width: 90%; vertical-align: center; margin: auto;">
 		<tr>
-			<td width="100">
-				<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/study/list';">새로고침</button>
+			<td align="left">
+				<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/study/list';">새로고침</button>
 			</td>
-				<td align="left">
-					<form name="searchForm" action="${pageContext.request.contextPath}/study/list" method="post">
-						<select name="condition" class="selectField">
+				<td align="center">
+				<div class="col-6 text-center" style="margin-left: 120px;">
+					<form class="row" name="searchForm" action="${pageContext.request.contextPath}/study/list" method="post">
+						<div class="col-auto p-1">
+						<select name="condition" class="form-select">
 							<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
 							<option value="name" ${condition=="name"?"selected='selected'":""}>작성자</option>
 							<option value="reg_date" ${condition=="reg_date"?"selected='selected'":""}>등록일</option>
 							<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
 							<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
 							<option value="state" ${condition=="state"?"selected='selected'":""}>말머리</option>
-						</select>
-						<input type="text" name="keyword" value="${keyword}" class="boxTF">
-						<button type="button" class="btn" onclick="searchList()">검색</button>
+						</select> &nbsp;
+						</div>
+						<div class="col-auto p-1">
+							<input type="text" name="keyword" placeholder="검색어를 입력하세요." value="${keyword}" class="form-control">
+						</div>
+						<div class="col-auto p-1">
+							<button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
+						</div>
 					</form>
+				</div>
 				</td>
-			<td align="right" width="100">
+			<td align="right">
+				<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/study/write';">글올리기</button>
+			</td>
 		<tr>
-		<td align="right" width="100">
-			<button type="button" class="button" onclick="location.href='${pageContext.request.contextPath}/study/write';">글올리기</button>
-		</td>
 	</tr>
 </table>
-</div>

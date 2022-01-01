@@ -39,9 +39,17 @@
 	<select id="listStudy" parameterType="map" resultType="com.bs.wd.study.Study">
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
-				SELECT num, subject, content, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, userName, state, hitCount
-			FROM study s
-			JOIN member1 m ON s.userId=m.userId
+				SELECT b.num, subject, content, 
+					   TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, userName, 
+					   state, hitCount, 
+					   NVL(replyCount, 0) replyCount
+			FROM study b
+			JOIN member1 m ON b.userId=m.userId
+			LEFT OUTER JOIN (
+					SELECT num, COUNT(*) replyCount FROM studyReply
+					WHERE answer = 0
+					GROUP BY num
+				) c ON b.num = c.num
 			<where>
 				<if test="keyword!=null and keyword!=''">
 					<include refid="where-list"/>
@@ -64,7 +72,7 @@
 	</select>	
 	
 	<select id="readStudy" parameterType="Integer" resultType="com.bs.wd.study.Study">
-		SELECT num, userName, subject, content, hitCount, reg_date, state
+		SELECT num, userName, m.userId, subject, content, hitCount, reg_date, state
 		FROM study s
 		JOIN member1 m ON s.userId=m.userId
 		WHERE num = #{num}
@@ -87,7 +95,7 @@
 			ORDER BY num ASC
 		) WHERE ROWNUM = 1
 	</select>
-	
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 	<select id="nextReadStudy" parameterType="map" resultType="com.bs.wd.study.Study">
 		SELECT * FROM (
 		SELECT num, subject
@@ -104,10 +112,11 @@
 	
 	<update id="updateStudy" parameterType="com.bs.wd.study.Study">
 		UPDATE study SET subject=#{subject}, content=#{content}, state=#{state}
-		WHERE num=#{num}
+		WHERE num=#{num} AND userId=#{userId}
 	</update>
 	<delete id="deleteStudy" parameterType="com.bs.wd.study.Study">
-		DELETE FROM study WHERE num=#{num}
+		DELETE FROM study 
+		WHERE num=#{num}
 	</delete>
 	
 	<insert id="insertReply" parameterType="com.bs.wd.study.Reply">

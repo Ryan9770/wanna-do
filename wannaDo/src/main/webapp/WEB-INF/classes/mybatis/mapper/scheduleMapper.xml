@@ -76,14 +76,39 @@
 		DELETE FROM schedule WHERE num=#{num} AND userId=#{userId}
 	</delete>
 	
-	
-	
 	<select id="listCategory" parameterType="map" resultType="com.bs.wd.schedule.Schedule">
-		SELECT categoryNum, category
-			FROM scheduleCategory
-			WHERE userId=#{userId}
+		SELECT categoryNum, category 
+			FROM scheduleCategory 
+			WHERE userId=#{userId} 
 		ORDER BY categoryNum
 	</select>
+	
+		<!--  좋아요 추가 -->
+	<insert id="insertScheduleLike" parameterType="map">
+		INSERT INTO scheduleLike(num, userId) 
+		VALUES (#{num}, #{userId} )
+	</insert>
+	
+	<!--  좋아요 취소 -->
+	<delete id="deleteScheduleLike" parameterType="map">
+		DELETE FROM scheduleLike 
+		WHERE num = #{num} AND userId = #{userId}
+	</delete>
+	
+	<!-- 좋아요 카운트 -->
+	<select id="scheduleLikeCount" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) 
+		FROM scheduleLike 
+		WHERE num=#{num}
+	</select>
+     
+   	<!--  좋아요 여부 -->
+	<select id="userScheduleLiked" parameterType="map" resultType="com.bs.wd.schedule.Schedule">
+		SELECT num, userId 
+		FROM scheduleLike 
+		WHERE num = #{num} AND userId = #{userId}
+	</select>
+	
 	
 	
 </mapper>

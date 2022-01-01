@@ -24,6 +24,8 @@ public class Schedule {
 	private String sharedId;
 	private List<String> sharedUsers;
 	
+	private int scheduleLikeCount;
+	
 	private int id;
 	private String title;
 	private boolean allDay;
@@ -166,6 +168,12 @@ public class Schedule {
 	}
 	public void setEnd(String end) {
 		this.end = end;
+	}
+	public int getScheduleLikeCount() {
+		return scheduleLikeCount;
+	}
+	public void setScheduleLikeCount(int scheduleLikeCount) {
+		this.scheduleLikeCount = scheduleLikeCount;
 	}
 	
 	
