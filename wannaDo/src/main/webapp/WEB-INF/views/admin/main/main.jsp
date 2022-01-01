@@ -27,7 +27,7 @@ background-color : #fff;
 <main class=" bg-secondary bg-opacity-10">
 	<h1 class="fw-bold">Dashboard</h1>
 	<div class="body-container">
-	    <div class="body-main">
+	    <div class="body-main bg-transparent">
 	    	<div class="dashboard container-fluid">
 			<div class="population-flow p-2 align-center text-center">
 			    <div class="row bg-pop-row bg-gradient p-3 text-white" style="background-color: rgb(0,64,128)">
@@ -308,8 +308,8 @@ function listRefund() {
 				t = Math.floor((t / 60)) + "시간 전";
 			} else if( ( t / (60 * 24) ) <365 ){
 				t = Math.floor(t / (60 * 24)) + "일 전 ";
-			} 
-		
+			}  
+			
 			str = "<tr></tr>"
 			$(str).append("<td class='border'>"+id+"</td>").append("<td class='border'>"+amount+"</td>").append("<td class='border'>"+price+"</td>")
 				.append("<td class='border'>"+t+"</td>").appendTo(selector);

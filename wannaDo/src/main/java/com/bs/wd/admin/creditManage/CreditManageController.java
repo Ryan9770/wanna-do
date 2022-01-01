@@ -58,7 +58,7 @@ public class CreditManageController {
 		
 		List<MyWallet> list = service.listBuy(map);
 		
-		int listNum,n = 0;
+		int listNum, n = 0;
 		for(MyWallet dto : list) {
 			listNum = dataCount - (start + n -1);
 			dto.setListNum(listNum);

@@ -71,7 +71,11 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 						uri = uri.substring(req.getContextPath().length());
 					if (queryString != null)
 						uri += "?" + queryString;
-
+					// 이미지로 이동되는거 막기
+					if( uri.lastIndexOf(".jpg") != -1 || uri.lastIndexOf(".png") != -1 ) {
+						uri = "/";
+					}
+					
 					session.setAttribute("preLoginURI", uri);
 					resp.sendRedirect(cp + "/member/login");
 				}

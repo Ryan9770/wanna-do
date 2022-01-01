@@ -12,14 +12,15 @@
 		SELECT NVL(COUNT(*), 0)
 		FROM mywallet mw
 		JOIN member1 m1 ON mw.userId=m1.userId
+		WHERE state = 0
 	</select>
 	
 	
-	
+	<!-- 환불된 쿠키 목록 -->
 	<select id="listRefund" parameterType="map" resultType="com.bs.wd.admin.creditManage.RefundCookie">
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
-				SELECT num, TO_CHAR(refund_date, 'YYYY-MM-DD')refund_date, amount, price, rc.userId
+				SELECT num, TO_CHAR(refund_date, 'YYYY-MM-DD')refund_date, amount, price, rc.userId, cookieNum
 				FROM refundCookie rc
 				JOIN member1 m1 ON rc.userId= m1.userId
 				ORDER BY refund_date DESC
@@ -27,29 +28,18 @@
 		) WHERE rnum &gt;= #{start}
 	</select>
 	
-	
+	<!-- state 0 : 구매, 1:환불요청, 2:환불승인 -->
 	<select id="listBuy" resultType="com.bs.wd.admin.creditManage.MyWallet" parameterType="map">
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
-				SELECT num, TO_CHAR(buy_date,'YYYY-MM-DD') buy_date, amount, price, mw.userId, state
+				SELECT num, TO_CHAR(buy_date,'YYYY-MM-DD') buy_date, amount, price, mw.userId, state 
 				FROM mywallet mw
 				JOIN member1 m1 ON mw.userId=m1.userId
-				ORDER BY buy_date
-			) tb WHERE ROWNUM &lt;= #{end}
-		) WHERE rnum &gt;= #{start}
-	</select>
-	<!-- 
-	<select id="listRefund" resultType="com.bs.wd.admin.creditManage.MyWallet" parameterType="map">
-		SELECT * FROM (
-			SELECT ROWNUM rnum, tb.* FROM (
-				SELECT num, TO_CHAR(buy_date,'YYYY-MM-DD') buy_date, amount, price, mw.userId, state
-				FROM refundCookie
-				JOIN member1 m1 ON mw.userId=m1.userId
 				WHERE state = 0
+				ORDER BY buy_date DESC
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
 	</select>
-	-->
 	
 	<update id="refundPermit" parameterType="Integer">
       UPDATE myWallet SET state = 2

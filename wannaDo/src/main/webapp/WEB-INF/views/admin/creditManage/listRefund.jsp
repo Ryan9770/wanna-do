@@ -56,7 +56,7 @@ $(function(){
 							<th class="col-2">환불 수량</th>
 							<th class="col-2">환불 가격</th>
 							<th class="col-2">환불 요청일</th>
-							<th class="col-1">상태</th>
+							<th class="col-1">환불 쿠키 번호</th>
 						</tr>
 					</thead>
 					
@@ -68,6 +68,7 @@ $(function(){
 							<td>${dto.amount}</td>
 							<td>${dto.price}</td>
 							<td>${dto.refund_date}</td>
+							<td>${dto.cookieNum}</td>
 						</tr>
 						</c:forEach>
 					</tbody>

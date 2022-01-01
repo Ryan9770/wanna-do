@@ -5,7 +5,7 @@
 
 
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
 <style type="text/css">
 .hover-tr:hover {
@@ -43,7 +43,6 @@ function ajaxFun(url, method, query, dataType, fn) {
 
 function searchList() {
 	var f=document.searchForm;
-	f.enabled.value=$("#selectEnabled").val();
 	f.action="${pageContext.request.contextPath}/admin/memberManage/clist";
 	f.submit();
 }
@@ -56,9 +55,6 @@ function detailedMember(userId) {
 		       " 수정 " : function() {
 		    	   updateOk(); 
 		       },
-		       " 삭제 " : function() {
-		    	   deleteOk(userId);
-			   },
 		       " 닫기 " : function() {
 		    	   $(this).dialog("close");
 		       }
@@ -107,13 +103,7 @@ function updateOk() {
 	$('#member-dialog').dialog("close");
 }
 
-function deleteOk(userId) {
-	if(confirm("선택한 계정을 삭제 하시겠습니까 ?")) {
 
-	}
-	
-	$('#member-dialog').dialog("close");
-}
 
 function memberStateDetaileView() {
 	$('#memberStateDetaile').dialog({
@@ -154,28 +144,15 @@ function selectStateChange() {
 	    </div>
 	    
 	    <div class="body-main shadow">
-				<table class="table">
-					<tr>
-						<td align="left" width="50%">
-							${dataCount}개(${page}/${total_page} 페이지)
-						</td>
-						<td align="right">
-							<select id="selectEnabled" class="selectField" onchange="searchList();">
-								<option value="" ${enabled=="" ? "selected='selected'":""}>::계정상태::</option>
-								<option value="0" ${enabled=="0" ? "selected='selected'":""}>잠금 계정</option>
-								<option value="1" ${enabled=="1" ? "selected='selected'":""}>활성 계정</option>
-							</select>
-						</td>
-					</tr>
-				</table>
-				<div class="container">
+				<div class="container d-flex justify-content-around">
 					<div class="row">
 					<c:forEach var="dto" items="${list}">
-					  <div class="col-5 justify-content-center m-auto">
+					  <div class="col-4 p-5 text-center">
 						 <a onclick="detailedMember('${dto.userId}')">
-						 	<img src="${pageContext.request.contextPath}/uploads/creatorinfo/${dto.imageFilename}" class="img-fluid">	
+						 	<img src="${pageContext.request.contextPath}/uploads/creatorInfo/${dto.imageFilename}" class="img-fluid">
+						 <span class="fw-bold fs-5">${dto.creatorName}</span>
+						 <span>: ${dto.enabled==0?"계정 잠금":"계정 활성"}</span>
 						 </a>
-						  <p>${dto.creatorName}</p>
 					  </div>
 					  </c:forEach>
 					</div>
@@ -199,7 +176,6 @@ function selectStateChange() {
 									<option value="tel"        ${condition=="tel" ? "selected='selected'":""}>전화번호</option>
 								</select>
 								<input type="text" name="keyword" class="boxTF" value="${keyword}">
-								<input type="hidden" name="enabled" value="${enabled}">
 								<input type="hidden" name="page" value="1">
 								<button type="button" class="btn" onclick="searchList()">검색</button>
 							</form>

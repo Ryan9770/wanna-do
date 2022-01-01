@@ -29,7 +29,6 @@ public class MemberManageController {
 	private MemberManageService service;
 	
 	@Autowired
-	@Qualifier("myUtilGeneral")
 	private MyUtil myUtil;
 
 	@RequestMapping("list")
@@ -124,7 +123,7 @@ public class MemberManageController {
 		
 		String cp = req.getContextPath();
    	    
-		int rows = 4;
+		int rows = 6;
 		int total_page = 0;
 		int dataCount = 0;
    	    
@@ -159,19 +158,7 @@ public class MemberManageController {
             n++;
         }
         
-        String query = "";
         String listUrl = cp+"/admin/memberManage/clist";
-        
-        if(enabled.length()!=0) {
-        	if(query.length()!=0)
-        		query = query +"&enabled="+enabled;
-        	else
-        		query = "enabled="+enabled;
-        }
-        
-        if(query.length()!=0) {
-        	listUrl = listUrl + "?" + query;
-        }
         
         String paging = myUtil.paging(current_page, total_page, listUrl);        
 		

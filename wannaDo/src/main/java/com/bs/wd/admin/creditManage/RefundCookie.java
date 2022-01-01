@@ -7,8 +7,14 @@ public class RefundCookie {
 	private int amount;
 	private int price;
 	private String userId;
+	private int cookieNum;
 	
-	
+	public int getCookieNum() {
+		return cookieNum;
+	}
+	public void setCookieNum(int cookieNum) {
+		this.cookieNum = cookieNum;
+	}
 	public int getListNum() {
 		return listNum;
 	}

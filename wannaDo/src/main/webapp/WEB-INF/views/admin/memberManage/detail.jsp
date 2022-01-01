@@ -52,10 +52,10 @@
 					<c:if test="${dto.enabled==0}">
 						<option value="0">잠금 해제</option>
 					</c:if>
-					<option value="2">저작권 도용으로 인한 정지</option>
+					<option value="2">저작권 침해</option>
 					<option value="3">불건전한 강의 등록</option>
-					<option value="4">광고성 의도가 포함된 영상</option>
-					<option value="5"></option>
+					<option value="4">광고성 의도가 포함된 영상 게재</option>
+					<option value="5">허위사실 유포</option>
 					<option value="6">기타 약관 위반</option>
 				</select>
 			</td>
