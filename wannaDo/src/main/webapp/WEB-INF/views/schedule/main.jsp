@@ -76,7 +76,7 @@ $(function(){
 	vertical-align: center; 
 	text-align: center; 
 	padding-top: 60px; 
-	margin: auto;"
+	margin: auto;
 }
 </style>
 
@@ -173,7 +173,7 @@ $(function(){
 		</div>
 	</div>
 </div>
-<div style="padding-bottom: 50px;"></div>
+<div style="padding-bottom: 60px;"></div>
 
 	
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/fullcalendar5/lib/main.min.js"></script>

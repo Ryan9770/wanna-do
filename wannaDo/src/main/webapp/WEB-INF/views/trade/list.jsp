@@ -12,7 +12,7 @@
 	vertical-align: center; 
 	text-align: center; 
 	padding-top: 60px; 
-	margin: auto;"
+	margin: auto;
 }
 
 .trade-form {
@@ -24,6 +24,25 @@
 	border-spacing: 10px;
 	
 }
+
+
+a:link {
+	color: black;
+	text-decoration: none;
+}
+a:visited {
+	color: black;
+	text-decoration: none;
+}
+a:hover {
+	color: black;
+	text-decoration: underline;
+	font: bold;
+}
+a:active {
+    text-decoration: none;
+}
+
 
 
 </style>

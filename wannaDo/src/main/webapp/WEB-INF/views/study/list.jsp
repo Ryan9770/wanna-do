@@ -11,7 +11,7 @@
 	vertical-align: center; 
 	text-align: center; 
 	padding-top: 60px; 
-	margin: auto;"
+	margin: auto;
 }
 .body {
 }
@@ -85,8 +85,8 @@ function searchList() {
 <br>
 
 <div>
-	<table class="table table-hover" style="width: 90%; vertical-align: center; margin: auto;">
-		<tr min-height: 100px;>
+	<table class="table table-light" style="width: 90%; vertical-align: center; margin: auto;">
+		<tr>
 			<th class="num">번호</th>
 			<th class="name">말머리</th>
 			<th class="subject">제목</th>
@@ -95,16 +95,18 @@ function searchList() {
 			<th class="hitcount">조회수</th>
 		</tr>
 		<c:forEach var="dto" items="${list}">
-			<tr min-height: 100px;>
-				<td style="text-align: center;"> ${dto.listNum} </td>
-				<td style="text-align: center;"> ${dto.state} </td>
-				<td><a href="${articleUrl}&num=${dto.num}">${dto.subject}  &nbsp;
-						<span class="badge bg-danger rounded-pill">${dto.replyCount}</span>
-					</a></td>
-				<td style="text-align: center;"> ${dto.userName} </td>
-				<td style="text-align: center;"> ${dto.reg_date} </td>
-				<td style="text-align: center;"> ${dto.hitCount} </td>
+		<table  class="table table-hover" style="width: 90%; vertical-align: center; margin: auto;">
+			<tr>
+				<td class="num"> ${dto.listNum} </td>
+				<td class="name"> ${dto.state} </td>
+				<td class="subject"><a href="${articleUrl}&num=${dto.num}">${dto.subject}  &nbsp;
+										<span class="badge bg-danger rounded-pill">${dto.replyCount}</span>
+									</a></td>
+				<td class="name"> ${dto.userName} </td>
+				<td class="regdate"> ${dto.reg_date} </td>
+				<td class="hitcount"> ${dto.hitCount} </td>
 			</tr>
+		</table>
 		</c:forEach>
 	</table>
 </div>

@@ -13,12 +13,13 @@
 	margin: auto;"
 }
 .trade-form {
-	margin: 50px;
 	width: 90%;	
 	border: 1px solid #BDBDBD;
 	padding: 50px;
 	border-radius: 5px;
 	border-spacing: 10px;
+	vertical-align: center; 
+	margin: auto;
 }
 
 .cent-align {
@@ -266,14 +267,13 @@ $(function(){
 	<div class="title">
 	    <h3> 스터디 룸</h3>
 	    <p style="color: grey;"> 스터디를 모집하거나 참가할 수 있습니다.  </p>
-	    <hr>
 	</div>
 </div>	
 
 		<!--  <div class="body-main" style="width: 80%;"> -->
-		<div class="trade-form">
+		<div class="trade-form" style="vertical-align: center; margin: auto;">
 		
-			<table class="table mb-0">
+			<table class="table mb-0" style="vertical-align: center; margin: auto;">
 				<thead>
 					<tr>
 						<td colspan="2" align="center" style="font-size: 25px; font-weight: 20px;">
@@ -367,4 +367,5 @@ $(function(){
 				<div id="listReply"></div>				
 	</div>
 </div>
+<div style="padding-bottom: 60px;"></div>
 

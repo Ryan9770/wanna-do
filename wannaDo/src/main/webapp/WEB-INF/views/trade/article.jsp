@@ -13,16 +13,17 @@
 	vertical-align: center; 
 	text-align: center; 
 	padding-top: 60px; 
-	margin: auto;"
+	margin: auto;
 }
 
 .trade-form {
-	margin: 50px;
 	width: 90%;	
 	border: 1px solid #BDBDBD;
 	padding: 50px;
 	border-radius: 5px;
 	border-spacing: 10px;
+	vertical-align: center; 
+	margin: auto;
 }
 
 .cent-align {
@@ -294,7 +295,6 @@ $(function(){
 	<div class="title">
 	    <h3> 중고거래</h3>
 	    <p style="color: grey;"> 중고 물품을 거래할 수 있습니다.  </p>
-	    <hr>
 	</div>
 </div>	
 
@@ -412,4 +412,6 @@ $(function(){
 				<div id="listReply"></div>				
 	</div>
 </div>
+<div style="padding-bottom: 60px;"></div>
+
 
