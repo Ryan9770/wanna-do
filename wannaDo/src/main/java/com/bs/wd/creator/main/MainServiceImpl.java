@@ -31,10 +31,10 @@ public class MainServiceImpl implements MainService{
 		int result = 0;
 		
 		try {
-			int myWallet = dao.selectOne("creatorCourseManage.myWalletCookie", userId);
-			//int useCookie = dao.selectOne("creatorCourseManage.useCookie", userId);
+			int myCookie = dao.selectOne("creatorCourseManage.myWalletCookie", userId);
+			int useCookie = dao.selectOne("creatorCourseManage.useCookie", userId);
 			
-			result = myWallet;
+			result = myCookie-useCookie;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -53,9 +53,15 @@ public class MainServiceImpl implements MainService{
 	}
 
 	@Override
-	public String aboutAccount(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public void insertExchange(Map<String, Object> map) throws Exception{
+		try {
+			int seq = dao.selectOne("credit.seq");
+			map.put("num", seq);
+			dao.insertData("credit.insertExchange", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 }

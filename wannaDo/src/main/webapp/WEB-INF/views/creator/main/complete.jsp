@@ -25,7 +25,14 @@
 	}
 	
 	.msg-section{
-		margin-top: 40px;
+		margin: 40px 0;
+	}
+	
+	button {
+		color:white;
+    	border-radius: 30px;
+    	width:90px;
+		background-color: #003366;
 	}
 </style>
 
@@ -35,14 +42,16 @@
 		<div class="section">
 			<h4>출금신청이 완료되었습니다.</h4>
 			<div class="text-section">
-				<h6><b>환전 쿠키 개수</b> 10000<b>개</b></h6>
-				<h6><b>실 환전액</b> 800000<b>원</b></h6>
-				<h6><b>잔여 쿠키 개수</b> 400<b>개</b></h6>
+				<h6><b>환전 쿠키 개수</b> ${map.amountCookie}<b>개</b></h6>
+				<h6><b>실 환전액</b> ${map.money}<b>원</b></h6>
+				<h6><b>잔여 쿠키 개수</b> ${map.afterRemainer}<b>개</b></h6>
 			</div>
 			<div class="msg-section">
-				<p>관리자 확인 후 입력한 계좌 <b>국민 00000000</b>로 <br>
+				<p>관리자 확인 후 입력한 계좌 <b>${map.accountBank} ${map.accountNumber}</b>로 <br>
 				7일 내 입금됩니다. 문의사항은 <a href="${pageContext.request.contextPath}/contact/write">Get in touch</a>를 이용해주세요.</p>		
-			</div>		
+			</div>
+			<button type="button" onclick="javascript:location.href='${pageContext.request.contextPath}/creator'">홈으로</button>		
 		</div>
 	</div>
+	
 </main>

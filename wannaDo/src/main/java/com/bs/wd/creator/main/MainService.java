@@ -9,5 +9,5 @@ public interface MainService {
 	public List<Course> listCourse(Map<String, Object> map);
 	public int myCookie(String userId);
 	public int avgRate(String userId);
-	public String aboutAccount(String userId);
+	public void insertExchange(Map<String, Object> map) throws Exception;
 }

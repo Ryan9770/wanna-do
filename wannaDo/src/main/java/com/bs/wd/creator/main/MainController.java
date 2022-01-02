@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bs.wd.creator.courseManage.Course;
 import com.bs.wd.member.Member;
@@ -56,25 +57,32 @@ public class MainController {
       model.addAttribute("name", name);
       model.addAttribute("avgRate", avgRate);
       model.addAttribute("day", diffDays);
-      model.addAttribute("cookie", myCookie);
+      model.addAttribute("myCookie", myCookie);
   
       return ".creatorLayout";
 	}
 
 	@RequestMapping(value="/creator/main/complete")
-	public String complete() {
+	public String complete(@RequestParam Map<String, Object> map, @RequestParam int amountCookie, 
+			@RequestParam int money, HttpSession session, Model model) {
+		
+		Map<String, Object> map2 = new HashMap<String, Object>();
+		
+		map2.put("amount", -amountCookie);
+		map2.put("price",money);
+
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		map2.put("userId", info.getUserId());
+		
+		try {
+			service.insertExchange(map2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("map", map);
+		
 		return ".creator.main.complete";
 	}
 
-	@RequestMapping(value="")
-	public String aboutAccount(HttpSession session) {	      
-		
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("userId", info.getUserId());
-
-		// mywallet
-		return "";
-	}
 }

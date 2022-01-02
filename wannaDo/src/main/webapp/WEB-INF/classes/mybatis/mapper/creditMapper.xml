@@ -8,6 +8,9 @@
 	<insert id="insertCredit" parameterType="com.bs.wd.credit.Credit">
 		INSERT INTO mywallet(num, userId, amount, price, buy_date, state) VALUES(#{num}, #{userId}, #{amount}, #{price}, SYSDATE, 0)
 	</insert>
+	<insert id="insertExchange" parameterType="map">
+		INSERT INTO mywallet(num, userId, amount, price, buy_date, state) VALUES(#{num}, #{userId}, #{amount}, #{price}, SYSDATE, 5)
+	</insert>
 	<select id="dataCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*), 0)
 		FROM mywallet w

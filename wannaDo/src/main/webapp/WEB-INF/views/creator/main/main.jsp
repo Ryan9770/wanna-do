@@ -49,7 +49,7 @@ input{
 	border: none;
 	border-bottom: 1px solid gray;
 	text-align: right;
-	max-width:120px;
+	max-width:100px;
 }
 
 #bankAccount{
@@ -129,6 +129,8 @@ input{
 
 	function calMoney(obj){
 		var money = $('#money');
+		var beforeRemainer = $('#beforeRemainer').val();
+		var afterRemainer = $('#afterRemainer');
 		
 		var str_space = /\s/;  // 공백체크
 	    if(str_space.exec(obj.value)) { //공백 체크 
@@ -136,10 +138,15 @@ input{
 	    }
 
 	    obj.value = obj.value.replace(/[^0-9]/g, "");
-		
+
+		afterRemainer.val(beforeRemainer-obj.value);
+
 		// 잔여쿠키보다 큰 수 입력 시
-		
-		
+		if($('#afterRemainer').val()<0){
+			alert('잔여 쿠키를 초과할 수 없습니다.');
+			obj.value=${myCookie};
+			$('#afterRemainer').val(0);
+		}
 		money.val(obj.value*90);
 	}
 
@@ -174,7 +181,7 @@ input{
 	}
 	
 	function onlyNumber(){
-	   if((event.keyCode > 47 && event.keyCode < 57 ) 
+	   if((event.keyCode > 47 && event.keyCode < 58 ) 
 			      || event.keyCode == 8 //backspace
 			      || event.keyCode == 37 || event.keyCode == 39 //방향키 →, ←
 			      || event.keyCode == 46 //delete키
@@ -187,6 +194,23 @@ input{
 
 	function sendOk() {
 		var f = document.withdrawForm;
+		
+		if(! f.amountCookie.value){
+			alert("환전할 쿠키 개수를 입력하세요.");
+			f.amountCookie.focus();
+			return;
+		}		
+		if(! f.accountBank.value){
+			alert("은행을 입력하세요.");
+			return;
+		}
+		if(! f.accountNumber.value){
+			alert("계좌번호를 입력하세요.");
+			f.accountNumber.focus();
+			return;
+		}
+
+
 		f.action = "${pageContext.request.contextPath}/creator/main/complete";
 		f.submit();
 	}
@@ -222,19 +246,19 @@ input{
 			<div class="section-box">
 				<form name="withdrawForm" method="post">
 					<p>
-						<b>잔여 쿠키</b> <input id="beforeRemainer" name="beforeRemainer" readonly="readonly" value="${cookie}" style="border-bottom:none;"> <b>개</b> | 
+						<b>잔여 쿠키</b> <input id="beforeRemainer" name="beforeRemainer" readonly="readonly" value="${myCookie}" style="border-bottom:none;"> <b>개</b> | 
 						<b>출금 후 잔여 쿠키</b> <input id="afterRemainer" name="afterRemainer" readonly="readonly" value="" style="border-bottom:none;"><b> 개</b> </p>
 					<p>
-						<b>쿠키 
-						<input id="cookie" name="cookie" placeholder="출금할 쿠키 개수" onKeyup="calMoney(this);" onkeydown="return onlyNumber();"> 개 | 
+						<b>쿠키  &nbsp; 
+						<input id="amountCookie" name="amountCookie" placeholder="출금할 쿠키" onKeyup="calMoney(this);" onkeydown="return onlyNumber();"> 개 | 
 						<input id="money" name="money" readonly="readonly" value="" style="border-bottom:none;"> 원</b> 
 						<button type="button" class="btn" onclick="sendOk();">출금</button> (수수료 10% 제외)
 					</p>
 					<p>
-						<b>계좌</b> 
-						<input id="accountBank" name="accountBank" readonly="readonly" value="국민" style="max-width: 30px;"> 
-						<input id="accountNumber" name="accountNumber" readonly="readonly" value="11111111"> 
-						<button type="button" class="btn btn-sm btn-outline-dark btnWithdraw" onclick="changeOk()">변경</button>
+						<b>계좌 </b> &nbsp; 
+						<button type="button" class="btn btn-sm btn-outline-dark btnWithdraw" onclick="changeOk()"> 입력</button>
+						<input id="accountBank" name="accountBank" readonly="readonly" value="" style="max-width: 30px;"> 
+						<input id="accountNumber" name="accountNumber" readonly="readonly" value=""> 
 					</p>
 				</form>
 			</div>
