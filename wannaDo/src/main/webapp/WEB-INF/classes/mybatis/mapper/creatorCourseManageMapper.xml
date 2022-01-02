@@ -30,7 +30,7 @@
 				<if test="enabled!=''">
 					AND c.enabled = #{enabled, jdbcType=INTEGER}
 				</if>
-				ORDER BY c.num DESC
+				ORDER BY reg_date
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}	
 	</select>
@@ -124,4 +124,10 @@
 		  FROM usecookie
 		 WHERE userId=#{userId}
 	</select>
+	
+	<update id="updateCourseDetail" parameterType="map"> 
+        UPDATE course
+           SET tag=#{tag}, recommended=#{recommended}, courseLevel=#{courseLevel}
+         WHERE num = #{num}
+	</update>
 </mapper>

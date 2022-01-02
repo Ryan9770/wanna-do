@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bs.wd.common.MyUtil;
 import com.bs.wd.member.SessionInfo;
@@ -131,6 +132,19 @@ public class CourseManageController {
 		model.addAttribute("listChapter", listChapter);
 		
 		return "creator/courseManage/detail";
+	}
+	
+	@RequestMapping(value="update")
+	@ResponseBody
+	public void updateDetail(@RequestParam Map<String, Object> map,
+			Model model) throws Exception{
+		
+		try {	
+			service.updateCourseDetail(map);			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	@RequestMapping(value="write", method = RequestMethod.GET)

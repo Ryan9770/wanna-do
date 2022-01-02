@@ -13,8 +13,7 @@ public interface CourseManageService {
 	
 	public Course readCourse(int num);
 	public Course readCourseState(int num);
-	
-	public void updateCourseEnabled(Map<String, Object> map) throws Exception;
+	public void updateCourseDetail(Map<String, Object> map) throws Exception;
 
 	public void insertCourse(Course dto, String pathname) throws Exception;
 	public void updateCourse(Course dto, String pathname) throws Exception;

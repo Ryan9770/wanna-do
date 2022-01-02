@@ -68,12 +68,6 @@ public class CourseManageServiceImpl implements CourseManageService{
 	}
 
 	@Override
-	public void updateCourseEnabled(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public List<Course> listCategory(Map<String, Object> map) {
 		List<Course> listCategory = null;
 		
@@ -177,6 +171,16 @@ public class CourseManageServiceImpl implements CourseManageService{
 			e.printStackTrace();
 		}
 		return dto;
+	}
+
+	@Override
+	public void updateCourseDetail(Map<String, Object> map) throws Exception {
+		try {
+			dao.updateData("creatorCourseManage.updateCourseDetail", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 }

@@ -7,6 +7,7 @@
 input{
 border:none;
 width:85%;
+border-bottom: 1px solid grey;
 }
 
 tr td .title{
@@ -19,7 +20,7 @@ tr td .title{
 	<table class="table border mx-auto my-10">
 		<tr>
 			<td class="wp-15 text-right pe-7 bg title">강의 번호 </td>
-			<td class="wp-35 text-start"> ${dto.num}</td>
+			<td class="wp-35 text-start"><input  type="text" name="num" value="${dto.num}" readonly="readonly" style="border-bottom: none"> </td>
 			<td class="wp-15 text-right pe-7 bg">카테고리 </td>
 			<td class="wp-35 text-start">${dto.category}</td>
 		</tr>
@@ -31,9 +32,9 @@ tr td .title{
 		</tr>
 		<tr>
 			<td class="text-right pe-7 bg">난이도 </td>
-			<td class="text-start"><input  type="text" name="courseLevel" ${mode=="update" ? "readonly='readonly' ":""} value="${dto.courseLevel}"></td>
+			<td class="text-start"><input  type="text" name="courseLevel" value="${dto.courseLevel}"></td>
 			<td class="text-right pe-7 bg">태그 </td>
-			<td class="text-start"><input  type="text" name="tag" ${mode=="update" ? "readonly='readonly' ":""} value="${dto.tag}"></td>
+			<td class="text-start"><input  type="text" name="tag" value="${dto.tag}"></td>
 		</tr>
 		<tr>
 			<td class="text-right pe-7 bg">수강생 수 </td>
@@ -44,7 +45,7 @@ tr td .title{
 		<tr>
 			<td class="text-right pe-3 bg align-middle">추천대상</td>
 			<td colspan="3" class="text-start">
-				<input  type="text" name="recommended" ${mode=="update" ? "readonly='readonly' ":""} value="${dto.recommended}">
+				<input  type="text" name="recommended" value="${dto.recommended}">
 			</td>
 		</tr>
 		<tr>

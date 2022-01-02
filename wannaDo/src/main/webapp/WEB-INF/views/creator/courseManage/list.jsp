@@ -12,7 +12,6 @@
 }
 
 .hover-tr:hover {
-	cursor: pointer;
 	background: #fffdfd;
 }
 
@@ -55,7 +54,26 @@ function searchList() {
 }	
 
 function updateOk(){
+	var f = document.courseDetailForm;
+	f.action="${pageContext.request.contextPath}/creator/courseManage/update";
+
+	/*
+	var url = "${pageContext.request.contextPath}/creator/courseManage/update";
+	var query=$("#courseDetailForm").serialize();
+	var fn = function(data){
+		console.log(data);
+		alert('수정이 완료되었습니다.📌');
+		$('#course-dialog').dialog("close");	
+	};
+
+	ajaxFun(url, "post", query, "json", fn);
+	*/
 	
+
+	alert('수정이 완료되었습니다.📌');
+	$('#course-dialog').dialog("close");
+	window.location.href='${pageContext.request.contextPath}/creator/courseManage/list';
+	f.submit();
 }
 
 function detailCourse(num){
@@ -131,18 +149,25 @@ function courseStateDetailView(){
 						<th class="col-5 ">강의명</th>
 						<th class="col-2 ">강의등록날짜</th>
 						<th class="col-1 ">수강생 수</th>
+						<th class="col-1 ">챕터추가</th>
 						<th class="col-1 ">승인상태</th>
 					</tr>
 				</thead>
 					
 				<tbody>
 					<c:forEach var="dto" items="${list}">
-					<tr class="hover-tr" onclick="detailCourse('${dto.num}');"> 
+					<tr class="hover-tr" > 
 						<td>${dto.listNum}</td>
 						<td>${dto.category}</td>
-						<td>${dto.courseName}</td>
+						<td style="cursor:pointer" onclick="detailCourse('${dto.num}');">${dto.courseName}</td>
 						<td>${dto.reg_date}</td>
 						<td>${dto.studentCount==null?"0":dto.studentCount}명</td>
+						<c:if test="${dto.enabled==1}">
+							<td style="cursor:pointer" onclick="javascript:location.href='${pageContext.request.contextPath}/course/article?pageNo=1&num=${dto.num}'"><i class="bi bi-folder-plus"></i></td>						
+						</c:if>
+						<c:if test="${dto.enabled!=1}">
+							<td>-</td>						
+						</c:if>
 						<td>${dto.enabled==1?"승인":"미승인"}</td>
 					</tr>
 					</c:forEach>
