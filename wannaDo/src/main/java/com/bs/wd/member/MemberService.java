@@ -20,7 +20,7 @@ public interface MemberService {
 	
 	public String readCreatorDate(String userId);
 	
-	public void deleteMember(Map<String, Object> map) throws Exception;
+	public void dropOutMember(Map<String, Object> map) throws Exception;
 	
 	public void generatePwd(Member dto) throws Exception;
 }

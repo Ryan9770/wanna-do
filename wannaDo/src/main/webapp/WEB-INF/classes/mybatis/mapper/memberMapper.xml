@@ -146,13 +146,23 @@ LEFT OUTER JOIN member2 m2 ON m.userId = m2.userId
     	WHERE userId=#{userId}
     </update>
 
+	<!-- dropout -->
+	<update id="updateEnabled" parameterType="map">
+		UPDATE member1 SET enabled = 0
+	 	 WHERE userId = #{userId}	
+	</update>
+	<insert id="insertMemberState" parameterType="map">
+		INSERT INTO memberState(stateNum, userId, stateCode, memo, registerId, reg_date)
+		VALUES (memberState_seq.NEXTVAL, #{userId}, 10, '회원 탈퇴', #{userId}, SYSDATE)
+	</insert>
+
     <!-- member 테이블 정보 삭제  -->    
-    <delete id="deleteMember1" parameterType="String">
-		DELETE FROM member1 WHERE userId=#{userId}
+    <delete id="deleteTrade" parameterType="String">
+		DELETE FROM trade WHERE userId=#{userId}
     </delete>
     
-    <delete id="deleteMember2" parameterType="String">
-		DELETE FROM member2 WHERE userId=#{userId}
+    <delete id="deleteStudy" parameterType="String">
+		DELETE FROM study WHERE userId=#{userId}
     </delete>
 	
 </mapper>

@@ -47,8 +47,6 @@ public class MemberServiceImpl implements MemberService {
 			// 회원정보 저장
 			dao.insertData("member.insertMember", memberSeq);
 
-			// dao.insertData("member.insertMember1", dto);
-			// dao.insertData("member.insertMember2", dto);
 			dao.updateData("member.insertMember12", dto); // member1, member2 테이블 동시에
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -241,13 +239,20 @@ public class MemberServiceImpl implements MemberService {
 
 	
 	@Override
-	public void deleteMember(Map<String, Object> map) throws Exception {
+	public void dropOutMember(Map<String, Object> map) throws Exception {
 		try {
 			map.put("membership", 0);
 			updateMembership(map);
 
-			dao.deleteData("member.deleteMember2", map);
-			dao.deleteData("member.deleteMember1", map);
+			// member state => 탈퇴 추가
+			dao.updateData("member.insertMemberState", map);
+			
+			// enabled = 0 으로 변경
+			dao.updateData("member.updateEnabled", map);
+			
+			// 불필요한 게시판 테이블 삭제
+			dao.deleteData("member.deleteTrade", map);
+			dao.deleteData("member.deleteStudy", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

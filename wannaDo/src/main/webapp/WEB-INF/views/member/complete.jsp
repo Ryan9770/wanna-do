@@ -12,7 +12,7 @@
 <div class="container px-5 py-5">
 	<div class="row justify-content-center">	
 
-        <div class="row justify-content-md-center">
+        <div class="row justify-content-md-center mt-5 mb-5">
             <div class="col-md-8">
                 <div class="border bg-light mt-5 p-4 mb-5">
                        <h4 class="text-center fw-bold mt-3">${title}</h4>

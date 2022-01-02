@@ -176,14 +176,17 @@ public class MemberController {
 		}
 
 		if (mode.equals("dropout")) {
-			// 게시판 테이블등 자료 삭제
 
 			// 회원탈퇴 처리
-			/*
-			 * Map<String, Object> map = new HashMap<>();
-			 * map.put("memberIdx", info.getMemberIdx());
-			 * map.put("userId", info.getUserId());
-			 */
+			Map<String, Object> map = new HashMap<>();
+			map.put("memberIdx", info.getMemberIdx());
+			map.put("userId", info.getUserId());
+			
+			try {
+				service.dropOutMember(map);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 			// 세션 정보 삭제
 			session.removeAttribute("member");
