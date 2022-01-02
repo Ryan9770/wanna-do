@@ -95,7 +95,7 @@
 								 <c:if test="${sessionScope.member.membership<22}">
 									<li><a class="dropdown-item" href="${pageContext.request.contextPath}/member/change">크리에이터 전환</a></li>								 
 								 </c:if>
-	                             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/member/pwd">회원 탈퇴</a></li>
+	                             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/member/pwd?dropout">회원 탈퇴</a></li>
 	                         </ul>
 	                     </li>	
 					</c:if>             
