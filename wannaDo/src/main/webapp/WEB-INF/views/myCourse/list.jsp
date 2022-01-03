@@ -31,26 +31,26 @@ function text(){
 	td{
 		text-align: center;
 		border-bottom:1px solid gainsboro;
-		height:35px;
+		height:45px;
 	}
 	
-	.bi{
+	.inTd{
 		font-size:20px;
 	}
 	
-	.bi:hover{
+	.inTd:hover{
 		cursor: pointer;
 	}
 	
 </style>
 
 <div class="container px-5 mt-5 mb-5">
-	<div class="body-container py-3">	
+	<div class="body-container py-3 mb-5">	
 		<div class="body-title mb-3">
 			<h3>나의 학습</h3>		
 		</div>
 		<h4>찜한 강좌</h4>
-		<table style="width:100%">
+		<table style="width:100%;  margin-bottom: 50px;">
 			<thead>
 				<tr>
 					<th class="col-1 ">번호</th>
@@ -69,18 +69,19 @@ function text(){
 						<td>${dto.courseName}</td>
 						<td>${dto.courseLevel}</td>
 						<td>쿠키 ${dto.price}개</td>
-						<td><i class="bi bi-box-arrow-in-right" onclick="javascript:location.href='${pageContext.request.contextPath}/course/article?pageNo=1&num=${dto.num}'"></i></td>
+						<td><i class="bi bi-box-arrow-in-right inTd" onclick="javascript:location.href='${pageContext.request.contextPath}/course/article?pageNo=1&num=${dto.num}'"></i></td>
 					</tr>
-				</c:forEach>
-				<c:if test="${list.size()==0}">
+				</c:forEach>				
+				<c:if test="${listLike.size()==0}">
 					<tr>
-						<td>찜한 강좌가 없습니다.</td>
+						<td colspan="6">찜한 강좌가 없습니다.</td>
 					</tr>
 				</c:if>
-				</tbody>			
+			</tbody>			
 		</table>
+
 		<h4>수강중인 강좌</h4>
-		<table style="width:100%">
+		<table style="width:100%; margin-bottom: 30px;">
 			<thead>
 				<tr>
 					<th class="col-1 ">번호</th>
@@ -99,12 +100,12 @@ function text(){
 						<td>${dto.courseName}</td>
 						<td>${dto.courseLevel}</td>
 						<td>미수료</td>
-						<td><i class="bi bi-play-btn" onclick="javascript:location.href='${pageContext.request.contextPath}/course/article?pageNo=1&num=${dto.num}#listVideoChapter'"></i></td>
+						<td><i class="bi bi-play-btn inTd" onclick="javascript:location.href='${pageContext.request.contextPath}/course/article?pageNo=1&num=${dto.num}#listVideoChapter'"></i></td>
 					</tr>
 				</c:forEach>
-				<c:if test="${list.size()==0}">
+				<c:if test="${listMyCourse.size()==0}">
 					<tr>
-						<td>찜한 강좌가 없습니다.</td>
+						<td colspan="6">수강중인 강좌가 없습니다.</td>
 					</tr>
 				</c:if>				
 			</tbody>
