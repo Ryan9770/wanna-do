@@ -45,6 +45,11 @@
 									<button type="button" data-num="${vo.num}" data-courseNum="${vo.courseNum}" data-amount="${vo.amount}" data-courseName="${vo.courseName}" class="btn btn-light refundCourse">환불 요청</button>
 								</td>
 							</c:if>
+							<c:if test="${vo.gap >= 24}">
+								<td>
+									<button type="button" class="btn btn-light" disabled>기한 만료</button>
+								</td>
+							</c:if>
 							<c:if test="${vo.state == 1}">
 								<td>
 									<button type="button" class="btn btn-light" disabled>환불 완료</button>
