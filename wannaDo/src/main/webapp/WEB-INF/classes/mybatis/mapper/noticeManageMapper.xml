@@ -139,19 +139,19 @@
 	
 	<!-- 파일 -->
 	<insert id="insertFile" parameterType="com.bs.wd.admin.noticeManage.Notice">
-		INSERT INTO noticeFile(noticeFileNum, num, saveFilename, originalFilename, fileSize)
+		INSERT INTO noticeFile(noticeFileNum, num, saveFilename, originalFilename)
 		VALUES (noticeFile_seq.NEXTVAL, #{num}, #{saveFilename},
-			#{originalFilename}, #{fileSize})
+			#{originalFilename})
 	</insert>
 	
 	<select id="listFile" parameterType="Integer" resultType="com.bs.wd.admin.noticeManage.Notice">
-		SELECT noticeFileNum, num, saveFilename, originalFilename, fileSize
+		SELECT noticeFileNum, num, saveFilename, originalFilename
 		FROM noticeFile
 		WHERE num=#{num}    
 	</select>
 	
 	<select id="readFile" parameterType="Integer" resultType="com.bs.wd.admin.noticeManage.Notice">
-		SELECT noticeFileNum, num, saveFilename, originalFilename, fileSize
+		SELECT noticeFileNum, num, saveFilename, originalFilename
 		FROM noticeFile
 	    WHERE fileNum=#{fileNum}      
 	</select>

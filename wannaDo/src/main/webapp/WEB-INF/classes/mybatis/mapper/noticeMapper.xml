@@ -75,23 +75,9 @@
 		SELECT * FROM (
 			SELECT num, subject
 			FROM notice n
-			JOIM member1 m ON n.userId=m.userId
+			JOIN member1 m ON n.userId=m.userId
 			<where>
-				<if test="keyword!=null and keyword!=''">
-					<include refid="where-list"/>
-				</if>
-				AND (num &lt; #{num})
-			</where>
-			ORDER BY num DESC
-		) WHERE ROWNUM = 1
-	</select>
-	<select id="nextReadNotice" parameterType="map" resultType="com.bs.wd.notice.Notice">
-		SELECT * FROM (
-			SELECT num, subject
-			FROM notice n
-			JOIM member1 m ON n.userId=m.userId
-			<where>
-				<if test="keyword!=null and keyword!=''">
+				<if test="keyword != null and keyword != '' ">
 					<include refid="where-list"/>
 				</if>
 				AND (num &gt; #{num})
@@ -99,14 +85,29 @@
 			ORDER BY num ASC
 		) WHERE ROWNUM = 1
 	</select>
+	<select id="nextReadNotice" parameterType="map" resultType="com.bs.wd.notice.Notice">
+		SELECT * FROM (
+			SELECT num, subject
+			FROM notice n
+			JOIN member1 m ON n.userId=m.userId
+			<where>
+				<if test="keyword != null and keyword != '' ">
+					<include refid="where-list"/>
+				</if>
+				AND (num &lt; #{num})
+			</where>
+			ORDER BY num DESC
+		) WHERE ROWNUM = 1
+	</select>
+	
 	<select id="listFile" parameterType="Integer" resultType="com.bs.wd.notice.Notice">
-		SELECT fileNum, num, saveFilename, originalFilename, fileSize
+		SELECT noticeFileNum, num, saveFilename, originalFilename
 		FROM noticeFile
-		WHERE num=#{num}
+		WHERE num=#{num}    
 	</select>
 	<select id="readFile" parameterType="Integer" resultType="com.bs.wd.notice.Notice">
-		SELECT fileNum, num, saveFilename, originalFilename, fileSize
+		SELECT noticeFileNum, num, saveFilename, originalFilename
 		FROM noticeFile
-		WHERE fileNum=#{fileNum}
+	    WHERE fileNum=#{fileNum}      
 	</select>
 </mapper>

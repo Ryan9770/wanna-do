@@ -36,11 +36,9 @@ public class NoticeManageServiceImpl implements NoticeManageService {
 					}
 
 					String originalFilename = mf.getOriginalFilename();
-					long fileSize = mf.getSize();
 
 					dto.setOriginalFilename(originalFilename);
 					dto.setSaveFilename(saveFilename);
-					dto.setFileSize(fileSize);
 
 					insertFile(dto);
 				}
@@ -153,11 +151,11 @@ public class NoticeManageServiceImpl implements NoticeManageService {
 					}
 
 					String originalFilename = mf.getOriginalFilename();
-					long fileSize = mf.getSize();
+
 
 					dto.setOriginalFilename(originalFilename);
 					dto.setSaveFilename(saveFilename);
-					dto.setFileSize(fileSize);
+
 
 					insertFile(dto);
 				}

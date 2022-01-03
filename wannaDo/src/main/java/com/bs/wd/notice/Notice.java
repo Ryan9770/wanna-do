@@ -18,7 +18,7 @@ public class Notice {
 	private int fileNum;
 	private String originalFilename;
 	private String saveFilename;
-	private long fileSize;
+
 	private int fileCount;
 	
 	private List<MultipartFile> selectFile;
@@ -95,12 +95,6 @@ public class Notice {
 	}
 	public void setSaveFilename(String saveFilename) {
 		this.saveFilename = saveFilename;
-	}
-	public long getFileSize() {
-		return fileSize;
-	}
-	public void setFileSize(long fileSize) {
-		this.fileSize = fileSize;
 	}
 	public int getFileCount() {
 		return fileCount;

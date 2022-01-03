@@ -37,7 +37,6 @@
 				<td colspan="2">
 					파&nbsp;&nbsp;일 :
 					<a href="${pageContext.request.contextPath}/notice/download?fileNum=${vo.fileNum}">${vo.originalFilename}</a>
-					(<fmt:formatNumber value="${vo.fileSize/1024}" pattern="0.00"/> kb)
 				</td>
 			</tr>
 		</c:forEach>
