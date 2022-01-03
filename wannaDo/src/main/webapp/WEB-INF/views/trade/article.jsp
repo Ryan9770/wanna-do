@@ -9,7 +9,7 @@
 }
 .board {
 	margin: 50px;
-	width: 90%;
+	width: 80%;
 	vertical-align: center; 
 	text-align: center; 
 	padding-top: 60px; 
@@ -17,7 +17,7 @@
 }
 
 .trade-form {
-	width: 90%;	
+	width: 80%;	
 	border: 1px solid #BDBDBD;
 	padding: 50px;
 	border-radius: 5px;

@@ -3,10 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<table class="table mb-0">
+
+<div class="trade-form" style="vertical-align: center; margin: auto;">
+<table class="table mb-0" style="vertical-align: center; margin: auto;">
 	<thead>
 		<tr>
-			<td colspan="2" align="center">
+			<td colspan="2" align="center" valign="middle">
 				${dto.subject}
 			</td>
 		</tr>
@@ -67,3 +69,5 @@
 		</td>
 	</tr>
 </table>
+</div>
+<div style="padding-bottom: 60px;"></div>

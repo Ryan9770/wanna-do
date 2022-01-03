@@ -8,12 +8,12 @@
 <style>
 .board {
 	margin: 50px;
-	width: 90%;
+	width: 80%;
 }
 
 .trade-form {
 	margin: 50px;
-	width: 90%;	
+	width: 80%;	
 	border: 1px solid #BDBDBD;
 	padding: 50px;
 	border-radius: 5px;
@@ -163,7 +163,7 @@ function uncomma(str) {
 		
 	 <form class="trade-form" name="boardForm" method="post" enctype="multipart/form-data"> 
 	 
- 	 	<div class="pt-1" style="width:90%;"></div>
+ 	 	<div class="pt-1" style="width:80%;"></div>
 		<div class="btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
 			<input type="radio" class="btn-check" name="type" id="btnradio1" autocomplete="off" value="판매" checked>
 			<label class="btn btn-outline-danger" for="btnradio1"> 구매 </label>
@@ -223,7 +223,7 @@ function uncomma(str) {
         .catch( error => {
             console.error( error );
         } );
-    s
+    
 </script>
 
 

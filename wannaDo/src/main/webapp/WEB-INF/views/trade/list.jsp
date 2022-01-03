@@ -8,7 +8,7 @@
 <style type="text/css">
 .board {
 	margin: 50px;
-	width: 90%;
+	width: 80%;
 	vertical-align: center; 
 	text-align: center; 
 	padding-top: 60px; 
@@ -27,11 +27,9 @@
 
 
 a:link {
-	color: black;
 	text-decoration: none;
 }
 a:visited {
-	color: black;
 	text-decoration: none;
 }
 a:hover {
@@ -142,7 +140,7 @@ $(function(){
                             <div class="card-body p-4">
                                 <div class="text-center">
                                     <!-- Product name-->
-                                  <p style="color: grey;"> ${dto.type} </p>  <h5 class="fw-bolder"><a href="${articleUrl}&num=${dto.num}">${dto.subject} ${replyCount} </a></h5>
+                                  <p style="color: grey;"> ${dto.type} </p>  <h5 class="fw-bolder"><a href="${articleUrl}&num=${dto.num}" style="color: black;">${dto.subject} ${replyCount} </a></h5>
                                     <!-- Product price-->
                                     ₩ ${dto.price}
                                     <br> ${dto.reg_date}
@@ -169,7 +167,7 @@ $(function(){
 				${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
 			</div>
 	</nav>
-		<table class="table" style="width: 90%; vertical-align: center; margin: auto;">
+		<table class="table" style="width: 80%; vertical-align: center; margin: auto;">
 		<tr>
 			<td align="left">
 				<button type="button" class="btn btn-outline-danger" onclick="location.href='${pageContext.request.contextPath}/trade/list';">새로고침</button>

@@ -291,7 +291,6 @@ public class ScheduleController {
 	@ResponseBody
 	public Map<String, Object> insertScheduleLike( 
 			@RequestParam int num,
-			@RequestParam boolean userLiked,
 			HttpSession session) {
 		String state = "true";
 		int scheduleLikeCount = 0;
@@ -302,11 +301,7 @@ public class ScheduleController {
 		paramMap.put("userId", info.getUserId());
 		
 		try {
-			if(userLiked) {
-				service.deleteScheduleLike(paramMap);
-			} else {
-				service.insertScheduleLike(paramMap);
-			}
+			service.insertScheduleLike(paramMap);
 		} catch (DuplicateKeyException e) {
 			state = "liked";
 		} catch (Exception e) {

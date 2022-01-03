@@ -7,7 +7,7 @@
 <style type="text/css">
 .board {
 	margin: 50px;
-	width: 90%;
+	width: 80%;
 	vertical-align: center; 
 	text-align: center; 
 	padding-top: 60px; 
@@ -38,11 +38,9 @@
 }
 
 a:link {
-	color: black;
 	text-decoration: none;
 }
 a:visited {
-	color: black;
 	text-decoration: none;
 }
 a:hover {
@@ -85,7 +83,7 @@ function searchList() {
 <br>
 
 <div>
-	<table class="table table-light" style="width: 90%; vertical-align: center; margin: auto;">
+	<table class="table table-light" style="width: 80%; vertical-align: center; margin: auto;">
 		<tr>
 			<th class="num">번호</th>
 			<th class="name">말머리</th>
@@ -95,11 +93,11 @@ function searchList() {
 			<th class="hitcount">조회수</th>
 		</tr>
 		<c:forEach var="dto" items="${list}">
-		<table  class="table table-hover" style="width: 90%; vertical-align: center; margin: auto;">
+		<table  class="table table-hover" style="width: 80%; vertical-align: center; margin: auto;">
 			<tr>
 				<td class="num"> ${dto.listNum} </td>
 				<td class="name"> ${dto.state} </td>
-				<td class="subject"><a href="${articleUrl}&num=${dto.num}">${dto.subject}  &nbsp;
+				<td class="subject"><a href="${articleUrl}&num=${dto.num}" style="color: black;">${dto.subject}  &nbsp;
 										<span class="badge bg-danger rounded-pill">${dto.replyCount}</span>
 									</a></td>
 				<td class="name"> ${dto.userName} </td>
@@ -119,7 +117,7 @@ function searchList() {
 	</ul>
 </nav>
 
-<table class="table" style="width: 90%; vertical-align: center; margin: auto;">
+<table class="table" style="width: 80%; vertical-align: center; margin: auto;">
 		<tr>
 			<td align="left">
 				<button type="button" class="btn btn-outline-danger" onclick="location.href='${pageContext.request.contextPath}/study/list';">새로고침</button>
@@ -130,7 +128,7 @@ function searchList() {
 						<div class="col-auto p-1">
 						<select name="condition" class="form-select">
 							<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
-							<option value="name" ${condition=="name"?"selected='selected'":""}>작성자</option>
+							<option value="name" ${condition=="userName"?"selected='selected'":""}>작성자</option>
 							<option value="reg_date" ${condition=="reg_date"?"selected='selected'":""}>등록일</option>
 							<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
 							<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>

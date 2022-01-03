@@ -7,19 +7,102 @@
 .body-container {
 	max-width: 800px;
 }
+
+.board {
+	margin: 50px;
+	width: 90%;
+	vertical-align: center; 
+	text-align: center; 
+	padding-top: 60px; 
+	margin: auto;
+}
+.body {
+}
+
+.num {
+	width: 70px;
+	text-align: center;
+}
+
+.name {
+	width: 120px;
+	text-align: center;
+	
+}
+
+.regdate {
+	width: 200px;
+	text-align: center;
+}
+
+.hitcount {
+	width: 80px;
+	text-align: center;
+}
+
+a:link {
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+}
+a:hover {
+	color: black;
+	text-decoration: underline;
+	font: bold;
+}
+a:active {
+    text-decoration: none;
+}
+
+table {
+	padding: 50px;
+}
+
+td {
+	min-height: 100px;
+}
+
+.trade-form {
+	width: 80%;	
+	border: 1px solid #BDBDBD;
+	padding: 50px;
+	border-radius: 5px;
+	border-spacing: 10px;
+	vertical-align: center; 
+	margin: auto;
+}
+
+.cent-align {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+	
+.hrtag {
+	width: 80%;
+	vertical-align: center; 
+	text-align: center; 
+	margin: auto;
+}
+
+
+	
+
+
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
-<div class="container px-5 py-5">
-	<div class="body-container">	
-		<div class="body-title">
-			<h3>공지사항 </h3>
-		</div>
+<div class="board">
+	<div class="title">
+	    <h3> 공지사항 </h3>
+	    <p style="color: grey;"> 사이트 공지사항을 확인해주세요! </p>
+	</div>
+</div>
 		
 		<div class="body-main content-frame">
 		</div>
-	</div>
-</div>
+
 
 <form name="searchForm" action="" method="post">
 	<input type="hidden" name="condition" value="all">

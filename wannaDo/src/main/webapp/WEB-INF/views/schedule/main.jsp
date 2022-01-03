@@ -33,26 +33,17 @@ function ajaxFun(url, method, query, dataType, fn) {
 //게시글 공감 여부
 $(function(){
 	$(".btnSendScheduleLike").click(function(){
-		var $i = $(this).find("i");
-		var userLiked = $i.hasClass("bi-hand-thumbs-up-fill");
-		var msg = userLiked ? "찜한 것을 취소할까요? " : "이 일정을 찜할까요? ";
-		
-		if(! confirm( msg )) {
+		if(! confirm( "찜하기 할까요?"  )) {
 			return false;
 		}
 		
 		var url="${pageContext.request.contextPath}/schedule/insertScheduleLike";
-		var num="${dto.num}";
-		var query="num="+num+"&userLiked="+userLiked;
+		var num=$(this).attr("data-num");
+		var query="num="+num;
 		
 		var fn = function(data){
 			var state = data.state;
 			if(state==="true") {
-				if( userLiked ) {
-					$i.removeClass("bi-hand-thumbs-up-fill").addClass("bi-hand-thumbs-up");
-				} else {
-					$i.removeClass("bi-hand-thumbs-up").addClass("bi-hand-thumbs-up-fill");
-				}
 				
 				var count = data.scheduleLikeCount;
 				$("#scheduleLikeCount").text(count);
@@ -344,6 +335,7 @@ function viewSchedule(calEvent) {
 	
 	$(".btnScheduleUpdate").attr("data-num", num);
 	$(".btnScheduleDelete").attr("data-num", num);
+	$(".btnSendScheduleLike").attr("data-num", num);
 	
 	var s;
 	$(".view-subject").html(title);

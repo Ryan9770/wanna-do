@@ -9,16 +9,11 @@
 <style>
 .board {
 	margin: 50px;
-	width: 90%;
+	width: 80%;
 }
 
 .trade-form {
-	margin: 50px;
-	width: 90%;	
-	border: 1px solid #BDBDBD;
-	padding: 50px;
-	border-radius: 5px;
-	border-spacing: 10px;
+	width: 80%;	
 	
 }
 
@@ -64,18 +59,9 @@ function sendOk() {
     f.submit();
 }
 </script>
-
-<div class="board" style="vertical-align: center; text-align: center;">
-	<div class="title">
-	    <h3> 스터디 룸 글 작성 </h3>
-	    <p style="color: grey;"> 스터디를 모집하거나 참가할 수 있습니다.  </p>
-	    <hr>
-	</div>
-</div>	
-		
 	 <form class="trade-form" name="boardForm" method="post" enctype="multipart/form-data"> 
 	 
- 	 	<div class="pt-1" style="width:90%;"> 
+ 	 	<div class="pt-1" style="width:80%;"> 
 			<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 			  <input type="radio" class="btn-check" name="state" value="모집" id="btnradio1" autocomplete="off" checked>
 			  <label class="btn btn-outline-danger" for="btnradio1">모집</label>
@@ -126,5 +112,5 @@ function sendOk() {
         .catch( error => {
             console.error( error );
         } );
-    s
+    
 </script>
