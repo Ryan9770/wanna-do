@@ -6,9 +6,4 @@ import java.util.Map;
 public interface MemberManageService {
 	public int dataCount(Map<String, Object> map);
 	public List<Member> listMember(Map<String, Object> map);
-	
-	public Member readMember(String userId);
-	public Member readMember(int num);	
-	//public void updateMemberEnabled(Map<String,Object> map) throws Exception;
-	
 }

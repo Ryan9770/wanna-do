@@ -37,29 +37,4 @@ public class MemberManageServiceImpl implements MemberManageService{
 		
 		return list;
 	}
-
-	@Override
-	public Member readMember(String userId) {
-		Member dto = null;
-		
-		try {
-			dto = dao.selectOne("creatorCourseManage", userId);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return dto;
-	}
-
-	@Override
-	public Member readMember(int num) {
-		Member dto = null;
-		
-		try {
-			dto = dao.selectOne("creatorCourseManage", num);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return dto;
-	}
-
 }

@@ -14,11 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bs.wd.common.MyUtil;
+import com.bs.wd.creator.courseManage.Course;
+import com.bs.wd.creator.main.MainService;
 import com.bs.wd.member.SessionInfo;
 
 @Controller("creator.memberManage.memberManageController")
 @RequestMapping("/creator/memberManage/*")
 public class MemberManageController {
+	@Autowired
+	private MainService mainService;
+	
 	@Autowired
 	private MemberManageService service;
 	
@@ -29,6 +34,7 @@ public class MemberManageController {
 	public String memberManage(
 			@RequestParam(value = "page", defaultValue = "1") int current_page,
 			HttpServletRequest req,
+			@RequestParam(defaultValue="") String courseName,
 			Model model, HttpSession session) throws Exception{
 		
 		String cp = req.getContextPath();
@@ -41,6 +47,7 @@ public class MemberManageController {
 		
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		map.put("userId", info.getUserId());
+		map.put("courseName",courseName);
 		
 		dataCount = service.dataCount(map);
 		if(dataCount !=0) {
@@ -68,13 +75,31 @@ public class MemberManageController {
 		
         String query = "";
         String listUrl = cp+"/creator/memberManage/list";
+		
+		if(courseName.length()!=0) {
+			if(query.length()!=0) {
+				query = query + "&courseName="+courseName;
+			} else {
+				query = "courseName="+courseName;
+			}
+		}
+		
+		if(query.length()!=0) {
+			listUrl = listUrl + "?" + query;
+		}
+		
         String paging = myUtil.paging(current_page, total_page, listUrl);        
 
+        Map<String, Object> map2 = new HashMap<String, Object>();
+        map2.put("userId", info.getUserId());
+        List<Course> listMyCourse = mainService.listCourse(map2);
+        
         model.addAttribute("list", list);
         model.addAttribute("dataCount", dataCount);
         model.addAttribute("total_page", total_page);
         model.addAttribute("paging", paging);
         model.addAttribute("page", current_page);
+        model.addAttribute("listMyCourse", listMyCourse);
         
 		return ".creator.memberManage.list";
 	}

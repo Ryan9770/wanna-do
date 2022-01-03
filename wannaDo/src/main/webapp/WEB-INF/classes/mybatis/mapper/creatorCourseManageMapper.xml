@@ -7,9 +7,9 @@
 		SELECT COUNT(*)
 		  FROM course
 		 WHERE userId = #{userId}
-			<if test="enabled!=''">
-				AND enabled = #{enabled, jdbcType=INTEGER}
-			</if>
+		<if test="enabled!=''">
+			AND enabled = #{enabled, jdbcType=INTEGER}
+		</if>
 	</select>
 	
 	<select id="listCourse" parameterType="map" resultType="com.bs.wd.creator.courseManage.Course">
@@ -30,7 +30,7 @@
 				<if test="enabled!=''">
 					AND c.enabled = #{enabled, jdbcType=INTEGER}
 				</if>
-				ORDER BY reg_date
+				ORDER BY reg_date DESC
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}	
 	</select>
@@ -98,6 +98,9 @@
   	    FROM useCookie
 	    JOIN course ON useCookie.courseNum=course.num
 	   WHERE course.userId = #{userId}
+		<if test="courseName!=''">
+			AND course.courseName = #{courseName, jdbcType=INTEGER}
+		</if>
 	</select>
 	
 	<select id="listMember" parameterType="map" resultType="com.bs.wd.creator.memberManage.Member">
@@ -108,7 +111,10 @@
 		    JOIN course ON useCookie.courseNum=course.num		
 		    JOIN courseCategory ON courseCategory.categoryNum = course.categoryNum
 		   WHERE course.userId = #{userId}
-	       ORDER BY courseNum DESC	
+		<if test="courseName!=''">
+			AND course.courseName = #{courseName, jdbcType=INTEGER}
+		</if>
+	      ORDER BY courseNum DESC	
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}	
 	</select>
