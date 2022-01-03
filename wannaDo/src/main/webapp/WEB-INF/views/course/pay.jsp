@@ -14,6 +14,43 @@
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
 <script type="text/javascript">
+$(function(){
+	$(".btnBuyCourse").click(function(){
+		var $i = $(this).find("i");
+		var userBought = $i.hasClass("bi-bag-fill");
+		var msg = userBought ? "" : "강좌를 구매하십니까 ? ";
+		
+		if(! confirm( msg )) {
+			return false;
+		}
+		
+		var url="${pageContext.request.contextPath}/course/insertCourseBuy";
+		var num="${dto.num}";
+		var query="num="+num+"&userBought="+userBought;
+		
+		var fn = function(data){
+			var state = data.state;
+			if(state==="true") {
+				if( userBought ) {
+					$i.removeClass("bi-bag-fill").addClass("bi-bag");
+				} else {
+					$i.removeClass("bi-bag").addClass("bi-bag-fill");
+				}
+				
+				var count = data.courseBuyCount;
+				$("#courseBuyCount").text(count);
+			} else if(state==="bought") {
+				alert("");
+			} else if(state==="false") {
+				alert("");
+			}
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
+	});
+});
+
+
 function login() {
 	location.href="${pageContext.request.contextPath}/member/login";
 }
@@ -103,7 +140,7 @@ function pay() {
 						<p class="lead fw-normal text-muted mb-4" style="font-size: 16px;">필요한 쿠키 : ${dto.price}</p>
 						<p class="lead fw-normal text-muted mb-4" style="font-size: 16px;">보유 중인 쿠키 : <span id=myCookie></span></p>
 						<p class="lead fw-normal text-muted mb-4" style="font-size: 16px;">상기 내용대로 결제하시겠습니까?</p>
-						<button type="button" onclick="pay();" class="btn btn-lg btn-primary">결제하기</button>
+						<button type="button" onclick="pay();" class="btn btn-lg btn-primary btnBuyCourse">결제하기</button>
 						<input type="hidden" name="courseName" value="${dto.courseName}"/>
 	                    <input type="hidden" name="price" value="${dto.price}"/>
 	                    <input type="hidden" name="courseNum" value="${dto.num}"/>

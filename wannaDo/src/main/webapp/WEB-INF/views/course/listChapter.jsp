@@ -22,28 +22,51 @@
 <div class="accordion" id="accordionFlush">
 	<c:forEach var="vo" items="${listChapter}" varStatus="status">
 		<div class="accordion-item">
-			<h2 class="accordion-header ms-2" id="flush-heading-${status.index}">
-				<button class="accordion-button btnVideoListLayout bg-white" 
-					style="color: #212529;" data-chapNum='${vo.chapNum}' type="button" ${userCourseBought ? '':'disabled="disabled'}
-					data-bs-toggle="collapse"
-					data-bs-target="#flush-collapse-${status.index}"
-					aria-expanded="false"
-					aria-controls="flush-collapse-${status.index}">${vo.orderNo}.${vo.subject }
-				</button>
-			</h2>
+			<c:choose>
+				<c:when
+					test="${sessionScope.member.userId==vo.userId || sessionScope.member.membership>50}">
+					<h2 class="accordion-header ms-2"
+						id="flush-heading-${status.index}">
+						<button class="accordion-button btnVideoListLayout bg-white"
+							style="color: #212529;" data-chapNum='${vo.chapNum}'
+							type="button" data-bs-toggle="collapse"
+							data-bs-target="#flush-collapse-${status.index}"
+							aria-expanded="false"
+							aria-controls="flush-collapse-${status.index}">${vo.orderNo}.${vo.subject }
+						</button>
+					</h2>
+				</c:when>
+				<c:otherwise>
+					<h2 class="accordion-header ms-2"
+						id="flush-heading-${status.index}">
+						<button class="accordion-button btnVideoListLayout bg-white"
+							style="color: #212529;" data-chapNum='${vo.chapNum}'
+							type="button" ${userCourseBought ? '':'disabled="disabled'}
+							data-bs-toggle="collapse"
+							data-bs-target="#flush-collapse-${status.index}"
+							aria-expanded="false"
+							aria-controls="flush-collapse-${status.index}">${vo.orderNo}.${vo.subject}
+						</button>
+					</h2>
+				</c:otherwise>
+			</c:choose>
+
 			<div id="flush-collapse-${status.index}"
 				class="accordion-collapse collapse"
 				aria-labelledby="flush-heading-${status.index}">
 				<div class="accordion-body bg-light">
-					<table class='table table-borderless mb-4' id='listVideo${vo.chapNum}'>
+					<table class='table table-borderless mb-4'
+						id='listVideo${vo.chapNum}'>
 					</table>
 
 					<div class="row">
 						<div class="col">
 							<c:choose>
 								<c:when test="${sessionScope.member.userId==vo.userId}">
-									<button class="btn btn-outline-dark btnVideoAdd"  
-										data-chapNum="${vo.chapNum}" type="button">영상 <i class="bi bi-plus"></i></button>
+									<button class="btn btn-outline-dark btnVideoAdd"
+										data-chapNum="${vo.chapNum}" type="button">
+										영상 <i class="bi bi-plus"></i>
+									</button>
 								</c:when>
 								<c:otherwise>
 
@@ -88,17 +111,16 @@
 
 									<div class="row px-2">
 										<div class='col'>
-											<input class='form-control' name="orderNo"
-												placeholder="영상번호"></input>
-											<input class='form-control' name="subject"
-												placeholder="영상제목"></input>
+											<input class='form-control' name="orderNo" placeholder="영상번호"></input>
+											<input class='form-control' name="subject" placeholder="영상제목"></input>
 											<input class='form-control' name="videoLink"
 												placeholder="영상링크"></input>
 										</div>
 									</div>
 									<div class='row p-2'>
 										<div class="col text-end">
-											<button type='button' class='btn btn-outline-secondary btnSendVideo'
+											<button type='button'
+												class='btn btn-outline-secondary btnSendVideo'
 												data-chapNum='${vo.chapNum}'>영상 등록</button>
 										</div>
 									</div>

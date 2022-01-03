@@ -150,8 +150,17 @@ $(function(){
 			
 		</div>
 				<div class="col text-end">
+				<c:choose>
+				<c:when
+					test="${sessionScope.member.membership>20}">
 					<button type="button" class="btn btn-light"
 						onclick="location.href='${pageContext.request.contextPath}/course/write';">강좌 등록</button>
+				</c:when>
+				<c:otherwise>
+					
+				</c:otherwise>
+			</c:choose>
+					
 				</div>
 	</div>
 </div>
