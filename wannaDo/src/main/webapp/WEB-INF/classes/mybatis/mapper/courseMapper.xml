@@ -11,6 +11,7 @@
 	
 	
 	
+	
 	<select id="listCategory" parameterType="map" resultType="com.bs.wd.course.Course">
 		SELECT categoryNum, category
 		FROM courseCategory

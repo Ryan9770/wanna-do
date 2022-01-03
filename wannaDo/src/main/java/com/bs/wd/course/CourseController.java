@@ -89,6 +89,7 @@ public class CourseController {
 
 		}
 
+		
 		String query = "";
 		String articleUrl = cp + "/course/article?pageNo=" + current_page;
 		if (level.length() != 0) {

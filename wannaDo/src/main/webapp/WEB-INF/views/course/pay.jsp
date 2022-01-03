@@ -42,7 +42,8 @@ $(function(){
 			} else if(state==="bought") {
 				alert("");
 			} else if(state==="false") {
-				alert("");
+				alert("강좌 찜 여부 처리가 실패했습니다. !!!");
+				
 			}
 		};
 		

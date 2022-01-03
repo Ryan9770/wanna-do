@@ -143,6 +143,7 @@ $(function(){
 		</div>
 	</div>
 			
+			
 			<div class="tab-content border-top border-danger border-2 mt-4 " id="nav-tabContent" >
 				<div class="tab-pane fade show active" id="nav-content" role="tabpanel" aria-labelledby="nav-tab-content">
 				</div>
