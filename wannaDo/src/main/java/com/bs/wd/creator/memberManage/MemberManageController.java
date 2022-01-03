@@ -100,6 +100,7 @@ public class MemberManageController {
         model.addAttribute("paging", paging);
         model.addAttribute("page", current_page);
         model.addAttribute("listMyCourse", listMyCourse);
+        model.addAttribute("courseName", courseName);
         
 		return ".creator.memberManage.list";
 	}

@@ -24,6 +24,7 @@
 				  LEFT OUTER JOIN(
 				  	SELECT courseNum, COUNT(*) studentCount
 				  	  FROM useCookie
+				  	 WHERE state = 0
   			  	  GROUP BY courseNum
 				  ) uc ON uc.courseNum = c.num
 				WHERE i.userId = #{userId}
@@ -57,6 +58,7 @@
 		LEFT OUTER JOIN (
 		     SELECT courseNum, count(*) studentCount
 		       FROM useCookie
+		  	  WHERE state = 0
 		    GROUP BY courseNum
 		) uc  ON uc.courseNum = b.num
 		WHERE b.num = #{num}	
@@ -97,7 +99,7 @@
 	  SELECT DISTINCT COUNT(*) 
   	    FROM useCookie
 	    JOIN course ON useCookie.courseNum=course.num
-	   WHERE course.userId = #{userId}
+	   WHERE course.userId = #{userId} AND state = 0
 		<if test="courseName!=''">
 			AND course.courseName = #{courseName, jdbcType=INTEGER}
 		</if>

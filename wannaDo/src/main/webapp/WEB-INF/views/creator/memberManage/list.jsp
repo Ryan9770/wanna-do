@@ -86,7 +86,7 @@ function searchList() {
 						<select id="selectCourse" name="courseName" class="selectField" onchange="searchList();">
 							<option value="" ${courseName=="" ? "selected='selected'":""}>::내 강좌 목록::</option>
 							<c:forEach var="dto" items="${listMyCourse}">
-								<option value="${dto.courseName}" ${courseName=="${dto.courseName}" ? "selected='selected'":""}>${dto.courseName}</option>
+								<option value="${dto.courseName}" ${courseName==dto.courseName ? "selected='selected'":""}>${dto.courseName}</option>
 							</c:forEach>
 						</select>
 					</td>
