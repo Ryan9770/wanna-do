@@ -5,8 +5,63 @@
 
 <style type="text/css">
 .body-container {
-
 }
+.board {
+	margin: 50px;
+	width: 50%;
+	vertical-align: center; 
+	text-align: center; 
+	padding-top: 60px; 
+	margin: auto;
+}
+
+.trade-form {
+	margin: 50px;
+	width: 90%;	
+	border: 1px solid #BDBDBD;
+	padding: 50px;
+	border-radius: 5px;
+	border-spacing: 10px;
+	
+}
+
+.cent-align {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+a.linkoption:link {
+	color: black;
+	text-decoration: none;
+}
+a.linkoption:visited {
+	color: black;
+	text-decoration: none;
+}
+a.linkoption:hover {
+	color: black;
+	text-decoration: underline;
+	font: bold;
+}
+a.linkoption:active {
+    text-decoration: none;
+}
+
+.cent-align {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.hrtag {
+	width: 50%;
+	vertical-align: center; 
+	text-align: center; 
+	margin: auto;
+}
+
+
 </style>
 
 <script type="text/javascript">
@@ -104,12 +159,16 @@ function deleteFaq(num, page) {
 }
 </script>
 
+<div class="board">
+	<div class="title">
+	    <h3> 자주묻는 질문 </h3>
+	    <p style="color: grey;"> 자주묻는 질문들을 빠르게 알아보세요! </p>
+	    <hr>
+	</div>
+</div>
+
 <div class="container px-5 py-5">
-	<div class="body-container">	
-		<div class="body-title">
-			<h3>자주 묻는 질문</h3>
-		</div>
-		
+	<div class="body-container">		
 	    <div class="alert alert-info" role="alert">
 	        <i class="bi bi-search"></i> 궁금한 문의 사항을 빠르게 검색 할 수 있습니다.
 	    </div>

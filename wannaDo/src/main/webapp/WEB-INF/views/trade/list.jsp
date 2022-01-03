@@ -8,7 +8,7 @@
 <style type="text/css">
 .board {
 	margin: 50px;
-	width: 80%;
+	width: 50%;
 	vertical-align: center; 
 	text-align: center; 
 	padding-top: 60px; 
@@ -25,19 +25,26 @@
 	
 }
 
+.cent-align {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
 
-a:link {
+a.linkoption:link {
+	color: black;
 	text-decoration: none;
 }
-a:visited {
+a.linkoption:visited {
+	color: black;
 	text-decoration: none;
 }
-a:hover {
+a.linkoption:hover {
 	color: black;
 	text-decoration: underline;
 	font: bold;
 }
-a:active {
+a.linkoption:active {
     text-decoration: none;
 }
 
@@ -127,77 +134,78 @@ $(function(){
 </div>	
 
 <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-5">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-				<c:forEach var="dto" items="${list}" varStatus="status">                    
-					<div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-		                            <a href="${articleUrl}&num=${dto.num}" title="${dto.subject}">
-					 					<img class="img-thumbnail" src="${pageContext.request.contextPath}/uploads/trade/${dto.originalFilename}">
-					 				</a>
-					 		<!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                  <p style="color: grey;"> ${dto.type} </p>  <h5 class="fw-bolder"><a href="${articleUrl}&num=${dto.num}" style="color: black;">${dto.subject} ${replyCount} </a></h5>
-                                    <!-- Product price-->
-                                    ₩ ${dto.price}
-                                    <br> ${dto.reg_date}
-                                    <br> ${dto.userName}
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-	                             <div class="text-center">
-									<button type="button" class="btn btn-outline-secondary btnSendTradeLike" data-num="${dto.num}" title="찜하기"><i class="bi ${userLiked ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up' }"></i>&nbsp;&nbsp;<span id="tradeLikeCount${dto.num}">${dto.tradeLikeCount}</span></button>
-	                        	</div>
-                           	<!--
-                                 <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#"> 찜 </a></div>
-                             -->
-                            </div>
-                        </div>
-                    </div>
-               </c:forEach>
-              </div>
-            </div>
-              
-     <nav aria-label="Page navigation example">
-			<div class="page-box page-box">
-				${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
-			</div>
+	<div class="container px-4 px-lg-5 mt-5">
+	    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+			<c:forEach var="dto" items="${list}" varStatus="status">                    
+				<div class="col mb-5">
+					<div class="card h-100">
+						<!-- Product image-->
+						<a href="${articleUrl}&num=${dto.num}" title="${dto.subject}">
+							<img class="img-thumbnail" src="${pageContext.request.contextPath}/uploads/trade/${dto.originalFilename}">
+						</a>
+					<!-- Product details-->
+					<div class="card-body p-4">
+					<div class="text-center">
+					<!-- Product name-->
+						<p style="color: grey;"> ${dto.type} </p>  <h5 class="fw-bolder "><a href="${articleUrl}&num=${dto.num}" class="linkoption">${dto.subject} ${replyCount} </a></h5>
+					<!-- Product price-->
+						₩ ${dto.price}
+						<br> ${dto.reg_date}
+						<br> ${dto.userName}
+					</div>
+				</div>
+						<!-- Product actions-->
+						<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+							<div class="text-center">
+								<button type="button" class="btn btn-outline-secondary btnSendTradeLike" data-num="${dto.num}" title="찜하기"><i class="bi ${userLiked ? 'bi-hand-thumbs-up-fill':'bi-hand-thumbs-up' }"></i>&nbsp;&nbsp;<span id="tradeLikeCount${dto.num}">${dto.tradeLikeCount}</span></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
+	              
+	<nav aria-label="Page navigation example">
+		<div class="page-box page-box">
+			${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
+		</div>
 	</nav>
-		<table class="table" style="width: 80%; vertical-align: center; margin: auto;">
+		
+	<div class="cent-align">
+		<form class="row" name="searchForm" action="${pageContext.request.contextPath}/trade/list" method="post">
+			<div class="col-auto p-1">
+				<select name="condition" class="form-select">
+					<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
+					<option value="name" ${condition=="name"?"selected='selected'":""}>작성자</option>
+					<option value="reg_date" ${condition=="reg_date"?"selected='selected'":""}>등록일</option>
+					<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
+					<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
+					<option value="type" ${condition=="state"?"selected='selected'":""}>말머리</option>
+				</select> &nbsp;
+			</div>
+			<div class="col-auto p-1">
+				<input type="text" name="keyword" placeholder="검색어를 입력하세요." value="${keyword}" class="form-control">
+			</div>
+			<div class="col-auto p-1">
+				<button type="button" class="btn btn-outline-danger" onclick="searchList()"> <i class="bi bi-search"></i> </button>
+			</div>
+		</form>
+	</div>
+	
+	<table class="table" style="width: 50%; vertical-align: center; margin: auto;">
 		<tr>
 			<td align="left">
 				<button type="button" class="btn btn-outline-danger" onclick="location.href='${pageContext.request.contextPath}/trade/list';">새로고침</button>
 			</td>
 				<td align="center">
-				<div class="col-6 text-center" style="margin-left: 120px;">
-					<form class="row" name="searchForm" action="${pageContext.request.contextPath}/trade/list" method="post">
-						<div class="col-auto p-1">
-						<select name="condition" class="form-select">
-							<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
-							<option value="name" ${condition=="name"?"selected='selected'":""}>작성자</option>
-							<option value="reg_date" ${condition=="reg_date"?"selected='selected'":""}>등록일</option>
-							<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
-							<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
-							<option value="type" ${condition=="state"?"selected='selected'":""}>말머리</option>
-						</select> &nbsp;
-						</div>
-						<div class="col-auto p-1">
-							<input type="text" name="keyword" placeholder="검색어를 입력하세요." value="${keyword}" class="form-control">
-						</div>
-						<div class="col-auto p-1">
-							<button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
-						</div>
-					</form>
-				</div>
+					<div class="col-6 text-center" style="margin-left: 120px;">	
+					</div>
 				</td>
 			<td align="right">
 				<button type="button" class="btn btn-outline-danger" onclick="location.href='${pageContext.request.contextPath}/trade/write';">글올리기</button>
 			</td>
-		<tr>
-	</tr>
-</table>
+			<tr>
+		</tr>
+	</table>
 </section>

@@ -65,7 +65,7 @@
 <table class="table table-borderless">
 	<tr>
 		<td class="text-end">
-			<button type="button" class="btn btn-light" onclick="listPage('${pageNo}');">리스트</button>
+			<button type="button" class="btn btn-outline-danger" onclick="listPage('${pageNo}');">리스트</button>
 		</td>
 	</tr>
 </table>

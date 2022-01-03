@@ -7,7 +7,7 @@
 <style type="text/css">
 .board {
 	margin: 50px;
-	width: 80%;
+	width: 50%;
 	vertical-align: center; 
 	text-align: center; 
 	padding-top: 60px; 
@@ -37,18 +37,20 @@
 	text-align: center;
 }
 
-a:link {
+a.linkoption:link {
+	color: black;
 	text-decoration: none;
 }
-a:visited {
+a.linkoption:visited {
+	color: black;
 	text-decoration: none;
 }
-a:hover {
+a.linkoption:hover {
 	color: black;
 	text-decoration: underline;
 	font: bold;
 }
-a:active {
+a.linkoption:active {
     text-decoration: none;
 }
 
@@ -60,6 +62,11 @@ td {
 	min-height: 100px;
 }
 
+.cent-align {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
 
 </style>
 
@@ -83,7 +90,7 @@ function searchList() {
 <br>
 
 <div>
-	<table class="table table-light" style="width: 80%; vertical-align: center; margin: auto;">
+	<table class="table table-light" style="width: 50%; vertical-align: center; margin: auto;">
 		<tr>
 			<th class="num">번호</th>
 			<th class="name">말머리</th>
@@ -93,11 +100,11 @@ function searchList() {
 			<th class="hitcount">조회수</th>
 		</tr>
 		<c:forEach var="dto" items="${list}">
-		<table  class="table table-hover" style="width: 80%; vertical-align: center; margin: auto;">
+		<table  class="table table-hover" style="width: 50%; vertical-align: center; margin: auto;">
 			<tr>
 				<td class="num"> ${dto.listNum} </td>
 				<td class="name"> ${dto.state} </td>
-				<td class="subject"><a href="${articleUrl}&num=${dto.num}" style="color: black;">${dto.subject}  &nbsp;
+				<td class="subject"><a class="linkoption" href="${articleUrl}&num=${dto.num}">${dto.subject}  &nbsp;
 										<span class="badge bg-danger rounded-pill">${dto.replyCount}</span>
 									</a></td>
 				<td class="name"> ${dto.userName} </td>
@@ -117,36 +124,36 @@ function searchList() {
 	</ul>
 </nav>
 
-<table class="table" style="width: 80%; vertical-align: center; margin: auto;">
-		<tr>
-			<td align="left">
-				<button type="button" class="btn btn-outline-danger" onclick="location.href='${pageContext.request.contextPath}/study/list';">새로고침</button>
-			</td>
-				<td align="center">
-				<div class="col-6 text-center" style="margin-left: 120px;">
-					<form class="row" name="searchForm" action="${pageContext.request.contextPath}/study/list" method="post">
-						<div class="col-auto p-1">
-						<select name="condition" class="form-select">
-							<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
-							<option value="name" ${condition=="userName"?"selected='selected'":""}>작성자</option>
-							<option value="reg_date" ${condition=="reg_date"?"selected='selected'":""}>등록일</option>
-							<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
-							<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
-							<option value="state" ${condition=="state"?"selected='selected'":""}>말머리</option>
-						</select> &nbsp;
-						</div>
-						<div class="col-auto p-1">
-							<input type="text" name="keyword" placeholder="검색어를 입력하세요." value="${keyword}" class="form-control">
-						</div>
-						<div class="col-auto p-1">
-							<button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
-						</div>
-					</form>
-				</div>
-				</td>
-			<td align="right">
-				<button type="button" class="btn btn-outline-danger" onclick="location.href='${pageContext.request.contextPath}/study/write';">글올리기</button>
-			</td>
-		<tr>
+<div class="cent-align">
+	<form class="row" name="searchForm" action="${pageContext.request.contextPath}/study/list" method="post">
+		<div class="col-auto p-1">
+			<select name="condition" class="form-select">
+				<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
+				<option value="name" ${condition=="userName"?"selected='selected'":""}>작성자</option>
+				<option value="reg_date" ${condition=="reg_date"?"selected='selected'":""}>등록일</option>
+				<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
+				<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
+				<option value="state" ${condition=="state"?"selected='selected'":""}>말머리</option>
+			</select> &nbsp;
+		</div>
+		<div class="col-auto p-1">
+			<input type="text" name="keyword" placeholder="검색어를 입력하세요." value="${keyword}" class="form-control">
+		</div>
+		<div class="col-auto p-1">
+			<button type="button" class="btn btn-outline-danger" onclick="searchList()"> <i class="bi bi-search"></i> </button>
+		</div>
+	</form>
+</div>
+
+<table class="table" style="width: 50%; vertical-align: center; margin: auto;">
+	<tr>
+		<td align="left">
+			<button type="button" class="btn btn-outline-danger" onclick="location.href='${pageContext.request.contextPath}/study/list';">새로고침</button>
+		</td>
+			
+		<td align="right">
+			<button type="button" class="btn btn-outline-danger" onclick="location.href='${pageContext.request.contextPath}/study/write';">글올리기</button>
+		</td>
+	<tr>
 	</tr>
 </table>

@@ -6,14 +6,21 @@
 <style type="text/css">
 .board {
 	margin: 50px;
-	width: 80%;
+	width: 50%;
 	vertical-align: center; 
 	text-align: center; 
 	padding-top: 60px; 
 	margin: auto;"
 }
+
+.cent-align {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .trade-form {
-	width: 80%;	
+	width: 50%;	
 	border: 1px solid #BDBDBD;
 	padding: 50px;
 	border-radius: 5px;
@@ -22,23 +29,22 @@
 	margin: auto;
 }
 
-.cent-align {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+a.linkoption:link {
+	color: black;
+	text-decoration: none;
 }
-	
-
-.trade-form {
-	margin: 50px;
-	width: 80%;	
-	border: 1px solid #BDBDBD;
-	padding: 50px;
-	border-radius: 5px;
-	border-spacing: 10px;
+a.linkoption:visited {
+	color: black;
+	text-decoration: none;
 }
-
-
+a.linkoption:hover {
+	color: black;
+	text-decoration: underline;
+	font: bold;
+}
+a.linkoption:active {
+    text-decoration: none;
+}
 	
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
@@ -270,101 +276,99 @@ $(function(){
 	</div>
 </div>	
 
-		<!--  <div class="body-main" style="width: 80%;"> -->
-		<div class="trade-form" style="vertical-align: center; margin: auto;">
+<div class="trade-form">
+	<table class="table mb-0">
+		<thead>
+			<tr>
+				<td colspan="2" align="center" style="font-size: 25px; font-weight: 20px;">
+					<p style="color: grey;"> [${dto.state}] </p> ${dto.subject}
+				</td>
+			</tr>
+		</thead>
 		
-			<table class="table mb-0" style="vertical-align: center; margin: auto;">
-				<thead>
-					<tr>
-						<td colspan="2" align="center" style="font-size: 25px; font-weight: 20px;">
-							<p style="color: grey;"> [${dto.state}] </p> ${dto.subject}
-						</td>
-					</tr>
-				</thead>
-				
-				<tbody>
-					<tr>
-						<td width="50%">
-							이름 : ${dto.userName}(${dto.userId})					
-						</td>
-						<td align="right">
-							${dto.reg_date}
-						</td>
-					</tr>
-											
-					<tr>
-						<td colspan="3">
-							<div style="min-height: 500px;">
-								${dto.content}
-							</div>
-						</td>
-					</tr>
-					
-					<tr>
-						<td colspan="2">
-							이전글 :
-							<c:if test="${not empty preReadDto}">
-								<a href="${pageContext.request.contextPath}/study/article?${query}&num=${preReadDto.num}">${preReadDto.subject}</a>
-							</c:if>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							다음글 :
-							<c:if test="${not empty nextReadDto}">
-								<a href="${pageContext.request.contextPath}/study/article?${query}&num=${nextReadDto.num}">${nextReadDto.subject}</a>
-							</c:if>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+		<tbody>
+			<tr>
+				<td width="50%">
+					이름 : ${dto.userName}(${dto.userId})					
+				</td>
+				<td align="right">
+					${dto.reg_date}
+				</td>
+			</tr>
+									
+			<tr>
+				<td colspan="3">
+					<div style="min-height: 200px;">
+						${dto.content}
+					</div>
+				</td>
+			</tr>
 			
-			<table class="table table-borderless">
+			<tr>
+				<td colspan="2">
+					이전글 :
+					<c:if test="${not empty preReadDto}">
+						<a href="${pageContext.request.contextPath}/study/article?${query}&num=${preReadDto.num}" class="linkoption">${preReadDto.subject}</a>
+					</c:if>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					다음글 :
+					<c:if test="${not empty nextReadDto}">
+						<a href="${pageContext.request.contextPath}/study/article?${query}&num=${nextReadDto.num}" class="linkoption">${nextReadDto.subject}</a>
+					</c:if>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<table class="table table-borderless">
+		<tr>
+			<td width="50%">
+				<c:choose>
+					<c:when test="${sessionScope.member.userId==dto.userId}">
+						<button type="button" class="btn btn-outline-danger" onclick="location.href='${pageContext.request.contextPath}/study/update?num=${dto.num}&page=${page}';">수정</button>
+					</c:when>
+					<c:otherwise>
+						<button type="button" class="btn btn-outline-danger" disabled="disabled">수정</button>
+					</c:otherwise>
+				</c:choose>
+		    	
+				<c:choose>
+		    		<c:when test="${sessionScope.member.userId==dto.userId || sessionScope.member.membership>50}">
+		    			<button type="button" class="btn btn-outline-danger" onclick="deleteStudy();">삭제</button>
+		    		</c:when>
+		    		<c:otherwise>
+		    			<button type="button" class="btn btn-outline-danger" disabled="disabled">삭제</button>
+		    		</c:otherwise>
+		    	</c:choose>
+			</td>
+			<td class="text-end">
+				<button type="button" class="btn btn-outline-danger" onclick="location.href='${pageContext.request.contextPath}/study/list?${query}';">리스트</button>
+			</td>
+		</tr>
+	</table>
+	<div class="reply">
+		<form name="replyForm" method="post">
+			<div class='form-header'>
+				<span class="bold" style="color: red;">댓글</span><span > </span>
+			</div>
+			
+			<table class="table table-borderless reply-form">
 				<tr>
-					<td width="50%">
-						<c:choose>
-							<c:when test="${sessionScope.member.userId==dto.userId}">
-								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/study/update?num=${dto.num}&page=${page}';">수정</button>
-							</c:when>
-							<c:otherwise>
-								<button type="button" class="btn btn-light" disabled="disabled">수정</button>
-							</c:otherwise>
-						</c:choose>
-				    	
-						<c:choose>
-				    		<c:when test="${sessionScope.member.userId==dto.userId || sessionScope.member.membership>50}">
-				    			<button type="button" class="btn btn-light" onclick="deleteStudy();">삭제</button>
-				    		</c:when>
-				    		<c:otherwise>
-				    			<button type="button" class="btn btn-light" disabled="disabled">삭제</button>
-				    		</c:otherwise>
-				    	</c:choose>
-					</td>
-					<td class="text-end">
-						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/study/list?${query}';">리스트</button>
+					<td>
+						<textarea class='form-control' name="content" placeholder="타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가해 주세요." style="color: grey;"></textarea>
 					</td>
 				</tr>
+				<tr>
+				   <td align='right'>
+				        <button type='button' class='btn btn-outline-danger btnSendReply'>댓글 등록</button>
+				    </td>
+				 </tr>
 			</table>
-			<div class="reply">
-				<form name="replyForm" method="post">
-					<div class='form-header'>
-						<span class="bold">댓글</span><span > </span>
-					</div>
-					
-					<table class="table table-borderless reply-form">
-						<tr>
-							<td>
-								<textarea class='form-control' name="content" placeholder="타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가해 주세요." style="color: grey;"></textarea>
-							</td>
-						</tr>
-						<tr>
-						   <td align='right'>
-						        <button type='button' class='btn btn-light btnSendReply'>댓글 등록</button>
-						    </td>
-						 </tr>
-					</table>
-				</form>
-				<div id="listReply"></div>				
+		</form>
+		<div id="listReply"></div>				
 	</div>
 </div>
 <div style="padding-bottom: 60px;"></div>

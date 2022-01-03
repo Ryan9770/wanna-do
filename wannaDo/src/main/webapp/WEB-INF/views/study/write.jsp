@@ -7,14 +7,26 @@
 
 
 <style>
+.body-container {
+	max-width: 800px;
+}
 .board {
 	margin: 50px;
-	width: 80%;
+	width: 50%;
+	vertical-align: center; 
+	text-align: center; 
+	padding-top: 60px; 
+	margin: auto;
 }
 
 .trade-form {
-	width: 80%;	
-	
+	margin: auto;
+	width: 50%;	
+	border: 1px solid #BDBDBD;
+	padding: 50px;
+	border-radius: 5px;
+	border-spacing: 10px;
+	vertical-align: center; 
 }
 
 .trade-table-main {
@@ -32,6 +44,12 @@
 
 .ck-editor__editable {
     min-height: 400px;
+}
+
+.cent-align {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 </style>
@@ -59,9 +77,18 @@ function sendOk() {
     f.submit();
 }
 </script>
+
+<div class="board">
+	<div class="title">
+	    <h3> 스터디 룸</h3>
+	    <p style="color: grey;"> 스터디를 모집하거나 참가할 수 있습니다.  </p>
+	</div>
+</div>	
+
+<div>
 	 <form class="trade-form" name="boardForm" method="post" enctype="multipart/form-data"> 
 	 
- 	 	<div class="pt-1" style="width:80%;"> 
+ 	 	<div class="pt-1" style="width:50%;"> 
 			<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 			  <input type="radio" class="btn-check" name="state" value="모집" id="btnradio1" autocomplete="off" checked>
 			  <label class="btn btn-outline-danger" for="btnradio1">모집</label>
@@ -86,8 +113,6 @@ function sendOk() {
 			<textarea name="content" class="form-control" id="editor" rows="10" placeholder="내용을 입력하세요."> ${dto.content} </textarea>  
 			
 		</div>
-
-	
 	
 		<table class="table">
 			<tr> 
@@ -104,6 +129,9 @@ function sendOk() {
 			</tr>
 		</table>
 	</form>
+</div>
+<div style="padding-bottom: 60px;"></div>
+
 
 <script>
     // 3. CKEditor5를 생성할 textarea 지정

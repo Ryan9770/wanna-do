@@ -10,7 +10,7 @@
 
 .board {
 	margin: 50px;
-	width: 90%;
+	width: 50%;
 	vertical-align: center; 
 	text-align: center; 
 	padding-top: 60px; 
@@ -40,18 +40,20 @@
 	text-align: center;
 }
 
-a:link {
+a.linkoption:link {
+	color: black;
 	text-decoration: none;
 }
-a:visited {
+a.linkoption:visited {
+	color: black;
 	text-decoration: none;
 }
-a:hover {
+a.linkoption:hover {
 	color: black;
 	text-decoration: underline;
 	font: bold;
 }
-a:active {
+a.linkoption:active {
     text-decoration: none;
 }
 
@@ -64,7 +66,7 @@ td {
 }
 
 .trade-form {
-	width: 80%;	
+	width: 50%;	
 	border: 1px solid #BDBDBD;
 	padding: 50px;
 	border-radius: 5px;
@@ -80,7 +82,7 @@ td {
 }
 	
 .hrtag {
-	width: 80%;
+	width: 50%;
 	vertical-align: center; 
 	text-align: center; 
 	margin: auto;

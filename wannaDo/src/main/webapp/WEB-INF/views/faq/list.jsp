@@ -27,7 +27,6 @@
 								</div>
 							</div>
 						</c:if>
-
 					</div>
 				</div>
 			</div>		
@@ -39,30 +38,32 @@
 	${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
 </div>
 
+<div class="cent-align">
+	<form class="row" name="searchForm" method="post">
+		<div class="col-auto p-1">
+			<select name="condition" class="form-select">
+				<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
+				<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
+				<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
+			</select>
+		</div>
+		<div class="col-auto p-1">
+			<input type="text" name="keyword" value="${keyword}" class="form-control">
+		</div>
+		<div class="col-auto p-1">
+			<button type="button" class="btn btn-outline-danger" onclick="searchList()"> <i class="bi bi-search"></i> </button>
+		</div>
+	</form>
+</div>
+
 <div class="row py-3">
 	<div class="col">
-		<button type="button" class="btn btn-light" onclick="reloadFaq();">새로고침</button>
+		<button type="button" class="btn btn-outline-danger" onclick="reloadFaq();">새로고침</button>
 	</div>
-	<div class="col-6 text-center">
-		<form class="row" name="searchForm" method="post">
-			<div class="col-auto p-1">
-				<select name="condition" class="form-select">
-					<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
-					<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
-					<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
-				</select>
-			</div>
-			<div class="col-auto p-1">
-				<input type="text" name="keyword" value="${keyword}" class="form-control">
-			</div>
-			<div class="col-auto p-1">
-				<button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
-			</div>
-		</form>
-	</div>
+	
 	<div class="col text-end">
 		<c:if test="${sessionScope.member.membership>50}">
-			<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/faq/write';">글올리기</button>
+			<button type="button" class="btn btn-outline-danger" onclick="location.href='${pageContext.request.contextPath}/faq/write';">글올리기</button>
 		</c:if>
 	</div>
 </div>
