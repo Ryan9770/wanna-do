@@ -29,7 +29,6 @@ public class CourseManageController {
 	private CourseManageService service;
 	
 	@Autowired
-	@Qualifier("myUtilGeneral")
 	private MyUtil myUtil;
 	
 	@RequestMapping("list")
@@ -79,7 +78,7 @@ public class CourseManageController {
 		}
 		
 		String query = "";
-		String listUrl = cp + "admin/courseManage/list";
+		String listUrl = cp + "/admin/courseManage/list";
 		
 		
 		
