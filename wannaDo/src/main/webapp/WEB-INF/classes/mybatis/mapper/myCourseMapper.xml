@@ -15,6 +15,6 @@
 	  FROM course 
 	  JOIN courseCategory ON course.categorynum = courseCategory.categorynum
 	  JOIN useCookie ON useCookie.courseNum=course.num	
-	 WHERE useCookie.userId = #{userId}
+	 WHERE useCookie.userId = #{userId} and state = 0
 	</select>
 </mapper>

@@ -76,6 +76,7 @@
             <exclude-mapping path="/course/list"/>
             
             <exclude-mapping path="/calendar/list"/>
+            <exclude-mapping path="/notice/main"/>
             <exclude-mapping path="/notice/list"/>
             <exclude-mapping path="/faq"/>
             <exclude-mapping path="/credit/buy"/>

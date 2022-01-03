@@ -32,9 +32,8 @@ public class MainServiceImpl implements MainService{
 		
 		try {
 			int myCookie = dao.selectOne("creatorCourseManage.myWalletCookie", userId);
-			int useCookie = dao.selectOne("creatorCourseManage.useCookie", userId);
 			
-			result = myCookie-useCookie;
+			result = myCookie;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

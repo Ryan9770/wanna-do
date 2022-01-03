@@ -18,4 +18,5 @@ public interface CreditService {
 	public void refundOk(int num) throws Exception;
 	public void refundCourse(Map<String, Object> map) throws Exception;
 	public void refundStateUpdate(int num) throws Exception;
+	public void refundCourseOk(Map<String, Object> map) throws Exception;
 }

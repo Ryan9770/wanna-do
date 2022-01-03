@@ -244,6 +244,7 @@ public class CreditController {
 			map.put("userId", info.getUserId());
 			map.put("courseNum", dto.getCourseNum());
 			service.refundCourse(map);
+			service.refundCourseOk(map);
 		} catch (Exception e) {
 		}
 		return "redirect:/credit/main";

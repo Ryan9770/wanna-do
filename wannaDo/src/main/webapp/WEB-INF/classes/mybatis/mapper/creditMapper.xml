@@ -48,7 +48,7 @@
 	<select id="useCookie" parameterType="map" resultType="Integer">
 		SELECT NVL(sum(amount), 0)
 		FROM useCookie
-		WHERE userId=#{userId}
+		WHERE userId=#{userId} and state=0
 	</select>
 	<select id="listUse" parameterType="map" resultType="com.bs.wd.credit.Credit">
 		SELECT * FROM (
@@ -75,4 +75,13 @@
 		UPDATE useCookie SET state = 1
 		WHERE num=#{num}
 	</update>
+	<update id="refundCourseOk" parameterType="map">
+		UPDATE creatorWallet SET refund = 1
+		WHERE courseNum=#{courseNum} and buyerId=#{userId}
+	</update>
+	<select id="creatorCookie" parameterType="map" resultType="Integer">
+		SELECT NVL(sum(amount), 0)
+		FROM creatorWallet
+		WHERE userId=#{userId} and state=0
+	</select>
 </mapper>

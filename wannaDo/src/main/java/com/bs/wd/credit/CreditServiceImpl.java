@@ -156,4 +156,13 @@ public class CreditServiceImpl implements CreditService {
 		}
 	}
 
+	@Override
+	public void refundCourseOk(Map<String, Object> map) throws Exception {
+		try {
+			dao.selectOne("credit.refundCourseOk", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

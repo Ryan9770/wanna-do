@@ -339,10 +339,12 @@ public class CourseServiceImpl  implements CourseService {
 	@Override
 	public void creatorCredit(Course dto, int num) throws Exception {
 		try {
-			String userId = dao.selectOne("course.creatorId", num);
+			String creatorName = dao.selectOne("course.creatorId", dto.getCourseNum());
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("userId", userId);
+			map.put("courseNum", dto.getCourseNum());
+			map.put("creatorName", creatorName);
 			map.put("price", dto.getPrice());
+			map.put("buyerId", dto.getUserId());
 			dao.insertData("course.creatorCredit", map);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -40,7 +40,7 @@
 							<td>${vo.courseName}</td>
 							<td>${vo.amount}</td>
 							<td>${vo.use_date}</td>
-							<c:if test="${vo.gap < 168 && vo.state == 0}">
+							<c:if test="${vo.gap < 24 && vo.state == 0}">
 								<td>
 									<button type="button" data-num="${vo.num}" data-courseNum="${vo.courseNum}" data-amount="${vo.amount}" data-courseName="${vo.courseName}" class="btn btn-light refundCourse">환불 요청</button>
 								</td>

@@ -619,6 +619,7 @@ public class CourseController {
 			try {
 				dto.setUserId(info.getUserId());
 				service.buyCourse(dto);
+				dto.setUserId(info.getUserId());
 				service.creatorCredit(dto, dto.getNum());
 			} catch (Exception e) {
 			}

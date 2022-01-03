@@ -110,7 +110,7 @@
 	  	    FROM useCookie
 		    JOIN course ON useCookie.courseNum=course.num		
 		    JOIN courseCategory ON courseCategory.categoryNum = course.categoryNum
-		   WHERE course.userId = #{userId}
+		   WHERE course.userId = #{userId} and useCookie.state = 0
 		<if test="courseName!=''">
 			AND course.courseName = #{courseName, jdbcType=INTEGER}
 		</if>
@@ -120,15 +120,9 @@
 	</select>
 	
 	<select id="myWalletCookie" parameterType="String" resultType="Integer">
-		SELECT SUM(amount)
-		  FROM mywallet
-		 WHERE userId=#{userId}	
-	</select>	
-	
-	<select id="useCookie" parameterType="String" resultType="Integer">
-		SELECT SUM(amount)
-		  FROM usecookie
-		 WHERE userId=#{userId}
+		SELECT NVL(SUM(amount), 0)
+		  FROM creatorWallet
+		 WHERE creatorName=#{userId} and refund = 0
 	</select>
 	
 	<update id="updateCourseDetail" parameterType="map"> 
