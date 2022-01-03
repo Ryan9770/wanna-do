@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-
 <div class="trade-form" style="vertical-align: center; margin: auto;">
 <table class="table mb-0" style="vertical-align: center; margin: auto;">
 	<thead>

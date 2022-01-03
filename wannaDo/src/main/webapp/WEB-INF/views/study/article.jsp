@@ -2,11 +2,11 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+ 
 <style type="text/css">
 .board {
 	margin: 50px;
-	width: 50%;
+	width: 60%;
 	vertical-align: center; 
 	text-align: center; 
 	padding-top: 60px; 
@@ -15,12 +15,12 @@
 
 .cent-align {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 60%;
+  transform: translateX(-60%);
 }
 
 .trade-form {
-	width: 50%;	
+	width: 60%;	
 	border: 1px solid #BDBDBD;
 	padding: 50px;
 	border-radius: 5px;
@@ -288,7 +288,7 @@ $(function(){
 		
 		<tbody>
 			<tr>
-				<td width="50%">
+				<td width="60%">
 					이름 : ${dto.userName}(${dto.userId})					
 				</td>
 				<td align="right">
@@ -325,7 +325,7 @@ $(function(){
 	
 	<table class="table table-borderless">
 		<tr>
-			<td width="50%">
+			<td width="60%">
 				<c:choose>
 					<c:when test="${sessionScope.member.userId==dto.userId}">
 						<button type="button" class="btn btn-outline-danger" onclick="location.href='${pageContext.request.contextPath}/study/update?num=${dto.num}&page=${page}';">수정</button>

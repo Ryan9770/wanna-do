@@ -2,7 +2,7 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+ 
 <c:if test="${list.size() > 0}">
 	<div class="accordion accordion-flush mt-2" id="accordionFlush">
 		<c:forEach var="dto" items="${list}" varStatus="status">

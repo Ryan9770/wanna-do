@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -193,7 +192,7 @@ $(function(){
 		</form>
 	</div>
 	
-	<table class="table" style="width: 50%; vertical-align: center; margin: auto;">
+	<table class="table" style="width: 60%; vertical-align: center; margin: auto;">
 		<tr>
 			<td align="left">
 				<button type="button" class="btn btn-outline-danger" onclick="location.href='${pageContext.request.contextPath}/trade/list';">새로고침</button>

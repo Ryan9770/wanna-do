@@ -2,15 +2,14 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+ 
 <style type="text/css">
 .body-container {
-	max-width: 800px;
 }
 
 .board {
 	margin: 50px;
-	width: 50%;
+	width: 60%;
 	vertical-align: center; 
 	text-align: center; 
 	padding-top: 60px; 
@@ -57,16 +56,10 @@ a.linkoption:active {
     text-decoration: none;
 }
 
-table {
-	padding: 50px;
-}
 
-td {
-	min-height: 100px;
-}
 
 .trade-form {
-	width: 50%;	
+	width: 60%;	
 	border: 1px solid #BDBDBD;
 	padding: 50px;
 	border-radius: 5px;
@@ -76,15 +69,18 @@ td {
 }
 
 .cent-align {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	vertical-align: middle; 
+	text-align: middle; 
+	margin: auto;
 }
 	
 .hrtag {
-	width: 50%;
+	width: 60%;
 	vertical-align: center; 
-	text-align: center; 
+	text-align: middle; 
 	margin: auto;
 }
 
@@ -102,14 +98,14 @@ td {
 	</div>
 </div>
 		
-		<div class="body-main content-frame">
-		</div>
-
+<div class="body-main content-frame">
+</div>
 
 <form name="searchForm" action="" method="post">
 	<input type="hidden" name="condition" value="all">
     <input type="hidden" name="keyword" value="">
 </form>
+
 
 <script type="text/javascript">
 function login() {

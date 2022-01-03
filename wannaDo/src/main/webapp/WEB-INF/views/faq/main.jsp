@@ -2,13 +2,13 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+ 
 <style type="text/css">
 .body-container {
 }
 .board {
 	margin: 50px;
-	width: 50%;
+	width: 60%;
 	vertical-align: center; 
 	text-align: center; 
 	padding-top: 60px; 
@@ -26,9 +26,12 @@
 }
 
 .cent-align {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	vertical-align: middle; 
+	text-align: middle; 
+	margin: auto;
 }
 
 a.linkoption:link {
@@ -48,14 +51,8 @@ a.linkoption:active {
     text-decoration: none;
 }
 
-.cent-align {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
 .hrtag {
-	width: 50%;
+	width: 60%;
 	vertical-align: center; 
 	text-align: center; 
 	margin: auto;

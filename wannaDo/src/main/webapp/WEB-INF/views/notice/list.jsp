@@ -2,6 +2,7 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+ 
 
 <div class="hrtag">
     <hr>
@@ -9,7 +10,7 @@
 
 <br>
 <div>
-	<table class="table table-light" style="width: 50%; vertical-align: center; margin: auto;">
+	<table class="table table-light" style="width: 60%; vertical-align: center; margin: auto;">
 			<tr>
 				<th class="num">번호</th>
 				<th class="subject">제목</th>
@@ -18,7 +19,7 @@
 				<th class="hitcount">조회수</th>
 			</tr>
 		<c:forEach var="dto" items="${noticeList}">
-			<table  class="table table-hover" style="width: 50%; vertical-align: center; margin: auto;">
+			<table  class="table table-hover" style="width: 60%; vertical-align: center; margin: auto;">
 				<tr>
 					<td class="num"><span class="badge bg-danger">공지</span></td>
 					<td class="subject">
@@ -32,7 +33,7 @@
 		</c:forEach>
 						
 		<c:forEach var="dto" items="${list}">
-			<table  class="table table-hover" style="width: 50%; vertical-align: center; margin: auto;">			
+			<table  class="table table-hover" style="width: 60%; vertical-align: center; margin: auto;">			
 				<tr>
 					<td class="num">${dto.listNum}</td>
 					<td class="left">
@@ -74,7 +75,7 @@
 
 
 
-<table class="table" style="width: 50%; vertical-align: center; margin: auto;">
+<table class="table" style="width: 60%; vertical-align: center; margin: auto;">
 		<tr>
 			<td align="left">
 				<button type="button" class="btn btn-outline-danger" onclick="reloadBoard();">새로고침</button>

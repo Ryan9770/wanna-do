@@ -2,7 +2,7 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+ 
 <script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script>
 
 
@@ -12,7 +12,7 @@
 }
 .board {
 	margin: 50px;
-	width: 50%;
+	width: 60%;
 	vertical-align: center; 
 	text-align: center; 
 	padding-top: 60px; 
@@ -21,7 +21,7 @@
 
 .trade-form {
 	margin: auto;
-	width: 50%;	
+	width: 60%;	
 	border: 1px solid #BDBDBD;
 	padding: 50px;
 	border-radius: 5px;
@@ -48,8 +48,8 @@
 
 .cent-align {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 60%;
+  transform: translateX(-60%);
 }
 
 </style>
@@ -88,7 +88,7 @@ function sendOk() {
 <div>
 	 <form class="trade-form" name="boardForm" method="post" enctype="multipart/form-data"> 
 	 
- 	 	<div class="pt-1" style="width:50%;"> 
+ 	 	<div class="pt-1" style="width:60%;"> 
 			<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 			  <input type="radio" class="btn-check" name="state" value="모집" id="btnradio1" autocomplete="off" checked>
 			  <label class="btn btn-outline-danger" for="btnradio1">모집</label>
@@ -103,12 +103,12 @@ function sendOk() {
 		<br>
 		<br>
 		<div class="mb-3">
-			  <label for="exampleFormControlInput1" class="form-label" style="font: bold;">제목</label>
+			  <label for="exampleFormControlInput1" class="form-label" style="font-weight: bold;">제목</label>
 			  <input type="text" value="${dto.subject}" name="subject" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력하세요.">
 		</div>
 		
 		<div class="mb-3">
-			  <label for="exampleFormControlTextarea1" class="form-label" style="font: bold;">내용</label>
+			  <label for="exampleFormControlTextarea1" class="form-label" style="font-weight: bold;">내용</label>
 			<!--  <textarea name="content" class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="내용을 입력하세요."> ${dto.content} </textarea>    -->
 			<textarea name="content" class="form-control" id="editor" rows="10" placeholder="내용을 입력하세요."> ${dto.content} </textarea>  
 			

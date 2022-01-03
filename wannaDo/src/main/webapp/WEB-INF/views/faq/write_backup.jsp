@@ -18,31 +18,6 @@
 .table-category th, .table-category td {
 	border: 1px solid #eee;
 }
-
-.board {
-	margin: 50px;
-	width: 60%;
-	vertical-align: center; 
-	text-align: center; 
-	padding-top: 60px; 
-	margin: auto;
-}
-.trade-form {
-	margin: auto;
-	width: 60%;	
-	border: 1px solid #BDBDBD;
-	padding: 50px;
-	border-radius: 5px;
-	border-spacing: 10px;
-	vertical-align: center; 
-}
-
-.cent-align {
-  position: absolute;
-  left: 60%;
-  transform: translateX(-60%);
-}
-
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
@@ -265,57 +240,75 @@ $(function(){
 });
 </script>
 
-<div class="board">
-	<div class="title">
-	    <h3> 자주묻는 질문 추가 </h3>
-	    <p style="color: grey;"> 자주묻는 질문을 추가합니다.(관리자) </p>
-	</div>
-</div>	
-<form class="trade-form" name="faqForm" method="post">
-		<div class="mb-3">
-			<label for="exampleFormControlInput1" class="form-label" style="font-weight: bold;">카테고리</label> 	 	
-			<select name="categoryNum" class="form-select" style="width: 300px;">
-					<c:forEach var="vo" items="${listCategory}">
-						<option value="${vo.categoryNum}" ${dto.categoryNum==vo.categoryNum?"selected='selected'":""}>${vo.category}</option>
-					</c:forEach>
-			</select>
-			<br>
-			<button class="btn btn-outline-danger btnCategoryDialog" type="button">카테고리 변경 및 수정</button>
-			<br>
+<div class="container px-5 py-5">
+	<div class="body-container">	
+		<div class="body-title">
+			<h3>자주 묻는 질문</h3>
 		</div>
 		
-		<div class="mb-3">
-			<label for="exampleFormControlInput1" class="form-label" style="font-weight: bold;">아이디</label>
-			<input class="form-control" type="text" placeholder="${sessionScope.member.userName}" style="width: 300px;" disabled>
-		</div>
-		<br>
+		<div class="body-main">
 		
-		<div class="mb-3">
-			  <label for="exampleFormControlInput1" class="form-label" style="font-weight: bold;">제목</label>
-			  <input type="text" value="${dto.subject}" name="subject" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력하세요.">
-		</div>
-		<br>
+			<form name="faqForm" method="post">
+				<table class="table write-form mt-5">
+					<tr>
+						<td class="table-light col-sm-2" scope="row">카테고리</td>
+						<td>
+							<div class="row">
+								<div class="col-sm-4 pe-1">
+									<select name="categoryNum" class="form-select">
+										<c:forEach var="vo" items="${listCategory}">
+											<option value="${vo.categoryNum}" ${dto.categoryNum==vo.categoryNum?"selected='selected'":""}>${vo.category}</option>
+										</c:forEach>
+									</select>
+								</div>
+								<div class="col ps-1">
+									<button class="btn btn-light btnCategoryDialog" type="button">변경</button>
+								</div>
+							</div>
+						</td>
+					</tr>
 
-		<div class="mb-3">
-			<label for="exampleFormControlInput1" class="form-label" style="font-weight: bold;">내용</label>
-			<textarea name="content" id="content" rows="5" class="form-control">${dto.content}</textarea>
-		</div>
-			
-	<table class="table">
-		<tr> 
-			<td align="center">
-				<button type="button" class="btn btn-danger" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
-				<button type="reset" class="btn btn-outline-secondary">다시입력</button>
-				<button type="button" class="btn btn-outline-secondary" onclick="location.href='${pageContext.request.contextPath}/faq/main?pageNo=${pageNo}';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
-				<c:if test="${mode=='update'}">
-					<input type="hidden" name="num" value="${dto.num}">
-					<input type="hidden" name="pageNo" value="${pageNo}">
-				</c:if>
-			</td>
-		</tr>
-	</table>
-</form>
+					<tr>
+						<td class="table-light col-sm-2" scope="row">제 목</td>
+						<td>
+							<input type="text" name="subject" class="form-control" value="${dto.subject}">
+						</td>
+					</tr>
+        
+					<tr>
+						<td class="table-light col-sm-2" scope="row">작성자명</td>
+ 						<td>
+							<p class="form-control-plaintext">${sessionScope.member.userName}</p>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="table-light col-sm-2" scope="row">내 용</td>
+						<td>
+							<textarea name="content" id="content" class="form-control">${dto.content}</textarea>
+						</td>
+					</tr>
+				</table>
+				
+				<table class="table table-borderless">
+ 					<tr>
+						<td class="text-center">
+							<button type="button" class="btn btn-dark" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
+							<button type="reset" class="btn btn-light">다시입력</button>
+							<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/faq/main?pageNo=${pageNo}';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
+							<c:if test="${mode=='update'}">
+								<input type="hidden" name="num" value="${dto.num}">
+								<input type="hidden" name="pageNo" value="${pageNo}">
+							</c:if>
+						</td>
+					</tr>
+				</table>
+			</form>
 		
+		</div>
+	</div>
+</div>
+
 <div class="modal fade" id="myDialogModal" tabindex="-1" 
 		data-bs-backdrop="static" data-bs-keyboard="false"
 		aria-labelledby="myDialogModalLabel" aria-hidden="true">

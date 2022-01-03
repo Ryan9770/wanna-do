@@ -7,6 +7,7 @@
 .body-container {
 	max-width: 800px;
 }
+
 .board {
 	margin: 50px;
 	width: 50%;

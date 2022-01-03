@@ -2,7 +2,7 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+ 
 <script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script>
   
 <style>
@@ -11,7 +11,7 @@
 }
 .board {
 	margin: 50px;
-	width: 50%;
+	width: 60%;
 	vertical-align: center; 
 	text-align: center; 
 	padding-top: 60px; 
@@ -19,7 +19,7 @@
 }
 .trade-form {
 	margin: auto;
-	width: 50%;	
+	width: 60%;	
 	border: 1px solid #BDBDBD;
 	padding: 50px;
 	border-radius: 5px;
@@ -52,8 +52,8 @@ img {
 
 .cent-align {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 60%;
+  transform: translateX(-60%);
 }
 
 </style>
@@ -174,8 +174,9 @@ function uncomma(str) {
 
 <div>
 	<form class="trade-form" name="boardForm" method="post" enctype="multipart/form-data"> 
-		 	<div class="pt-1" style="width:50%;"></div>
-		<div class="btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
+		 	<div class="pt-1" style="width:60%;"></div>
+			<div class="btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
+			
 			<input type="radio" class="btn-check" name="type" id="btnradio1" autocomplete="off" value="판매" checked>
 			<label class="btn btn-outline-danger" for="btnradio1"> 구매 </label>
 			
@@ -188,7 +189,7 @@ function uncomma(str) {
 		</div>
 		<br>
 		<br>
-		<div style="width: 25%;">
+		<div style="width: 30%;">
 		<div class="input-group mb-3">
 			<span class="input-group-text">₩</span>
 				<input type="text" class="form-control" placeholder="가격을 숫자로 입력하세요." oninput="this.value = this.value.replaceAll(/\D/g, '')" name="price" maxlength="8" onkeyup="inputNumberFormat(this)" value="${dto.price}">
@@ -196,12 +197,12 @@ function uncomma(str) {
 		</div>
 		</div>
 		<div class="mb-3">
-			  <label for="exampleFormControlInput1" class="form-label" style="font: bold;" align="left">제목</label>
+			  <label for="exampleFormControlInput1" class="form-label" style="font-weight: bold;" align="left">제목</label>
 			  <input type="text" value="${dto.subject}" name="subject" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력하세요.">
 		</div>
 		
 		<div class="mb-3">
-			  <label for="exampleFormControlTextarea1" class="form-label" style="font: bold;">내용</label>
+			  <label for="exampleFormControlTextarea1" class="form-label" style="font-weight: bold;">내용</label>
 			<!--  <textarea name="content" class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="내용을 입력하세요."> ${dto.content} </textarea>    -->
 			<textarea name="content" class="form-control" id="editor" rows="10" placeholder="내용을 입력하세요."> ${dto.content} </textarea>  
 		</div>

@@ -3,15 +3,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-
 <style type="text/css">
 .board {
 	margin: 50px;
-	width: 50%;
+	width: 60%;
 	vertical-align: center; 
 	text-align: center; 
 	padding-top: 60px; 
 	margin: auto;
+}
+
+.trade-form {
+	margin: 50px;
+	width: 90%;	
+	border: 1px solid #BDBDBD;
+	padding: 50px;
+	border-radius: 5px;
+	border-spacing: 10px;
+	
 }
 .body {
 }
@@ -88,9 +97,9 @@ function searchList() {
 </div>	
 
 <br>
-
+<section class="py-5">
 <div>
-	<table class="table table-light" style="width: 50%; vertical-align: center; margin: auto;">
+	<table class="table table-light" style="width: 60%; vertical-align: center; margin: auto;">
 		<tr>
 			<th class="num">번호</th>
 			<th class="name">말머리</th>
@@ -100,7 +109,7 @@ function searchList() {
 			<th class="hitcount">조회수</th>
 		</tr>
 		<c:forEach var="dto" items="${list}">
-		<table  class="table table-hover" style="width: 50%; vertical-align: center; margin: auto;">
+		<table  class="table table-hover" style="width: 60%; vertical-align: center; margin: auto;">
 			<tr>
 				<td class="num"> ${dto.listNum} </td>
 				<td class="name"> ${dto.state} </td>
@@ -145,15 +154,19 @@ function searchList() {
 	</form>
 </div>
 
-<table class="table" style="width: 50%; vertical-align: center; margin: auto;">
+<table class="table" style="width: 60%; vertical-align: center; margin: auto;">
 	<tr>
 		<td align="left">
 			<button type="button" class="btn btn-outline-danger" onclick="location.href='${pageContext.request.contextPath}/study/list';">새로고침</button>
 		</td>
-			
+		<td align="center">
+			<div class="col-6 text-center" style="margin-left: 120px;">	
+			</div>
+		</td>
 		<td align="right">
 			<button type="button" class="btn btn-outline-danger" onclick="location.href='${pageContext.request.contextPath}/study/write';">글올리기</button>
 		</td>
 	<tr>
 	</tr>
 </table>
+</section>
