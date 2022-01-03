@@ -134,9 +134,8 @@ public class CourseManageController {
 		return "creator/courseManage/detail";
 	}
 	
-	@RequestMapping(value="update")
-	@ResponseBody
-	public void updateDetail(@RequestParam Map<String, Object> map,
+	@RequestMapping(value="update",method = RequestMethod.POST )
+	public String updateDetail(@RequestParam Map<String, Object> map,
 			Model model) throws Exception{
 		
 		try {	
@@ -144,7 +143,7 @@ public class CourseManageController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		return "redirect:/creator/courseManage/list";
 	}
 	
 	@RequestMapping(value="write", method = RequestMethod.GET)

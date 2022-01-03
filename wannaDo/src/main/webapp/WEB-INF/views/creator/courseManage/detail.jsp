@@ -16,7 +16,7 @@ tr td .title{
 </style>
 
 <h3 style="font-size: 15px; padding-top: 10px;"><i class="icofont-double-right"></i>강좌 정보</h3>
-<form name="courseDetailForm">
+<form name="courseDetailForm" method="post">
 	<table class="table border mx-auto my-10">
 		<tr>
 			<td class="wp-15 text-right pe-7 bg title">강의 번호 </td>

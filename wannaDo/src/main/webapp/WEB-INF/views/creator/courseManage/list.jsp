@@ -57,22 +57,8 @@ function updateOk(){
 	var f = document.courseDetailForm;
 	f.action="${pageContext.request.contextPath}/creator/courseManage/update";
 
-	/*
-	var url = "${pageContext.request.contextPath}/creator/courseManage/update";
-	var query=$("#courseDetailForm").serialize();
-	var fn = function(data){
-		console.log(data);
-		alert('수정이 완료되었습니다.📌');
-		$('#course-dialog').dialog("close");	
-	};
-
-	ajaxFun(url, "post", query, "json", fn);
-	*/
-	
-
 	alert('수정이 완료되었습니다.📌');
-	$('#course-dialog').dialog("close");
-	window.location.href='${pageContext.request.contextPath}/creator/courseManage/list';
+
 	f.submit();
 }
 
@@ -155,9 +141,9 @@ function courseStateDetailView(){
 				</thead>
 					
 				<tbody>
-					<c:forEach var="dto" items="${list}">
+					<c:forEach var="dto" items="${list}" varStatus="status">
 					<tr class="hover-tr" > 
-						<td>${dto.listNum}</td>
+						<td>${status.count}</td>
 						<td>${dto.category}</td>
 						<td style="cursor:pointer" onclick="detailCourse('${dto.num}');">${dto.courseName}</td>
 						<td>${dto.reg_date}</td>
