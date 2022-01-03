@@ -62,6 +62,13 @@ function sendOk() {
 	f.submit();
 }
 
+
+// 검색 조건
+function searchList() {
+	var courseName = $("#selectCourse").val();
+	var url = "${pageContext.request.contextPath}/creator/memberManage/list?courseName="+courseName;
+	location.href=url;
+}	
 </script>
 <main>
 	<div class="body-container">
@@ -74,6 +81,14 @@ function sendOk() {
 				<tr>
 					<td align="left" width="50%">
 						${dataCount}개(${page}/${total_page} 페이지)
+					</td>
+					<td align="right">
+						<select id="selectCourse" name="courseName" class="selectField" onchange="searchList();">
+							<option value="" ${courseName=="" ? "selected='selected'":""}>::내 강좌 목록::</option>
+							<c:forEach var="dto" items="${listMyCourse}">
+								<option value="${dto.courseName}" ${courseName=="${dto.courseName}" ? "selected='selected'":""}>${dto.courseName}</option>
+							</c:forEach>
+						</select>
 					</td>
 				</tr>
 			</table>
@@ -91,9 +106,9 @@ function sendOk() {
 				</thead>
 				
 				<tbody>
-					<c:forEach var="dto" items="${list}">
+					<c:forEach var="dto" items="${list}" varStatus="status">
 					<tr> 
-						<td>${dto.listNum}</td>
+						<td>${status.count}</td>
 						<td>${dto.category}</td>
 						<td>${dto.userId}</td>
 						<td>${dto.courseName}</td>
@@ -111,13 +126,13 @@ function sendOk() {
 			</table>
 					 
 			<div class="page-box">
-				${dataCount == 0 ? "등록된 자료가 없습니다." : paging}
+				${dataCount == 0 ? "수강생이 없습니다." : paging}
 			</div>
 					
 			<table class="table">
 				<tr>
 					<td align="left" width="100">
-						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/admin/creditManage/listBuy';">새로고침</button>
+						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/creator/memberManage/list';">새로고침</button>
 					</td>
 					<td align="right" width="100">&nbsp;</td>
 				</tr>

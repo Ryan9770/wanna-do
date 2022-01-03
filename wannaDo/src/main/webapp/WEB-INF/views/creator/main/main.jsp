@@ -264,7 +264,7 @@ input{
 			</div>
 		</div>
 
-		<div class="dashboard" style="float:right; border:none">
+		<div class="dashboard" style="float:right; border:none; height:70%;">
 				<h2>나의 강좌</h2>
 				<ul class="myCourseUl">
 					<c:forEach var="dto" items="${list}">
