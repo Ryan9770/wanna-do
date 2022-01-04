@@ -61,16 +61,6 @@ function email_check( email ) {
     return (email != '' && email != 'undefined' && regex.test(email)); 
 }
 
-/*
-function inputEmail(tel){
-	if(!email_check(tel)){
-		$(".email-valid").show();
-	} else {
-		$(".email-valid").hide();
-	}
-}
-*/
-
 function inputPhoneNumber(obj) {
 
     var number = obj.value.replace(/[^0-9]/g, "");
@@ -172,7 +162,7 @@ function inputPhoneNumber(obj) {
 	            <div class="col">
 	                <div class="feature bg-danger bg-gradient text-white rounded-3 mb-3"><i class="bi bi-telephone"></i></div>
 	                <div class="h5">Call us</div>
-	                <p class="text-muted mb-0">Call us during normal business hours at (555) 892-9403.</p>
+	                <p class="text-muted mb-0">Call us during normal business hours at (000) 000-0000.</p>
 	            </div>
 	        </div>
 	    </div>
