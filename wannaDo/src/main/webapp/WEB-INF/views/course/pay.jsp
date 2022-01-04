@@ -142,6 +142,8 @@ function pay() {
 						<p class="lead fw-normal text-muted mb-4" style="font-size: 16px;">보유 중인 쿠키 : <span id=myCookie></span></p>
 						<p class="lead fw-normal text-muted mb-4" style="font-size: 16px;">상기 내용대로 결제하시겠습니까?</p>
 						<button type="button" onclick="pay();" class="btn btn-lg btn-primary btnBuyCourse">결제하기</button>
+						<p class="lead fw-normal text-muted mb-4" style="font-size: 16px;"><br><br>환불 규정</p>
+						<p class="lead fw-normal text-muted mb-4" style="font-size: 16px;">강좌는 <b>구매 후 24시간 내로</b> 청약철회가 가능합니다.</p>
 						<input type="hidden" name="courseName" value="${dto.courseName}"/>
 	                    <input type="hidden" name="price" value="${dto.price}"/>
 	                    <input type="hidden" name="courseNum" value="${dto.num}"/>
