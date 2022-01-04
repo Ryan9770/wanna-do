@@ -128,7 +128,7 @@ function detailStudy(num){
 		},
 		height:768,
 		width:1024,
-		title: "스터디 글 정보",
+		title: "게시글 정보",
 		close:function(event, ui) {
 		}
 	});

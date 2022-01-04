@@ -6,25 +6,7 @@
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/tabs.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css" type="text/css">
-<script type="text/javascript">
-$(function(){
-	$("#tab-1").addClass("active");
 
-	$("ul.tabs li").click(function() {
-		tab = $(this).attr("data-tab");
-		
-		$("ul.tabs li").each(function(){
-			$(this).removeClass("active");
-		});
-		
-		$("#tab-"+tab).addClass("active");
-		
-		var url="${pageContext.request.contextPath}/admin/creditManage/list";	
-		location.href=url;
-	});
-});
-
-</script>
 
 <main>
 	<div class="body-container">
@@ -92,3 +74,23 @@ $(function(){
 	</div>
 	
 </main>
+
+<script type="text/javascript">
+$(function(){
+	$("#tab-1").addClass("active");
+
+	$("ul.tabs li").click(function() {
+		tab = $(this).attr("data-tab");
+		
+		$("ul.tabs li").each(function(){
+			$(this).removeClass("active");
+		});
+		
+		$("#tab-"+tab).addClass("active");
+		
+		var url="${pageContext.request.contextPath}/admin/creditManage/list";	
+		location.href=url;
+	});
+});
+
+</script>

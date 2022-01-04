@@ -3,7 +3,6 @@ package com.bs.wd.admin.courseManage;
 import java.util.List;
 import java.util.Map;
 
-import com.bs.wd.course.Chapter;
 
 
 public interface CourseManageService {

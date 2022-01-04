@@ -36,7 +36,6 @@
 		</div>
 
 	
-	<!-- 좌측 카테고리 관리 오프캔버스 -->
 	<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
 		<div class="offcanvas-header">
 			<h5 class="offcanvas-title" id="offcanvasRightLabel"><i class="bi bi-gear-wide-connected"></i> 내 컬린더 설정</h5>
@@ -198,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			center: 'title',
 			right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
 		},
-		initialView: 'dayGridMonth', // 처음 화면에 출력할 뷰
+		initialView: 'dayGridMonth', 
 		locale: 'ko',
 		editable: true,
 		navLinks: true,
@@ -227,27 +226,19 @@ document.addEventListener('DOMContentLoaded', function() {
 		selectable: true,
 		selectMirror: true,
 		select: function(info) {
-			// 날짜의 셀을 선택하거나 드래그하면 일정 추가 화면으로 이동
-			insertSchedule(info.startStr, info.endStr, info.allDay);
-			
-			calendar.unselect(); // 선택 영역 지우기
+			insertSchedule(info.startStr, info.endStr, info.allDay);	
+			calendar.unselect();
 		},
 		eventClick: function(info) {
-			// 일정 제목을 선택할 경우
-			
-			// 일정 상세보기
 			viewSchedule(info.event);
 		},
 		eventDrop: function(info) {
-			// 일정을 드래그 한 경우
 			updateDrag(info.event);
 		},
 		eventResize: function(info) {
-			// 일정의 크기를 변경 한 경우
 			updateDrag(info.event);
 		},
 		loading: function(bool) {
-			// document.getElementById('scheduleLoading').style.display = bool ? 'block' : 'none';
 		}
 	});
 
@@ -260,8 +251,6 @@ $(function() {
 		if(a === 0){
 			return false;
 		}
-		
-		// 모든 소스의 이벤트를 다시 가져와 화면에 다시 렌더링
 		calendar.refetchEvents();
 		
 		$("#offcanvasExample").offcanvas('hide');
@@ -269,22 +258,19 @@ $(function() {
 	});
 });
 
-// 일정 등록 폼
 function insertSchedule(startStr, endStr, allDay) {
 	var query;
 
 	if(allDay){
 		query = "sday="+startStr;
 		if(endStr){
-			endStr = daysLater(endStr, 0); // 종일 일정은 끝나는 날짜가 +1로 선택되므로 -1
-											// daysLater() : dateUtil.js에 존재
+			endStr = daysLater(endStr, 0); 					
 		query += "&eday="+endStr;
 		}
 		
 		query += "&all_day=1";
 		
 	} else {
-		// 시간 일정
 		query = "sday="+startStr.substr(0,10);
 		query += "&eday="+endStr.substr(0,10);
 		query += "&stime="+startStr.substr(11,5);
@@ -294,9 +280,9 @@ function insertSchedule(startStr, endStr, allDay) {
 		location.href = "${pageContext.request.contextPath}/admin/scheduleManage/write?"+query;
 }
 
-// 일정 상세 보기
+
 function viewSchedule(calEvent) {
-	//console.log(calEvent);
+
 	$("#myDialogModal").modal("show");
 
 	var num = calEvent.id;
@@ -358,7 +344,7 @@ function viewSchedule(calEvent) {
 }
 
 $(function(){
-	// 일정 수정 화면
+
 	$(".btnScheduleUpdate").click(function() {
 		var num = $(this).attr("data-num");
 		location.href = "${pageContext.request.contextPath}/admin/scheduleManage/update?num="+num;
@@ -382,7 +368,7 @@ $(function(){
 	});
 });
 
-// 일정을 드래그한 경우 일정 수정
+
 function updateDrag(calEvent) {
 	var num = calEvent.id;
 	var title = calEvent.title;
@@ -422,14 +408,14 @@ function updateDrag(calEvent) {
 	var url = "${pageContext.request.contextPath}/admin/scheduleManage/updateDrag";
 
 	var fn = function(data) {
-		// 모든 소스의 이벤트를 다시 가져와 화면에 다시 렌더링
+
 		calendar.refetchEvents();
 	};
 	ajaxFun(url, "post", query, "json", fn);
 }
 
 $(function(){
-	// 카테고리 추가
+
 	$(".btnCategoryAddOk").click(function(){
 		var category = $("#category-input").val().trim();
 		if(! category) {

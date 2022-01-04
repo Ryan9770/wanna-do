@@ -154,9 +154,9 @@ public class StudyManageController {
 			,HttpSession session,
 			@RequestParam String page,
 			@RequestParam(defaultValue = "all") String condition,
-			@RequestParam(defaultValue = "") String keyword
+			@RequestParam(defaultValue = "") String keyword			
 			) throws Exception{
-		String state = "false";
+		
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("num", num);
@@ -167,11 +167,8 @@ public class StudyManageController {
 			query += "&condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
 		}
 		try {
-			
 			service.deleteBoard(num, info.getMembership());
-			state = "true";
 		} catch (Exception e) {
-			state = "false";
 		}
 		
 		return "redirect:/admin/studyManage/list?"+query;

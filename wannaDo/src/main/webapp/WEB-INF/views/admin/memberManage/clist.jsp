@@ -3,8 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-
-
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
 
 <style type="text/css">
@@ -13,6 +11,57 @@
 	background: #fffdfd;
 }
 </style>
+
+<main>
+	<div class="body-container">
+	    <div class="body-title">
+			<h2><i class="icofont-drawing-tablet"></i> 크리에이터 관리 </h2>
+	    </div>
+	    
+	    <div class="body-main shadow">
+				<div class="container d-flex justify-content-around">
+					<div class="row">
+					<c:forEach var="dto" items="${list}">
+					  <div class="col-4 p-5 text-center">
+						 <a onclick="detailedMember('${dto.userId}')">
+						 	<img src="${pageContext.request.contextPath}/uploads/creatorInfo/${dto.imageFilename}" class="img-fluid">
+						 <span class="fw-bold fs-5">${dto.creatorName}</span>
+						 <span>: ${dto.enabled==0?"계정 잠금":"계정 활성"}</span>
+						 </a>
+					  </div>
+					  </c:forEach>
+					</div>
+				</div>
+						 
+				<div class="page-box">
+					${dataCount == 0 ? "등록된 크리에이터가 없습니다." : paging}
+				</div>
+						
+				<table class="table">
+					<tr>
+						<td align="left" width="100">
+							<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/admin/memberManage/clist';">새로고침</button>
+						</td>
+						<td align="center">
+							<form name="searchForm" action="${pageContext.request.contextPath}/admin/memberManage/clist" method="post">
+								<select name="condition" class="selectField">
+									<option value="userId"     ${condition=="userId" ? "selected='selected'":""}>아이디</option>
+									<option value="creatorName"   ${condition=="creatorName" ? "selected='selected'":""}>이름</option>		
+								</select>
+								<input type="text" name="keyword" class="boxTF" value="${keyword}">
+								<input type="hidden" name="page" value="1">
+								<button type="button" class="btn" onclick="searchList()">검색</button>
+							</form>
+						</td>
+						<td align="right" width="100">&nbsp;</td>
+					</tr>
+				</table>
+			
+			</div>
+			
+	    </div>
+	<div id="member-dialog" style="display: none;"></div>
+</main>
 
 <script type="text/javascript">
 
@@ -113,7 +162,7 @@ function memberStateDetaileView() {
 		  width: 750,
 		  title: '계정상태 상세',
 		  close: function(event, ui) {
-			   $(this).dialog("destroy"); // 이전 대화상자가 남아 있으므로 필요
+			   $(this).dialog("destroy");
 		  }
 	  });	
 }
@@ -136,56 +185,3 @@ function selectStateChange() {
 	f.memo.focus();
 }
 </script>
-
-<main>
-	<div class="body-container">
-	    <div class="body-title">
-			<h2><i class="icofont-drawing-tablet"></i> 크리에이터 관리 </h2>
-	    </div>
-	    
-	    <div class="body-main shadow">
-				<div class="container d-flex justify-content-around">
-					<div class="row">
-					<c:forEach var="dto" items="${list}">
-					  <div class="col-4 p-5 text-center">
-						 <a onclick="detailedMember('${dto.userId}')">
-						 	<img src="${pageContext.request.contextPath}/uploads/creatorInfo/${dto.imageFilename}" class="img-fluid">
-						 <span class="fw-bold fs-5">${dto.creatorName}</span>
-						 <span>: ${dto.enabled==0?"계정 잠금":"계정 활성"}</span>
-						 </a>
-					  </div>
-					  </c:forEach>
-					</div>
-				</div>
-						 
-				<div class="page-box">
-					${dataCount == 0 ? "등록된 크리에이터가 없습니다." : paging}
-				</div>
-						
-				<table class="table">
-					<tr>
-						<td align="left" width="100">
-							<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/admin/memberManage/clist';">새로고침</button>
-						</td>
-						<td align="center">
-							<form name="searchForm" action="${pageContext.request.contextPath}/admin/memberManage/clist" method="post">
-								<select name="condition" class="selectField">
-									<option value="userId"     ${condition=="userId" ? "selected='selected'":""}>아이디</option>
-									<option value="userName"   ${condition=="userName" ? "selected='selected'":""}>이름</option>
-									<option value="email"      ${condition=="email" ? "selected='selected'":""}>이메일</option>
-									<option value="tel"        ${condition=="tel" ? "selected='selected'":""}>전화번호</option>
-								</select>
-								<input type="text" name="keyword" class="boxTF" value="${keyword}">
-								<input type="hidden" name="page" value="1">
-								<button type="button" class="btn" onclick="searchList()">검색</button>
-							</form>
-						</td>
-						<td align="right" width="100">&nbsp;</td>
-					</tr>
-				</table>
-			
-			</div>
-			
-	    </div>
-	<div id="member-dialog" style="display: none;"></div>
-</main>

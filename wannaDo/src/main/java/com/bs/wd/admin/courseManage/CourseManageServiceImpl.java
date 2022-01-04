@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bs.wd.common.dao.CommonDAO;
-import com.bs.wd.course.Chapter;
+
 
 @Service("admin.courseManage.courseManageService")
 public class CourseManageServiceImpl implements CourseManageService{

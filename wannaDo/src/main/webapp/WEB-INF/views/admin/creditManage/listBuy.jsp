@@ -14,51 +14,6 @@
 }
 </style>
 
-<script type="text/javascript">
-$(function(){
-	$("#tab-0").addClass("active");
-
-	$("ul.tabs li").click(function() {
-		tab = $(this).attr("data-tab");
-		
-		$("ul.tabs li").each(function(){
-			$(this).removeClass("active");
-		});
-		
-		$("#tab-"+tab).addClass("active");
-		
-		var url="${pageContext.request.contextPath}/admin/creditManage/listRefund";	
-		location.href=url;
-	});
-});
-
-function ajaxFun(url, method, query, dataType, fn) {
-	$.ajax({
-		type:method,
-		url:url,
-		data:query,
-		dataType:dataType,
-		success:function(data){
-			fn(data);
-		},
-		beforeSend : function(jqXHR) {
-			jqXHR.setRequestHeader("AJAX", true);
-		},
-		error : function(jqXHR) {
-			if (jqXHR.status == 403) {
-				location.href="${pageContext.request.contextPath}/member/login";
-				return false;
-			} else if(jqXHR.status === 400) {
-				alert("요청 처리가 실패했습니다.");
-				return false;
-			}
-			console.log(jqXHR.responseText);
-		}
-	});
-}
-
-
-</script>
 
 <main>
 	<div class="body-container">
@@ -126,3 +81,48 @@ function ajaxFun(url, method, query, dataType, fn) {
 	    </div>
 	</div>
 </main>
+<script type="text/javascript">
+$(function(){
+	$("#tab-0").addClass("active");
+
+	$("ul.tabs li").click(function() {
+		tab = $(this).attr("data-tab");
+		
+		$("ul.tabs li").each(function(){
+			$(this).removeClass("active");
+		});
+		
+		$("#tab-"+tab).addClass("active");
+		
+		var url="${pageContext.request.contextPath}/admin/creditManage/listRefund";	
+		location.href=url;
+	});
+});
+
+function ajaxFun(url, method, query, dataType, fn) {
+	$.ajax({
+		type:method,
+		url:url,
+		data:query,
+		dataType:dataType,
+		success:function(data){
+			fn(data);
+		},
+		beforeSend : function(jqXHR) {
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error : function(jqXHR) {
+			if (jqXHR.status == 403) {
+				location.href="${pageContext.request.contextPath}/member/login";
+				return false;
+			} else if(jqXHR.status === 400) {
+				alert("요청 처리가 실패했습니다.");
+				return false;
+			}
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+
+
+</script>

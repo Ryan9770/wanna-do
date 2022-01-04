@@ -18,6 +18,75 @@
 }
 </style>
 
+<main>
+	<div class="body-container">
+	    <div class="body-title">
+			<h2><i class="icofont-book"></i> 강의 관리 </h2>
+	    </div>
+	    
+	    <div class="body-main shadow">
+				<table class="table">
+					<tr>
+						<td align="left" width="50%">
+							${dataCount}개(${page}/${total_page} 페이지)
+						</td>
+						<td align="right">
+							<select id="selectEnabled" name="searchForm" class="selectField" onchange="searchList();">
+								<option value="" ${enabled=="" ? "selected='selected'":""}>::강좌상태::</option>
+								<option value="0" ${enabled=="0" ? "selected='selected'":""}>잠금</option>
+								<option value="1" ${enabled=="1" ? "selected='selected'":""}>활성</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+					
+				<table class="table table-border table-list">
+					<thead>
+						<tr> 
+							<th class="col-1 ">번호</th>
+							<th class="col-1 ">카테고리</th>
+							<th class="col-1 ">아이디</th>
+							<th class="col-1 ">이름</th>
+							<th class="col-4 ">강의명</th>
+							<th class="col-3 ">강의등록날짜</th>
+							<th class="col-1 ">승인상태</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<c:forEach var="dto" items="${list}">
+						<tr class="hover-tr" onclick="detailCourse('${dto.num}');"> 
+							<td>${dto.listNum}</td>
+							<td>${dto.category}</td>
+							<td>${dto.userId}</td>
+							<td>${dto.creatorName}</td>
+							<td>${dto.courseName}</td>
+							<td>${dto.reg_date}</td>
+							<td>${dto.enabled==1?"승인":"미승인"}</td>
+						</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+						 
+				<div class="page-box">
+					${dataCount == 0 ? "등록된 강좌가 없습니다." : paging}
+				</div>
+						
+				<table class="table">
+					<tr>
+						<td align="left" width="100">
+							<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/admin/courseManage/list';">새로고침</button>
+						</td>
+					</tr>
+				</table>
+			
+			</div>
+			
+	    </div>
+
+	<div id="course-dialog" style="display: none;"></div>
+</main>
+
 <script type="text/javascript">
 function ajaxFun(url, method, query, dataType, fn) {
 	$.ajax({
@@ -111,7 +180,7 @@ function courseStateDetailView() {
 		  width: 750,
 		  title: '강의 상세',
 		  close: function(event, ui) {
-			   $(this).dialog("destroy"); // 이전 대화상자가 남아 있으므로 필요
+			   $(this).dialog("destroy"); 
 		  }
 	  });	
 }
@@ -134,72 +203,3 @@ function selectStateChange() {
 	f.memo.focus();
 }
 </script>
-
-<main>
-	<div class="body-container">
-	    <div class="body-title">
-			<h2><i class="icofont-book"></i> 강의 관리 </h2>
-	    </div>
-	    
-	    <div class="body-main shadow">
-				<table class="table">
-					<tr>
-						<td align="left" width="50%">
-							${dataCount}개(${page}/${total_page} 페이지)
-						</td>
-						<td align="right">
-							<select id="selectEnabled" name="searchForm" class="selectField" onchange="searchList();">
-								<option value="" ${enabled=="" ? "selected='selected'":""}>::강좌상태::</option>
-								<option value="0" ${enabled=="0" ? "selected='selected'":""}>잠금</option>
-								<option value="1" ${enabled=="1" ? "selected='selected'":""}>활성</option>
-							</select>
-						</td>
-					</tr>
-				</table>
-					
-				<table class="table table-border table-list">
-					<thead>
-						<tr> 
-							<th class="col-1 ">번호</th>
-							<th class="col-1 ">카테고리</th>
-							<th class="col-1 ">아이디</th>
-							<th class="col-1 ">이름</th>
-							<th class="col-4 ">강의명</th>
-							<th class="col-3 ">강의등록날짜</th>
-							<th class="col-1 ">승인상태</th>
-						</tr>
-					</thead>
-					
-					<tbody>
-						<c:forEach var="dto" items="${list}">
-						<tr class="hover-tr" onclick="detailCourse('${dto.num}');"> 
-							<td>${dto.listNum}</td>
-							<td>${dto.category}</td>
-							<td>${dto.userId}</td>
-							<td>${dto.creatorName}</td>
-							<td>${dto.courseName}</td>
-							<td>${dto.reg_date}</td>
-							<td>${dto.enabled==1?"승인":"미승인"}</td>
-						</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-						 
-				<div class="page-box">
-					${dataCount == 0 ? "등록된 강좌가 없습니다." : paging}
-				</div>
-						
-				<table class="table">
-					<tr>
-						<td align="left" width="100">
-							<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/admin/courseManage/list';">새로고침</button>
-						</td>
-					</tr>
-				</table>
-			
-			</div>
-			
-	    </div>
-
-	<div id="course-dialog" style="display: none;"></div>
-</main>

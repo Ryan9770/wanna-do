@@ -62,8 +62,8 @@ function ajaxFileFun(url, method, query, dataType, fn) {
 	$.ajax({
 		type:method,
 		url:url,
-		processData: false,  // file 전송시 필수. 서버로전송할 데이터를 쿼리문자열로 변환여부
-		contentType: false,  // file 전송시 필수. 서버에전송할 데이터의 Content-Type. 기본:application/x-www-urlencoded
+		processData: false, 
+		contentType: false,  
 		data:query,
 		dataType:dataType,
 		success:function(data) {
@@ -96,7 +96,7 @@ $(function(){
 	listPage(1);
 });
 
-// 글리스트
+
 function listPage(page) {
 	var url = "${pageContext.request.contextPath}/admin/noticeManage/list";
 	var query = "pageNo="+page;
@@ -110,7 +110,6 @@ function listPage(page) {
 	ajaxFun(url, "get", query, "html", fn);
 }
 
-// 새로고침
 function reloadBoard() {
 	var f = document.searchForm;
 	f.condition.value = "all";
@@ -127,7 +126,6 @@ function searchList() {
 	listPage(1);
 }
 
-// 게시글 보기
 function articleBoard(num, page) {
 	var url = "${pageContext.request.contextPath}/admin/noticeManage/article";
 	var query = "num="+num;
@@ -141,104 +139,102 @@ function articleBoard(num, page) {
 	ajaxFun(url, "get", query, "html", fn);
 }
 
-<c:if test="${sessionScope.member.membership>50}">
-	// 글쓰기 폼
-	function insertForm() {
-		var url = "${pageContext.request.contextPath}/admin/noticeManage/write";
-		var query = "tmp="+new Date().getTime();
-		var selector = ".content-frame";
-		
-		var fn = function(data){
-			$(selector).html(data);
-		};
-		ajaxFun(url, "get", query, "html", fn);
-	}
-
-	// 글 수정폼
-	function updateForm(num, page) {
-		var url = "${pageContext.request.contextPath}/admin/noticeManage/update";
-		var query = "num="+num+"&pageNo="+page;
-
-		var selector = ".content-frame";
-		var fn = function(data){
-			$(selector).html(data);
-		};
-		ajaxFun(url, "get", query, "html", fn);
-	}
-
-	// 등록 완료, 수정 완료
-	function sendOk(mode, page) {
-	    var f = document.noticeForm;
-	    var str;
-	    
-		str = f.subject.value;
-	    if(!str) {
-	        alert("제목을 입력하세요. ");
-	        f.subject.focus();
-	        return;
-	    }
+function insertForm() {
+	var url = "${pageContext.request.contextPath}/admin/noticeManage/write";
+	var query = "tmp="+new Date().getTime();
+	var selector = ".content-frame";
 	
-		str = f.content.value;
-	    if(!str) {
-	        alert("내용을 입력하세요. ");
-	        f.content.focus();
-	        return;
-	    }
-	    
-	    var url ="${pageContext.request.contextPath}/admin/noticeManage/"+mode;
-	    var query = new FormData(f); // IE는 10이상에서만 가능
-	    
-		var fn = function(data){
-			var state = data.state;
-	        if(state === "false") {
-	            alert("게시물을 추가(수정)하지 못했습니다. !!!");
-	            return false;
-	        }
-	        
-	    	if(! page) {
-	    		page="1";
-	    	}
-	    	
-	    	if(mode === "write") {
-	    		reloadBoard()
-	    	} else {
-	    		listPage(page);
-	    	}
-		};
-		
-		ajaxFileFun(url, "post", query, "json", fn);
+	var fn = function(data){
+		$(selector).html(data);
+	};
+	ajaxFun(url, "get", query, "html", fn);
+}
+
+
+function updateForm(num, page) {
+	var url = "${pageContext.request.contextPath}/admin/noticeManage/update";
+	var query = "num="+num+"&pageNo="+page;
+
+	var selector = ".content-frame";
+	var fn = function(data){
+		$(selector).html(data);
+	};
+	ajaxFun(url, "get", query, "html", fn);
+}
+
+
+function sendOk(mode, page) {
+    var f = document.noticeForm;
+    var str;
+    
+	str = f.subject.value;
+    if(!str) {
+        alert("제목을 입력하세요. ");
+        f.subject.focus();
+        return;
+    }
+
+	str = f.content.value;
+    if(!str) {
+        alert("내용을 입력하세요. ");
+        f.content.focus();
+        return;
+    }
+    
+    var url ="${pageContext.request.contextPath}/admin/noticeManage/"+mode;
+    var query = new FormData(f); 
+    
+	var fn = function(data){
+		var state = data.state;
+        if(state === "false") {
+            alert("게시물을 추가(수정)하지 못했습니다. !!!");
+            return false;
+        }
+        
+    	if(! page) {
+    		page="1";
+    	}
+    	
+    	if(mode === "write") {
+    		reloadBoard()
+    	} else {
+    		listPage(page);
+    	}
+	};
+	
+	ajaxFileFun(url, "post", query, "json", fn);
+}
+
+
+function sendCancel(page) {
+	if( ! page ) {
+		page = "1";
 	}
 	
-	// 글쓰기 취소, 수정 취소
-	function sendCancel(page) {
-		if( ! page ) {
-			page = "1";
-		}
-		
+	listPage(page);
+}
+
+
+function deleteOk(num, page) {
+	var url = "${pageContext.request.contextPath}/admin/noticeManage/delete";
+	var query = "num="+num;
+	
+	if(! confirm("위 게시물을 삭제 하시 겠습니까 ? ")) {
+		  return;
+	}
+	
+	var fn = function(data){
 		listPage(page);
-	}
-	
-	// 글 삭제
-	function deleteOk(num, page) {
-		var url = "${pageContext.request.contextPath}/admin/noticeManage/delete";
-		var query = "num="+num;
-		
-		if(! confirm("위 게시물을 삭제 하시 겠습니까 ? ")) {
-			  return;
-		}
-		
-		var fn = function(data){
-			listPage(page);
-		};
-		ajaxFun(url, "post", query, "json", fn);
-	}
-	
-	function deleteFile(fileNum) {
-		var url="${pageContext.request.contextPath}/admin/noticeManage/deleteFile";
-		$.post(url, {fileNum:fileNum}, function(data){
-			$("#f"+fileNum).remove();
-		}, "json");
-	}	
-</c:if>
+	};
+	ajaxFun(url, "post", query, "json", fn);
+}
+
+function deleteFile(fileNum) {
+	var url="${pageContext.request.contextPath}/admin/noticeManage/deleteFile";
+	$.post(url, {fileNum:fileNum}, function(data){
+		$("#f"+fileNum).remove();
+	}, "json");
+}	
+
 </script>
 

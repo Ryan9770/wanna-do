@@ -12,135 +12,6 @@
 }
 </style>
 
-<script type="text/javascript">
-
-function ajaxFun(url, method, query, dataType, fn) {
-	$.ajax({
-		type:method,
-		url:url,
-		data:query,
-		dataType:dataType,
-		success:function(data){
-			fn(data);
-		},
-		beforeSend : function(jqXHR) {
-			jqXHR.setRequestHeader("AJAX", true);
-		},
-		error : function(jqXHR) {
-			if (jqXHR.status == 403) {
-				location.href="${pageContext.request.contextPath}/member/login";
-				return false;
-			} else if(jqXHR.status === 400) {
-				alert("요청 처리가 실패했습니다.");
-				return false;
-			}
-			console.log(jqXHR.responseText);
-		}
-	});
-}
-
-function searchList() {
-	var f=document.searchForm;
-	f.enabled.value=$("#selectEnabled").val();
-	f.action="${pageContext.request.contextPath}/admin/memberManage/list";
-	f.submit();
-}
-	
-function detailedMember(userId) {
-	var dlg = $("#member-dialog").dialog({
-		  autoOpen: false,
-		  modal: true,
-		  buttons: {
-		       " 수정 " : function() {
-		    	   updateOk(); 
-		       },
-		       " 삭제 " : function() {
-		    	   deleteOk(userId);
-			   },
-		       " 닫기 " : function() {
-		    	   $(this).dialog("close");
-		       }
-		  },
-		  height: 520,
-		  width: 800,
-		  title: "회원상세정보",
-		  close: function(event, ui) {
-		  }
-	});
-
-	var url = "${pageContext.request.contextPath}/admin/memberManage/detaile";
-	var query = "userId="+userId;
-	
-	var fn = function(data){
-		$('#member-dialog').html(data);
-		dlg.dialog("open");
-	};
-	ajaxFun(url, "post", query, "html", fn);
-}
-	
-function updateOk() {
-	var f = document.deteailedMemberForm;
-	
-	if(! f.stateCode.value) {
-		f.stateCode.focus();
-		return;
-	}
-	if(! $.trim(f.memo.value)) {
-		f.memo.focus();
-		return;
-	}
-	
-	var url = "${pageContext.request.contextPath}/admin/memberManage/updateMemberState";
-	var query=$("#deteailedMemberForm").serialize();
-
-	var fn = function(data){
-		$("form input[name=page]").val("${page}");
-		searchList();
-	};
-	ajaxFun(url, "post", query, "json", fn);
-		
-	$('#member-dialog').dialog("close");
-}
-
-function deleteOk(userId) {
-	if(confirm("선택한 계정을 삭제 하시겠습니까 ?")) {
-
-	}
-	
-	$('#member-dialog').dialog("close");
-}
-
-function memberStateDetaileView() {
-	$('#memberStateDetaile').dialog({
-		  modal: true,
-		  minHeight: 100,
-		  maxHeight: 450,
-		  width: 750,
-		  title: '계정상태 상세',
-		  close: function(event, ui) {
-			   $(this).dialog("destroy"); // 이전 대화상자가 남아 있으므로 필요
-		  }
-	  });	
-}
-
-function selectStateChange() {
-	var f = document.deteailedMemberForm;
-	
-	var s = f.stateCode.value;
-	var txt = f.stateCode.options[f.stateCode.selectedIndex].text;
-	
-	f.memo.value = "";	
-	if(! s) {
-		return;
-	}
-
-	if(s!="0" && s!="6") {
-		f.memo.value = txt;
-	}
-	
-	f.memo.focus();
-}
-</script>
 
 <main>
 	<div class="body-container">
@@ -224,3 +95,123 @@ function selectStateChange() {
 	    </div>
 	<div id="member-dialog" style="display: none;"></div>
 </main>
+
+<script type="text/javascript">
+
+function ajaxFun(url, method, query, dataType, fn) {
+	$.ajax({
+		type:method,
+		url:url,
+		data:query,
+		dataType:dataType,
+		success:function(data){
+			fn(data);
+		},
+		beforeSend : function(jqXHR) {
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error : function(jqXHR) {
+			if (jqXHR.status == 403) {
+				location.href="${pageContext.request.contextPath}/member/login";
+				return false;
+			} else if(jqXHR.status === 400) {
+				alert("요청 처리가 실패했습니다.");
+				return false;
+			}
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+
+function searchList() {
+	var f=document.searchForm;
+	f.enabled.value=$("#selectEnabled").val();
+	f.action="${pageContext.request.contextPath}/admin/memberManage/list";
+	f.submit();
+}
+	
+function detailedMember(userId) {
+	var dlg = $("#member-dialog").dialog({
+		  autoOpen: false,
+		  modal: true,
+		  buttons: {
+		       " 수정 " : function() {
+		    	   updateOk(); 
+		       },
+		       " 닫기 " : function() {
+		    	   $(this).dialog("close");
+		       }
+		  },
+		  height: 520,
+		  width: 800,
+		  title: "회원상세정보",
+		  close: function(event, ui) {
+		  }
+	});
+
+	var url = "${pageContext.request.contextPath}/admin/memberManage/detaile";
+	var query = "userId="+userId;
+	
+	var fn = function(data){
+		$('#member-dialog').html(data);
+		dlg.dialog("open");
+	};
+	ajaxFun(url, "post", query, "html", fn);
+}
+	
+function updateOk() {
+	var f = document.deteailedMemberForm;
+	
+	if(! f.stateCode.value) {
+		f.stateCode.focus();
+		return;
+	}
+	if(! $.trim(f.memo.value)) {
+		f.memo.focus();
+		return;
+	}
+	
+	var url = "${pageContext.request.contextPath}/admin/memberManage/updateMemberState";
+	var query=$("#deteailedMemberForm").serialize();
+
+	var fn = function(data){
+		$("form input[name=page]").val("${page}");
+		searchList();
+	};
+	ajaxFun(url, "post", query, "json", fn);
+		
+	$('#member-dialog').dialog("close");
+}
+
+
+function memberStateDetaileView() {
+	$('#memberStateDetaile').dialog({
+		  modal: true,
+		  minHeight: 100,
+		  maxHeight: 450,
+		  width: 750,
+		  title: '계정상태 상세',
+		  close: function(event, ui) {
+			   $(this).dialog("destroy"); // 이전 대화상자가 남아 있으므로 필요
+		  }
+	  });	
+}
+
+function selectStateChange() {
+	var f = document.deteailedMemberForm;
+	
+	var s = f.stateCode.value;
+	var txt = f.stateCode.options[f.stateCode.selectedIndex].text;
+	
+	f.memo.value = "";	
+	if(! s) {
+		return;
+	}
+
+	if(s!="0" && s!="6") {
+		f.memo.value = txt;
+	}
+	
+	f.memo.focus();
+}
+</script>

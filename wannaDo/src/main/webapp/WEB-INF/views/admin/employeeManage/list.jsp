@@ -13,6 +13,85 @@
 }
 </style>
 
+
+<main>
+	<div class="body-container">
+	    <div class="body-title">
+			<h2><i class="icofont-id"></i> 사원 관리 </h2>
+	    </div>
+	    
+	    <div class="body-main shadow">
+				<table class="table">
+					<tr>
+						<td align="left" width="50%">
+							${dataCount}개(${page}/${total_page} 페이지)
+						</td>
+						<td align="right">
+							<select id="selectEnabled" class="selectField" onchange="searchList();">
+								<option value="" ${enabled=="" ? "selected='selected'":""}>::계정상태::</option>
+								<option value="0" ${enabled=="0" ? "selected='selected'":""}>잠금 계정</option>
+								<option value="1" ${enabled=="1" ? "selected='selected'":""}>활성 계정</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+					
+				<table class="table table-border table-list">
+					<thead>
+						<tr> 
+							<th class="col-1">사원번호</th>
+							<th class="col-2">사용중인아이디</th>
+							<th class="col-1">사원명</th>
+							<th class="col-2">생년월일</th>
+							<th class="col-1">상태</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<c:forEach var="dto" items="${list}">
+						<tr class="hover-tr" onclick="detailedEmployee('${dto.userId}');"> 
+							<td>${dto.memberIdx}</td>
+							<td>${dto.userId}</td>
+							<td>${dto.userName}</td>
+							<td>${dto.birth}</td>
+							<td>${dto.enabled==1?"활성":"잠금"}</td>
+						</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+						 
+				<div class="page-box">
+					${dataCount == 0 ? "등록된 회원이 없습니다." : paging}
+				</div>
+						
+				<table class="table">
+					<tr>
+						<td align="left" width="100">
+							<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/admin/employeeManage/list';">새로고침</button>
+						</td>
+						<td align="center">
+							<form name="searchForm" action="${pageContext.request.contextPath}/admin/employeeManage/list" method="post">
+								<select name="condition" class="selectField">
+									<option value="userId"     ${condition=="userId" ? "selected='selected'":""}>아이디</option>
+									<option value="userName"   ${condition=="userName" ? "selected='selected'":""}>사원명</option>
+								</select>
+								<input type="text" name="keyword" class="boxTF" value="${keyword}">
+								<input type="hidden" name="enabled" value="${enabled}">
+								<input type="hidden" name="page" value="1">
+								<button type="button" class="btn" onclick="searchList()">검색</button>
+							</form>
+						</td>
+						<td align="right" width="100">&nbsp;</td>
+					</tr>
+				</table>
+			
+			</div>
+			
+	    </div>
+
+	<div id="employee-dialog" style="display: none;"></div>
+</main>
+
 <script type="text/javascript">
 
 function ajaxFun(url, method, query, dataType, fn) {
@@ -108,7 +187,7 @@ function employeeStateDetaileView() {
 		  width: 750,
 		  title: '계정상태 상세',
 		  close: function(event, ui) {
-			   $(this).dialog("destroy"); // 이전 대화상자가 남아 있으므로 필요
+			   $(this).dialog("destroy");
 		  }
 	  });	
 }
@@ -131,81 +210,3 @@ function selectStateChange() {
 	f.memo.focus();
 }
 </script>
-
-<main>
-	<div class="body-container">
-	    <div class="body-title">
-			<h2><i class="icofont-id"></i> 사원 관리 </h2>
-	    </div>
-	    
-	    <div class="body-main shadow">
-				<table class="table">
-					<tr>
-						<td align="left" width="50%">
-							${dataCount}개(${page}/${total_page} 페이지)
-						</td>
-						<td align="right">
-							<select id="selectEnabled" class="selectField" onchange="searchList();">
-								<option value="" ${enabled=="" ? "selected='selected'":""}>::계정상태::</option>
-								<option value="0" ${enabled=="0" ? "selected='selected'":""}>잠금 계정</option>
-								<option value="1" ${enabled=="1" ? "selected='selected'":""}>활성 계정</option>
-							</select>
-						</td>
-					</tr>
-				</table>
-					
-				<table class="table table-border table-list">
-					<thead>
-						<tr> 
-							<th class="col-1">사원번호</th>
-							<th class="col-2">사용중인아이디</th>
-							<th class="col-1">사원명</th>
-							<th class="col-2">생년월일</th>
-							<th class="col-1">상태</th>
-						</tr>
-					</thead>
-					
-					<tbody>
-						<c:forEach var="dto" items="${list}">
-						<tr class="hover-tr" onclick="detailedEmployee('${dto.userId}');"> 
-							<td>${dto.memberIdx}</td>
-							<td>${dto.userId}</td>
-							<td>${dto.userName}</td>
-							<td>${dto.birth}</td>
-							<td>${dto.enabled==1?"활성":"잠금"}</td>
-						</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-						 
-				<div class="page-box">
-					${dataCount == 0 ? "등록된 회원이 없습니다." : paging}
-				</div>
-						
-				<table class="table">
-					<tr>
-						<td align="left" width="100">
-							<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/admin/employeeManage/list';">새로고침</button>
-						</td>
-						<td align="center">
-							<form name="searchForm" action="${pageContext.request.contextPath}/admin/employeeManage/list" method="post">
-								<select name="condition" class="selectField">
-									<option value="userId"     ${condition=="userId" ? "selected='selected'":""}>아이디</option>
-									<option value="userName"   ${condition=="userName" ? "selected='selected'":""}>사원명</option>
-								</select>
-								<input type="text" name="keyword" class="boxTF" value="${keyword}">
-								<input type="hidden" name="enabled" value="${enabled}">
-								<input type="hidden" name="page" value="1">
-								<button type="button" class="btn" onclick="searchList()">검색</button>
-							</form>
-						</td>
-						<td align="right" width="100">&nbsp;</td>
-					</tr>
-				</table>
-			
-			</div>
-			
-	    </div>
-
-	<div id="employee-dialog" style="display: none;"></div>
-</main>

@@ -15,7 +15,7 @@
 <main>
 	<div class="body-container">	
 		<div class="body-title">
-			<h2><i class="icofont-basket"></i>거래 게시판 관리</h2>
+			<h2><i class="icofont-basket"></i>중고거래 게시판 관리</h2>
 		</div>
 		
 	  <div class="body-main shadow">
@@ -128,7 +128,7 @@ function detailtrade(num){
 		},
 		height:768,
 		width:1024,
-		title: "거래 게시글 정보",
+		title: "게시글 정보",
 		close:function(event, ui) {
 		}
 	});

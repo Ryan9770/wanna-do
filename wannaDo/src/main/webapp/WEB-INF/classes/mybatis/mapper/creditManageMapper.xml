@@ -41,27 +41,12 @@
 		) WHERE rnum &gt;= #{start}
 	</select>
 	
-	<update id="refundPermit" parameterType="Integer">
-      UPDATE myWallet SET state = 2
-      WHERE num=#{num}
-   </update>
-   
-   <update id="refundDeny" parameterType="Integer">
-      UPDATE myWallet SET state = 0
-      WHERE num=#{num}
-   </update>
-  
-   <delete id="refundOk" parameterType="Integer">
-      DELETE FROM mywallet
-      JOIN refundCookie ON num = cookieNum
-      WHERE num=#{num} AND state=2
-   </delete>
-   
+	
    <select id="listBuySection" resultType="com.bs.wd.admin.creditManage.Analysis">
 	WITH buySection AS (
 	 SELECT num, buy_date, price, amount
 	 FROM mywallet
-	 WHERE state = 1
+	 WHERE state = 0
 	)
 	<![CDATA[
 	SELECT '6일 전' section, NVL(sum(price),0) price FROM buySection WHERE TO_CHAR(buy_date, 'yyyymmdd') = TO_CHAR(TRUNC(sysdate,'iw')-6, 'yyyymmdd')
