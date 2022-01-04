@@ -28,6 +28,7 @@ $(function() {
 		<li><a href="${pageContext.request.contextPath}/creator/courseManage/list">강좌관리</a></li>
 		<li><a href="${pageContext.request.contextPath}/creator/memberManage/list">수강생관리</a></li>
 		<li><span>Other</span></li>
+		<li><a href="${pageContext.request.contextPath}/creator/withdraw/list">환전목록</a></li>
 		<li><a href="${pageContext.request.contextPath}/member/logout">Logout</a></li>
 	</ul>
 </nav>

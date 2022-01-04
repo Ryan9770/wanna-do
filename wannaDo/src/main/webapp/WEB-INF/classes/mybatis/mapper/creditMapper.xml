@@ -9,7 +9,7 @@
 		INSERT INTO mywallet(num, userId, amount, price, buy_date, state) VALUES(#{num}, #{userId}, #{amount}, #{price}, SYSDATE, 0)
 	</insert>
 	<insert id="insertExchange" parameterType="map">
-		INSERT INTO mywallet(num, userId, amount, price, buy_date, state) VALUES(#{num}, #{userId}, #{amount}, #{price}, SYSDATE, 5)
+		INSERT INTO creatorWallet(creatorName, buyerId, buy_date, amount, state) VALUES ( #{userId}, #{userId} , SYSDATE, #{amount}, 1)	
 	</insert>
 	<select id="dataCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*), 0)
@@ -79,9 +79,25 @@
 		UPDATE creatorWallet SET refund = 1
 		WHERE courseNum=#{courseNum} and buyerId=#{userId}
 	</update>
-	<select id="creatorCookie" parameterType="map" resultType="Integer">
-		SELECT NVL(sum(amount), 0)
-		FROM creatorWallet
-		WHERE userId=#{userId} and state=0
+	<select id="creatorCookie" parameterType="String" resultType="Integer">
+		SELECT NVL(SUM(amount), 0)
+		  FROM creatorWallet
+		 WHERE creatorName=#{userId} AND (refund=0 OR refund IS NULL)
+	</select>
+	<select id="listWithdraw" parameterType="map" resultType="com.bs.wd.creator.withdraw.Withdraw">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT buy_date, amount
+				  FROM creatorWallet
+				 WHERE creatorName=#{userId} and refund=0
+				 ORDER BY buy_date DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+
+	</select>
+	<select id="dataCountWithcount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		  FROM creatorWallet w
+  	     WHERE creatorName=#{userId} and refund=0
 	</select>
 </mapper>
