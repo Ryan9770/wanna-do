@@ -89,7 +89,7 @@ public class TradeManageController {
 		}
 
 		if (query.length() != 0) {
-			listUrl = cp + "/bbs/list?" + query;
+			listUrl = cp + "/admin/tradeManage/list?" + query;
 		}
 
 		String paging = myUtil.paging(current_page, total_page, listUrl);

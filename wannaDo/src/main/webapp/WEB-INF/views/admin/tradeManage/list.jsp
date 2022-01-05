@@ -65,13 +65,14 @@
 						</td>
 						<td align="center">
 							<form name="searchForm" action="${pageContext.request.contextPath}/admin/tradeManage/list" method="post">
-								<select name="condition" class="selectField">
-									<option value="userId"     ${condition=="userId" ? "selected='selected'":""}>아이디</option>
-									<option value="userName"   ${condition=="userName" ? "selected='selected'":""}>이름</option>
-									<option value="email"      ${condition=="email" ? "selected='selected'":""}>이메일</option>
-									<option value="tel"        ${condition=="tel" ? "selected='selected'":""}>전화번호</option>
+								<select name="condition" id="condition" class="selectField">
+									<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
+									<option value="userName" ${condition=="userName"?"selected='selected'":""}>작성자</option>
+									<option value="reg_date" ${condition=="reg_date"?"selected='selected'":""}>등록일</option>
+									<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
+									<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
 								</select>
-								<input type="text" name="keyword" class="boxTF" value="${keyword}">
+								<input type="text" name="keyword" id="keyword" class="boxTF" value="${keyword}">
 								<input type="hidden" name="page" value="1">
 								<button type="button" class="btn" onclick="search()">검색</button>
 							</form>
@@ -181,4 +182,11 @@ $(function(){
 	});
 });
 
+function search() {
+	var f=document.searchForm;
+	f.condition.value=$("#condition").val();
+	f.keyword.value=$.trim($("#keyword").val());
+	f.action = "${pageContext.request.contextPath}/admin/tradeManage/list";
+	f.submit();
+}
 </script>
