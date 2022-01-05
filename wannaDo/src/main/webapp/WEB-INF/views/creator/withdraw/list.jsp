@@ -34,6 +34,9 @@
 					<td align="left" width="50%">
 						${dataCount}개(${page}/${total_page} 페이지)
 					</td>
+					<td align="right">
+						출금 가능 쿠키 : <span style="color:blue">${myCookie}</span>개
+					</td>
 				</tr>
 			</table>
 				

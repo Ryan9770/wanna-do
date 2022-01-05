@@ -14,12 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bs.wd.common.MyUtil;
+import com.bs.wd.creator.main.MainService;
 import com.bs.wd.member.SessionInfo;
 
 @Controller("creator.withdraw.withdrawController")
 public class WithdrawController {
 	@Autowired
 	private WithdrawService service;
+	
+	@Autowired
+	private MainService mainService;
 	
 	@Autowired
 	private MyUtil myUtil;
@@ -62,6 +66,9 @@ public class WithdrawController {
 			dto.setAmount(amount);
 			dto.setPrice(amount*90);
 		}
+		
+		int myCookie = mainService.myCookie(userId);
+		
         String listUrl = cp+"/creator/withdraw/list";
         
         String paging = myUtil.paging(current_page, total_page, listUrl);        
@@ -71,6 +78,7 @@ public class WithdrawController {
         model.addAttribute("total_page", total_page);
         model.addAttribute("paging", paging);
         model.addAttribute("page", current_page);
+        model.addAttribute("myCookie", myCookie);
         
 		return ".creator.withdraw.list";
 	}

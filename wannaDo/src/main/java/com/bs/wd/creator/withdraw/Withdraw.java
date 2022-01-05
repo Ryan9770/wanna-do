@@ -4,7 +4,6 @@ public class Withdraw {
 	private String buy_date;
 	private int amount;
 	private int price;
-	private String remain;
 	
 	public String getBuy_date() {
 		return buy_date;
@@ -23,13 +22,5 @@ public class Withdraw {
 	}
 	public void setPrice(int price) {
 		this.price = price;
-	}
-	public String getRemain() {
-		return remain;
-	}
-	public void setRemain(String remain) {
-		this.remain = remain;
-	}
-	
-	
+	}	
 }
