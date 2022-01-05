@@ -50,7 +50,7 @@ $(function() {
 		<li><a href="${pageContext.request.contextPath}/admin/noticeManage/main">공지사항관리</a></li>
 		<li><a href="${pageContext.request.contextPath}/admin/scheduleManage/main">일정관리</a></li>
 		<li><a href="${pageContext.request.contextPath}/admin/creditManage/list">매출관리</a></li>
-		<li><a href="${pageContext.request.contextPath}/admin/contactManage/list">고객의 소리</a></li>
+		<li><a href="${pageContext.request.contextPath}/admin/contactManage/list">문의사항관리</a></li>
 		<li><span>Other</span></li>
 		<c:choose>
 			<c:when test="${sessionScope.member.membership >= 99 }">

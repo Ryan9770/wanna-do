@@ -12,7 +12,7 @@ tbody button{
 <main>
 <div class="body-container">
 	<div class="body-title">
-		<h2><i class="icofont-contacts"></i> 문의 관리 </h2>
+		<h2><i class="icofont-contacts"></i> 문의사항 관리 </h2>
 	</div>
 	
 	<div class="body-main  shadow">
