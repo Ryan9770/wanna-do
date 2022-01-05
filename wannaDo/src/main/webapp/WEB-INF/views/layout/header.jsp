@@ -3,6 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<style>
+	.navbar-brand:hover{
+		text-decoration: none;
+	}
+	
+	a:hover{
+		text-decoration: underline;
+	}
+</style>
 	<div class="container-fluid header-top">
 		<div class="container px-5">
 			<div class="row">
