@@ -7,7 +7,7 @@
 <h3 style="font-size: 15px; padding-top: 10px;"><i class="icofont-double-right"></i>강좌 정보</h3>
 <table class="table border mx-auto my-10">
 	<tr>
-		<td class="wp-15 text-right pe-7 bg">강의 번호</td>
+		<td class="wp-15 text-right pe-7 bg">강좌 번호</td>
 		<td class="wp-35 text-start">${dto.num}</td>
 		<td class="wp-15 text-right pe-7 bg">카테고리</td>
 		<td class="wp-35 text-start">${dto.category}</td>
@@ -26,18 +26,15 @@
 	</tr>
 	
 	<tr>
-		<td class="text-right pe-3 bg align-middle">강의승인여부</td>
+		<td class="text-right pe-3 bg align-middle">강좌승인여부</td>
 		<td colspan="3" class="text-start">
 			<c:if test="${dto.enabled==0 && not empty courseState}">${courseState.memo}</c:if>
 			&nbsp;<span class="btn" onclick="courseStateDetailView();" style="cursor: pointer;">자세히</span>
 		</td>
 	</tr>
 	<tr>
-		<td class="text-right pe-7 bg align-middle">강의소개</td>
-		<td class="text-start align-middle" colspan="3">
-			<c:if test="${ not empty dto.imageFile}">
-			<img src="${pageContext.request.contextPath}/uploads/image/${dto.imageFile}">
-			</c:if>
+		<td class="text-right pe-7 bg align-middle">강좌소개</td>
+		<td class="text-start align-middle" colspan="3" >
 			${dto.content}
 		</td>
 	</tr>
@@ -61,15 +58,15 @@
 <h3 style="font-size: 15px; padding-top: 10px;"><i class="icofont-double-right"></i> 강좌 상태 변경</h3>
 	<table class="table border mx-auto my-2">
 		<tr>
-			<td class="wp-15 text-right pe-7 bg align-middle">강의상태</td>
+			<td class="wp-15 text-right pe-7 bg align-middle">강좌상태</td>
 			<td class="text-start align-middle">
 				<select class="selectField" name="stateCode" id="stateCode" onchange="selectStateChange()">
 					<option value="">::상태코드::</option>
 					<c:if test="${dto.enabled==0}">
 						<option value="0">승인</option>
 					</c:if>
-					<option value="2">카테고리에 맞지 않는 강의</option>
-					<option value="3">불건전 강의 등록</option>
+					<option value="2">카테고리에 맞지 않는 강좌</option>
+					<option value="3">불건전 강좌 등록</option>
 					<option value="4">부적절한 표현이 포함됨</option>
 					<option value="5">타인을 비방하는 표현이 포함됨</option>
 					<option value="6">기타 약관 위반</option>

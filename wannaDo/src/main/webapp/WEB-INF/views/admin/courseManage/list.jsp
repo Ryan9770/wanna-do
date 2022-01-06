@@ -21,7 +21,7 @@
 <main>
 	<div class="body-container">
 	    <div class="body-title">
-			<h2><i class="icofont-book"></i> 강의 관리 </h2>
+			<h2><i class="icofont-book"></i> 강좌 관리 </h2>
 	    </div>
 	    
 	    <div class="body-main shadow">
@@ -47,8 +47,8 @@
 							<th class="col-1 ">카테고리</th>
 							<th class="col-1 ">아이디</th>
 							<th class="col-1 ">이름</th>
-							<th class="col-4 ">강의명</th>
-							<th class="col-3 ">강의등록날짜</th>
+							<th class="col-4 ">강좌명</th>
+							<th class="col-3 ">강좌등록날짜</th>
 							<th class="col-1 ">승인상태</th>
 						</tr>
 					</thead>
@@ -133,7 +133,7 @@ function detailCourse(num) {
 		  },
 		  height: 640,
 		  width: 1080,
-		  title: "강의상세정보",
+		  title: "강좌상세정보",
 		  close: function(event, ui) {
 		  }
 	});
@@ -178,7 +178,7 @@ function courseStateDetailView() {
 		  minHeight: 100,
 		  maxHeight: 450,
 		  width: 750,
-		  title: '강의 상세',
+		  title: '강좌 상세',
 		  close: function(event, ui) {
 			   $(this).dialog("destroy"); 
 		  }

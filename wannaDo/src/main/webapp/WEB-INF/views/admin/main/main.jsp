@@ -229,8 +229,7 @@ $(function() {
 	option && myChart.setOption(option);
 	});
 });
-</script>
-<script type="text/javascript">
+
 function ajaxFun(url, method, query, dataType, fn) {
 	$.ajax({
 		type:method,
