@@ -127,11 +127,13 @@ function searchList() {
  
 <br>
 
-<nav aria-label="Page navigation example">
-	<ul class="pagination justify-content-center">
-		<li>${dataCount == 0 ? "등록된 게시물이 없습니다." :  paging} </li>
-	</ul>
-</nav>
+	<nav aria-label="Page navigation example">
+		<div class="page-box page-box">
+		    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" style="padding-bottom: 70px; text-align: center;">
+    			<button type="button" class="btn btn-outline-danger" onclick="location.href='${pageContext.request.contextPath}/study/write';"> ${dataCount == 0 ? "아직 등록된 게시물이 없습니다. <br> 첫 글을 작성해보세요 !" : paging} </button>
+			</div>
+		</div>
+	</nav>
 
 <div class="cent-align">
 	<form class="row" name="searchForm" action="${pageContext.request.contextPath}/study/list" method="post">
