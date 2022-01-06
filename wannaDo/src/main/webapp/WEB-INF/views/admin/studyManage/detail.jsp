@@ -23,7 +23,7 @@
 		<td class="text-right pe-7 bg">게시글 작성일</td>
 		<td class="text-start">${dto.reg_date}</td>
 		<td class="text-right pe-7 bg">제목</td>
-		<td class="text-start">&${dto.subject}</td>
+		<td class="text-start">${dto.subject}</td>
 	</tr>
 	
 	<tr>
