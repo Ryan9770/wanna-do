@@ -4,9 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <style type="text/css">
-.body-container {
-	max-width: 800px;
-}
 
 .table .ellipsis {
 	position: relative;
@@ -153,7 +150,7 @@ $(function() {
 						<div class="col">
 							<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/note/${menuItem}/list';"><i class="bi bi-arrow-counterclockwise"></i></button>
 						</div>
-						<div class="col-6 text-center">
+						<div class="col-4 text-center">
 							<form class="row" name="searchForm" action="${pageContext.request.contextPath}/note/${menuItem}/list" method="post">
 								<div class="col-auto p-1">
 									<select name="condition" class="form-select">
