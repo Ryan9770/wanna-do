@@ -276,7 +276,7 @@ $(function(){
 	</div>
 </div>	
 
-<div class="trade-form">
+<div class="trade-form" style="overflow: auto;">
 	<table class="table mb-0">
 		<thead>
 			<tr>
@@ -296,9 +296,9 @@ $(function(){
 				</td>
 			</tr>
 									
-			<tr>
-				<td colspan="3">
-					<div style="min-height: 200px;">
+			<tr style="overflow: auto;">
+				<td colspan="3" style="overflow: auto;">
+					<div style="min-height: 200px;" style="overflow: auto;">
 						${dto.content}
 					</div>
 				</td>

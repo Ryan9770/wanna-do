@@ -2,9 +2,6 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
- 
-<script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script>
-
 
 <style>
 .body-container {
@@ -52,9 +49,17 @@
   transform: translateX(-60%);
 }
 
+img {
+  width: 450px;
+  height: auto;
+  object-fit: cover;
+}
+
 </style>
 
 
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/vendor/ckeditor5/ckeditor.js"></script>
 <script type="text/javascript">
 function sendOk() {
     var f = document.boardForm;
@@ -65,14 +70,15 @@ function sendOk() {
         f.subject.focus();
         return;
     }
-
-    str = f.content.value;
+    
+   	str = window.editor.getData().trim();
     if(!str) {
         alert("내용을 입력하세요. ");
-        f.content.focus();
+        f.editor.focus();
         return;
-    }
-	
+    }   	
+    f.content.value = str;
+
     f.action = "${pageContext.request.contextPath}/study/${mode}";
     f.submit();
 }
@@ -108,10 +114,8 @@ function sendOk() {
 		</div>
 		
 		<div class="mb-3">
-			  <label for="exampleFormControlTextarea1" class="form-label" style="font-weight: bold;">내용</label>
-			<!--  <textarea name="content" class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="내용을 입력하세요."> ${dto.content} </textarea>    -->
-			<textarea name="content" class="form-control" id="editor" rows="10" placeholder="내용을 입력하세요."> ${dto.content} </textarea>  
-			
+			<label for="exampleFormControlTextarea1" class="form-label" style="font-weight: bold;">내용</label>	
+			<div class="editor">${dto.content}</div> <input type="hidden" name="content">
 		</div>
 	
 		<table class="table">
@@ -132,12 +136,56 @@ function sendOk() {
 <div style="padding-bottom: 60px;"></div>
 
 
-<script>
+<script type="text/javascript">
     // 3. CKEditor5를 생성할 textarea 지정
-    ClassicEditor
-        .create( document.querySelector( '#editor' ) )
-        .catch( error => {
-            console.error( error );
-        } );
-    
+	ClassicEditor
+		.create( document.querySelector( '.editor' ), {
+			fontFamily: {
+	            options: [
+	                'default',
+	                '맑은 고딕, Malgun Gothic, 돋움, sans-serif',
+	                '나눔고딕, NanumGothic, Arial'
+	            ]
+	        },
+	        fontSize: {
+	            options: [
+	                9, 11, 13, 'default', 17, 19, 21
+	            ]
+	        },
+			toolbar: {
+				items: [
+					'heading','|',
+					'fontFamily','fontSize','bold','italic','fontColor','|',
+					'alignment','bulletedList','numberedList','|',
+					'imageUpload','insertTable','sourceEditing','blockQuote','mediaEmbed','|',
+					'undo','redo','|',
+					'link','outdent','indent','|',
+				]
+			},
+			image: {
+	            toolbar: [
+	                'imageStyle:full',
+	                'imageStyle:side',
+	                '|',
+	                'imageTextAlternative'
+	            ],
+	
+	            // The default value.
+	            styles: [
+	                'full',
+	                'side'
+	            ]
+	        },
+			language: 'ko',
+			ckfinder: {
+		        uploadUrl: '${pageContext.request.contextPath}/image/upload' // 업로드 url (post로 요청 감)
+		    }
+		})
+		.then( editor => {
+			window.editor = editor;
+		})
+		.catch( err => {
+			console.error( err.stack );
+		});
 </script>
+
