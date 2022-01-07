@@ -185,10 +185,7 @@ function uncomma(str) {
 			
 			<input type="radio" class="btn-check" name="type" id="btnradio2" autocomplete="off" value="구매">
 			<label class="btn btn-outline-danger" for="btnradio2"> 판매 </label>
-			
 		
-			<!-- <input type="text" placeholder="₩ 가격을 숫자로 입력하세요." oninput="this.value = this.value.replaceAll(/\D/g, '')" name="price" maxlength="8" onkeyup="inputNumberFormat(this)" class="boxTF" value="${dto.price}" style="margin-left: 10px;">
-			-->
 		</div>
 		<br>
 		<br>
@@ -206,7 +203,7 @@ function uncomma(str) {
 		
 		<div class="mb-3">
 			<label for="exampleFormControlTextarea1" class="form-label" style="font-weight: bold;">내용</label>	
-			<div class="editor">${dto.content}</div> <input type="hidden" name="content" value="${dto.content}">
+			<div class="editor">${dto.content}</div> <input type="hidden" name="content">
 		</div>
 		
 		<div>
@@ -214,22 +211,11 @@ function uncomma(str) {
 			<input type="file" name="selectFile" accept="image/*" class="form-control">
 			<p style="color: grey;"> ※ 썸네일 등록은 필수입니다. </p>
 		</div>
-<!-- 
-		<div class="mb-3">
-			<label for="exampleFormControlTextarea1" class="form-label" style="font-weight: bold;">내용</label>
-			<textarea name="content" class="form-control" id="editor" rows="10" placeholder="내용을 입력하세요."> ${dto.content} </textarea>  
-		</div>	
-		<div>
-			<input type="file" name="selectFile" accept="image/*" class="form-control">
-			<p style="color: grey;"> ※ 사진 업로드는 필수입니다. </p>
-		</div>
- -->	
 
 		<table class="table">
 			<tr> 
 				<td align="center">
 					<div>
-						<!-- <input class="form-check-input" type="checkbox">  -->
 						<label style="color: grey; font-size: 14px;"> (주)Wanna Do는 통신판매의 당사자가 아니며 상품 거래에 대한 책임은 판매자 및 구매자에게 있습니다. 
 						</label>
 						
