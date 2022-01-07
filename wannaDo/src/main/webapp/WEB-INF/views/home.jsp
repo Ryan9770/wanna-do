@@ -96,7 +96,7 @@
 	                        <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
 	                            <div class="d-flex align-items-end justify-content-between">
 	                                <div class="d-flex align-items-center">
-	                                    <img class="rounded-circle me-3" src="${pageContext.request.contextPath}/uploads/creatorInfo/${dto.imageFilename}" alt="..." />
+	                                    <img class="rounded-circle me-3" style="width: 45px; height: 45px;" src="${pageContext.request.contextPath}/uploads/creatorInfo/${dto.imageFilename}" alt="..." />
 	                                    <div class="small">
 	                                        <div class="fw-bold">${dto.creatorName}</div>
 	                                        <div class="text-muted">개설일 | ${dto.reg_date}</div>
