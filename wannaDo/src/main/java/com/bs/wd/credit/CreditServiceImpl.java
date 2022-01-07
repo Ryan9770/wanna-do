@@ -16,8 +16,6 @@ public class CreditServiceImpl implements CreditService {
 	@Override
 	public void insertCredit(Credit dto) throws Exception {
 		try {
-			int seq = dao.selectOne("credit.seq");
-			dto.setNum(seq);
 			dao.insertData("credit.insertCredit", dto);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -163,6 +161,16 @@ public class CreditServiceImpl implements CreditService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public int orderNo() {
+		int result = 0;
+		try {
+			result = dao.selectOne("credit.seq");
+		} catch (Exception e) {
+		}
+		return result;
 	}
 
 }

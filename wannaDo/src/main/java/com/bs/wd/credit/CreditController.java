@@ -94,7 +94,12 @@ public class CreditController {
 	}
 	
 	@RequestMapping(value="pay", method=RequestMethod.GET)
-	public String payForm(@RequestParam int amount, @RequestParam int price, Model model) throws Exception {
+	public String payForm(@RequestParam int amount, @RequestParam int price, Model model, HttpSession session) throws Exception {
+		int orderNo = service.orderNo();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		String userName = info.getUserName();
+		model.addAttribute("userName", userName);
+		model.addAttribute("orderNo", orderNo);
 		model.addAttribute("amount", amount);
 		model.addAttribute("price", price);
 		return ".credit.pay";

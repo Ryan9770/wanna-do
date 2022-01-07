@@ -14,6 +14,7 @@ public class Credit {
 	
 	private String use_date;
 	private int courseNum;
+	private int orderNo;
 	
 	public int getNum() {
 		return num;
@@ -80,5 +81,11 @@ public class Credit {
 	}
 	public void setCourseNum(int courseNum) {
 		this.courseNum = courseNum;
+	}
+	public int getOrderNo() {
+		return orderNo;
+	}
+	public void setOrderNo(int orderNo) {
+		this.orderNo = orderNo;
 	}
 }
