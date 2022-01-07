@@ -31,11 +31,15 @@
 							${dataCount}개(${page}/${total_page} 페이지)
 						</td>
 						<td align="right">
-							<select id="selectEnabled" name="searchForm" class="selectField" onchange="searchList();">
+							<form name="searchForm" action="${pageContext.request.contextPath}/admin/courseManage/list" method="post">
+								<select id="selectEnabled" class="selectField" onchange="searchList();">
 								<option value="" ${enabled=="" ? "selected='selected'":""}>::강좌상태::</option>
-								<option value="0" ${enabled=="0" ? "selected='selected'":""}>잠금</option>
-								<option value="1" ${enabled=="1" ? "selected='selected'":""}>활성</option>
+								<option value="0" ${enabled=="0" ? "selected='selected'":""}>미승인</option>
+								<option value="1" ${enabled=="1" ? "selected='selected'":""}>승인</option>
 							</select>
+								<input type="hidden" name="enabled" value="${enabled}">
+								<input type="hidden" name="page" value="1">
+							</form>
 						</td>
 					</tr>
 				</table>
@@ -79,7 +83,6 @@
 						</td>
 					</tr>
 				</table>
-			
 			</div>
 			
 	    </div>
@@ -114,8 +117,10 @@ function ajaxFun(url, method, query, dataType, fn) {
 }
 
 function searchList() {
+	var f=document.searchForm;
+	f.enabled.value=$("#selectEnabled").val();
 	var url = "${pageContext.request.contextPath}/admin/courseManage/list";
-	location.href=url;
+	f.submit();
 }	
 
 function detailCourse(num) {

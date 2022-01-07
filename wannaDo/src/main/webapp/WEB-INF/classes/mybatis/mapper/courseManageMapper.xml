@@ -23,7 +23,7 @@
 				<include refid="where-list"/>
 			</if>
 			<if test="enabled!=''">
-				AND enabled = #{enabled, jdbcType=INTEGER}
+				AND c.enabled = #{enabled, jdbcType=INTEGER}
 			</if>
 		</where> 
 	</select>
@@ -42,7 +42,7 @@
 						<include refid="where-list"/>
 					</if>
 					<if test="enabled!=''">
-						AND enabled = #{enabled, jdbcType=INTEGER}
+						AND c.enabled = #{enabled, jdbcType=INTEGER}
 					</if>
 				</where> 
 				ORDER BY c.num

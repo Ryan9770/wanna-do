@@ -54,7 +54,6 @@ public class CourseManageController {
             total_page = myUtil.pageCount(rows, dataCount) ;
         }
 
-        // 다른 사람이 자료를 삭제하여 전체 페이지수가 변화 된 경우
         if(total_page < current_page) {
             current_page = total_page;
         }
@@ -94,6 +93,7 @@ public class CourseManageController {
 		}
 		
 		String paging = myUtil.paging(current_page, total_page, listUrl);
+		
 		
 		model.addAttribute("list", list);
         model.addAttribute("page", current_page);

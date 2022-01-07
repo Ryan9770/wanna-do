@@ -46,7 +46,6 @@
 							<th class="col-2">구매 수량</th>
 							<th class="col-2">구매 가격</th>
 							<th class="col-2">구매일</th>
-							<th class="col-1">상태</th>
 						</tr>
 					</thead>
 					
