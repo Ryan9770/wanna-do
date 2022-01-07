@@ -13,10 +13,19 @@
 </head>
 <body>
 <section>
-    <h1>결제 실패</h1>
-    <p>${message}</p>
-    <span>에러코드: ${code}</span>
-    <button onclick="location.href='${pageContext.request.contextPath}/credit/main';">내쿠키로</button>
+	<div class="container px-5 py-2">
+		<div class="row justify-content-center">
+			<div class="col-lg-8 col-xxl-6">
+				<div class="text-center my-5">
+					<h1 class="fw-bolder mb-3">결제 성공</h1>
+					<h3 class="lead fw-normal mb-4" style="font-size: 16px;">${message}</h3>
+					<h3 class="lead fw-normal mb-4" style="font-size: 16px;">에러코드: ${code}</h3>
+					<p class="lead fw-normal mb-4" style="font-size: 16px;">결제를 다시 시도해주시거나 관리자에게 문의해주세요!</p>
+					<button class="btn btn-lg btn-primary" onclick="location.href='${pageContext.request.contextPath}/credit/main';">내쿠키로</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 </body>
 </html>

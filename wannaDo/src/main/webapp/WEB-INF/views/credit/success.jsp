@@ -29,19 +29,24 @@ function pay() {
 </head>
 <body>
 <section>
-    <h1>결제 성공</h1>
-    <h3>결제 금액: &#8361; <fmt:formatNumber value="${amount}" pattern="#,###" /></h3>
-    <h3>주문번호: ${orderId}</h3>
-    <p>${payData.amount}</p>
-    <p>${payData.price}</p>
-    <p>${payData.num}</p>
-    <form name="payForm" method="post">
-		<input type="hidden" name="amount"/>
-		<input type="hidden" name="price"/>
-		<input type="hidden" name="num"/>
-		<button onclick="pay();" class="btn btn-lg btn-primary">확인</button>
-    </form>
-    
+	<div class="container px-5 py-2">
+		<div class="row justify-content-center">
+			<div class="col-lg-8 col-xxl-6">
+				<div class="text-center my-5">
+				    <h1 class="fw-bolder mb-3">결제 성공</h1>
+				    <h3 class="lead fw-normal mb-4" style="font-size: 16px;">결제 금액: &#8361; <fmt:formatNumber value="${amount}" pattern="#,###" /></h3>
+				    <h3 class="lead fw-normal mb-4" style="font-size: 16px;">주문번호: ${orderId}</h3>
+				    <p class="lead fw-normal mb-4" style="font-size: 16px;">확인 버튼을 <b>꼭</b> 눌러 결제를 완료해주세요!</p>
+				    <form name="payForm" method="post">
+						<input type="hidden" name="amount"/>
+						<input type="hidden" name="price"/>
+						<input type="hidden" name="num"/>
+						<button onclick="pay();" class="btn btn-lg btn-primary">확인</button>
+				    </form>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 </body>
 </html>
