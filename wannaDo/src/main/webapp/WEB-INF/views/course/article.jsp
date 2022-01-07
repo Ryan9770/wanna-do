@@ -767,8 +767,7 @@ $(function(){
 					<table class="table table-borderless mb-2">
 						<tr>
 							<td width="50%"><c:choose>
-									<c:when
-										test="${sessionScope.member.userId==dto.userId || sessionScope.member.membership>50}">
+									<c:when test="${sessionScope.member.userId==vo.userId}">
 										<button type="button" class="btn btn-light"
 											onclick="location.href='${pageContext.request.contextPath}/course/update?pageNo=1&num=${dto.num}';">수정</button>
 									</c:when>
@@ -776,8 +775,7 @@ $(function(){
 
 									</c:otherwise>
 								</c:choose> <c:choose>
-									<c:when
-										test="${sessionScope.member.userId==dto.userId || sessionScope.member.membership>50}">
+									<c:when test="${sessionScope.member.userId==vo.userId}">
 										<button type="button" class="btn btn-light"
 											onclick="deleteCourse();">삭제</button>
 									</c:when>
