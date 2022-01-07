@@ -46,7 +46,7 @@ public class TradeController {
 			keyword = URLDecoder.decode(keyword, "utf-8");
 		}
 		
-		int rows = 10;
+		int rows = 8;
 		int dataCount;
 		int total_page;
 		

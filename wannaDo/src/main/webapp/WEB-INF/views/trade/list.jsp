@@ -47,6 +47,10 @@ a.linkoption:active {
     text-decoration: none;
 }
 
+img-thumbnail {
+	height: 268px;
+	width: 268px;
+}
 
 
 </style>
@@ -137,10 +141,10 @@ $(function(){
 	    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 			<c:forEach var="dto" items="${list}" varStatus="status">                    
 				<div class="col mb-5">
-					<div class="card h-100">
+					<div class="card h-100" style="width: 268px; height: 268px;">
 						<!-- Product image-->
-						<a href="${articleUrl}&num=${dto.num}" title="${dto.subject}">
-							<img class="img-thumbnail" src="${pageContext.request.contextPath}/uploads/trade/${dto.originalFilename}">
+						<a href="${articleUrl}&num=${dto.num}" title="${dto.subject}" style="width: 268px; height: 268px;">
+							<img class="img-thumbnail" src="${pageContext.request.contextPath}/uploads/trade/${dto.originalFilename}" style="width: 268px; height: 268px;">
 						</a>
 					<!-- Product details-->
 					<div class="card-body p-4">
