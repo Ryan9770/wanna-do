@@ -181,10 +181,10 @@ function uncomma(str) {
 			<div class="btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
 			
 			<input type="radio" class="btn-check" name="type" id="btnradio1" autocomplete="off" value="판매" checked>
-			<label class="btn btn-outline-danger" for="btnradio1"> 구매 </label>
+			<label class="btn btn-outline-danger" for="btnradio1"> 판매 </label>
 			
 			<input type="radio" class="btn-check" name="type" id="btnradio2" autocomplete="off" value="구매">
-			<label class="btn btn-outline-danger" for="btnradio2"> 판매 </label>
+			<label class="btn btn-outline-danger" for="btnradio2"> 구매 </label>
 		
 		</div>
 		<br>
