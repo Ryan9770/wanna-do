@@ -8,7 +8,12 @@ __팀원 이름__ 김예림, 박준호, 박태훈, 이정호, 채준호
 
 __프로젝트 기간__ 2021. 12. 13.~ 2021. 01. 07.
 
-### ✨목표
+### ✨ 개발 언어 및 프레임워크
 ```
-준비 중
+Java, Servlet/JSP, HTML5/CSS3, Ajax, javascript, jQuery, JSON, XML,
+Spring, Spring Security, mybatis 3, maven, GIT
+
+ORACLE 18C
+
+STS, sqlDeveloper
 ```
