@@ -24,23 +24,37 @@
 }
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/boot-board.css" type="text/css">
+
 <script type="text/javascript">
-<c:if test="${not empty sessionScope.member}">
 $(function(){
-	$("#tab-list").addClass("active");
-    $("button[role='tab']").on("click", function(e){
-		var tab = $(this).attr("data-tab");
-		
-		if(tab === "list") {
-			listPage(1);
-		} else if(tab === "listUse") {
-			listUse(1);
-    	} else {
-			 buyPage();
-		}
-    });
-});
-</c:if>
+		$("body").on("click", "#refund", function(){
+			if(! confirm("환불 요청을 진행하시겠습니까?")) {
+			    return false;
+			}
+			var num = $(this).attr("data-num");
+			var amount = $(this).attr("data-amount");
+			var price = $(this).attr("data-price");
+			var query = "num="+num+"&amount="+amount+"&price="+price;
+			var url = "${pageContext.request.contextPath}/credit/refund?" + query;
+			location.href = url;
+		});
+	});
+</script>
+<script type="text/javascript">
+$(function(){
+		$("body").on("click", "#refundCourse", function(){
+			if(! confirm("환불 요청을 진행하시겠습니까?")) {
+			    return false;
+			}
+			var num = $(this).attr("data-num");
+			var courseNum = $(this).attr("data-courseNum");
+			var amount = $(this).attr("data-amount");
+			var courseName = $(this).attr("data-courseName");
+			var query = "num="+num+"&courseNum="+courseNum+"&amount="+amount+"&courseName="+courseName;
+			var url = "${pageContext.request.contextPath}/credit/refundCourse?" + query;
+			location.href = url;
+		});
+	});
 </script>
 <script type="text/javascript">
 	function login() {
@@ -77,12 +91,6 @@ $(function(){
 	<c:if test="${not empty sessionScope.member}">
 	$(function(){
 		listPage(1);
-	});
-	</c:if>
-	
-	<c:if test="${not empty sessionScope.member}">
-	$(function(){
-		listUse(1);
 	});
 	</c:if>
 	
@@ -145,6 +153,25 @@ $(function(){
 		}
 	});
 	
+</script>
+<script type="text/javascript">
+<c:if test="${not empty sessionScope.member}">
+$(function(){
+	$("#tab-list").addClass("active");
+	$("#tab-list").trigger("click");
+    $("button[role='tab']").on("click", function(){
+		var tab = $(this).attr("data-tab");
+		
+		if(tab === "list") {
+			listPage(1);
+		} else if(tab === "listUse") {
+			listUse(1);
+    	} else {
+			 buyPage();
+		}
+    });
+});
+</c:if>
 </script>
 
 <div class="container px-5 py-5">

@@ -68,20 +68,3 @@
 <div class="col text-end">
 	&nbsp;
 </div>
-
-<script type="text/javascript">
-$(function(){
-		$("body").on("click", "#refundCourse", function(){
-			if(! confirm("환불 요청을 진행하시겠습니까?")) {
-			    return false;
-			}
-			var num = $(this).attr("data-num");
-			var courseNum = $(this).attr("data-courseNum");
-			var amount = $(this).attr("data-amount");
-			var courseName = $(this).attr("data-courseName");
-			var query = "num="+num+"&courseNum="+courseNum+"&amount="+amount+"&courseName="+courseName;
-			var url = "${pageContext.request.contextPath}/credit/refundCourse?" + query;
-			location.href = url;
-		});
-	});
-</script>

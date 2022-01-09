@@ -63,19 +63,3 @@
 <div class="col text-end">
 	&nbsp;
 </div>
-
-<script type="text/javascript">
-$(function(){
-		$("body").on("click", "#refund", function(){
-			if(! confirm("환불 요청을 진행하시겠습니까?")) {
-			    return false;
-			}
-			var num = $(this).attr("data-num");
-			var amount = $(this).attr("data-amount");
-			var price = $(this).attr("data-price");
-			var query = "num="+num+"&amount="+amount+"&price="+price;
-			var url = "${pageContext.request.contextPath}/credit/refund?" + query;
-			location.href = url;
-		});
-	});
-</script>
