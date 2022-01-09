@@ -28,13 +28,12 @@
 <c:if test="${not empty sessionScope.member}">
 $(function(){
 	$("#tab-list").addClass("active");
-	
     $("button[role='tab']").on("click", function(e){
 		var tab = $(this).attr("data-tab");
 		
-		if(tab == "list") {
+		if(tab === "list") {
 			listPage(1);
-		} else if(tab == "listUse") {
+		} else if(tab === "listUse") {
 			listUse(1);
     	} else {
 			 buyPage();
@@ -167,10 +166,10 @@ $(function(){
 					<button class="nav-link" id="tab-list" data-bs-toggle="tab" data-bs-target="#nav-content" type="button" role="tab" aria-controls="list" aria-selected="true" data-tab="list">구매내역</button>
 				</li>
 				<li class="nav-item" role="presentation">
-					<button class="nav-link" id="tab-buy" data-bs-toggle="tab" data-bs-target="#nav-content" type="button" role="tab" aria-controls="listUse" aria-selected="true" data-tab="listUse">쿠키사용내역</button>
+					<button class="nav-link" id="tab-listUse" data-bs-toggle="tab" data-bs-target="#nav-content" type="button" role="tab" aria-controls="listUse" aria-selected="false" data-tab="listUse">쿠키사용내역</button>
 				</li>
 				<li class="nav-item" role="presentation">
-					<button class="nav-link" id="tab-buy" data-bs-toggle="tab" data-bs-target="#nav-content" type="button" role="tab" aria-controls="buy" aria-selected="true" data-tab="buy">쿠키샵</button>
+					<button class="nav-link" id="tab-buy" data-bs-toggle="tab" data-bs-target="#nav-content" type="button" role="tab" aria-controls="buy" aria-selected="false" data-tab="buy">쿠키샵</button>
 				</li>
 			</ul>
 		</c:if>

@@ -42,7 +42,7 @@
 							<td>${dto.buy_date}</td>
 							<c:if test="${dto.gap < 168}">
 								<td>
-									<button type="button" data-num="${dto.num}" data-amount="${dto.amount}" data-price="${dto.price}" class="btn btn-light refund">환불 요청</button>
+									<button type="button" data-num="${dto.num}" data-amount="${dto.amount}" data-price="${dto.price}" id="refund" class="btn btn-light refund">환불 요청</button>
 								</td>
 							</c:if>
 							<c:if test="${dto.gap >= 168}">
@@ -66,7 +66,7 @@
 
 <script type="text/javascript">
 $(function(){
-		$("body").on("click", ".refund", function(){
+		$("body").on("click", "#refund", function(){
 			if(! confirm("환불 요청을 진행하시겠습니까?")) {
 			    return false;
 			}

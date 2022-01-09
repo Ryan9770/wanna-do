@@ -42,7 +42,7 @@
 							<td>${vo.use_date}</td>
 							<c:if test="${vo.gap < 24 && vo.state == 0}">
 								<td>
-									<button type="button" data-num="${vo.num}" data-courseNum="${vo.courseNum}" data-amount="${vo.amount}" data-courseName="${vo.courseName}" class="btn btn-light refundCourse">환불 요청</button>
+									<button type="button" data-num="${vo.num}" data-courseNum="${vo.courseNum}" data-amount="${vo.amount}" data-courseName="${vo.courseName}" id="refundCourse" class="btn btn-light refundCourse">환불 요청</button>
 								</td>
 							</c:if>
 							<c:if test="${vo.gap >= 24 && vo.state == 0}">
@@ -71,7 +71,7 @@
 
 <script type="text/javascript">
 $(function(){
-		$("body").on("click", ".refundCourse", function(){
+		$("body").on("click", "#refundCourse", function(){
 			if(! confirm("환불 요청을 진행하시겠습니까?")) {
 			    return false;
 			}
