@@ -14,44 +14,6 @@
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
 <script type="text/javascript">
-$(function(){
-	$(".btnBuyCourse").click(function(){
-		var $i = $(this).find("i");
-		var userBought = $i.hasClass("bi-bag-fill");
-		var msg = userBought ? "" : "강좌를 구매하십니까 ? ";
-		
-		if(! confirm( msg )) {
-			return false;
-		}
-		
-		var url="${pageContext.request.contextPath}/course/insertCourseBuy";
-		var num="${dto.num}";
-		var query="num="+num+"&userBought="+userBought;
-		
-		var fn = function(data){
-			var state = data.state;
-			if(state==="true") {
-				if( userBought ) {
-					$i.removeClass("bi-bag-fill").addClass("bi-bag");
-				} else {
-					$i.removeClass("bi-bag").addClass("bi-bag-fill");
-				}
-				
-				var count = data.courseBuyCount;
-				$("#courseBuyCount").text(count);
-			} else if(state==="bought") {
-				alert("");
-			} else if(state==="false") {
-				alert("강좌 찜 여부 처리가 실패했습니다. !!!");
-				
-			}
-		};
-		
-		ajaxFun(url, "post", query, "json", fn);
-	});
-});
-
-
 function login() {
 	location.href="${pageContext.request.contextPath}/member/login";
 }
@@ -104,30 +66,64 @@ $(function(){
 		});
 	}
 });
-function pay() {
-	var url = "${pageContext.request.contextPath}/credit/myCookie";
-	$.ajax({
-		type:"POST",
-		url:url,
-		data:null,
-		async:false,
-		dataType:"json",
-		success:function(data) {
-			var myCookie = data.myCookie;
-			var f = document.payForm;
-			
-			var num = f.courseNum.value;
-			
-			if(myCookie >= ${dto.price}) {
-			f.action = "${pageContext.request.contextPath}/course/pay";
-			f.submit();
-			} else {
-				alert("쿠키가 부족합니다.");
-			}
+$(function(){
+	$(".btnBuyCourse").click(function(){
+		var $i = $(this).find("i");
+		var userBought = $i.hasClass("bi-bag-fill");
+		var msg = userBought ? "" : "강좌를 구매하십니까 ? ";
+		
+		if(! confirm( msg )) {
+			return false;
 		}
+		
+		var url="${pageContext.request.contextPath}/course/insertCourseBuy";
+		var num="${dto.num}";
+		var query="num="+num+"&userBought="+userBought;
+		var url2 = "${pageContext.request.contextPath}/credit/myCookie";
+		$.ajax({
+			type:"POST",
+			url:url2,
+			data:null,
+			async:false,
+			dataType:"json",
+			success:function(data) {
+				var myCookie = data.myCookie;
+				var f = document.payForm;
+				
+				var num = f.courseNum.value;
+				
+				if(myCookie >= ${dto.price}) {
+				f.action = "${pageContext.request.contextPath}/course/pay";
+				f.submit();
+				} else {
+					alert("쿠키가 부족합니다.");
+					location.href = "${pageContext.request.contextPath}/credit/main";
+				}
+			}
+		});	
+		
+		var fn = function(data){
+			var state = data.state;
+			if(state==="true") {
+				if( userBought ) {
+					$i.removeClass("bi-bag-fill").addClass("bi-bag");
+				} else {
+					$i.removeClass("bi-bag").addClass("bi-bag-fill");
+				}
+				
+				var count = data.courseBuyCount;
+				$("#courseBuyCount").text(count);
+			} else if(state==="bought") {
+				alert("");
+			} else if(state==="false") {
+				alert("강좌 찜 여부 처리가 실패했습니다. !!!");
+				
+			}
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
 	});
-	
-}
+});
 </script>
 <body>
 	<form name="payForm" method="post">
