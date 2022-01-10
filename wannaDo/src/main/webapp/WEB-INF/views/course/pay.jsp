@@ -95,6 +95,26 @@ $(function(){
 				if(myCookie >= ${dto.price}) {
 				f.action = "${pageContext.request.contextPath}/course/pay";
 				f.submit();
+				var fn = function(data){
+					var state = data.state;
+					if(state==="true") {
+						if( userBought ) {
+							$i.removeClass("bi-bag-fill").addClass("bi-bag");
+						} else {
+							$i.removeClass("bi-bag").addClass("bi-bag-fill");
+						}
+						
+						var count = data.courseBuyCount;
+						$("#courseBuyCount").text(count);
+					} else if(state==="bought") {
+						alert("");
+					} else if(state==="false") {
+						alert("강좌 찜 여부 처리가 실패했습니다. !!!");
+						
+					}
+				};
+				
+				ajaxFun(url, "post", query, "json", fn);
 				} else {
 					alert("쿠키가 부족합니다.");
 					location.href = "${pageContext.request.contextPath}/credit/main";
@@ -102,26 +122,7 @@ $(function(){
 			}
 		});	
 		
-		var fn = function(data){
-			var state = data.state;
-			if(state==="true") {
-				if( userBought ) {
-					$i.removeClass("bi-bag-fill").addClass("bi-bag");
-				} else {
-					$i.removeClass("bi-bag").addClass("bi-bag-fill");
-				}
-				
-				var count = data.courseBuyCount;
-				$("#courseBuyCount").text(count);
-			} else if(state==="bought") {
-				alert("");
-			} else if(state==="false") {
-				alert("강좌 찜 여부 처리가 실패했습니다. !!!");
-				
-			}
-		};
 		
-		ajaxFun(url, "post", query, "json", fn);
 	});
 });
 </script>
