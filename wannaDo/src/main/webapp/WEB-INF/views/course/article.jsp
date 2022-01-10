@@ -137,6 +137,10 @@ none
 	pointer-events: none;
 }
 
+.image-adv {
+	width: 250px;
+}
+
 </style>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/boot-board.css"
@@ -795,10 +799,9 @@ $(function(){
 			<div
 				class="col-2 sticky-top float-end bg-white border border-light shadow rounded bg-black"
 				style="background-color: #eee; top: 40px;">
-
-				<!-- <a href="${pageContext.request.contextPath}/credit/main">쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키쿠키</a>
-			 -->
-					<img src="${pageContext.request.contextPath}/resources/images/adv.png" />	
+				<a href="${pageContext.request.contextPath}/credit/main">
+					<img class="image-adv" src="${pageContext.request.contextPath}/resources/images/yacookie.png" />	
+				</a>
 			</div>
 		</div>
 	</section>
